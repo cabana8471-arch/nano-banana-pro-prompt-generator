@@ -1,6 +1,6 @@
 "use client";
 
-import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings } from "lucide-react";
+import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { UserProfile } from "@/components/auth/user-profile";
 import { Link, usePathname } from "@/i18n/routing";
@@ -18,6 +18,7 @@ export function SiteHeader() {
 
   const navigationItems = [
     { href: "/generate" as const, labelKey: "generate" as const, icon: Wand2 },
+    { href: "/banner-generator" as const, labelKey: "bannerGenerator" as const, icon: LayoutPanelTop },
     { href: "/gallery" as const, labelKey: "gallery" as const, icon: ImageIcon },
     { href: "/avatars" as const, labelKey: "avatars" as const, icon: Users },
     { href: "/profile" as const, labelKey: "settings" as const, icon: Settings },

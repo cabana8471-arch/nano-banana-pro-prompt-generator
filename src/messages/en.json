@@ -14,6 +14,7 @@
   },
   "navigation": {
     "generate": "Generate",
+    "bannerGenerator": "Banners",
     "gallery": "Gallery",
     "avatars": "Avatars",
     "settings": "Settings",
