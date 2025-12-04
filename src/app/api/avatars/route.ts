@@ -2,8 +2,9 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
-import { INPUT_LIMITS, FILE_LIMITS } from "@/lib/constants";
+import { INPUT_LIMITS, FILE_LIMITS, RATE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
+import { avatarUploadLimiter } from "@/lib/rate-limit";
 import { avatars } from "@/lib/schema";
 import { upload } from "@/lib/storage";
 import type { Avatar, AvatarType } from "@/lib/types/generation";
@@ -44,6 +45,26 @@ export async function POST(request: Request) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Check rate limit for avatar uploads
+    const rateLimitResult = avatarUploadLimiter(session.user.id);
+    if (!rateLimitResult.success) {
+      const retryAfterSeconds = Math.ceil(rateLimitResult.resetInMs / 1000);
+      return NextResponse.json(
+        {
+          error: `Too many uploads. Maximum ${RATE_LIMITS.AVATAR_UPLOADS_PER_HOUR} avatars per hour. Try again in ${Math.ceil(retryAfterSeconds / 60)} minutes.`,
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": retryAfterSeconds.toString(),
+            "X-RateLimit-Limit": rateLimitResult.limit.toString(),
+            "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+            "X-RateLimit-Reset": retryAfterSeconds.toString(),
+          },
+        }
+      );
     }
 
     const formData = await request.formData();

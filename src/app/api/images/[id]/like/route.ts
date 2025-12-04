@@ -2,7 +2,9 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and, count } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { RATE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
+import { imageLikeLimiter } from "@/lib/rate-limit";
 import { generatedImages, imageLikes } from "@/lib/schema";
 
 /**
@@ -17,6 +19,26 @@ export async function POST(
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Check rate limit for image likes
+    const rateLimitResult = imageLikeLimiter(session.user.id);
+    if (!rateLimitResult.success) {
+      const retryAfterSeconds = Math.ceil(rateLimitResult.resetInMs / 1000);
+      return NextResponse.json(
+        {
+          error: `Too many likes. Maximum ${RATE_LIMITS.IMAGE_LIKES_PER_HOUR} likes per hour. Try again in ${Math.ceil(retryAfterSeconds / 60)} minutes.`,
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": retryAfterSeconds.toString(),
+            "X-RateLimit-Limit": rateLimitResult.limit.toString(),
+            "X-RateLimit-Remaining": rateLimitResult.remaining.toString(),
+            "X-RateLimit-Reset": retryAfterSeconds.toString(),
+          },
+        }
+      );
     }
 
     const { id: imageId } = await params;

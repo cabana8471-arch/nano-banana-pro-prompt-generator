@@ -51,3 +51,14 @@ export const GENERATION = {
   /** Maximum images per generation */
   MAX_IMAGES_PER_GENERATION: 4,
 } as const;
+
+export const RATE_LIMITS = {
+  /** Maximum avatar uploads per hour per user */
+  AVATAR_UPLOADS_PER_HOUR: 10,
+
+  /** Maximum image likes per hour per user */
+  IMAGE_LIKES_PER_HOUR: 100,
+
+  /** Rate limit window in milliseconds (1 hour) */
+  WINDOW_MS: 60 * 60 * 1000,
+} as const;
