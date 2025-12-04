@@ -17,8 +17,8 @@ import { DEFAULT_CHARACTER_LIMITS } from "@/lib/types/banner";
 interface UseBannerValidationProps {
   textContent: BannerTextContent;
   bannerSizeId: string;
-  primaryColor?: string;
-  backgroundColor?: string;
+  primaryColor?: string | undefined;
+  backgroundColor?: string | undefined;
 }
 
 interface UseBannerValidationReturn {

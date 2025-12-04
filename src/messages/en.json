@@ -1855,5 +1855,115 @@
         "description": "Both foreground and background in focus"
       }
     }
+  },
+  "bannerGenerator": {
+    "title": "Banner Builder",
+    "description": "Create professional web banners for advertising and promotions",
+    "selectOption": "Select an option...",
+    "customValue": "Custom value",
+    "customPlaceholder": "Enter custom value...",
+    "useCustom": "Use Custom",
+    "update": "Update",
+    "currentlyUsing": "Currently using",
+    "searchTemplates": "Search {count} templates...",
+    "resultsCount": "{count} results",
+    "presetsAvailable": "{count} presets available",
+    "noTemplatesFor": "No templates found for \"{search}\"",
+    "clearSearch": "Clear search",
+    "selected": "Selected",
+    "noSelection": "No selection",
+    "sections": {
+      "basicConfig": "Basic Configuration",
+      "visualStyle": "Visual Style",
+      "visualElements": "Visual Elements",
+      "layoutTypography": "Layout & Typography",
+      "textContent": "Text Content",
+      "brandAssets": "Brand Assets"
+    },
+    "categories": {
+      "bannerType": "Banner Type",
+      "bannerSize": "Banner Size",
+      "industry": "Industry / Niche",
+      "designStyle": "Design Style",
+      "colorScheme": "Color Scheme",
+      "mood": "Mood / Emotion",
+      "seasonal": "Seasonal / Holiday",
+      "backgroundStyle": "Background Style",
+      "visualEffects": "Visual Effects",
+      "iconGraphics": "Icons / Graphics",
+      "promotionalElements": "Promotional Elements",
+      "layoutStyle": "Layout Style",
+      "textPlacement": "Text Placement",
+      "typographyStyle": "Typography Style",
+      "ctaButtonStyle": "CTA Button Style"
+    },
+    "placeholders": {
+      "bannerType": "Select banner purpose...",
+      "bannerSize": "Select banner dimensions...",
+      "industry": "Select industry...",
+      "designStyle": "Select design style...",
+      "colorScheme": "Select color scheme...",
+      "mood": "Select mood...",
+      "seasonal": "Select seasonal theme...",
+      "backgroundStyle": "Select background...",
+      "visualEffects": "Select effects...",
+      "iconGraphics": "Select icons/graphics...",
+      "promotionalElements": "Select promo elements...",
+      "layoutStyle": "Select layout...",
+      "textPlacement": "Select text placement...",
+      "typographyStyle": "Select typography...",
+      "ctaButtonStyle": "Select CTA style..."
+    },
+    "textContent": {
+      "headline": "Headline",
+      "headlinePlaceholder": "Enter your main headline...",
+      "headlineHint": "The main attention-grabbing text",
+      "subheadline": "Subheadline",
+      "subheadlinePlaceholder": "Enter supporting text...",
+      "subheadlineHint": "Additional context or details",
+      "ctaText": "CTA Button Text",
+      "ctaPlaceholder": "Shop Now",
+      "ctaHint": "Call-to-action button text",
+      "tagline": "Tagline / Offer",
+      "taglinePlaceholder": "50% OFF",
+      "taglineHint": "Special offer or tagline"
+    },
+    "brandAssets": {
+      "logo": "Logo",
+      "logoDescription": "Upload or select your brand logo",
+      "productImage": "Product Image",
+      "productImageDescription": "Upload or select a product image",
+      "selectImage": "Select Image",
+      "change": "Change",
+      "brandColors": "Brand Colors",
+      "primaryColor": "Primary Color",
+      "secondaryColor": "Secondary Color",
+      "accentColor": "Accent Color"
+    },
+    "customPrompt": {
+      "label": "Additional Instructions",
+      "placeholder": "Add any extra details or specific instructions...",
+      "hint": "Custom instructions to fine-tune the banner generation"
+    },
+    "warnings": {
+      "textTooLong": "Text exceeds recommended length for this banner size"
+    }
+  },
+  "bannerTemplates": {
+    "bannerType": {},
+    "bannerSize": {},
+    "industry": {},
+    "designStyle": {},
+    "colorScheme": {},
+    "mood": {},
+    "seasonal": {},
+    "backgroundStyle": {},
+    "visualEffects": {},
+    "iconGraphics": {},
+    "promotionalElements": {},
+    "layoutStyle": {},
+    "textPlacement": {},
+    "typographyStyle": {},
+    "ctaButtonStyle": {}
   }
 }

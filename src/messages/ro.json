@@ -1855,5 +1855,115 @@
         "description": "Fata goala fara expresie"
       }
     }
+  },
+  "bannerGenerator": {
+    "title": "Constructor Bannere",
+    "description": "Creeaza bannere web profesionale pentru publicitate si promotii",
+    "selectOption": "Selecteaza o optiune...",
+    "customValue": "Valoare personalizata",
+    "customPlaceholder": "Introdu valoarea personalizata...",
+    "useCustom": "Foloseste personalizat",
+    "update": "Actualizeaza",
+    "currentlyUsing": "In prezent se foloseste",
+    "searchTemplates": "Cauta in {count} template-uri...",
+    "resultsCount": "{count} rezultate",
+    "presetsAvailable": "{count} preset-uri disponibile",
+    "noTemplatesFor": "Nu s-au gasit template-uri pentru \"{search}\"",
+    "clearSearch": "Sterge cautarea",
+    "selected": "Selectat",
+    "noSelection": "Nicio selectie",
+    "sections": {
+      "basicConfig": "Configurare de Baza",
+      "visualStyle": "Stil Vizual",
+      "visualElements": "Elemente Vizuale",
+      "layoutTypography": "Layout si Tipografie",
+      "textContent": "Continut Text",
+      "brandAssets": "Active Brand"
+    },
+    "categories": {
+      "bannerType": "Tip Banner",
+      "bannerSize": "Dimensiune Banner",
+      "industry": "Industrie / Nisa",
+      "designStyle": "Stil Design",
+      "colorScheme": "Schema Culori",
+      "mood": "Dispozitie / Emotie",
+      "seasonal": "Sezonier / Sarbatori",
+      "backgroundStyle": "Stil Fundal",
+      "visualEffects": "Efecte Vizuale",
+      "iconGraphics": "Iconite / Grafice",
+      "promotionalElements": "Elemente Promotionale",
+      "layoutStyle": "Stil Layout",
+      "textPlacement": "Pozitionare Text",
+      "typographyStyle": "Stil Tipografie",
+      "ctaButtonStyle": "Stil Buton CTA"
+    },
+    "placeholders": {
+      "bannerType": "Selecteaza scopul bannerului...",
+      "bannerSize": "Selecteaza dimensiunile...",
+      "industry": "Selecteaza industria...",
+      "designStyle": "Selecteaza stilul de design...",
+      "colorScheme": "Selecteaza schema de culori...",
+      "mood": "Selecteaza dispozitia...",
+      "seasonal": "Selecteaza tema sezoniera...",
+      "backgroundStyle": "Selecteaza fundalul...",
+      "visualEffects": "Selecteaza efectele...",
+      "iconGraphics": "Selecteaza iconitele/graficele...",
+      "promotionalElements": "Selecteaza elementele promotionale...",
+      "layoutStyle": "Selecteaza layout-ul...",
+      "textPlacement": "Selecteaza pozitionarea textului...",
+      "typographyStyle": "Selecteaza tipografia...",
+      "ctaButtonStyle": "Selecteaza stilul CTA..."
+    },
+    "textContent": {
+      "headline": "Titlu Principal",
+      "headlinePlaceholder": "Introdu titlul principal...",
+      "headlineHint": "Textul principal care atrage atentia",
+      "subheadline": "Subtitlu",
+      "subheadlinePlaceholder": "Introdu textul suport...",
+      "subheadlineHint": "Context sau detalii suplimentare",
+      "ctaText": "Text Buton CTA",
+      "ctaPlaceholder": "Cumpara Acum",
+      "ctaHint": "Textul butonului de actiune",
+      "tagline": "Slogan / Oferta",
+      "taglinePlaceholder": "50% REDUCERE",
+      "taglineHint": "Oferta speciala sau slogan"
+    },
+    "brandAssets": {
+      "logo": "Logo",
+      "logoDescription": "Incarca sau selecteaza logo-ul brandului",
+      "productImage": "Imagine Produs",
+      "productImageDescription": "Incarca sau selecteaza o imagine de produs",
+      "selectImage": "Selecteaza Imagine",
+      "change": "Schimba",
+      "brandColors": "Culori Brand",
+      "primaryColor": "Culoare Principala",
+      "secondaryColor": "Culoare Secundara",
+      "accentColor": "Culoare Accent"
+    },
+    "customPrompt": {
+      "label": "Instructiuni Suplimentare",
+      "placeholder": "Adauga detalii extra sau instructiuni specifice...",
+      "hint": "Instructiuni personalizate pentru ajustarea generarii bannerului"
+    },
+    "warnings": {
+      "textTooLong": "Textul depaseste lungimea recomandata pentru aceasta dimensiune de banner"
+    }
+  },
+  "bannerTemplates": {
+    "bannerType": {},
+    "bannerSize": {},
+    "industry": {},
+    "designStyle": {},
+    "colorScheme": {},
+    "mood": {},
+    "seasonal": {},
+    "backgroundStyle": {},
+    "visualEffects": {},
+    "iconGraphics": {},
+    "promotionalElements": {},
+    "layoutStyle": {},
+    "textPlacement": {},
+    "typographyStyle": {},
+    "ctaButtonStyle": {}
   }
 }
