@@ -468,21 +468,42 @@ Combinații pre-definite de presets pentru scenarii comune:
   - Gestionarea generării de bannere prin API-ul existent
   - Adaptarea aspect ratio automat bazat pe dimensiunea bannerului
 
-### Faza 5: Integrare & Traduceri (i18n Bilingv EN/RO)
-14. **Adăugarea traducerilor** pentru toate textele (~902 traduceri totale):
-    - UI Labels & Placeholders în EN și RO (~100)
-    - Toate cele ~385 preset-uri (name + description) în EN și RO (~770)
-    - Quick Start Templates în EN și RO (~12)
-    - Warnings & Errors în EN și RO (~20)
-15. **Integrare cu Gemini API:**
-    - Adaptare prompt pentru generare bannere
-    - Handling aspect ratios specifice
-    - Optimizare pentru text în imagini
-16. **Validări și Warnings:**
-    - Character limits per banner size
-    - Contrast checker
-    - Logo resolution warnings
-17. **Testing și refinement**
+### Faza 5: Integrare & Traduceri (i18n Bilingv EN/RO) ✅ FINALIZATĂ
+14. ✅ **Adăugarea traducerilor** pentru toate textele (~902 traduceri totale):
+    - ✅ UI Labels & Placeholders în EN și RO (~100) - implementate în Faza 3 & 4
+    - ✅ Toate cele ~385 preset-uri (name + description) în EN și RO (~770)
+    - ✅ Quick Start Templates în EN și RO (~12)
+    - ✅ Warnings & Errors în EN și RO (~20)
+15. ✅ **Integrare cu Gemini API:**
+    - ✅ Adaptare prompt pentru generare bannere (assembledPrompt în use-banner-builder.ts)
+    - ✅ Handling aspect ratios specifice (getAspectRatioForBannerSize în page.tsx)
+    - ✅ Optimizare pentru text în imagini (settings.withText control)
+16. ✅ **Validări și Warnings:**
+    - ✅ Character limits per banner size (use-banner-validation.ts)
+    - ✅ Contrast checker WCAG (getLuminance, getContrastRatio în use-banner-validation.ts)
+    - ✅ Missing headline/CTA warnings
+17. ✅ **Testing și refinement**
+    - ✅ Lint passed (0 errors)
+    - ✅ TypeScript typecheck passed
+
+**Traduceri adăugate în Faza 5:**
+- `bannerTemplates.bannerType.*` - 25 traduceri EN/RO
+- `bannerTemplates.bannerSize.*` - 26 traduceri EN/RO
+- `bannerTemplates.industry.*` - 40 traduceri EN/RO
+- `bannerTemplates.designStyle.*` - 36 traduceri EN/RO
+- `bannerTemplates.colorScheme.*` - 30 traduceri EN/RO
+- `bannerTemplates.mood.*` - 20 traduceri EN/RO
+- `bannerTemplates.seasonal.*` - 25 traduceri EN/RO
+- `bannerTemplates.backgroundStyle.*` - 35 traduceri EN/RO
+- `bannerTemplates.visualEffects.*` - 30 traduceri EN/RO
+- `bannerTemplates.iconGraphics.*` - 20 traduceri EN/RO
+- `bannerTemplates.promotionalElements.*` - 15 traduceri EN/RO
+- `bannerTemplates.layoutStyle.*` - 25 traduceri EN/RO
+- `bannerTemplates.textPlacement.*` - 15 traduceri EN/RO
+- `bannerTemplates.typographyStyle.*` - 25 traduceri EN/RO
+- `bannerTemplates.ctaButtonStyle.*` - 20 traduceri EN/RO
+- `quickStartTemplates.*` - 6 traduceri EN/RO
+- **Total: ~388 preseturi x 2 (name + description) x 2 (EN + RO) = ~1552 chei de traducere**
 
 ### Faza 6: Funcționalități Avansate (Opțional)
 18. **Quick Start Templates** - combinații pre-definite pentru scenarii comune
