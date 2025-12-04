@@ -44,3 +44,7 @@ next-env.d.ts
 
 # uploads
 public/uploads
+
+# code review & planning docs
+CODE_REVIEW.md
+BANNER_GENERATOR_PLAN.md
