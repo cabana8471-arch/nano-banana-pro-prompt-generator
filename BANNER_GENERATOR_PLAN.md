@@ -434,16 +434,39 @@ Combinații pre-definite de presets pentru scenarii comune:
 - `src/messages/en.json` - bannerGenerator namespace (~80 chei)
 - `src/messages/ro.json` - bannerGenerator namespace (~80 chei)
 
-### Faza 4: Componente UI - Preview & Results
-12. **Preview Panel:**
-    - Preview live al prompt-ului asamblat
-    - Setări generare (resolution, format)
-    - Save/Load preset functionality
-    - Character limit warnings
-13. **Results Panel:**
-    - Grid rezultate cu aspect ratio corespunzător
-    - Download în multiple formate (PNG, JPG, WebP)
-    - Refine input pentru ajustări
+### Faza 4: Componente UI - Preview & Results ✅ FINALIZATĂ
+12. ✅ **Preview Panel:** (`banner-preview-panel.tsx`)
+    - ✅ Preview live al prompt-ului asamblat
+    - ✅ Setări generare (format export, quality, include text overlay)
+    - ✅ Preview vizual dimensiune banner selectat
+    - ✅ Save/Load preset functionality
+13. ✅ **Results Panel:** (`banner-results-panel.tsx`)
+    - ✅ Grid rezultate cu aspect ratio corespunzător dimensiunii banner
+    - ✅ Download în multiple formate (PNG, JPG, WebP) cu dropdown menu
+    - ✅ Refine input pentru ajustări (`banner-refine-input.tsx`)
+    - ✅ Fullscreen image dialog cu navigare
+    - ✅ Indicatori dimensiune banner în fullscreen
+
+**Componente create în Faza 4:**
+- `src/components/banner-generator/preview/banner-preview-panel.tsx` - Preview panel principal
+- `src/components/banner-generator/results/banner-results-panel.tsx` - Results panel cu grid
+- `src/components/banner-generator/results/banner-refine-input.tsx` - Input pentru refinement
+- `src/components/banner-generator/presets/save-banner-preset-modal.tsx` - Modal salvare preset
+- `src/components/banner-generator/presets/load-banner-preset-dropdown.tsx` - Dropdown încărcare preset
+- `src/components/banner-generator/presets/banner-preset-list.tsx` - Lista de preset-uri
+- `src/components/ui/switch.tsx` - Componenta Switch adăugată
+
+**Traduceri adăugate (EN/RO):**
+- `bannerGenerator.preview.*` - ~17 chei pentru preview panel
+- `bannerGenerator.results.*` - ~23 chei pentru results panel și refinement
+- `bannerGenerator.presets.*` - ~25 chei pentru sistem presets
+
+**Pagina completă integrată:**
+- `src/app/[locale]/banner-generator/page.tsx` - Pagina principală cu:
+  - ThreeColumnLayout (Builder | Preview | Results)
+  - Integrare cu toate hook-urile (useBannerBuilder, useBannerPresets, useGeneration, useAvatars)
+  - Gestionarea generării de bannere prin API-ul existent
+  - Adaptarea aspect ratio automat bazat pe dimensiunea bannerului
 
 ### Faza 5: Integrare & Traduceri (i18n Bilingv EN/RO)
 14. **Adăugarea traducerilor** pentru toate textele (~902 traduceri totale):
