@@ -1364,6 +1364,496 @@
         "name": "Blank",
         "description": "Empty expressionless face"
       }
+    },
+    "location": {
+      "location-urban": {
+        "name": "Urban City",
+        "description": "Modern cityscape with buildings and streets"
+      },
+      "location-downtown": {
+        "name": "Downtown District",
+        "description": "Busy downtown area with skyscrapers"
+      },
+      "location-alley": {
+        "name": "Back Alley",
+        "description": "Narrow urban alleyway"
+      },
+      "location-rooftop": {
+        "name": "Rooftop",
+        "description": "Building rooftop with city view"
+      },
+      "location-subway": {
+        "name": "Subway Station",
+        "description": "Underground metro station"
+      },
+      "location-parking-garage": {
+        "name": "Parking Garage",
+        "description": "Multi-level parking structure"
+      },
+      "location-bridge": {
+        "name": "City Bridge",
+        "description": "Urban bridge crossing"
+      },
+      "location-forest": {
+        "name": "Forest",
+        "description": "Dense woodland with trees and natural elements"
+      },
+      "location-enchanted-forest": {
+        "name": "Enchanted Forest",
+        "description": "Magical mystical woodland"
+      },
+      "location-bamboo-forest": {
+        "name": "Bamboo Forest",
+        "description": "Tall bamboo grove"
+      },
+      "location-autumn-forest": {
+        "name": "Autumn Forest",
+        "description": "Fall foliage woodland"
+      },
+      "location-pine-forest": {
+        "name": "Pine Forest",
+        "description": "Coniferous pine woodland"
+      },
+      "location-beach": {
+        "name": "Beach",
+        "description": "Coastal scene with sand and ocean"
+      },
+      "location-tropical-beach": {
+        "name": "Tropical Beach",
+        "description": "Paradise tropical shoreline"
+      },
+      "location-rocky-coast": {
+        "name": "Rocky Coastline",
+        "description": "Dramatic rocky shore"
+      },
+      "location-lake": {
+        "name": "Lake",
+        "description": "Serene lakeside setting"
+      },
+      "location-waterfall": {
+        "name": "Waterfall",
+        "description": "Cascading waterfall scene"
+      },
+      "location-river": {
+        "name": "River",
+        "description": "Flowing river setting"
+      },
+      "location-underwater": {
+        "name": "Underwater",
+        "description": "Beneath the water surface"
+      },
+      "location-mountains": {
+        "name": "Mountains",
+        "description": "Majestic mountain landscape"
+      },
+      "location-snowy-peaks": {
+        "name": "Snowy Peaks",
+        "description": "Snow-covered mountain tops"
+      },
+      "location-desert": {
+        "name": "Desert",
+        "description": "Sandy desert landscape"
+      },
+      "location-canyon": {
+        "name": "Canyon",
+        "description": "Deep canyon with rock walls"
+      },
+      "location-meadow": {
+        "name": "Meadow",
+        "description": "Open grassy field"
+      },
+      "location-hilltop": {
+        "name": "Hilltop",
+        "description": "Elevated hillside view"
+      },
+      "location-cave": {
+        "name": "Cave",
+        "description": "Underground cavern"
+      },
+      "location-glacier": {
+        "name": "Glacier",
+        "description": "Icy glacial landscape"
+      },
+      "location-volcano": {
+        "name": "Volcano",
+        "description": "Volcanic landscape"
+      },
+      "location-living-room": {
+        "name": "Living Room",
+        "description": "Home living space"
+      },
+      "location-bedroom": {
+        "name": "Bedroom",
+        "description": "Personal bedroom space"
+      },
+      "location-kitchen": {
+        "name": "Kitchen",
+        "description": "Home kitchen area"
+      },
+      "location-bathroom": {
+        "name": "Bathroom",
+        "description": "Bathroom interior"
+      },
+      "location-home-office": {
+        "name": "Home Office",
+        "description": "Residential workspace"
+      },
+      "location-cafe": {
+        "name": "Cafe",
+        "description": "Cozy cafe or coffee shop interior"
+      },
+      "location-restaurant": {
+        "name": "Restaurant",
+        "description": "Dining establishment interior"
+      },
+      "location-bar": {
+        "name": "Bar",
+        "description": "Bar or pub interior"
+      },
+      "location-nightclub": {
+        "name": "Nightclub",
+        "description": "Dance club interior"
+      },
+      "location-hotel-lobby": {
+        "name": "Hotel Lobby",
+        "description": "Grand hotel entrance"
+      },
+      "location-office": {
+        "name": "Modern Office",
+        "description": "Corporate office space"
+      },
+      "location-library": {
+        "name": "Library",
+        "description": "Room filled with books"
+      },
+      "location-gym": {
+        "name": "Gym",
+        "description": "Fitness center interior"
+      },
+      "location-studio": {
+        "name": "Studio Backdrop",
+        "description": "Clean studio background for focused portraits"
+      },
+      "location-photo-studio": {
+        "name": "Photo Studio",
+        "description": "Professional photography studio"
+      },
+      "location-art-gallery": {
+        "name": "Art Gallery",
+        "description": "Museum or gallery space"
+      },
+      "location-theater": {
+        "name": "Theater",
+        "description": "Performance venue interior"
+      },
+      "location-warehouse": {
+        "name": "Warehouse",
+        "description": "Industrial warehouse space"
+      },
+      "location-abandoned-building": {
+        "name": "Abandoned Building",
+        "description": "Derelict structure interior"
+      },
+      "location-futuristic": {
+        "name": "Futuristic City",
+        "description": "Sci-fi environment with advanced technology"
+      },
+      "location-space-station": {
+        "name": "Space Station",
+        "description": "Orbital space habitat"
+      },
+      "location-alien-planet": {
+        "name": "Alien Planet",
+        "description": "Extraterrestrial world"
+      },
+      "location-medieval-castle": {
+        "name": "Medieval Castle",
+        "description": "Fantasy castle interior"
+      },
+      "location-throne-room": {
+        "name": "Throne Room",
+        "description": "Royal throne chamber"
+      },
+      "location-magic-realm": {
+        "name": "Magic Realm",
+        "description": "Mystical magical world"
+      },
+      "location-cyberpunk-city": {
+        "name": "Cyberpunk City",
+        "description": "Neon-lit dystopian metropolis"
+      },
+      "location-abstract": {
+        "name": "Abstract",
+        "description": "Non-representational, artistic background"
+      },
+      "location-void": {
+        "name": "Void Space",
+        "description": "Empty infinite space"
+      },
+      "location-gradient": {
+        "name": "Gradient Background",
+        "description": "Smooth color gradient backdrop"
+      },
+      "location-bokeh": {
+        "name": "Bokeh Background",
+        "description": "Blurred light circles"
+      },
+      "location-dreamscape": {
+        "name": "Dreamscape",
+        "description": "Surreal dream environment"
+      }
+    },
+    "lighting": {
+      "lighting-golden-hour": {
+        "name": "Golden Hour",
+        "description": "Warm, soft light during sunrise or sunset with golden tones"
+      },
+      "lighting-natural": {
+        "name": "Natural Light",
+        "description": "Soft, diffused natural daylight"
+      },
+      "lighting-overcast": {
+        "name": "Overcast Day",
+        "description": "Soft, even lighting from cloudy sky"
+      },
+      "lighting-blue-hour": {
+        "name": "Blue Hour",
+        "description": "Cool twilight tones just before sunrise or after sunset"
+      },
+      "lighting-harsh-sun": {
+        "name": "Harsh Sunlight",
+        "description": "Direct midday sun with strong shadows"
+      },
+      "lighting-dappled": {
+        "name": "Dappled Light",
+        "description": "Light filtering through leaves creating patterns"
+      },
+      "lighting-studio": {
+        "name": "Studio Lighting",
+        "description": "Professional studio setup with controlled lighting"
+      },
+      "lighting-softbox": {
+        "name": "Softbox Setup",
+        "description": "Soft, flattering light from diffused source"
+      },
+      "lighting-ring-light": {
+        "name": "Ring Light",
+        "description": "Even, flattering light popular for portraits"
+      },
+      "lighting-rembrandt": {
+        "name": "Rembrandt Lighting",
+        "description": "Classic portrait lighting with triangle under eye"
+      },
+      "lighting-butterfly": {
+        "name": "Butterfly Lighting",
+        "description": "Glamour lighting from above creating butterfly shadow"
+      },
+      "lighting-split": {
+        "name": "Split Lighting",
+        "description": "Half face lit, half in shadow for dramatic effect"
+      },
+      "lighting-dramatic": {
+        "name": "Dramatic Shadows",
+        "description": "High contrast lighting with deep shadows"
+      },
+      "lighting-cinematic": {
+        "name": "Cinematic",
+        "description": "Film-style lighting with dramatic atmosphere"
+      },
+      "lighting-backlit": {
+        "name": "Backlit",
+        "description": "Light source behind the subject creating silhouette effect"
+      },
+      "lighting-rim": {
+        "name": "Rim Light",
+        "description": "Highlights edges of subject from behind"
+      },
+      "lighting-low-key": {
+        "name": "Low Key",
+        "description": "Dark, moody lighting with minimal illumination"
+      },
+      "lighting-high-key": {
+        "name": "High Key",
+        "description": "Bright, even lighting with minimal shadows"
+      },
+      "lighting-chiaroscuro": {
+        "name": "Chiaroscuro",
+        "description": "Strong contrast between light and dark areas"
+      },
+      "lighting-moonlight": {
+        "name": "Moonlight",
+        "description": "Cool, ethereal moonlit atmosphere"
+      },
+      "lighting-neon": {
+        "name": "Neon Glow",
+        "description": "Vibrant neon lights with colorful ambient glow"
+      },
+      "lighting-candlelight": {
+        "name": "Candlelight",
+        "description": "Warm, flickering intimate lighting"
+      },
+      "lighting-firelight": {
+        "name": "Firelight",
+        "description": "Warm orange glow from fire source"
+      },
+      "lighting-streetlamp": {
+        "name": "Street Lamp",
+        "description": "Urban night lighting from street lamps"
+      },
+      "lighting-neon-sign": {
+        "name": "Neon Sign",
+        "description": "Colorful glow from neon signage"
+      },
+      "lighting-led-strip": {
+        "name": "LED Strip",
+        "description": "Modern colored LED accent lighting"
+      },
+      "lighting-foggy": {
+        "name": "Foggy Atmosphere",
+        "description": "Diffused light through fog or mist"
+      },
+      "lighting-volumetric": {
+        "name": "Volumetric Light",
+        "description": "Visible light rays through atmosphere"
+      },
+      "lighting-rainbow": {
+        "name": "Rainbow Light",
+        "description": "Prismatic colorful light spectrum"
+      },
+      "lighting-underwater": {
+        "name": "Underwater Light",
+        "description": "Filtered blue-green aquatic lighting"
+      }
+    },
+    "camera": {
+      "camera-closeup": {
+        "name": "Close-up",
+        "description": "Tight framing focusing on details"
+      },
+      "camera-extreme-closeup": {
+        "name": "Extreme Close-up",
+        "description": "Very tight framing on specific feature"
+      },
+      "camera-medium-shot": {
+        "name": "Medium Shot",
+        "description": "Waist-up framing showing body language"
+      },
+      "camera-medium-closeup": {
+        "name": "Medium Close-up",
+        "description": "Head and shoulders framing"
+      },
+      "camera-wide": {
+        "name": "Wide Shot",
+        "description": "Full scene view showing environment and context"
+      },
+      "camera-extreme-wide": {
+        "name": "Extreme Wide Shot",
+        "description": "Vast establishing shot showing full environment"
+      },
+      "camera-full-body": {
+        "name": "Full Body Shot",
+        "description": "Complete figure from head to toe"
+      },
+      "camera-low-angle": {
+        "name": "Low Angle",
+        "description": "Shot from below looking up, making subject appear powerful"
+      },
+      "camera-high-angle": {
+        "name": "High Angle",
+        "description": "Shot from above looking down"
+      },
+      "camera-birds-eye": {
+        "name": "Bird's Eye",
+        "description": "Overhead view looking directly down"
+      },
+      "camera-worms-eye": {
+        "name": "Worm's Eye View",
+        "description": "Extreme low angle from ground level"
+      },
+      "camera-dutch": {
+        "name": "Dutch Angle",
+        "description": "Tilted camera creating dynamic, unsettling feel"
+      },
+      "camera-eye-level": {
+        "name": "Eye Level",
+        "description": "Neutral angle at subject's eye level"
+      },
+      "camera-portrait": {
+        "name": "Portrait",
+        "description": "Classic portrait framing with shallow depth of field"
+      },
+      "camera-headshot": {
+        "name": "Headshot",
+        "description": "Professional head and shoulders portrait"
+      },
+      "camera-three-quarter": {
+        "name": "Three-Quarter View",
+        "description": "Face turned slightly away from camera"
+      },
+      "camera-profile": {
+        "name": "Profile Shot",
+        "description": "Side view of subject"
+      },
+      "camera-macro": {
+        "name": "Macro",
+        "description": "Extreme close-up revealing tiny details"
+      },
+      "camera-over-shoulder": {
+        "name": "Over-the-shoulder",
+        "description": "Shot from behind subject's shoulder"
+      },
+      "camera-pov": {
+        "name": "Point of View",
+        "description": "First-person perspective as if through subject's eyes"
+      },
+      "camera-tilt-shift": {
+        "name": "Tilt-Shift",
+        "description": "Miniature effect with selective focus"
+      },
+      "camera-fisheye": {
+        "name": "Fisheye",
+        "description": "Ultra-wide angle with curved distortion"
+      },
+      "camera-telephoto": {
+        "name": "Telephoto Compression",
+        "description": "Compressed perspective from long lens"
+      },
+      "camera-rule-thirds": {
+        "name": "Rule of Thirds",
+        "description": "Subject placed at intersection points"
+      },
+      "camera-centered": {
+        "name": "Centered Composition",
+        "description": "Subject placed directly in center"
+      },
+      "camera-symmetrical": {
+        "name": "Symmetrical",
+        "description": "Perfect symmetry in composition"
+      },
+      "camera-leading-lines": {
+        "name": "Leading Lines",
+        "description": "Lines guiding eye to subject"
+      },
+      "camera-framing": {
+        "name": "Natural Frame",
+        "description": "Subject framed by environmental elements"
+      },
+      "camera-negative-space": {
+        "name": "Negative Space",
+        "description": "Lots of empty space around subject"
+      },
+      "camera-shallow-dof": {
+        "name": "Shallow Depth of Field",
+        "description": "Blurred background with sharp subject"
+      },
+      "camera-deep-focus": {
+        "name": "Deep Focus",
+        "description": "Everything in sharp focus"
+      },
+      "camera-split-diopter": {
+        "name": "Split Diopter",
+        "description": "Both foreground and background in focus"
+      }
     }
   }
 }
