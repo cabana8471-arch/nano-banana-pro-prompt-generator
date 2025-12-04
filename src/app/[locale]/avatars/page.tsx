@@ -160,6 +160,7 @@ export default function AvatarsPage() {
 
       {/* Create/Edit Modal */}
       <AvatarFormModal
+        key={editingAvatar?.id ?? "new"}
         open={formModalOpen}
         onOpenChange={handleFormModalClose}
         avatar={editingAvatar}
