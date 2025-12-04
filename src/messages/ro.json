@@ -831,6 +831,128 @@
         "name": "Peisaj de vis",
         "description": "Mediu suprarealist de vis"
       }
+    },
+    "lighting": {
+      "lighting-golden-hour": {
+        "name": "Ora de aur",
+        "description": "Lumina calda si moale la rasarit sau apus cu tonuri aurii"
+      },
+      "lighting-natural": {
+        "name": "Lumina naturala",
+        "description": "Lumina naturala moale si difuza"
+      },
+      "lighting-overcast": {
+        "name": "Zi inorata",
+        "description": "Iluminare moale si uniforma de la cerul innorat"
+      },
+      "lighting-blue-hour": {
+        "name": "Ora albastra",
+        "description": "Tonuri reci de amurg chiar inainte de rasarit sau dupa apus"
+      },
+      "lighting-harsh-sun": {
+        "name": "Soare puternic",
+        "description": "Soare direct la amiaza cu umbre puternice"
+      },
+      "lighting-dappled": {
+        "name": "Lumina patata",
+        "description": "Lumina filtrata prin frunze creand modele"
+      },
+      "lighting-studio": {
+        "name": "Iluminare de studio",
+        "description": "Configuratie profesionala de studio cu iluminare controlata"
+      },
+      "lighting-softbox": {
+        "name": "Configuratie softbox",
+        "description": "Lumina moale si flatanta dintr-o sursa difuza"
+      },
+      "lighting-ring-light": {
+        "name": "Lumina inelara",
+        "description": "Iluminare uniforma si flatanta, populara pentru portrete"
+      },
+      "lighting-rembrandt": {
+        "name": "Iluminare Rembrandt",
+        "description": "Iluminare clasica de portret cu triunghi sub ochi"
+      },
+      "lighting-butterfly": {
+        "name": "Iluminare fluture",
+        "description": "Iluminare glamour de sus creand umbra fluture"
+      },
+      "lighting-split": {
+        "name": "Iluminare separata",
+        "description": "Jumatate de fata luminata, jumatate in umbra pentru efect dramatic"
+      },
+      "lighting-dramatic": {
+        "name": "Umbre dramatice",
+        "description": "Iluminare cu contrast ridicat si umbre adanci"
+      },
+      "lighting-cinematic": {
+        "name": "Cinematic",
+        "description": "Iluminare in stil de film cu atmosfera dramatica"
+      },
+      "lighting-backlit": {
+        "name": "Contra-lumina",
+        "description": "Sursa de lumina in spatele subiectului creand efect de silueta"
+      },
+      "lighting-rim": {
+        "name": "Lumina de contur",
+        "description": "Evidentiaza marginile subiectului din spate"
+      },
+      "lighting-low-key": {
+        "name": "Low key",
+        "description": "Iluminare intunecata si misterioasa cu iluminare minima"
+      },
+      "lighting-high-key": {
+        "name": "High key",
+        "description": "Iluminare stralucitoare si uniforma cu umbre minime"
+      },
+      "lighting-chiaroscuro": {
+        "name": "Clarobscur",
+        "description": "Contrast puternic intre zonele luminate si intunecate"
+      },
+      "lighting-moonlight": {
+        "name": "Lumina lunii",
+        "description": "Atmosfera rece si etereala luminata de luna"
+      },
+      "lighting-neon": {
+        "name": "Stralucire neon",
+        "description": "Lumini neon vibrante cu stralucire ambientala colorata"
+      },
+      "lighting-candlelight": {
+        "name": "Lumina de lumanare",
+        "description": "Iluminare calda, palpaind, intima"
+      },
+      "lighting-firelight": {
+        "name": "Lumina focului",
+        "description": "Stralucire calda portocalie de la o sursa de foc"
+      },
+      "lighting-streetlamp": {
+        "name": "Felinar stradal",
+        "description": "Iluminare urbana de noapte de la felinarele stradale"
+      },
+      "lighting-neon-sign": {
+        "name": "Firma neon",
+        "description": "Stralucire colorata de la reclame neon"
+      },
+      "lighting-led-strip": {
+        "name": "Banda LED",
+        "description": "Iluminare moderna de accent cu LED-uri colorate"
+      },
+      "lighting-foggy": {
+        "name": "Atmosfera cetoasa",
+        "description": "Lumina difuza prin ceata sau negura"
+      },
+      "lighting-volumetric": {
+        "name": "Lumina volumetrica",
+        "description": "Raze de lumina vizibile prin atmosfera"
+      },
+      "lighting-rainbow": {
+        "name": "Lumina curcubeu",
+        "description": "Spectru de culori prismatic colorat"
+      },
+      "lighting-underwater": {
+        "name": "Lumina subacvatica",
+        "description": "Iluminare acvatica filtrata albastru-verde"
+      }
     }
   }
 }

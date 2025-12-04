@@ -101,6 +101,7 @@ export function PromptBuilderPanel({
               value={lighting}
               onChange={onLightingChange}
               placeholder="Select or type lighting..."
+              category="lighting"
             />
 
             {/* Camera */}
