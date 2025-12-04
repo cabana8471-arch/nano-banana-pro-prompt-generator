@@ -1,6 +1,7 @@
 "use client";
 
 import { Wand2 } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import { LoadPresetDropdown } from "@/components/presets/load-preset-dropdown";
 import { SavePresetModal } from "@/components/presets/save-preset-modal";
 import { Button } from "@/components/ui/button";
@@ -169,7 +170,7 @@ export function PreviewPanel({
               Please add your Google API key in your profile to generate images.
             </p>
             <Button variant="outline" asChild>
-              <a href="/profile">Go to Profile</a>
+              <Link href="/profile">Go to Profile</Link>
             </Button>
           </div>
         ) : (
