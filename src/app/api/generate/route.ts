@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, inArray } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { INPUT_LIMITS, GENERATION } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
 import { generations, generatedImages, generationHistory, avatars } from "@/lib/schema";
@@ -46,6 +47,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate prompt length to prevent DoS and database bloat
+    if (prompt.length > INPUT_LIMITS.MAX_PROMPT_LENGTH) {
+      return NextResponse.json(
+        { error: `Prompt too long. Maximum ${INPUT_LIMITS.MAX_PROMPT_LENGTH} characters allowed` },
+        { status: 400 }
+      );
+    }
+
     if (!settings || !settings.resolution || !settings.aspectRatio) {
       return NextResponse.json(
         { error: "Settings with resolution and aspectRatio are required" },
@@ -53,26 +62,22 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate settings
-    const validResolutions = ["1K", "2K", "4K"];
-    const validAspectRatios = ["1:1", "16:9", "9:16", "4:3", "3:4", "21:9"];
-    const validImageCounts = [1, 2, 3, 4];
-
-    if (!validResolutions.includes(settings.resolution)) {
+    // Validate settings using centralized constants
+    if (!GENERATION.VALID_RESOLUTIONS.includes(settings.resolution as typeof GENERATION.VALID_RESOLUTIONS[number])) {
       return NextResponse.json(
         { error: "Invalid resolution" },
         { status: 400 }
       );
     }
 
-    if (!validAspectRatios.includes(settings.aspectRatio)) {
+    if (!GENERATION.VALID_ASPECT_RATIOS.includes(settings.aspectRatio as typeof GENERATION.VALID_ASPECT_RATIOS[number])) {
       return NextResponse.json(
         { error: "Invalid aspect ratio" },
         { status: 400 }
       );
     }
 
-    if (settings.imageCount && !validImageCounts.includes(settings.imageCount)) {
+    if (settings.imageCount && !GENERATION.VALID_IMAGE_COUNTS.includes(settings.imageCount as typeof GENERATION.VALID_IMAGE_COUNTS[number])) {
       return NextResponse.json(
         { error: "Invalid image count. Must be 1-4" },
         { status: 400 }

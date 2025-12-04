@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and, asc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { INPUT_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
 import { generations, generatedImages, generationHistory } from "@/lib/schema";
@@ -43,6 +44,14 @@ export async function POST(request: Request, { params }: RouteParams) {
     if (!instruction || typeof instruction !== "string" || instruction.trim().length === 0) {
       return NextResponse.json(
         { error: "Instruction is required" },
+        { status: 400 }
+      );
+    }
+
+    // Validate instruction length to prevent DoS and database bloat
+    if (instruction.length > INPUT_LIMITS.MAX_INSTRUCTION_LENGTH) {
+      return NextResponse.json(
+        { error: `Instruction too long. Maximum ${INPUT_LIMITS.MAX_INSTRUCTION_LENGTH} characters allowed` },
         { status: 400 }
       );
     }

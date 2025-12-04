@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { INPUT_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { avatars } from "@/lib/schema";
 import { deleteFile } from "@/lib/storage";
@@ -84,10 +85,24 @@ export async function PUT(request: Request, { params }: RouteParams) {
           { status: 400 }
         );
       }
+      // Validate name length to prevent database bloat
+      if (name.length > INPUT_LIMITS.MAX_NAME_LENGTH) {
+        return NextResponse.json(
+          { error: `Name too long. Maximum ${INPUT_LIMITS.MAX_NAME_LENGTH} characters allowed` },
+          { status: 400 }
+        );
+      }
       updateData.name = name.trim();
     }
 
     if (description !== undefined) {
+      // Validate description length if provided and not null
+      if (description && description.length > INPUT_LIMITS.MAX_DESCRIPTION_LENGTH) {
+        return NextResponse.json(
+          { error: `Description too long. Maximum ${INPUT_LIMITS.MAX_DESCRIPTION_LENGTH} characters allowed` },
+          { status: 400 }
+        );
+      }
       updateData.description = description?.trim() || null;
     }
 

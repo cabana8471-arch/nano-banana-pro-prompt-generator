@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { INPUT_LIMITS, FILE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { avatars } from "@/lib/schema";
 import { upload } from "@/lib/storage";
@@ -59,6 +60,22 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate name length to prevent database bloat
+    if (name.length > INPUT_LIMITS.MAX_NAME_LENGTH) {
+      return NextResponse.json(
+        { error: `Name too long. Maximum ${INPUT_LIMITS.MAX_NAME_LENGTH} characters allowed` },
+        { status: 400 }
+      );
+    }
+
+    // Validate description length if provided
+    if (description && description.length > INPUT_LIMITS.MAX_DESCRIPTION_LENGTH) {
+      return NextResponse.json(
+        { error: `Description too long. Maximum ${INPUT_LIMITS.MAX_DESCRIPTION_LENGTH} characters allowed` },
+        { status: 400 }
+      );
+    }
+
     if (!avatarType || !["human", "object"].includes(avatarType)) {
       return NextResponse.json(
         { error: "Avatar type must be 'human' or 'object'" },
@@ -82,11 +99,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate image size (max 5MB)
-    const maxSize = 5 * 1024 * 1024;
-    if (image.size > maxSize) {
+    // Validate image size
+    if (image.size > FILE_LIMITS.MAX_FILE_SIZE_BYTES) {
       return NextResponse.json(
-        { error: "Image too large. Maximum size is 5MB" },
+        { error: `Image too large. Maximum size is ${FILE_LIMITS.MAX_FILE_SIZE_MB}MB` },
         { status: 400 }
       );
     }

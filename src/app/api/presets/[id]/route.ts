@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { INPUT_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { presets } from "@/lib/schema";
 import type { Preset, UpdatePresetInput, PresetConfig } from "@/lib/types/generation";
@@ -96,6 +97,13 @@ export async function PUT(request: Request, { params }: RouteParams) {
           { status: 400 }
         );
       }
+      // Validate name length to prevent database bloat
+      if (name.length > INPUT_LIMITS.MAX_NAME_LENGTH) {
+        return NextResponse.json(
+          { error: `Name too long. Maximum ${INPUT_LIMITS.MAX_NAME_LENGTH} characters allowed` },
+          { status: 400 }
+        );
+      }
       updates.name = name.trim();
     }
 
@@ -103,6 +111,14 @@ export async function PUT(request: Request, { params }: RouteParams) {
       if (typeof config !== "object" || !Array.isArray(config.subjects)) {
         return NextResponse.json(
           { error: "Config must be an object with a subjects array" },
+          { status: 400 }
+        );
+      }
+      // Validate config size to prevent database bloat
+      const configString = JSON.stringify(config);
+      if (configString.length > INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE) {
+        return NextResponse.json(
+          { error: `Preset config too large. Maximum ${INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE} characters allowed` },
           { status: 400 }
         );
       }
