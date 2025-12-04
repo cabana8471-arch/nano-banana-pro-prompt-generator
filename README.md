@@ -4,11 +4,26 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ## Features
 
+### Image Generation
 - **AI Image Generation**: Generate images using Google Gemini 3 Pro with multi-turn conversation support for refinements
 - **Prompt Builder**: Intuitive UI to construct detailed prompts with location, lighting, camera angle, style, and subject options
 - **Avatar System**: Upload reference images to maintain consistent characters/objects across generations
+
+### Banner Generator
+- **Professional Banner Creation**: Dedicated banner generator for web ads, social media, and marketing materials
+- **15 Template Categories**: 385+ presets covering banner types, sizes, industries, design styles, colors, moods, backgrounds, effects, layouts, typography, and CTA buttons
+- **Platform Support**: Google Ads (IAB Standard), Facebook, Instagram, Twitter, LinkedIn, and website banners
+- **Quick Start Templates**: Pre-configured templates for common scenarios (e-commerce, tech, food, fashion, services, events)
+- **Advanced Color Picker**: EyeDropper API integration, predefined palettes, WCAG contrast checker, saved colors
+- **History & Undo**: Full undo/redo support with history viewer (up to 50 states)
+- **Responsive Preview**: Side-by-side comparison across desktop, mobile, and social platforms
+- **Quick Actions**: Duplicate config, randomize settings, swap colors, reset with confirmation
+
+### Social Features
 - **Gallery**: Browse and share generated images with the community
 - **Like System**: Like and discover popular images from other users
+
+### Infrastructure
 - **BYOK (Bring Your Own Key)**: Users provide their own Google AI API key, stored securely with AES-256-GCM encryption
 - **Internationalization (i18n)**: Full support for English and Romanian languages with locale-based URL routing (`/en/`, `/ro/`)
 
@@ -82,13 +97,28 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ## Usage
 
+### Getting Started
 1. **Sign in** with your Google account
 2. **Add your Google AI API key** in settings (get one from [Google AI Studio](https://aistudio.google.com/apikey))
 3. **Create avatars** by uploading reference images for consistent character generation
-4. **Build your prompt** using the Prompt Builder interface
-5. **Generate images** and refine them with follow-up prompts
-6. **Share to gallery** by making images public for the community to see
-7. **Change language** in your profile settings (English/Romanian)
+4. **Change language** in your profile settings (English/Romanian)
+
+### Image Generation
+1. **Build your prompt** using the Prompt Builder interface
+2. **Generate images** and refine them with follow-up prompts
+3. **Share to gallery** by making images public for the community to see
+
+### Banner Generation
+1. Navigate to `/banner-generator`
+2. **Select a Quick Start template** or configure from scratch
+3. **Choose banner settings**: type, size (IAB standard or social media), industry
+4. **Customize design**: style, colors, mood, seasonal theme
+5. **Add visual elements**: background, effects, icons, promotional badges
+6. **Configure layout**: text placement, typography, CTA button style
+7. **Enter text content**: headline, subheadline, CTA text, tagline
+8. **Upload brand assets**: logo and product images via avatar system
+9. **Preview and generate** your professional banner
+10. **Download** in PNG, JPG, or WebP format
 
 ## Internationalization
 
@@ -107,11 +137,13 @@ The application supports multiple languages with locale-based URL routing:
 ### URL Structure
 
 ```
-/           → Redirects to /en/ (default locale)
-/en/        → English homepage
-/ro/        → Romanian homepage
-/en/generate → Image generation (English)
-/ro/generate → Image generation (Romanian)
+/                    → Redirects to /en/ (default locale)
+/en/                 → English homepage
+/ro/                 → Romanian homepage
+/en/generate         → Image generation (English)
+/ro/generate         → Image generation (Romanian)
+/en/banner-generator → Banner generator (English)
+/ro/banner-generator → Banner generator (Romanian)
 ```
 
 ## Development Commands
@@ -143,11 +175,17 @@ src/
 │   ├── api/                  # API routes (no locale prefix)
 │   └── [locale]/             # Locale-based pages (en, ro)
 │       ├── generate/         # Image generation page
+│       ├── banner-generator/ # Banner generation page
 │       ├── gallery/          # Gallery pages
 │       ├── profile/          # User profile & settings
 │       └── avatars/          # Avatar management
 ├── components/
 │   ├── generate/             # Prompt builder and generation UI
+│   ├── banner-generator/     # Banner generator components
+│   │   ├── banner-builder/   # Builder panel, sections, quick actions
+│   │   ├── preview/          # Preview panel, responsive preview
+│   │   ├── results/          # Results panel, download options
+│   │   └── presets/          # Quick start templates, preset management
 │   ├── auth/                 # Authentication components
 │   ├── gallery/              # Gallery components
 │   ├── avatars/              # Avatar components
@@ -155,19 +193,26 @@ src/
 ├── hooks/                    # Custom React hooks
 │   ├── use-avatars.ts        # Avatar management
 │   ├── use-generation.ts     # Image generation logic
-│   └── use-prompt-builder.ts # Prompt builder state
+│   ├── use-prompt-builder.ts # Prompt builder state
+│   ├── use-banner-builder.ts # Banner builder state
+│   ├── use-banner-history.ts # Undo/redo history
+│   └── use-banner-presets.ts # Banner preset management
 ├── i18n/                     # Internationalization
 │   ├── config.ts             # Locale configuration (en, ro)
 │   ├── request.ts            # Server-side i18n setup
 │   └── routing.ts            # Locale-aware navigation
 ├── messages/                 # Translation files
-│   ├── en.json               # English translations
-│   └── ro.json               # Romanian translations
+│   ├── en.json               # English translations (~2500 keys)
+│   └── ro.json               # Romanian translations (~2500 keys)
 └── lib/
     ├── gemini.ts             # Gemini API integration
     ├── schema.ts             # Database schema
     ├── storage.ts            # File storage abstraction
-    └── auth.ts               # Authentication config
+    ├── auth.ts               # Authentication config
+    ├── types/
+    │   └── banner.ts         # Banner generator types
+    └── data/
+        └── banner-templates.ts # 385+ banner presets (15 categories)
 ```
 
 ## Environment Variables

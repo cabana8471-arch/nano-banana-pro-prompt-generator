@@ -86,6 +86,7 @@ interface UseBannerBuilderReturn {
   clearCategory: (category: BannerTemplateCategory) => void;
   clearAllCategories: () => void;
   clearTextContent: () => void;
+  swapColors: () => void;
 }
 
 // ==========================================
@@ -619,6 +620,35 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     }));
   }, []);
 
+  // Swap primary and secondary colors
+  const swapColors = useCallback(() => {
+    setBrandAssetsState((prev) => {
+      // With exactOptionalPropertyTypes, we need to explicitly build the new object
+      // Only include properties that have values
+      const result: BannerBrandAssets = {};
+
+      if (prev.logoAvatarId !== undefined) {
+        result.logoAvatarId = prev.logoAvatarId;
+      }
+      if (prev.productImageAvatarId !== undefined) {
+        result.productImageAvatarId = prev.productImageAvatarId;
+      }
+      if (prev.accentColor !== undefined) {
+        result.accentColor = prev.accentColor;
+      }
+
+      // Swap primary and secondary - only set if the source has a value
+      if (prev.secondaryColor !== undefined) {
+        result.primaryColor = prev.secondaryColor;
+      }
+      if (prev.primaryColor !== undefined) {
+        result.secondaryColor = prev.primaryColor;
+      }
+
+      return result;
+    });
+  }, []);
+
   // ==========================================
   // Return
   // ==========================================
@@ -687,5 +717,6 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     clearCategory,
     clearAllCategories,
     clearTextContent,
+    swapColors,
   };
 }

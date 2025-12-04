@@ -2024,6 +2024,85 @@
       "summaryCta": "CTA",
       "summaryTextContent": "{count} text field(s)",
       "summaryCustomPrompt": "Custom prompt included"
+    },
+    "quickStart": {
+      "buttonLabel": "Quick Start",
+      "title": "Quick Start Templates",
+      "description": "Choose a pre-configured template to get started quickly"
+    },
+    "quickActions": {
+      "duplicate": "Duplicate configuration",
+      "randomize": "Randomize selections",
+      "swapColors": "Swap primary & secondary colors",
+      "reset": "Reset all",
+      "resetConfirmTitle": "Reset Configuration",
+      "resetConfirmDescription": "Are you sure you want to reset all banner settings? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirmReset": "Reset"
+    },
+    "history": {
+      "undo": "Undo",
+      "redo": "Redo",
+      "viewHistory": "View history",
+      "title": "Change History",
+      "stateCount": "{current} of {total}",
+      "clearHistory": "Clear history"
+    },
+    "responsivePreview": {
+      "buttonLabel": "Size Preview",
+      "title": "Banner Size Preview",
+      "tabs": {
+        "comparison": "Compare",
+        "desktop": "Desktop",
+        "mobile": "Mobile",
+        "social": "Social"
+      },
+      "comparisonDescription": "Compare common banner sizes side by side",
+      "desktopDescription": "Desktop and web banner sizes",
+      "mobileDescription": "Mobile banner sizes",
+      "socialDescription": "Social media banner sizes",
+      "currentSelection": "Current selection"
+    },
+    "colorPicker": {
+      "eyedropper": "Pick color from screen",
+      "palette": "Color palette",
+      "selectFromPalette": "Select from palette",
+      "saveColor": "Save",
+      "savedColors": "Saved colors",
+      "contrastRatio": "Contrast",
+      "palettes": {
+        "brand": "Brand",
+        "neutral": "Neutral",
+        "warm": "Warm",
+        "cool": "Cool",
+        "nature": "Nature"
+      }
+    }
+  },
+  "quickStartTemplates": {
+    "ecommerce-sale": {
+      "name": "E-commerce Sale",
+      "description": "Perfect for flash sales and discounts"
+    },
+    "saas-launch": {
+      "name": "SaaS Launch",
+      "description": "Ideal for product launches and tech startups"
+    },
+    "restaurant-promo": {
+      "name": "Restaurant Promo",
+      "description": "Great for food service promotions"
+    },
+    "fashion-brand": {
+      "name": "Fashion Brand",
+      "description": "Elegant for fashion and lifestyle"
+    },
+    "tech-startup": {
+      "name": "Tech Startup",
+      "description": "Modern for app downloads and tech"
+    },
+    "holiday-special": {
+      "name": "Holiday Special",
+      "description": "Festive for seasonal promotions"
     }
   },
   "bannerTemplates": {

@@ -15,8 +15,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "@/i18n/routing";
-import { LoadBannerPresetDropdown } from "../presets/load-banner-preset-dropdown";
-import { SaveBannerPresetModal } from "../presets/save-banner-preset-modal";
 import type {
   BannerPreset,
   BannerPresetConfig,
@@ -24,6 +22,8 @@ import type {
   BannerExportFormat,
   BannerSizeTemplate,
 } from "@/lib/types/banner";
+import { LoadBannerPresetDropdown } from "../presets/load-banner-preset-dropdown";
+import { SaveBannerPresetModal } from "../presets/save-banner-preset-modal";
 
 interface BannerPreviewPanelProps {
   assembledPrompt: string;

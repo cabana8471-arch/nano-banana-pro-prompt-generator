@@ -2024,6 +2024,85 @@
       "summaryCta": "CTA",
       "summaryTextContent": "{count} camp(uri) de text",
       "summaryCustomPrompt": "Prompt personalizat inclus"
+    },
+    "quickStart": {
+      "buttonLabel": "Start Rapid",
+      "title": "Sabloane Start Rapid",
+      "description": "Alege un sablon pre-configurat pentru a incepe rapid"
+    },
+    "quickActions": {
+      "duplicate": "Duplica configuratia",
+      "randomize": "Selectii aleatorii",
+      "swapColors": "Schimba culorile principale",
+      "reset": "Reseteaza tot",
+      "resetConfirmTitle": "Reseteaza Configuratia",
+      "resetConfirmDescription": "Esti sigur ca vrei sa resetezi toate setarile bannerului? Aceasta actiune nu poate fi anulata.",
+      "cancel": "Anuleaza",
+      "confirmReset": "Reseteaza"
+    },
+    "history": {
+      "undo": "Anuleaza",
+      "redo": "Refaci",
+      "viewHistory": "Istoric modificari",
+      "title": "Istoric Modificari",
+      "stateCount": "{current} din {total}",
+      "clearHistory": "Sterge istoricul"
+    },
+    "responsivePreview": {
+      "buttonLabel": "Previzualizare Dimensiuni",
+      "title": "Previzualizare Dimensiuni Banner",
+      "tabs": {
+        "comparison": "Compara",
+        "desktop": "Desktop",
+        "mobile": "Mobil",
+        "social": "Social"
+      },
+      "comparisonDescription": "Compara dimensiunile comune de banner",
+      "desktopDescription": "Dimensiuni banner pentru desktop si web",
+      "mobileDescription": "Dimensiuni banner pentru mobil",
+      "socialDescription": "Dimensiuni banner pentru social media",
+      "currentSelection": "Selectia curenta"
+    },
+    "colorPicker": {
+      "eyedropper": "Preia culoare de pe ecran",
+      "palette": "Paleta de culori",
+      "selectFromPalette": "Selecteaza din paleta",
+      "saveColor": "Salveaza",
+      "savedColors": "Culori salvate",
+      "contrastRatio": "Contrast",
+      "palettes": {
+        "brand": "Brand",
+        "neutral": "Neutru",
+        "warm": "Cald",
+        "cool": "Rece",
+        "nature": "Natura"
+      }
+    }
+  },
+  "quickStartTemplates": {
+    "ecommerce-sale": {
+      "name": "Vanzare E-commerce",
+      "description": "Perfect pentru reduceri si vanzari flash"
+    },
+    "saas-launch": {
+      "name": "Lansare SaaS",
+      "description": "Ideal pentru lansari de produse si startup-uri tech"
+    },
+    "restaurant-promo": {
+      "name": "Promotie Restaurant",
+      "description": "Excelent pentru promotii in servicii alimentare"
+    },
+    "fashion-brand": {
+      "name": "Brand Fashion",
+      "description": "Elegant pentru fashion si lifestyle"
+    },
+    "tech-startup": {
+      "name": "Startup Tech",
+      "description": "Modern pentru descarcari de aplicatii si tech"
+    },
+    "holiday-special": {
+      "name": "Special Sarbatori",
+      "description": "Festiv pentru promotii sezoniere"
     }
   },
   "bannerTemplates": {

@@ -19,8 +19,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BannerRefineInput } from "./banner-refine-input";
 import type { BannerSizeTemplate, BannerExportFormat } from "@/lib/types/banner";
+import { BannerRefineInput } from "./banner-refine-input";
 
 interface BannerResultsPanelProps {
   images: string[];

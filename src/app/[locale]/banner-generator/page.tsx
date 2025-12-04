@@ -1,20 +1,27 @@
 "use client";
 
+import { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { BannerBuilderPanel } from "@/components/banner-generator/banner-builder/banner-builder-panel";
+import { HistoryControls } from "@/components/banner-generator/banner-builder/history-controls";
+import { QuickActions } from "@/components/banner-generator/banner-builder/quick-actions";
+import { QuickStartTemplates } from "@/components/banner-generator/presets/quick-start-templates";
+import { BannerPreviewPanel } from "@/components/banner-generator/preview/banner-preview-panel";
+import { ResponsivePreview } from "@/components/banner-generator/preview/responsive-preview";
+import { BannerResultsPanel } from "@/components/banner-generator/results/banner-results-panel";
 import { ApiKeyAlert } from "@/components/generate/api-key-alert";
 import { GenerationErrorAlert } from "@/components/generate/generation-error-alert";
-import { BannerBuilderPanel } from "@/components/banner-generator/banner-builder/banner-builder-panel";
-import { BannerPreviewPanel } from "@/components/banner-generator/preview/banner-preview-panel";
-import { BannerResultsPanel } from "@/components/banner-generator/results/banner-results-panel";
 import { ThreeColumnLayout } from "@/components/generate/three-column-layout";
 import { useApiKey } from "@/hooks/use-api-key";
 import { useAvatars } from "@/hooks/use-avatars";
 import { useBannerBuilder } from "@/hooks/use-banner-builder";
+import { useBannerHistory } from "@/hooks/use-banner-history";
 import { useBannerPresets } from "@/hooks/use-banner-presets";
 import { useGeneration } from "@/hooks/use-generation";
 import { useSession } from "@/lib/auth-client";
-import type { BannerPreset, BannerPresetConfig } from "@/lib/types/banner";
+import type { BannerPreset, BannerPresetConfig, BannerBuilderState } from "@/lib/types/banner";
+import { DEFAULT_BANNER_BUILDER_STATE } from "@/lib/types/banner";
 
 export default function BannerGeneratorPage() {
   const { data: session, isPending: sessionPending } = useSession();
@@ -55,9 +62,83 @@ export default function BannerGeneratorPage() {
     setBrandAssets,
     assembledPrompt,
     selectedBannerSize,
+    hasAnySelection,
     loadFromPreset,
     getCurrentConfig,
+    reset,
+    swapColors,
   } = useBannerBuilder();
+
+  // History state for undo/redo
+  const {
+    canUndo,
+    canRedo,
+    historyLength,
+    currentIndex,
+    pushState,
+    undo,
+    redo,
+    clearHistory,
+    getRecentHistory,
+  } = useBannerHistory(DEFAULT_BANNER_BUILDER_STATE);
+
+  // Track state changes for history
+  const handleStateChange = useCallback(
+    (newState: BannerBuilderState, action: string) => {
+      pushState(newState, action);
+    },
+    [pushState]
+  );
+
+  // Helper to convert state to preset config
+  const stateToConfig = (s: BannerBuilderState): BannerPresetConfig => {
+    const config: BannerPresetConfig = {};
+    if (s.bannerType) config.bannerType = s.bannerType;
+    if (s.bannerSize) config.bannerSize = s.bannerSize;
+    if (s.industry) config.industry = s.industry;
+    if (s.designStyle) config.designStyle = s.designStyle;
+    if (s.colorScheme) config.colorScheme = s.colorScheme;
+    if (s.mood) config.mood = s.mood;
+    if (s.seasonal) config.seasonal = s.seasonal;
+    if (s.backgroundStyle) config.backgroundStyle = s.backgroundStyle;
+    if (s.visualEffects) config.visualEffects = s.visualEffects;
+    if (s.iconGraphics) config.iconGraphics = s.iconGraphics;
+    if (s.promotionalElements) config.promotionalElements = s.promotionalElements;
+    if (s.layoutStyle) config.layoutStyle = s.layoutStyle;
+    if (s.textPlacement) config.textPlacement = s.textPlacement;
+    if (s.typographyStyle) config.typographyStyle = s.typographyStyle;
+    if (s.ctaButtonStyle) config.ctaButtonStyle = s.ctaButtonStyle;
+    if (s.textContent) config.textContent = s.textContent;
+    if (s.customPrompt) config.customPrompt = s.customPrompt;
+    return config;
+  };
+
+  // Restore state from history
+  const handleUndo = useCallback(() => {
+    const previousState = undo();
+    if (previousState) {
+      loadFromPreset(stateToConfig(previousState));
+      toast.info("Undo successful");
+    }
+  }, [undo, loadFromPreset]);
+
+  const handleRedo = useCallback(() => {
+    const nextState = redo();
+    if (nextState) {
+      loadFromPreset(stateToConfig(nextState));
+      toast.info("Redo successful");
+    }
+  }, [redo, loadFromPreset]);
+
+  // Push state to history when it changes significantly
+  useEffect(() => {
+    // This effect pushes state changes to history
+    // We use a simple debounce-like approach by checking if state has content
+    if (hasAnySelection) {
+      handleStateChange(state, "Configuration updated");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.bannerType, state.bannerSize, state.industry, state.designStyle, state.colorScheme]);
 
   // Presets state
   const {
@@ -187,6 +268,19 @@ export default function BannerGeneratorPage() {
     return null;
   }
 
+  // Handler for Quick Start template selection
+  const handleQuickStartSelect = (config: BannerPresetConfig) => {
+    loadFromPreset(config);
+    toast.success("Quick start template applied!");
+  };
+
+  // Handler for reset
+  const handleReset = () => {
+    reset();
+    clearHistory();
+    toast.success("Configuration reset!");
+  };
+
   return (
     <div className="container mx-auto py-6 px-4">
       {/* API Key Alert - Show at top if no key */}
@@ -205,6 +299,43 @@ export default function BannerGeneratorPage() {
           onRetry={handleGenerate}
         />
       )}
+
+      {/* Quick Actions Bar */}
+      <div className="flex items-center justify-between mb-4 p-3 bg-muted/30 rounded-lg">
+        <div className="flex items-center gap-2">
+          <QuickStartTemplates
+            onSelectTemplate={handleQuickStartSelect}
+            disabled={isGenerating}
+          />
+          <ResponsivePreview
+            selectedBannerSize={selectedBannerSize}
+            disabled={isGenerating}
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <HistoryControls
+            canUndo={canUndo}
+            canRedo={canRedo}
+            historyLength={historyLength}
+            currentIndex={currentIndex}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            onClearHistory={clearHistory}
+            recentHistory={getRecentHistory(10)}
+            disabled={isGenerating}
+          />
+          <div className="w-px h-6 bg-border" />
+          <QuickActions
+            currentConfig={currentConfig}
+            brandAssets={brandAssets}
+            onLoadConfig={loadFromPreset}
+            onReset={handleReset}
+            onSwapColors={swapColors}
+            hasAnySelection={hasAnySelection}
+            disabled={isGenerating}
+          />
+        </div>
+      </div>
 
       <ThreeColumnLayout
         leftPanel={
