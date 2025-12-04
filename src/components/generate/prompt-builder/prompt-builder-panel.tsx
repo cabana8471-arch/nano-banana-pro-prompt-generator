@@ -91,6 +91,7 @@ export function PromptBuilderPanel({
               value={location}
               onChange={onLocationChange}
               placeholder="Select or type location..."
+              category="location"
             />
 
             {/* Lighting */}
