@@ -593,6 +593,244 @@
         "name": "Pixel Art",
         "description": "Stil de joc retro cu pixeli"
       }
+    },
+    "location": {
+      "location-urban": {
+        "name": "Oras urban",
+        "description": "Peisaj urban modern cu cladiri si strazi"
+      },
+      "location-downtown": {
+        "name": "Centru",
+        "description": "Zona aglomerata din centru cu zgarie-nori"
+      },
+      "location-alley": {
+        "name": "Alee",
+        "description": "Alee urbana ingusta"
+      },
+      "location-rooftop": {
+        "name": "Acoperis",
+        "description": "Acoperis de cladire cu vedere spre oras"
+      },
+      "location-subway": {
+        "name": "Statie de metrou",
+        "description": "Statie de metrou subterana"
+      },
+      "location-parking-garage": {
+        "name": "Parcare etajata",
+        "description": "Structura de parcare cu mai multe nivele"
+      },
+      "location-bridge": {
+        "name": "Pod urban",
+        "description": "Pod de traversare urbana"
+      },
+      "location-forest": {
+        "name": "Padure",
+        "description": "Padure deasa cu copaci si elemente naturale"
+      },
+      "location-enchanted-forest": {
+        "name": "Padure fermecata",
+        "description": "Padure magica si mistica"
+      },
+      "location-bamboo-forest": {
+        "name": "Padure de bambus",
+        "description": "Cranga de bambus inalt"
+      },
+      "location-autumn-forest": {
+        "name": "Padure de toamna",
+        "description": "Padure cu frunzis de toamna"
+      },
+      "location-pine-forest": {
+        "name": "Padure de pini",
+        "description": "Padure de conifere"
+      },
+      "location-beach": {
+        "name": "Plaja",
+        "description": "Scena costiera cu nisip si ocean"
+      },
+      "location-tropical-beach": {
+        "name": "Plaja tropicala",
+        "description": "Tarm tropical paradisiac"
+      },
+      "location-rocky-coast": {
+        "name": "Coasta stancoasa",
+        "description": "Tarm stancos dramatic"
+      },
+      "location-lake": {
+        "name": "Lac",
+        "description": "Decor senin pe malul lacului"
+      },
+      "location-waterfall": {
+        "name": "Cascada",
+        "description": "Scena cu cascada in cadere"
+      },
+      "location-river": {
+        "name": "Rau",
+        "description": "Decor cu rau curgator"
+      },
+      "location-underwater": {
+        "name": "Subacvatic",
+        "description": "Sub suprafata apei"
+      },
+      "location-mountains": {
+        "name": "Munti",
+        "description": "Peisaj montan maiestuos"
+      },
+      "location-snowy-peaks": {
+        "name": "Varfuri inzapezite",
+        "description": "Varfuri de munte acoperite de zapada"
+      },
+      "location-desert": {
+        "name": "Desert",
+        "description": "Peisaj de desert nisipos"
+      },
+      "location-canyon": {
+        "name": "Canion",
+        "description": "Canion adanc cu pereti de stanca"
+      },
+      "location-meadow": {
+        "name": "Pajiste",
+        "description": "Camp deschis cu iarba"
+      },
+      "location-hilltop": {
+        "name": "Varf de deal",
+        "description": "Vedere de pe deal inalt"
+      },
+      "location-cave": {
+        "name": "Pestera",
+        "description": "Caverna subterana"
+      },
+      "location-glacier": {
+        "name": "Ghetar",
+        "description": "Peisaj glaciar cu gheata"
+      },
+      "location-volcano": {
+        "name": "Vulcan",
+        "description": "Peisaj vulcanic"
+      },
+      "location-living-room": {
+        "name": "Sufragerie",
+        "description": "Spatiu de locuit in casa"
+      },
+      "location-bedroom": {
+        "name": "Dormitor",
+        "description": "Spatiu personal de dormit"
+      },
+      "location-kitchen": {
+        "name": "Bucatarie",
+        "description": "Zona de bucatarie din casa"
+      },
+      "location-bathroom": {
+        "name": "Baie",
+        "description": "Interior de baie"
+      },
+      "location-home-office": {
+        "name": "Birou de acasa",
+        "description": "Spatiu de lucru rezidential"
+      },
+      "location-cafe": {
+        "name": "Cafenea",
+        "description": "Interior de cafenea confortabila"
+      },
+      "location-restaurant": {
+        "name": "Restaurant",
+        "description": "Interior de restaurant"
+      },
+      "location-bar": {
+        "name": "Bar",
+        "description": "Interior de bar sau pub"
+      },
+      "location-nightclub": {
+        "name": "Club de noapte",
+        "description": "Interior de club de dans"
+      },
+      "location-hotel-lobby": {
+        "name": "Hol de hotel",
+        "description": "Intrare grandioasa de hotel"
+      },
+      "location-office": {
+        "name": "Birou modern",
+        "description": "Spatiu de birou corporativ"
+      },
+      "location-library": {
+        "name": "Biblioteca",
+        "description": "Camera plina cu carti"
+      },
+      "location-gym": {
+        "name": "Sala de fitness",
+        "description": "Interior de centru de fitness"
+      },
+      "location-studio": {
+        "name": "Fundal de studio",
+        "description": "Fundal curat de studio pentru portrete focalizate"
+      },
+      "location-photo-studio": {
+        "name": "Studio foto",
+        "description": "Studio foto profesional"
+      },
+      "location-art-gallery": {
+        "name": "Galerie de arta",
+        "description": "Spatiu de muzeu sau galerie"
+      },
+      "location-theater": {
+        "name": "Teatru",
+        "description": "Interior de sala de spectacole"
+      },
+      "location-warehouse": {
+        "name": "Depozit",
+        "description": "Spatiu industrial de depozit"
+      },
+      "location-abandoned-building": {
+        "name": "Cladire abandonata",
+        "description": "Interior de structura darapanata"
+      },
+      "location-futuristic": {
+        "name": "Oras futurist",
+        "description": "Mediu sci-fi cu tehnologie avansata"
+      },
+      "location-space-station": {
+        "name": "Statie spatiala",
+        "description": "Habitat spatial orbital"
+      },
+      "location-alien-planet": {
+        "name": "Planeta extraterestra",
+        "description": "Lume extraterestra"
+      },
+      "location-medieval-castle": {
+        "name": "Castel medieval",
+        "description": "Interior de castel fantasy"
+      },
+      "location-throne-room": {
+        "name": "Sala tronului",
+        "description": "Camera regala a tronului"
+      },
+      "location-magic-realm": {
+        "name": "Taramul magic",
+        "description": "Lume magica mistica"
+      },
+      "location-cyberpunk-city": {
+        "name": "Oras cyberpunk",
+        "description": "Metropola distopica luminata de neoane"
+      },
+      "location-abstract": {
+        "name": "Abstract",
+        "description": "Fundal non-reprezentational, artistic"
+      },
+      "location-void": {
+        "name": "Spatiu gol",
+        "description": "Spatiu infinit gol"
+      },
+      "location-gradient": {
+        "name": "Fundal gradient",
+        "description": "Fundal cu tranzitie lina de culori"
+      },
+      "location-bokeh": {
+        "name": "Fundal bokeh",
+        "description": "Cercuri de lumina estompate"
+      },
+      "location-dreamscape": {
+        "name": "Peisaj de vis",
+        "description": "Mediu suprarealist de vis"
+      }
     }
   }
 }
