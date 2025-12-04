@@ -959,6 +959,136 @@
         "name": "Lumina subacvatica",
         "description": "Iluminare acvatica filtrata albastru-verde"
       }
+    },
+    "camera": {
+      "camera-closeup": {
+        "name": "Prim-plan",
+        "description": "Incadrare stransa focalizata pe detalii"
+      },
+      "camera-extreme-closeup": {
+        "name": "Prim-plan extrem",
+        "description": "Incadrare foarte stransa pe o trasatura specifica"
+      },
+      "camera-medium-shot": {
+        "name": "Plan mediu",
+        "description": "Incadrare de la talie in sus aratand limbajul corpului"
+      },
+      "camera-medium-closeup": {
+        "name": "Plan mediu apropiat",
+        "description": "Incadrare cap si umeri"
+      },
+      "camera-wide": {
+        "name": "Plan larg",
+        "description": "Vedere completa a scenei aratand mediul si contextul"
+      },
+      "camera-extreme-wide": {
+        "name": "Plan foarte larg",
+        "description": "Cadru vast de stabilire aratand intregul mediu"
+      },
+      "camera-full-body": {
+        "name": "Plan intreg",
+        "description": "Figura completa de la cap la picioare"
+      },
+      "camera-low-angle": {
+        "name": "Unghi jos",
+        "description": "Cadru de jos in sus, facand subiectul sa para puternic"
+      },
+      "camera-high-angle": {
+        "name": "Unghi inalt",
+        "description": "Cadru de sus in jos"
+      },
+      "camera-birds-eye": {
+        "name": "Vedere de pasare",
+        "description": "Vedere de sus privind direct in jos"
+      },
+      "camera-worms-eye": {
+        "name": "Vedere de vierme",
+        "description": "Unghi extrem de jos de la nivelul solului"
+      },
+      "camera-dutch": {
+        "name": "Unghi olandez",
+        "description": "Camera inclinata creand un sentiment dinamic, nelinistitoare"
+      },
+      "camera-eye-level": {
+        "name": "Nivelul ochilor",
+        "description": "Unghi neutru la nivelul ochilor subiectului"
+      },
+      "camera-portrait": {
+        "name": "Portret",
+        "description": "Incadrare clasica de portret cu adancime de camp mica"
+      },
+      "camera-headshot": {
+        "name": "Portret bust",
+        "description": "Portret profesional cap si umeri"
+      },
+      "camera-three-quarter": {
+        "name": "Vedere trei sferturi",
+        "description": "Fata intoarsa usor de la camera"
+      },
+      "camera-profile": {
+        "name": "Profil",
+        "description": "Vedere laterala a subiectului"
+      },
+      "camera-macro": {
+        "name": "Macro",
+        "description": "Prim-plan extrem dezvaluind detalii minuscule"
+      },
+      "camera-over-shoulder": {
+        "name": "Peste umar",
+        "description": "Cadru din spatele umarului subiectului"
+      },
+      "camera-pov": {
+        "name": "Punct de vedere",
+        "description": "Perspectiva la persoana intai ca prin ochii subiectului"
+      },
+      "camera-tilt-shift": {
+        "name": "Tilt-Shift",
+        "description": "Efect de miniatura cu focus selectiv"
+      },
+      "camera-fisheye": {
+        "name": "Ochi de peste",
+        "description": "Unghi ultra-larg cu distorsiune curbata"
+      },
+      "camera-telephoto": {
+        "name": "Compresie telefoto",
+        "description": "Perspectiva comprimata de la obiectiv lung"
+      },
+      "camera-rule-thirds": {
+        "name": "Regula treimilor",
+        "description": "Subiect plasat la punctele de intersectie"
+      },
+      "camera-centered": {
+        "name": "Compozitie centrata",
+        "description": "Subiect plasat direct in centru"
+      },
+      "camera-symmetrical": {
+        "name": "Simetric",
+        "description": "Simetrie perfecta in compozitie"
+      },
+      "camera-leading-lines": {
+        "name": "Linii directoare",
+        "description": "Linii care ghideaza privirea spre subiect"
+      },
+      "camera-framing": {
+        "name": "Incadrare naturala",
+        "description": "Subiect incadrat de elemente din mediu"
+      },
+      "camera-negative-space": {
+        "name": "Spatiu negativ",
+        "description": "Mult spatiu gol in jurul subiectului"
+      },
+      "camera-shallow-dof": {
+        "name": "Adancime de camp mica",
+        "description": "Fundal estompat cu subiect clar"
+      },
+      "camera-deep-focus": {
+        "name": "Focus adanc",
+        "description": "Totul in focus clar"
+      },
+      "camera-split-diopter": {
+        "name": "Dioptrie separata",
+        "description": "Atat prim-planul cat si fundalul in focus"
+      }
     }
   }
 }

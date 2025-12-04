@@ -111,6 +111,7 @@ export function PromptBuilderPanel({
               value={camera}
               onChange={onCameraChange}
               placeholder={t("cameraPlaceholder")}
+              category="camera"
             />
           </div>
 
