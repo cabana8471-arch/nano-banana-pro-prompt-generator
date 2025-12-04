@@ -176,6 +176,26 @@
     "searchTemplates": "Cauta sabloane...",
     "noTemplatesFound": "Nu s-au gasit sabloane"
   },
+  "templateSelector": {
+    "selectStyle": "Selecteaza stilul",
+    "selectLocation": "Selecteaza locatia",
+    "selectLighting": "Selecteaza iluminarea",
+    "selectCamera": "Selecteaza camera / compozitia",
+    "searchOptions": "Cauta in {count} optiuni...",
+    "customValue": "Valoare personalizata",
+    "customPlaceholder": "Scrie propria valoare personalizata...",
+    "useCustom": "Foloseste personalizat",
+    "update": "Actualizeaza",
+    "currentlyUsing": "Se foloseste valoarea personalizata: \"{value}\"",
+    "resultsCount": "{count} rezultate",
+    "presetsAvailable": "{count} preseturi disponibile",
+    "noTemplatesFor": "Nu s-au gasit sabloane pentru \"{search}\"",
+    "clearSearch": "Sterge cautarea",
+    "selected": "Selectat: {name}",
+    "custom": "Personalizat: {value}",
+    "noSelection": "Nicio selectie",
+    "customLabel": "Personalizat: {value}"
+  },
   "promptBuilder": {
     "title": "Constructor de prompturi",
     "sceneSettings": "Setari scena",
@@ -188,7 +208,10 @@
     "subjects": "Subiecte",
     "addSubject": "Adauga subiect",
     "addFirstSubject": "Adauga primul subiect",
-    "noSubjects": "Niciun subiect adaugat inca"
+    "noSubjects": "Niciun subiect adaugat inca",
+    "builderTab": "Constructor",
+    "previewTab": "Previzualizare",
+    "resultsTab": "Rezultate"
   },
   "presets": {
     "loadPreset": "Incarca preset",

@@ -2,6 +2,7 @@
 
 import { ReactNode, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,7 @@ export function ThreeColumnLayout({
 }: ThreeColumnLayoutProps) {
   const [leftCollapsed, setLeftCollapsed] = useState(false);
   const [rightCollapsed, setRightCollapsed] = useState(false);
+  const t = useTranslations("promptBuilder");
 
   return (
     <>
@@ -28,9 +30,9 @@ export function ThreeColumnLayout({
       <div className={cn("lg:hidden", className)}>
         <Tabs defaultValue="builder" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-4">
-            <TabsTrigger value="builder">Builder</TabsTrigger>
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="results">Results</TabsTrigger>
+            <TabsTrigger value="builder">{t("builderTab")}</TabsTrigger>
+            <TabsTrigger value="preview">{t("previewTab")}</TabsTrigger>
+            <TabsTrigger value="results">{t("resultsTab")}</TabsTrigger>
           </TabsList>
           <TabsContent value="builder" className="mt-0">
             <div className="rounded-lg border bg-card min-h-[calc(100vh-12rem)] overflow-y-auto">
@@ -92,7 +94,7 @@ export function ThreeColumnLayout({
             title="Expand prompt builder"
           >
             <ChevronRight className="h-4 w-4" />
-            <span className="text-xs writing-mode-vertical">Builder</span>
+            <span className="text-xs writing-mode-vertical">{t("builderTab")}</span>
           </Button>
         )}
 
@@ -131,7 +133,7 @@ export function ThreeColumnLayout({
             title="Expand results"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="text-xs writing-mode-vertical">Results</span>
+            <span className="text-xs writing-mode-vertical">{t("resultsTab")}</span>
           </Button>
         )}
       </div>

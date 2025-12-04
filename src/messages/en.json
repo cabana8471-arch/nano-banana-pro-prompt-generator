@@ -176,6 +176,26 @@
     "searchTemplates": "Search templates...",
     "noTemplatesFound": "No templates found"
   },
+  "templateSelector": {
+    "selectStyle": "Select Style",
+    "selectLocation": "Select Location",
+    "selectLighting": "Select Lighting",
+    "selectCamera": "Select Camera / Composition",
+    "searchOptions": "Search {count} options...",
+    "customValue": "Custom Value",
+    "customPlaceholder": "Type your own custom value...",
+    "useCustom": "Use Custom",
+    "update": "Update",
+    "currentlyUsing": "Currently using custom value: \"{value}\"",
+    "resultsCount": "{count} results",
+    "presetsAvailable": "{count} presets available",
+    "noTemplatesFor": "No templates found for \"{search}\"",
+    "clearSearch": "Clear search",
+    "selected": "Selected: {name}",
+    "custom": "Custom: {value}",
+    "noSelection": "No selection",
+    "customLabel": "Custom: {value}"
+  },
   "promptBuilder": {
     "title": "Prompt Builder",
     "sceneSettings": "Scene Settings",
@@ -188,7 +208,10 @@
     "subjects": "Subjects",
     "addSubject": "Add Subject",
     "addFirstSubject": "Add Your First Subject",
-    "noSubjects": "No subjects added yet"
+    "noSubjects": "No subjects added yet",
+    "builderTab": "Builder",
+    "previewTab": "Preview",
+    "resultsTab": "Results"
   },
   "presets": {
     "loadPreset": "Load Preset",

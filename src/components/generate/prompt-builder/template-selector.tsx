@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronRight, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import type { Template } from "@/lib/types/generation";
@@ -24,6 +25,7 @@ export function TemplateSelector({
   placeholder = "Select an option...",
   allowCustom = true,
 }: TemplateSelectorProps) {
+  const t = useTranslations("templateSelector");
   const [open, setOpen] = useState(false);
 
   // Find the selected template
@@ -42,6 +44,21 @@ export function TemplateSelector({
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
     onChange("");
+  };
+
+  // Map label to translation key for modal title
+  const getModalTitle = (label: string) => {
+    const labelMap: Record<string, string> = {
+      "Style": t("selectStyle"),
+      "Stil": t("selectStyle"),
+      "Location": t("selectLocation"),
+      "Locatie": t("selectLocation"),
+      "Lighting": t("selectLighting"),
+      "Iluminare": t("selectLighting"),
+      "Camera / Composition": t("selectCamera"),
+      "Camera / Compozitie": t("selectCamera"),
+    };
+    return labelMap[label] || label;
   };
 
   return (
@@ -70,13 +87,13 @@ export function TemplateSelector({
         )}
       </div>
       {isCustomValue && (
-        <p className="text-xs text-muted-foreground">Custom: {value}</p>
+        <p className="text-xs text-muted-foreground">{t("customLabel", { value })}</p>
       )}
 
       <TemplateSelectorModal
         open={open}
         onOpenChange={setOpen}
-        title={`Select ${label}`}
+        title={getModalTitle(label)}
         templates={templates}
         selectedId={selectedTemplate?.id}
         onSelect={handleSelect}

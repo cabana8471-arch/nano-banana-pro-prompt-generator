@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Check, Search, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -36,6 +37,8 @@ export function TemplateSelectorModal({
   customValue = "",
   onCustomChange,
 }: TemplateSelectorModalProps) {
+  const t = useTranslations("templateSelector");
+  const tCommon = useTranslations("common");
   const [search, setSearch] = useState("");
   const [localCustomValue, setLocalCustomValue] = useState(customValue);
 
@@ -78,7 +81,7 @@ export function TemplateSelectorModal({
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={`Search ${templates.length} options...`}
+              placeholder={t("searchOptions", { count: templates.length })}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9 bg-background"
@@ -104,11 +107,11 @@ export function TemplateSelectorModal({
             {allowCustom && (
               <div className="mb-6">
                 <h3 className="text-sm font-medium text-muted-foreground mb-3">
-                  Custom Value
+                  {t("customValue")}
                 </h3>
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Type your own custom value..."
+                    placeholder={t("customPlaceholder")}
                     value={localCustomValue}
                     onChange={(e) => setLocalCustomValue(e.target.value)}
                     className="flex-1"
@@ -123,12 +126,12 @@ export function TemplateSelectorModal({
                     disabled={!localCustomValue.trim()}
                     variant={isCustomSelected ? "default" : "secondary"}
                   >
-                    {isCustomSelected ? "Update" : "Use Custom"}
+                    {isCustomSelected ? t("update") : t("useCustom")}
                   </Button>
                 </div>
                 {isCustomSelected && (
                   <p className="text-xs text-muted-foreground mt-2">
-                    Currently using custom value: &quot;{customValue}&quot;
+                    {t("currentlyUsing", { value: customValue })}
                   </p>
                 )}
               </div>
@@ -138,22 +141,22 @@ export function TemplateSelectorModal({
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-medium text-muted-foreground">
                 {search
-                  ? `${groupedTemplates.length} results`
-                  : `${templates.length} presets available`}
+                  ? t("resultsCount", { count: groupedTemplates.length })
+                  : t("presetsAvailable", { count: templates.length })}
               </h3>
             </div>
 
             {groupedTemplates.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="text-muted-foreground mb-2">
-                  No templates found for &quot;{search}&quot;
+                  {t("noTemplatesFor", { search })}
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setSearch("")}
                 >
-                  Clear search
+                  {t("clearSearch")}
                 </Button>
               </div>
             ) : (
@@ -216,14 +219,14 @@ export function TemplateSelectorModal({
         <div className="flex items-center justify-between px-6 py-4 border-t bg-muted/30 shrink-0">
           <div className="text-sm text-muted-foreground">
             {selectedId
-              ? `Selected: ${templates.find((t) => t.id === selectedId)?.name || "Custom"}`
+              ? t("selected", { name: templates.find((tmpl) => tmpl.id === selectedId)?.name || "Custom" })
               : customValue
-                ? `Custom: ${customValue}`
-                : "No selection"}
+                ? t("custom", { value: customValue })
+                : t("noSelection")}
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              {tCommon("cancel")}
             </Button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -54,10 +55,12 @@ export function PromptBuilderPanel({
   onUpdateSubject,
   onLinkAvatarToSubject,
 }: PromptBuilderPanelProps) {
+  const t = useTranslations("promptBuilder");
+
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
-        <h2 className="font-semibold text-lg">Prompt Builder</h2>
+        <h2 className="font-semibold text-lg">{t("title")}</h2>
         <p className="text-sm text-muted-foreground">
           Build your image prompt step by step
         </p>
@@ -68,12 +71,12 @@ export function PromptBuilderPanel({
           {/* Scene Settings */}
           <div className="space-y-4">
             <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
-              Scene Settings
+              {t("sceneSettings")}
             </h3>
 
             {/* Style */}
             <TemplateSelector
-              label="Style"
+              label={t("style")}
               templates={styleTemplates}
               value={style}
               onChange={onStyleChange}
@@ -82,7 +85,7 @@ export function PromptBuilderPanel({
 
             {/* Location */}
             <TemplateSelector
-              label="Location"
+              label={t("location")}
               templates={locationTemplates}
               value={location}
               onChange={onLocationChange}
@@ -91,7 +94,7 @@ export function PromptBuilderPanel({
 
             {/* Lighting */}
             <TemplateSelector
-              label="Lighting"
+              label={t("lighting")}
               templates={lightingTemplates}
               value={lighting}
               onChange={onLightingChange}
@@ -100,7 +103,7 @@ export function PromptBuilderPanel({
 
             {/* Camera */}
             <TemplateSelector
-              label="Camera / Composition"
+              label={t("camera")}
               templates={cameraTemplates}
               value={camera}
               onChange={onCameraChange}
@@ -124,7 +127,7 @@ export function PromptBuilderPanel({
           {/* Custom Prompt */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">
-              Additional Instructions (optional)
+              {t("additionalInstructions")}
             </Label>
             <Textarea
               value={customPrompt}
@@ -133,7 +136,7 @@ export function PromptBuilderPanel({
               rows={4}
             />
             <p className="text-xs text-muted-foreground">
-              This will be appended to the generated prompt
+              {t("additionalHint")}
             </p>
           </div>
         </div>
