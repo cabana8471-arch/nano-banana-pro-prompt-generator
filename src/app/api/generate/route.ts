@@ -164,51 +164,84 @@ export async function POST(request: Request) {
       );
     }
 
-    // Save generated images to storage and database
-    const savedImages = [];
+    // Upload images to storage (external operation - cannot be rolled back)
+    // We do this before the transaction so we have the URLs ready
+    const uploadedImages: { url: string; index: number }[] = [];
     for (let i = 0; i < result.images.length; i++) {
       const img = result.images[i];
       if (!img) continue;
 
-      // Convert base64 to buffer
       const buffer = Buffer.from(img.base64, "base64");
       const extension = img.mimeType.split("/")[1] || "png";
       const timestamp = Date.now();
       const filename = `gen-${generation.id}-${i}-${timestamp}.${extension}`;
 
-      // Upload to storage
-      const uploadResult = await upload(buffer, filename, "generations");
+      try {
+        const uploadResult = await upload(buffer, filename, "generations");
+        uploadedImages.push({ url: uploadResult.url, index: i });
+      } catch (uploadError) {
+        // If upload fails, mark generation as failed and return
+        await db
+          .update(generations)
+          .set({
+            status: "failed",
+            errorMessage: "Failed to upload generated image",
+          })
+          .where(eq(generations.id, generation.id));
 
-      // Save to database
-      const [savedImage] = await db
-        .insert(generatedImages)
-        .values({
-          generationId: generation.id,
-          imageUrl: uploadResult.url,
-          isPublic: false,
-        })
-        .returning();
-
-      if (savedImage) {
-        savedImages.push(savedImage);
+        console.error("Image upload failed:", uploadError);
+        return NextResponse.json(
+          {
+            error: "Failed to upload generated image",
+            generation: {
+              id: generation.id,
+              status: "failed",
+              errorMessage: "Failed to upload generated image",
+            },
+          },
+          { status: 500 }
+        );
       }
     }
 
-    // Store the assistant response in history
-    await db.insert(generationHistory).values({
-      generationId: generation.id,
-      role: "assistant",
-      content: result.text || "Generated images successfully",
-      imageUrls: savedImages.map((img) => img.imageUrl),
+    // Use a transaction for all database completion operations
+    // This ensures consistency: either all DB operations succeed or none do
+    const savedImages = await db.transaction(async (tx) => {
+      // Save generated images to database
+      const images = [];
+      for (const uploaded of uploadedImages) {
+        const [savedImage] = await tx
+          .insert(generatedImages)
+          .values({
+            generationId: generation.id,
+            imageUrl: uploaded.url,
+            isPublic: false,
+          })
+          .returning();
+
+        if (savedImage) {
+          images.push(savedImage);
+        }
+      }
+
+      // Store the assistant response in history
+      await tx.insert(generationHistory).values({
+        generationId: generation.id,
+        role: "assistant",
+        content: result.text || "Generated images successfully",
+        imageUrls: images.map((img) => img.imageUrl),
+      });
+
+      // Update generation status to completed
+      await tx
+        .update(generations)
+        .set({ status: "completed" })
+        .where(eq(generations.id, generation.id));
+
+      return images;
     });
 
-    // Update generation status to completed
-    await db
-      .update(generations)
-      .set({ status: "completed" })
-      .where(eq(generations.id, generation.id));
-
-    // Fetch the updated generation with images
+    // Fetch the updated generation
     const [updatedGeneration] = await db
       .select()
       .from(generations)
