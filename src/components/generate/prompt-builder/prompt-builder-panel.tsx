@@ -81,6 +81,7 @@ export function PromptBuilderPanel({
               value={style}
               onChange={onStyleChange}
               placeholder="Select or type style..."
+              category="style"
             />
 
             {/* Location */}

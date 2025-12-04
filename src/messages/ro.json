@@ -358,5 +358,241 @@
   "metadata": {
     "title": "Nano Banana Pro - Generare imagini AI",
     "description": "Creeaza imagini AI uimitoare folosind Gemini. Construieste cu prompturi personalizabile, avatare reutilizabile si capabilitati puternice de transformare imagine-in-imagine."
+  },
+  "templates": {
+    "style": {
+      "style-photorealistic": {
+        "name": "Fotorealist",
+        "description": "Calitate hiper-realista, asemanatoare fotografiei"
+      },
+      "style-hyperrealistic": {
+        "name": "Hiperrealist",
+        "description": "Dincolo de foto-real cu detalii imbunatatite"
+      },
+      "style-raw-photo": {
+        "name": "Fotografie Raw",
+        "description": "Aspect foto neprelucrat, natural"
+      },
+      "style-film-photography": {
+        "name": "Fotografie pe Film",
+        "description": "Estetica filmului analog cu granulatie"
+      },
+      "style-3d-animation": {
+        "name": "Animatie 3D",
+        "description": "Stil de film animat 3D modern, gen Pixar"
+      },
+      "style-3d-render": {
+        "name": "Randare 3D",
+        "description": "Aspect CGI curat, randat"
+      },
+      "style-unreal-engine": {
+        "name": "Unreal Engine",
+        "description": "Calitate cinematica de motor de joc"
+      },
+      "style-octane-render": {
+        "name": "Octane Render",
+        "description": "Estetica de randare GPU de inalta calitate"
+      },
+      "style-claymation": {
+        "name": "Claymation",
+        "description": "Stil de animatie stop-motion cu lut"
+      },
+      "style-digital-art": {
+        "name": "Arta Digitala",
+        "description": "Stil modern de ilustratie digitala"
+      },
+      "style-concept-art": {
+        "name": "Concept Art",
+        "description": "Concept art profesional pentru jocuri/filme"
+      },
+      "style-matte-painting": {
+        "name": "Matte Painting",
+        "description": "Stil de pictura cinematica pentru fundal"
+      },
+      "style-vector": {
+        "name": "Arta Vectoriala",
+        "description": "Ilustratie vectoriala curata, scalabila"
+      },
+      "style-flat-design": {
+        "name": "Design Plat",
+        "description": "Stil de ilustratie plata, minimalista"
+      },
+      "style-isometric": {
+        "name": "Izometric",
+        "description": "Stil de ilustratie 3D izometrica"
+      },
+      "style-oil-painting": {
+        "name": "Pictura in Ulei",
+        "description": "Pictura clasica in ulei cu texturi bogate"
+      },
+      "style-watercolor": {
+        "name": "Acuarela",
+        "description": "Estetica de pictura in acuarela moale, fluida"
+      },
+      "style-acrylic": {
+        "name": "Pictura in Acrilic",
+        "description": "Textura de vopsea acrilica indrazneata"
+      },
+      "style-gouache": {
+        "name": "Guasa",
+        "description": "Stil de acuarela opaca, mata"
+      },
+      "style-pencil-sketch": {
+        "name": "Schita in Creion",
+        "description": "Ilustratie in creion desenata manual"
+      },
+      "style-charcoal": {
+        "name": "Desen in Carbune",
+        "description": "Stil de schita expresiva in carbune"
+      },
+      "style-ink-wash": {
+        "name": "Laviu cu Cerneala",
+        "description": "Stil traditional de pictura cu cerneala diluata"
+      },
+      "style-pastel": {
+        "name": "Arta in Pastel",
+        "description": "Arta in creta pastel moale"
+      },
+      "style-anime": {
+        "name": "Anime",
+        "description": "Stil de animatie japoneza cu trasaturi expresive"
+      },
+      "style-manga": {
+        "name": "Manga",
+        "description": "Stil de benzi desenate japoneze alb-negru"
+      },
+      "style-studio-ghibli": {
+        "name": "Studio Ghibli",
+        "description": "Stil de animatie Ghibli fantastic"
+      },
+      "style-cartoon": {
+        "name": "Desen Animat",
+        "description": "Stil de animatie de tip desen animat occidental"
+      },
+      "style-disney": {
+        "name": "Disney Clasic",
+        "description": "Estetica de animatie Disney clasica"
+      },
+      "style-comic-book": {
+        "name": "Banda Desenata",
+        "description": "Ilustratie de banda desenata occidentala"
+      },
+      "style-graphic-novel": {
+        "name": "Roman Grafic",
+        "description": "Ilustratie de roman grafic matur"
+      },
+      "style-vintage": {
+        "name": "Vintage",
+        "description": "Estetica retro, nostalgica cu tonuri invechite"
+      },
+      "style-film-noir": {
+        "name": "Film Noir",
+        "description": "Alb-negru clasic cu contrast ridicat"
+      },
+      "style-retro-80s": {
+        "name": "Retro Anii 80",
+        "description": "Estetica nostalgica a anilor 1980"
+      },
+      "style-retro-70s": {
+        "name": "Retro Anii 70",
+        "description": "Estetica groovy a anilor 1970"
+      },
+      "style-art-deco": {
+        "name": "Art Deco",
+        "description": "Stil geometric Art Deco al anilor 1920"
+      },
+      "style-art-nouveau": {
+        "name": "Art Nouveau",
+        "description": "Stil Art Nouveau organic, cu linii curgatoare"
+      },
+      "style-victorian": {
+        "name": "Victorian",
+        "description": "Estetica ornata din era victoriana"
+      },
+      "style-pop-art": {
+        "name": "Pop Art",
+        "description": "Culori indraznete si stil grafic inspirat de Warhol"
+      },
+      "style-surrealism": {
+        "name": "Suprarealism",
+        "description": "Imagerie suprealista ca din vis"
+      },
+      "style-impressionism": {
+        "name": "Impresionism",
+        "description": "Pensulatii moi care capteaza lumina"
+      },
+      "style-expressionism": {
+        "name": "Expresionism",
+        "description": "Expresie artistica emotionala, distorsionata"
+      },
+      "style-cubism": {
+        "name": "Cubism",
+        "description": "Stil geometric fragmentat inspirat de Picasso"
+      },
+      "style-minimalist": {
+        "name": "Minimalist",
+        "description": "Estetica curata, simpla cu elemente limitate"
+      },
+      "style-abstract": {
+        "name": "Abstract",
+        "description": "Arta abstracta non-reprezentationala"
+      },
+      "style-cyberpunk": {
+        "name": "Cyberpunk",
+        "description": "Estetica futurista, distopica cu lumini neon"
+      },
+      "style-steampunk": {
+        "name": "Steampunk",
+        "description": "Estetica mecanica din era victoriana"
+      },
+      "style-fantasy": {
+        "name": "Arta Fantasy",
+        "description": "Stil de ilustratie fantasy epic"
+      },
+      "style-sci-fi": {
+        "name": "Sci-Fi",
+        "description": "Estetica futurista science fiction"
+      },
+      "style-horror": {
+        "name": "Horror",
+        "description": "Estetica horror intunecata, nelinistitoare"
+      },
+      "style-gothic": {
+        "name": "Gotic",
+        "description": "Estetica gotica romantica intunecata"
+      },
+      "style-vaporwave": {
+        "name": "Vaporwave",
+        "description": "Estetica nostalgica de internet"
+      },
+      "style-dark-fantasy": {
+        "name": "Fantasy Intunecat",
+        "description": "Lume fantasy intunecata si sumbra"
+      },
+      "style-double-exposure": {
+        "name": "Expunere Dubla",
+        "description": "Imagini multiple suprapuse"
+      },
+      "style-glitch-art": {
+        "name": "Glitch Art",
+        "description": "Estetica de glitch digital"
+      },
+      "style-holographic": {
+        "name": "Holografic",
+        "description": "Efect holografic iridescent"
+      },
+      "style-neon-noir": {
+        "name": "Neon Noir",
+        "description": "Noir intunecat cu accente neon"
+      },
+      "style-low-poly": {
+        "name": "Low Poly",
+        "description": "Stil 3D geometric cu poligoane reduse"
+      },
+      "style-pixel-art": {
+        "name": "Pixel Art",
+        "description": "Stil de joc retro cu pixeli"
+      }
+    }
   }
 }

@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import type { Template } from "@/lib/types/generation";
 import { cn } from "@/lib/utils";
 
+type TemplateCategory = "style" | "lighting" | "camera" | "location" | "pose" | "action" | "clothing" | "expression";
+
 interface TemplateSelectorModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -24,6 +26,7 @@ interface TemplateSelectorModalProps {
   allowCustom?: boolean;
   customValue?: string;
   onCustomChange?: (value: string) => void;
+  category?: TemplateCategory | undefined;
 }
 
 export function TemplateSelectorModal({
@@ -36,22 +39,55 @@ export function TemplateSelectorModal({
   allowCustom = true,
   customValue = "",
   onCustomChange,
+  category,
 }: TemplateSelectorModalProps) {
   const t = useTranslations("templateSelector");
   const tCommon = useTranslations("common");
+  const tTemplates = useTranslations("templates");
   const [search, setSearch] = useState("");
   const [localCustomValue, setLocalCustomValue] = useState(customValue);
 
+  // Helper function to get translated template name and description
+  const getTranslatedTemplate = (template: Template) => {
+    if (category) {
+      try {
+        const translatedName = tTemplates(`${category}.${template.id}.name`);
+        const translatedDescription = tTemplates(`${category}.${template.id}.description`);
+        // Check if translation exists (next-intl returns the key if not found)
+        if (translatedName !== `${category}.${template.id}.name`) {
+          return {
+            name: translatedName,
+            description: translatedDescription !== `${category}.${template.id}.description`
+              ? translatedDescription
+              : template.description,
+          };
+        }
+      } catch {
+        // Translation not found, use default
+      }
+    }
+    return {
+      name: template.name,
+      description: template.description,
+    };
+  };
+
   // Group templates by their category prefix (e.g., "Natural Lighting", "Studio Lighting")
   const groupedTemplates = useMemo(() => {
-    const filtered = templates.filter(
-      (t) =>
-        t.name.toLowerCase().includes(search.toLowerCase()) ||
-        t.description.toLowerCase().includes(search.toLowerCase()) ||
-        t.promptFragment.toLowerCase().includes(search.toLowerCase())
-    );
+    const searchLower = search.toLowerCase();
+    const filtered = templates.filter((template) => {
+      const translated = getTranslatedTemplate(template);
+      return (
+        template.name.toLowerCase().includes(searchLower) ||
+        template.description.toLowerCase().includes(searchLower) ||
+        template.promptFragment.toLowerCase().includes(searchLower) ||
+        translated.name.toLowerCase().includes(searchLower) ||
+        translated.description.toLowerCase().includes(searchLower)
+      );
+    });
     return filtered;
-  }, [templates, search]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templates, search, category]);
 
   const handleSelect = (template: Template) => {
     onSelect(template);
@@ -163,6 +199,7 @@ export function TemplateSelectorModal({
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {groupedTemplates.map((template) => {
                   const isSelected = selectedId === template.id;
+                  const translated = getTranslatedTemplate(template);
                   return (
                     <button
                       key={template.id}
@@ -198,10 +235,10 @@ export function TemplateSelectorModal({
                               : "text-foreground group-hover:text-primary"
                           )}
                         >
-                          {template.name}
+                          {translated.name}
                         </h4>
                         <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
-                          {template.description}
+                          {translated.description}
                         </p>
                         <div className="text-[10px] text-muted-foreground/70 line-clamp-1 font-mono bg-muted/50 rounded px-2 py-1">
                           {template.promptFragment}
@@ -219,7 +256,15 @@ export function TemplateSelectorModal({
         <div className="flex items-center justify-between px-6 py-4 border-t bg-muted/30 shrink-0">
           <div className="text-sm text-muted-foreground">
             {selectedId
-              ? t("selected", { name: templates.find((tmpl) => tmpl.id === selectedId)?.name || "Custom" })
+              ? t("selected", {
+                  name: (() => {
+                    const selectedTemplate = templates.find((tmpl) => tmpl.id === selectedId);
+                    if (selectedTemplate) {
+                      return getTranslatedTemplate(selectedTemplate).name;
+                    }
+                    return "Custom";
+                  })()
+                })
               : customValue
                 ? t("custom", { value: customValue })
                 : t("noSelection")}

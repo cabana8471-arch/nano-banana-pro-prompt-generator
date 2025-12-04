@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import type { Template } from "@/lib/types/generation";
 import { TemplateSelectorModal } from "./template-selector-modal";
 
+type TemplateCategory = "style" | "lighting" | "camera" | "location" | "pose" | "action" | "clothing" | "expression";
+
 interface TemplateSelectorProps {
   label: string;
   templates: Template[];
@@ -15,6 +17,7 @@ interface TemplateSelectorProps {
   onChange: (value: string) => void;
   placeholder?: string;
   allowCustom?: boolean;
+  category?: TemplateCategory;
 }
 
 export function TemplateSelector({
@@ -24,13 +27,31 @@ export function TemplateSelector({
   onChange,
   placeholder = "Select an option...",
   allowCustom = true,
+  category,
 }: TemplateSelectorProps) {
   const t = useTranslations("templateSelector");
+  const tTemplates = useTranslations("templates");
   const [open, setOpen] = useState(false);
+
+  // Helper function to get translated template name
+  const getTranslatedName = (template: Template) => {
+    if (category) {
+      try {
+        const translatedName = tTemplates(`${category}.${template.id}.name`);
+        // Check if translation exists (next-intl returns the key if not found)
+        if (translatedName !== `${category}.${template.id}.name`) {
+          return translatedName;
+        }
+      } catch {
+        // Translation not found, use default
+      }
+    }
+    return template.name;
+  };
 
   // Find the selected template
   const selectedTemplate = templates.find((t) => t.id === value);
-  const displayValue = selectedTemplate?.name || value || "";
+  const displayValue = selectedTemplate ? getTranslatedName(selectedTemplate) : value || "";
   const isCustomValue = value && !selectedTemplate;
 
   const handleSelect = (template: Template) => {
@@ -100,6 +121,7 @@ export function TemplateSelector({
         allowCustom={allowCustom}
         customValue={isCustomValue ? value : ""}
         onCustomChange={handleCustomChange}
+        category={category}
       />
     </div>
   );
