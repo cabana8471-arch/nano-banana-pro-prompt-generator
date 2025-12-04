@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ApiKeyForm } from "@/components/profile/api-key-form";
@@ -31,6 +32,8 @@ import { useSession } from "@/lib/auth-client";
 export default function ProfilePage() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
+  const t = useTranslations();
+  const locale = useLocale();
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [securityOpen, setSecurityOpen] = useState(false);
   const [emailPrefsOpen, setEmailPrefsOpen] = useState(false);
@@ -38,7 +41,7 @@ export default function ProfilePage() {
   if (isPending) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div>Loading...</div>
+        <div>{t("common.loading")}</div>
       </div>
     );
   }
@@ -50,7 +53,7 @@ export default function ProfilePage() {
 
   const user = session.user;
   const createdDate = user.createdAt
-    ? new Date(user.createdAt).toLocaleDateString("en-US", {
+    ? new Date(user.createdAt).toLocaleDateString(locale === "ro" ? "ro-RO" : "en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -74,9 +77,9 @@ export default function ProfilePage() {
           className="flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back
+          {t("common.back")}
         </Button>
-        <h1 className="text-3xl font-bold">Your Profile</h1>
+        <h1 className="text-3xl font-bold">{t("profile.title")}</h1>
       </div>
 
       <div className="grid gap-6">
@@ -105,14 +108,14 @@ export default function ProfilePage() {
                       className="text-green-600 border-green-600"
                     >
                       <Shield className="h-3 w-3 mr-1" />
-                      Verified
+                      {t("profile.verified")}
                     </Badge>
                   )}
                 </div>
                 {createdDate && (
                   <div className="flex items-center gap-2 text-muted-foreground text-sm">
                     <Calendar className="h-4 w-4" />
-                    <span>Member since {createdDate}</span>
+                    <span>{t("profile.memberSince", { date: createdDate })}</span>
                   </div>
                 )}
               </div>
@@ -123,22 +126,22 @@ export default function ProfilePage() {
         {/* Account Information */}
         <Card>
           <CardHeader>
-            <CardTitle>Account Information</CardTitle>
-            <CardDescription>Your account details and settings</CardDescription>
+            <CardTitle>{t("profile.accountInformation")}</CardTitle>
+            <CardDescription>{t("profile.accountDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">
-                  Full Name
+                  {t("profile.fullName")}
                 </label>
                 <div className="p-3 border rounded-md bg-muted/10">
-                  {user.name || "Not provided"}
+                  {user.name || t("common.notProvided")}
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">
-                  Email Address
+                  {t("profile.emailAddress")}
                 </label>
                 <div className="p-3 border rounded-md bg-muted/10 flex items-center justify-between">
                   <span>{user.email}</span>
@@ -147,7 +150,7 @@ export default function ProfilePage() {
                       variant="outline"
                       className="text-green-600 border-green-600"
                     >
-                      Verified
+                      {t("profile.verified")}
                     </Badge>
                   )}
                 </div>
@@ -157,27 +160,27 @@ export default function ProfilePage() {
             <Separator />
 
             <div className="space-y-4">
-              <h3 className="text-lg font-medium">Account Status</h3>
+              <h3 className="text-lg font-medium">{t("profile.accountStatus")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div className="space-y-1">
-                    <p className="font-medium">Email Verification</p>
+                    <p className="font-medium">{t("profile.emailVerification")}</p>
                     <p className="text-sm text-muted-foreground">
-                      Email address verification status
+                      {t("profile.emailVerificationDescription")}
                     </p>
                   </div>
                   <Badge variant={user.emailVerified ? "default" : "secondary"}>
-                    {user.emailVerified ? "Verified" : "Unverified"}
+                    {user.emailVerified ? t("profile.verified") : t("profile.unverified")}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div className="space-y-1">
-                    <p className="font-medium">Account Type</p>
+                    <p className="font-medium">{t("profile.accountType")}</p>
                     <p className="text-sm text-muted-foreground">
-                      Your account access level
+                      {t("profile.accountTypeDescription")}
                     </p>
                   </div>
-                  <Badge variant="outline">Standard</Badge>
+                  <Badge variant="outline">{t("profile.standard")}</Badge>
                 </div>
               </div>
             </div>
@@ -193,9 +196,9 @@ export default function ProfilePage() {
         {/* Account Activity */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+            <CardTitle>{t("profile.recentActivity")}</CardTitle>
             <CardDescription>
-              Your recent account activity and sessions
+              {t("profile.recentActivityDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -204,15 +207,15 @@ export default function ProfilePage() {
                 <div className="flex items-center space-x-3">
                   <div className="h-2 w-2 bg-green-500 rounded-full"></div>
                   <div>
-                    <p className="font-medium">Current Session</p>
-                    <p className="text-sm text-muted-foreground">Active now</p>
+                    <p className="font-medium">{t("profile.currentSession")}</p>
+                    <p className="text-sm text-muted-foreground">{t("profile.activeNow")}</p>
                   </div>
                 </div>
                 <Badge
                   variant="outline"
                   className="text-green-600 border-green-600"
                 >
-                  Active
+                  {t("profile.active")}
                 </Badge>
               </div>
             </div>
@@ -222,9 +225,9 @@ export default function ProfilePage() {
         {/* Quick Actions */}
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle>{t("profile.quickActions")}</CardTitle>
             <CardDescription>
-              Manage your account settings and preferences
+              {t("profile.quickActionsDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -236,9 +239,9 @@ export default function ProfilePage() {
               >
                 <User className="h-4 w-4 mr-2" />
                 <div className="text-left">
-                  <div className="font-medium">Edit Profile</div>
+                  <div className="font-medium">{t("profile.editProfile.title")}</div>
                   <div className="text-xs text-muted-foreground">
-                    Update your information
+                    {t("profile.editProfile.buttonDescription")}
                   </div>
                 </div>
               </Button>
@@ -249,9 +252,9 @@ export default function ProfilePage() {
               >
                 <Shield className="h-4 w-4 mr-2" />
                 <div className="text-left">
-                  <div className="font-medium">Security Settings</div>
+                  <div className="font-medium">{t("profile.security.title")}</div>
                   <div className="text-xs text-muted-foreground">
-                    Manage security options
+                    {t("profile.security.buttonDescription")}
                   </div>
                 </div>
               </Button>
@@ -262,9 +265,9 @@ export default function ProfilePage() {
               >
                 <Mail className="h-4 w-4 mr-2" />
                 <div className="text-left">
-                  <div className="font-medium">Email Preferences</div>
+                  <div className="font-medium">{t("profile.email.title")}</div>
                   <div className="text-xs text-muted-foreground">
-                    Configure notifications
+                    {t("profile.email.buttonDescription")}
                   </div>
                 </div>
               </Button>
@@ -277,23 +280,22 @@ export default function ProfilePage() {
       <Dialog open={editProfileOpen} onOpenChange={setEditProfileOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogTitle>{t("profile.editProfile.title")}</DialogTitle>
             <DialogDescription>
-              Update your profile information. Changes will be saved to your
-              account.
+              {t("profile.editProfile.description")}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleEditProfileSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">{t("profile.fullName")}</Label>
               <Input
                 id="name"
                 defaultValue={user.name || ""}
-                placeholder="Enter your name"
+                placeholder={t("profile.editProfile.enterName")}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("profile.emailAddress")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -302,7 +304,7 @@ export default function ProfilePage() {
                 className="bg-muted"
               />
               <p className="text-xs text-muted-foreground">
-                Email cannot be changed for OAuth accounts
+                {t("profile.editProfile.emailCannotChange")}
               </p>
             </div>
             <div className="flex justify-end gap-2 pt-4">
@@ -311,9 +313,9 @@ export default function ProfilePage() {
                 variant="outline"
                 onClick={() => setEditProfileOpen(false)}
               >
-                Cancel
+                {t("common.cancel")}
               </Button>
-              <Button type="submit">Save Changes</Button>
+              <Button type="submit">{t("common.saveChanges")}</Button>
             </div>
           </form>
         </DialogContent>
@@ -323,9 +325,9 @@ export default function ProfilePage() {
       <Dialog open={securityOpen} onOpenChange={setSecurityOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Security Settings</DialogTitle>
+            <DialogTitle>{t("profile.security.title")}</DialogTitle>
             <DialogDescription>
-              Manage your account security and authentication options.
+              {t("profile.security.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -333,16 +335,16 @@ export default function ProfilePage() {
               <div className="flex items-center gap-3">
                 <Lock className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="font-medium">Password</p>
+                  <p className="font-medium">{t("profile.security.password")}</p>
                   <p className="text-sm text-muted-foreground">
                     {user.email?.includes("@gmail")
-                      ? "Managed by Google"
-                      : "Set a password for your account"}
+                      ? t("profile.security.managedByGoogle")
+                      : t("profile.security.setPassword")}
                   </p>
                 </div>
               </div>
               <Badge variant="outline">
-                {user.email?.includes("@gmail") ? "OAuth" : "Not Set"}
+                {user.email?.includes("@gmail") ? t("profile.security.oauth") : t("profile.security.notSet")}
               </Badge>
             </div>
 
@@ -350,14 +352,14 @@ export default function ProfilePage() {
               <div className="flex items-center gap-3">
                 <Smartphone className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="font-medium">Two-Factor Authentication</p>
+                  <p className="font-medium">{t("profile.security.twoFactor")}</p>
                   <p className="text-sm text-muted-foreground">
-                    Add an extra layer of security
+                    {t("profile.security.twoFactorDescription")}
                   </p>
                 </div>
               </div>
               <Button variant="outline" size="sm" disabled>
-                Coming Soon
+                {t("common.comingSoon")}
               </Button>
             </div>
 
@@ -365,18 +367,18 @@ export default function ProfilePage() {
               <div className="flex items-center gap-3">
                 <Shield className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="font-medium">Active Sessions</p>
+                  <p className="font-medium">{t("profile.security.activeSessions")}</p>
                   <p className="text-sm text-muted-foreground">
-                    Manage devices logged into your account
+                    {t("profile.security.activeSessionsDescription")}
                   </p>
                 </div>
               </div>
-              <Badge variant="default">1 Active</Badge>
+              <Badge variant="default">{t("profile.security.oneActive")}</Badge>
             </div>
           </div>
           <div className="flex justify-end pt-4">
             <Button variant="outline" onClick={() => setSecurityOpen(false)}>
-              Close
+              {t("common.close")}
             </Button>
           </div>
         </DialogContent>
@@ -386,34 +388,34 @@ export default function ProfilePage() {
       <Dialog open={emailPrefsOpen} onOpenChange={setEmailPrefsOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Email Preferences</DialogTitle>
+            <DialogTitle>{t("profile.email.title")}</DialogTitle>
             <DialogDescription>
-              Configure your email notification settings.
+              {t("profile.email.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div>
-                <p className="font-medium">Marketing Emails</p>
+                <p className="font-medium">{t("profile.email.marketing")}</p>
                 <p className="text-sm text-muted-foreground">
-                  Product updates and announcements
+                  {t("profile.email.marketingDescription")}
                 </p>
               </div>
-              <Badge variant="secondary">Coming Soon</Badge>
+              <Badge variant="secondary">{t("common.comingSoon")}</Badge>
             </div>
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div>
-                <p className="font-medium">Security Alerts</p>
+                <p className="font-medium">{t("profile.email.securityAlerts")}</p>
                 <p className="text-sm text-muted-foreground">
-                  Important security notifications
+                  {t("profile.email.securityAlertsDescription")}
                 </p>
               </div>
-              <Badge variant="default">Always On</Badge>
+              <Badge variant="default">{t("profile.email.alwaysOn")}</Badge>
             </div>
           </div>
           <div className="flex justify-end pt-4">
             <Button variant="outline" onClick={() => setEmailPrefsOpen(false)}>
-              Close
+              {t("common.close")}
             </Button>
           </div>
         </DialogContent>
