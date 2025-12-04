@@ -1,0 +1,270 @@
+{
+  "common": {
+    "loading": "Se incarca...",
+    "cancel": "Anuleaza",
+    "save": "Salveaza",
+    "close": "Inchide",
+    "delete": "Sterge",
+    "back": "Inapoi",
+    "goHome": "Acasa",
+    "tryAgain": "Incearca din nou",
+    "comingSoon": "In curand",
+    "saveChanges": "Salveaza modificarile",
+    "notProvided": "Nespecificat"
+  },
+  "navigation": {
+    "generate": "Genereaza",
+    "gallery": "Galerie",
+    "avatars": "Avatare",
+    "settings": "Setari",
+    "skipToMainContent": "Salt la continutul principal",
+    "openMenu": "Deschide meniu",
+    "mainNavigation": "Navigare principala",
+    "userActions": "Actiuni utilizator"
+  },
+  "brand": {
+    "name": "Nano Banana Pro",
+    "tagline": "Generare de imagini AI cu Gemini"
+  },
+  "home": {
+    "heroDescription": "Creeaza imagini AI uimitoare folosind Gemini. Construieste cu prompturi personalizabile, avatare reutilizabile si capabilitati puternice de transformare imagine-in-imagine.",
+    "startCreating": "Incepe sa creezi",
+    "viewGallery": "Vezi galeria",
+    "publicGallery": "Galerie publica",
+    "publicGalleryDescription": "Exploreaza imaginile create de comunitate",
+    "viewAllImages": "Vezi toate imaginile",
+    "features": {
+      "promptBuilder": {
+        "title": "Constructor de prompturi",
+        "description": "Creeaza promptul perfect cu sabloane pentru iluminare, unghiuri de camera, stiluri si multe altele",
+        "items": {
+          "templates": "Sabloane predefinite pentru configurare rapida",
+          "customization": "Personalizare text libera",
+          "preview": "Previzualizare prompt in timp real"
+        }
+      },
+      "avatarSystem": {
+        "title": "Sistem de avatare",
+        "description": "Creeaza avatare reutilizabile pentru generare consistenta de personaje in imagini",
+        "items": {
+          "types": "Avatare umane si obiecte",
+          "reference": "Suport pentru imagini de referinta",
+          "consistency": "Consistenta personajelor"
+        }
+      },
+      "multiImage": {
+        "title": "Generare multi-imagine",
+        "description": "Genereaza pana la 4 imagini simultan cu diverse rezolutii si rapoarte de aspect",
+        "items": {
+          "resolutions": "Rezolutii 1K, 2K, 4K",
+          "aspectRatios": "Rapoarte de aspect multiple",
+          "refinement": "Rafinare iterativa"
+        }
+      }
+    }
+  },
+  "auth": {
+    "signIn": "Autentificare",
+    "logOut": "Deconectare",
+    "yourProfile": "Profilul tau"
+  },
+  "profile": {
+    "title": "Profilul tau",
+    "accountInformation": "Informatii cont",
+    "accountDescription": "Detaliile si setarile contului tau",
+    "fullName": "Nume complet",
+    "emailAddress": "Adresa de email",
+    "accountStatus": "Stare cont",
+    "emailVerification": "Verificare email",
+    "emailVerificationDescription": "Starea verificarii adresei de email",
+    "accountType": "Tip cont",
+    "accountTypeDescription": "Nivelul tau de acces",
+    "standard": "Standard",
+    "verified": "Verificat",
+    "unverified": "Neverificat",
+    "recentActivity": "Activitate recenta",
+    "recentActivityDescription": "Activitatea recenta a contului si sesiunile tale",
+    "currentSession": "Sesiune curenta",
+    "activeNow": "Activ acum",
+    "active": "Activ",
+    "memberSince": "Membru din {date}",
+    "quickActions": "Actiuni rapide",
+    "quickActionsDescription": "Gestioneaza setarile si preferintele contului",
+    "editProfile": {
+      "title": "Editeaza profilul",
+      "description": "Actualizeaza informatiile profilului. Modificarile vor fi salvate in cont.",
+      "buttonDescription": "Actualizeaza informatiile tale",
+      "enterName": "Introdu numele tau",
+      "emailCannotChange": "Email-ul nu poate fi schimbat pentru conturile OAuth"
+    },
+    "security": {
+      "title": "Setari de securitate",
+      "description": "Gestioneaza securitatea contului si optiunile de autentificare.",
+      "buttonDescription": "Gestioneaza optiunile de securitate",
+      "password": "Parola",
+      "managedByGoogle": "Gestionat de Google",
+      "setPassword": "Seteaza o parola pentru contul tau",
+      "oauth": "OAuth",
+      "notSet": "Nesetat",
+      "twoFactor": "Autentificare in doi pasi",
+      "twoFactorDescription": "Adauga un nivel suplimentar de securitate",
+      "activeSessions": "Sesiuni active",
+      "activeSessionsDescription": "Gestioneaza dispozitivele conectate la cont",
+      "oneActive": "1 Activ"
+    },
+    "email": {
+      "title": "Preferinte email",
+      "description": "Configureaza setarile notificarilor prin email.",
+      "buttonDescription": "Configureaza notificarile",
+      "marketing": "Emailuri de marketing",
+      "marketingDescription": "Actualizari de produs si anunturi",
+      "securityAlerts": "Alerte de securitate",
+      "securityAlertsDescription": "Notificari importante de securitate",
+      "alwaysOn": "Mereu activ"
+    },
+    "language": {
+      "title": "Limba",
+      "description": "Alege limba preferata",
+      "buttonDescription": "Schimba limba de afisare"
+    }
+  },
+  "apiKey": {
+    "title": "Cheie API Google AI",
+    "description": "Cheia API este necesara pentru generarea imaginilor. Obtine una de la Google AI Studio",
+    "configured": "Cheie API configurata",
+    "notConfigured": "Nicio cheie API configurata. Adauga cheia API Google AI pentru a incepe sa generezi imagini.",
+    "placeholder": "Introdu cheia ta API Google AI",
+    "updateHint": "Vrei sa actualizezi cheia? Introdu una noua mai jos:",
+    "saveKey": "Salveaza cheia API",
+    "updateKey": "Actualizeaza cheia API",
+    "saving": "Se salveaza...",
+    "deleteConfirm": "Stergi cheia API?",
+    "deleteDescription": "Aceasta va elimina cheia API stocata. Va trebui sa adaugi o cheie noua pentru a continua generarea de imagini.",
+    "securityNote": "Cheia ta API este criptata si stocata in siguranta. Nu partajam niciodata cheia ta cu terti."
+  },
+  "generate": {
+    "previewAndGenerate": "Previzualizare si generare",
+    "reviewPrompt": "Revizuieste promptul si genereaza imagini",
+    "generatedPrompt": "Prompt generat",
+    "promptPlaceholder": "Promptul tau va aparea aici pe masura ce il construiesti...",
+    "generationSettings": "Setari generare",
+    "numberOfImages": "Numar de imagini",
+    "resolution": "Rezolutie",
+    "selectResolution": "Selecteaza rezolutia",
+    "aspectRatio": "Raport de aspect",
+    "selectAspectRatio": "Selecteaza raportul de aspect",
+    "resolutions": {
+      "1K": "1K (1024px)",
+      "2K": "2K (2048px)",
+      "4K": "4K (4096px)"
+    },
+    "aspectRatios": {
+      "1:1": "1:1 (Patrat)",
+      "16:9": "16:9 (Peisaj)",
+      "9:16": "9:16 (Portret)",
+      "4:3": "4:3 (Standard)",
+      "3:4": "3:4 (Portret standard)",
+      "21:9": "21:9 (Ultra-lat)"
+    },
+    "addApiKeyHint": "Adauga cheia ta API Google in profil pentru a genera imagini.",
+    "goToProfile": "Mergi la profil",
+    "generateImages": "Genereaza imagini",
+    "generating": "Se genereaza..."
+  },
+  "promptBuilder": {
+    "title": "Constructor de prompturi",
+    "sceneSettings": "Setari scena",
+    "style": "Stil",
+    "location": "Locatie",
+    "lighting": "Iluminare",
+    "camera": "Camera / Compozitie",
+    "additionalInstructions": "Instructiuni aditionale (optional)",
+    "additionalHint": "Acestea vor fi adaugate la promptul generat",
+    "subjects": "Subiecte",
+    "addSubject": "Adauga subiect",
+    "addFirstSubject": "Adauga primul subiect",
+    "noSubjects": "Niciun subiect adaugat inca"
+  },
+  "presets": {
+    "loadPreset": "Incarca preset",
+    "noPresets": "Fara preseturi",
+    "recentPresets": "Preseturi recente",
+    "viewAll": "Vezi toate preseturile",
+    "allPresets": "Toate preseturile",
+    "selectPreset": "Selecteaza un preset pentru a incarca sau gestioneaza preseturile salvate",
+    "savePreset": "Salveaza preset",
+    "saveDescription": "Salveaza configuratia curenta a promptului ca preset pentru a o reutiliza mai tarziu.",
+    "presetName": "Nume preset",
+    "presetPlaceholder": "ex: Configurare studio portret",
+    "configSummary": "Rezumat configuratie",
+    "savingPreset": "Se salveaza..."
+  },
+  "results": {
+    "title": "Rezultate",
+    "imagesWillAppear": "Imaginile generate vor aparea aici",
+    "noImages": "Nicio imagine inca",
+    "buildPrompt": "Construieste promptul si genereaza imagini",
+    "clickToView": "Click pentru a vizualiza",
+    "download": "Descarca",
+    "openInNewTab": "Deschide in tab nou"
+  },
+  "gallery": {
+    "myGallery": "Galeria mea",
+    "noImagesYet": "Nicio imagine inca. Incepe sa generezi pentru a vedea creatiile tale aici!",
+    "previous": "Anterior",
+    "next": "Urmator",
+    "pageOf": "Pagina {current} din {total}",
+    "searchPlaceholder": "Cauta imagini dupa prompt...",
+    "mostLiked": "Cele mai apreciate",
+    "topContributors": "Contributori de top",
+    "latestImages": "Ultimele imagini",
+    "searchResults": "Rezultate cautare",
+    "noImagesFound": "Nu s-au gasit imagini pentru",
+    "noPublicImages": "Nicio imagine publica inca. Fii primul care distribuie!",
+    "loadMore": "Incarca mai multe",
+    "imagesAndLikes": "{images} imagini · {likes} aprecieri",
+    "copyPrompt": "Copiaza promptul",
+    "copied": "Copiat"
+  },
+  "avatars": {
+    "title": "Avatarele tale",
+    "description": "Gestioneaza avatarele pentru generare consistenta de imagini",
+    "createAvatar": "Creeaza avatar",
+    "editAvatar": "Editeaza avatar",
+    "createDescription": "Creeaza un avatar nou pentru a-l folosi ca imagine de referinta in generari.",
+    "updateDescription": "Actualizeaza informatiile avatarului.",
+    "noAvatars": "Niciun avatar inca",
+    "noAvatarsHint": "Creeaza primul tau avatar pentru a-l folosi ca referinta in generarea de imagini.",
+    "referenceImage": "Imagine de referinta",
+    "clickToUpload": "Click pentru a incarca o imagine",
+    "imageFormats": "JPEG, PNG, GIF, WEBP (max 5MB)",
+    "name": "Nume",
+    "description": "Descriere",
+    "type": "Tip",
+    "typeHuman": "Uman",
+    "typeObject": "Obiect",
+    "humanDescription": "Persoana, personaj",
+    "objectDescription": "Obiect, produs, animal",
+    "creating": "Se creeaza...",
+    "deleteConfirm": "Stergi avatarul?"
+  },
+  "errors": {
+    "somethingWentWrong": "Ceva nu a functionat",
+    "unexpectedError": "A aparut o eroare neasteptata. Incearca din nou sau contacteaza suportul daca problema persista.",
+    "errorId": "ID eroare: {id}",
+    "pageNotFound": "Pagina nu a fost gasita",
+    "pageNotFoundDescription": "Pagina pe care o cauti nu exista sau a fost mutata.",
+    "invalidApiKey": "Cheie API invalida",
+    "rateLimitExceeded": "Limita de rata depasita",
+    "apiQuotaExceeded": "Cota API depasita",
+    "contentPolicyViolation": "Incalcare politica de continut",
+    "connectionError": "Eroare de conexiune",
+    "generationFailed": "Generare esuata",
+    "checkApiKey": "Verifica cheia API",
+    "googleCloudConsole": "Consola Google Cloud"
+  },
+  "metadata": {
+    "title": "Nano Banana Pro - Generare imagini AI",
+    "description": "Creeaza imagini AI uimitoare folosind Gemini. Construieste cu prompturi personalizabile, avatare reutilizabile si capabilitati puternice de transformare imagine-in-imagine."
+  }
+}

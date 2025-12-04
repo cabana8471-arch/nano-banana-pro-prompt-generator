@@ -1,0 +1,270 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "delete": "Delete",
+    "back": "Back",
+    "goHome": "Go home",
+    "tryAgain": "Try again",
+    "comingSoon": "Coming Soon",
+    "saveChanges": "Save Changes",
+    "notProvided": "Not provided"
+  },
+  "navigation": {
+    "generate": "Generate",
+    "gallery": "Gallery",
+    "avatars": "Avatars",
+    "settings": "Settings",
+    "skipToMainContent": "Skip to main content",
+    "openMenu": "Open menu",
+    "mainNavigation": "Main navigation",
+    "userActions": "User actions"
+  },
+  "brand": {
+    "name": "Nano Banana Pro",
+    "tagline": "AI Image Generation powered by Gemini"
+  },
+  "home": {
+    "heroDescription": "Create stunning AI-generated images using Gemini. Build with customizable prompts, reusable avatars, and powerful image-to-image capabilities.",
+    "startCreating": "Start Creating",
+    "viewGallery": "View Gallery",
+    "publicGallery": "Public Gallery",
+    "publicGalleryDescription": "Explore images created by the community",
+    "viewAllImages": "View All Images",
+    "features": {
+      "promptBuilder": {
+        "title": "Prompt Builder",
+        "description": "Craft the perfect prompt with templates for lighting, camera angles, styles, and more",
+        "items": {
+          "templates": "Predefined templates for quick setup",
+          "customization": "Free text customization",
+          "preview": "Live prompt preview"
+        }
+      },
+      "avatarSystem": {
+        "title": "Avatar System",
+        "description": "Create reusable avatars for consistent character generation across images",
+        "items": {
+          "types": "Human and object avatars",
+          "reference": "Reference image support",
+          "consistency": "Character consistency"
+        }
+      },
+      "multiImage": {
+        "title": "Multi-Image Generation",
+        "description": "Generate up to 4 images at once with various resolutions and aspect ratios",
+        "items": {
+          "resolutions": "1K, 2K, 4K resolutions",
+          "aspectRatios": "Multiple aspect ratios",
+          "refinement": "Iterative refinement"
+        }
+      }
+    }
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "logOut": "Log out",
+    "yourProfile": "Your Profile"
+  },
+  "profile": {
+    "title": "Your Profile",
+    "accountInformation": "Account Information",
+    "accountDescription": "Your account details and settings",
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "accountStatus": "Account Status",
+    "emailVerification": "Email Verification",
+    "emailVerificationDescription": "Email address verification status",
+    "accountType": "Account Type",
+    "accountTypeDescription": "Your account access level",
+    "standard": "Standard",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "recentActivity": "Recent Activity",
+    "recentActivityDescription": "Your recent account activity and sessions",
+    "currentSession": "Current Session",
+    "activeNow": "Active now",
+    "active": "Active",
+    "memberSince": "Member since {date}",
+    "quickActions": "Quick Actions",
+    "quickActionsDescription": "Manage your account settings and preferences",
+    "editProfile": {
+      "title": "Edit Profile",
+      "description": "Update your profile information. Changes will be saved to your account.",
+      "buttonDescription": "Update your information",
+      "enterName": "Enter your name",
+      "emailCannotChange": "Email cannot be changed for OAuth accounts"
+    },
+    "security": {
+      "title": "Security Settings",
+      "description": "Manage your account security and authentication options.",
+      "buttonDescription": "Manage security options",
+      "password": "Password",
+      "managedByGoogle": "Managed by Google",
+      "setPassword": "Set a password for your account",
+      "oauth": "OAuth",
+      "notSet": "Not Set",
+      "twoFactor": "Two-Factor Authentication",
+      "twoFactorDescription": "Add an extra layer of security",
+      "activeSessions": "Active Sessions",
+      "activeSessionsDescription": "Manage devices logged into your account",
+      "oneActive": "1 Active"
+    },
+    "email": {
+      "title": "Email Preferences",
+      "description": "Configure your email notification settings.",
+      "buttonDescription": "Configure notifications",
+      "marketing": "Marketing Emails",
+      "marketingDescription": "Product updates and announcements",
+      "securityAlerts": "Security Alerts",
+      "securityAlertsDescription": "Important security notifications",
+      "alwaysOn": "Always On"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose your preferred language",
+      "buttonDescription": "Change display language"
+    }
+  },
+  "apiKey": {
+    "title": "Google AI API Key",
+    "description": "Your API key is required for image generation. Get one from Google AI Studio",
+    "configured": "API Key Configured",
+    "notConfigured": "No API key configured. Add your Google AI API key to start generating images.",
+    "placeholder": "Enter your Google AI API key",
+    "updateHint": "Want to update your key? Enter a new one below:",
+    "saveKey": "Save API Key",
+    "updateKey": "Update API Key",
+    "saving": "Saving...",
+    "deleteConfirm": "Delete API Key?",
+    "deleteDescription": "This will remove your stored API key. You will need to add a new key to continue using image generation.",
+    "securityNote": "Your API key is encrypted and stored securely. We never share your key with third parties."
+  },
+  "generate": {
+    "previewAndGenerate": "Preview & Generate",
+    "reviewPrompt": "Review your prompt and generate images",
+    "generatedPrompt": "Generated Prompt",
+    "promptPlaceholder": "Your prompt will appear here as you build it...",
+    "generationSettings": "Generation Settings",
+    "numberOfImages": "Number of Images",
+    "resolution": "Resolution",
+    "selectResolution": "Select resolution",
+    "aspectRatio": "Aspect Ratio",
+    "selectAspectRatio": "Select aspect ratio",
+    "resolutions": {
+      "1K": "1K (1024px)",
+      "2K": "2K (2048px)",
+      "4K": "4K (4096px)"
+    },
+    "aspectRatios": {
+      "1:1": "1:1 (Square)",
+      "16:9": "16:9 (Landscape)",
+      "9:16": "9:16 (Portrait)",
+      "4:3": "4:3 (Standard)",
+      "3:4": "3:4 (Portrait Standard)",
+      "21:9": "21:9 (Ultrawide)"
+    },
+    "addApiKeyHint": "Please add your Google API key in your profile to generate images.",
+    "goToProfile": "Go to Profile",
+    "generateImages": "Generate Images",
+    "generating": "Generating..."
+  },
+  "promptBuilder": {
+    "title": "Prompt Builder",
+    "sceneSettings": "Scene Settings",
+    "style": "Style",
+    "location": "Location",
+    "lighting": "Lighting",
+    "camera": "Camera / Composition",
+    "additionalInstructions": "Additional Instructions (optional)",
+    "additionalHint": "This will be appended to the generated prompt",
+    "subjects": "Subjects",
+    "addSubject": "Add Subject",
+    "addFirstSubject": "Add Your First Subject",
+    "noSubjects": "No subjects added yet"
+  },
+  "presets": {
+    "loadPreset": "Load Preset",
+    "noPresets": "No Presets",
+    "recentPresets": "Recent Presets",
+    "viewAll": "View all presets",
+    "allPresets": "All Presets",
+    "selectPreset": "Select a preset to load or manage your saved presets",
+    "savePreset": "Save Preset",
+    "saveDescription": "Save your current prompt configuration as a preset to reuse later.",
+    "presetName": "Preset Name",
+    "presetPlaceholder": "e.g., Portrait Studio Setup",
+    "configSummary": "Configuration Summary",
+    "savingPreset": "Saving..."
+  },
+  "results": {
+    "title": "Results",
+    "imagesWillAppear": "Your generated images will appear here",
+    "noImages": "No images yet",
+    "buildPrompt": "Build your prompt and generate images",
+    "clickToView": "Click to view",
+    "download": "Download",
+    "openInNewTab": "Open in new tab"
+  },
+  "gallery": {
+    "myGallery": "My Gallery",
+    "noImagesYet": "No images yet. Start generating to see your creations here!",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {current} of {total}",
+    "searchPlaceholder": "Search images by prompt...",
+    "mostLiked": "Most Liked",
+    "topContributors": "Top Contributors",
+    "latestImages": "Latest Images",
+    "searchResults": "Search Results",
+    "noImagesFound": "No images found for",
+    "noPublicImages": "No public images yet. Be the first to share!",
+    "loadMore": "Load More",
+    "imagesAndLikes": "{images} images · {likes} likes",
+    "copyPrompt": "Copy Prompt",
+    "copied": "Copied"
+  },
+  "avatars": {
+    "title": "Your Avatars",
+    "description": "Manage your avatars for consistent image generation",
+    "createAvatar": "Create Avatar",
+    "editAvatar": "Edit Avatar",
+    "createDescription": "Create a new avatar to use as a reference image in your generations.",
+    "updateDescription": "Update your avatar's information.",
+    "noAvatars": "No avatars yet",
+    "noAvatarsHint": "Create your first avatar to use as a reference in image generation.",
+    "referenceImage": "Reference Image",
+    "clickToUpload": "Click to upload an image",
+    "imageFormats": "JPEG, PNG, GIF, WEBP (max 5MB)",
+    "name": "Name",
+    "description": "Description",
+    "type": "Type",
+    "typeHuman": "Human",
+    "typeObject": "Object",
+    "humanDescription": "Person, character",
+    "objectDescription": "Item, product, pet",
+    "creating": "Creating...",
+    "deleteConfirm": "Delete Avatar?"
+  },
+  "errors": {
+    "somethingWentWrong": "Something went wrong",
+    "unexpectedError": "An unexpected error occurred. Please try again or contact support if the problem persists.",
+    "errorId": "Error ID: {id}",
+    "pageNotFound": "Page Not Found",
+    "pageNotFoundDescription": "The page you're looking for doesn't exist or has been moved.",
+    "invalidApiKey": "Invalid API Key",
+    "rateLimitExceeded": "Rate Limit Exceeded",
+    "apiQuotaExceeded": "API Quota Exceeded",
+    "contentPolicyViolation": "Content Policy Violation",
+    "connectionError": "Connection Error",
+    "generationFailed": "Generation Failed",
+    "checkApiKey": "Check API Key",
+    "googleCloudConsole": "Google Cloud Console"
+  },
+  "metadata": {
+    "title": "Nano Banana Pro - AI Image Generation",
+    "description": "Create stunning AI-generated images using Gemini. Build with customizable prompts, reusable avatars, and powerful image-to-image capabilities."
+  }
+}
