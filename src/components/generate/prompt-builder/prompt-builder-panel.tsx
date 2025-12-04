@@ -62,7 +62,7 @@ export function PromptBuilderPanel({
       <div className="p-4 border-b">
         <h2 className="font-semibold text-lg">{t("title")}</h2>
         <p className="text-sm text-muted-foreground">
-          Build your image prompt step by step
+          {t("description")}
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export function PromptBuilderPanel({
               templates={styleTemplates}
               value={style}
               onChange={onStyleChange}
-              placeholder="Select or type style..."
+              placeholder={t("stylePlaceholder")}
               category="style"
             />
 
@@ -90,7 +90,7 @@ export function PromptBuilderPanel({
               templates={locationTemplates}
               value={location}
               onChange={onLocationChange}
-              placeholder="Select or type location..."
+              placeholder={t("locationPlaceholder")}
               category="location"
             />
 
@@ -100,7 +100,7 @@ export function PromptBuilderPanel({
               templates={lightingTemplates}
               value={lighting}
               onChange={onLightingChange}
-              placeholder="Select or type lighting..."
+              placeholder={t("lightingPlaceholder")}
               category="lighting"
             />
 
@@ -110,7 +110,7 @@ export function PromptBuilderPanel({
               templates={cameraTemplates}
               value={camera}
               onChange={onCameraChange}
-              placeholder="Select or type camera angle..."
+              placeholder={t("cameraPlaceholder")}
             />
           </div>
 
@@ -135,7 +135,7 @@ export function PromptBuilderPanel({
             <Textarea
               value={customPrompt}
               onChange={(e) => onCustomPromptChange(e.target.value)}
-              placeholder="Add any additional details or instructions for the image..."
+              placeholder={t("additionalPlaceholder")}
               rows={4}
             />
             <p className="text-xs text-muted-foreground">
