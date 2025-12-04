@@ -374,7 +374,17 @@
     "pose": "Pose",
     "posePlaceholder": "Select or type pose...",
     "action": "Action",
-    "actionPlaceholder": "Select or type action..."
+    "actionPlaceholder": "Select or type action...",
+    "clothing": "Clothing",
+    "clothingPlaceholder": "Select or type clothing...",
+    "expression": "Expression",
+    "expressionPlaceholder": "Select or type expression...",
+    "hair": "Hair (optional)",
+    "hairPlaceholder": "e.g., long brown hair, short blonde hair",
+    "makeup": "Makeup (optional)",
+    "makeupPlaceholder": "e.g., natural makeup, red lipstick",
+    "customDescription": "Custom Description (optional)",
+    "customDescriptionPlaceholder": "Any additional details..."
   },
   "templates": {
     "style": {
@@ -949,6 +959,410 @@
       "action-watching": {
         "name": "Watching",
         "description": "Observing something"
+      }
+    },
+    "clothing": {
+      "clothing-casual": {
+        "name": "Casual",
+        "description": "Everyday casual wear"
+      },
+      "clothing-tshirt-jeans": {
+        "name": "T-Shirt & Jeans",
+        "description": "Classic casual combination"
+      },
+      "clothing-hoodie": {
+        "name": "Hoodie",
+        "description": "Comfortable hooded sweatshirt"
+      },
+      "clothing-sweater": {
+        "name": "Sweater",
+        "description": "Cozy knit sweater"
+      },
+      "clothing-cardigan": {
+        "name": "Cardigan",
+        "description": "Button-up knit cardigan"
+      },
+      "clothing-polo": {
+        "name": "Polo Shirt",
+        "description": "Smart casual polo"
+      },
+      "clothing-formal": {
+        "name": "Formal",
+        "description": "Business or formal attire"
+      },
+      "clothing-suit": {
+        "name": "Business Suit",
+        "description": "Professional suit and tie"
+      },
+      "clothing-blazer": {
+        "name": "Blazer",
+        "description": "Smart blazer jacket"
+      },
+      "clothing-dress-shirt": {
+        "name": "Dress Shirt",
+        "description": "Formal button-down shirt"
+      },
+      "clothing-tuxedo": {
+        "name": "Tuxedo",
+        "description": "Black tie formal wear"
+      },
+      "clothing-business-casual": {
+        "name": "Business Casual",
+        "description": "Smart but relaxed office wear"
+      },
+      "clothing-dress": {
+        "name": "Dress",
+        "description": "Casual or formal dress"
+      },
+      "clothing-evening-gown": {
+        "name": "Evening Gown",
+        "description": "Formal evening dress"
+      },
+      "clothing-cocktail-dress": {
+        "name": "Cocktail Dress",
+        "description": "Semi-formal short dress"
+      },
+      "clothing-sundress": {
+        "name": "Sundress",
+        "description": "Light summer dress"
+      },
+      "clothing-maxi-dress": {
+        "name": "Maxi Dress",
+        "description": "Long flowing dress"
+      },
+      "clothing-skirt": {
+        "name": "Skirt",
+        "description": "Various skirt styles"
+      },
+      "clothing-athletic": {
+        "name": "Athletic",
+        "description": "Sports or workout clothing"
+      },
+      "clothing-yoga": {
+        "name": "Yoga Wear",
+        "description": "Flexible yoga attire"
+      },
+      "clothing-running-gear": {
+        "name": "Running Gear",
+        "description": "Running attire"
+      },
+      "clothing-swimwear": {
+        "name": "Swimwear",
+        "description": "Swimming attire"
+      },
+      "clothing-sports-uniform": {
+        "name": "Sports Uniform",
+        "description": "Team sports attire"
+      },
+      "clothing-streetwear": {
+        "name": "Streetwear",
+        "description": "Urban street fashion style"
+      },
+      "clothing-hypebeast": {
+        "name": "Hypebeast",
+        "description": "High-end streetwear"
+      },
+      "clothing-urban-layers": {
+        "name": "Urban Layers",
+        "description": "Layered street style"
+      },
+      "clothing-denim-jacket": {
+        "name": "Denim Jacket",
+        "description": "Classic jean jacket"
+      },
+      "clothing-bomber-jacket": {
+        "name": "Bomber Jacket",
+        "description": "Classic bomber style"
+      },
+      "clothing-elegant": {
+        "name": "Elegant",
+        "description": "Sophisticated, upscale fashion"
+      },
+      "clothing-haute-couture": {
+        "name": "Haute Couture",
+        "description": "High fashion designer wear"
+      },
+      "clothing-designer": {
+        "name": "Designer Wear",
+        "description": "Luxury brand clothing"
+      },
+      "clothing-silk": {
+        "name": "Silk Attire",
+        "description": "Luxurious silk garments"
+      },
+      "clothing-vintage": {
+        "name": "Vintage",
+        "description": "Retro or period-appropriate clothing"
+      },
+      "clothing-retro-50s": {
+        "name": "1950s Style",
+        "description": "Classic 50s fashion"
+      },
+      "clothing-retro-70s": {
+        "name": "1970s Style",
+        "description": "Groovy 70s fashion"
+      },
+      "clothing-retro-80s": {
+        "name": "1980s Style",
+        "description": "Bold 80s fashion"
+      },
+      "clothing-retro-90s": {
+        "name": "1990s Style",
+        "description": "90s grunge and minimalist"
+      },
+      "clothing-traditional": {
+        "name": "Traditional Wear",
+        "description": "Cultural traditional clothing"
+      },
+      "clothing-kimono": {
+        "name": "Kimono",
+        "description": "Traditional Japanese garment"
+      },
+      "clothing-hanbok": {
+        "name": "Hanbok",
+        "description": "Traditional Korean attire"
+      },
+      "clothing-saree": {
+        "name": "Saree",
+        "description": "Traditional Indian garment"
+      },
+      "clothing-cheongsam": {
+        "name": "Cheongsam",
+        "description": "Traditional Chinese dress"
+      },
+      "clothing-uniform": {
+        "name": "Uniform",
+        "description": "Professional or school uniform"
+      },
+      "clothing-military": {
+        "name": "Military Style",
+        "description": "Military-inspired fashion"
+      },
+      "clothing-punk": {
+        "name": "Punk",
+        "description": "Punk rock fashion"
+      },
+      "clothing-goth": {
+        "name": "Gothic",
+        "description": "Gothic fashion style"
+      },
+      "clothing-bohemian": {
+        "name": "Bohemian",
+        "description": "Boho chic style"
+      },
+      "clothing-minimalist": {
+        "name": "Minimalist",
+        "description": "Clean simple fashion"
+      },
+      "clothing-winter-coat": {
+        "name": "Winter Coat",
+        "description": "Heavy winter outerwear"
+      },
+      "clothing-leather-jacket": {
+        "name": "Leather Jacket",
+        "description": "Classic leather jacket"
+      },
+      "clothing-trench-coat": {
+        "name": "Trench Coat",
+        "description": "Classic trench style"
+      },
+      "clothing-raincoat": {
+        "name": "Raincoat",
+        "description": "Weather protection"
+      },
+      "clothing-fantasy-armor": {
+        "name": "Fantasy Armor",
+        "description": "Medieval or fantasy armor"
+      },
+      "clothing-royal-robes": {
+        "name": "Royal Robes",
+        "description": "Regal royal garments"
+      },
+      "clothing-futuristic": {
+        "name": "Futuristic",
+        "description": "Sci-fi inspired fashion"
+      },
+      "clothing-cyberpunk": {
+        "name": "Cyberpunk Fashion",
+        "description": "Tech-enhanced urban wear"
+      }
+    },
+    "expression": {
+      "expression-neutral": {
+        "name": "Neutral",
+        "description": "Calm, neutral facial expression"
+      },
+      "expression-happy": {
+        "name": "Happy",
+        "description": "Joyful, pleased expression"
+      },
+      "expression-joyful": {
+        "name": "Joyful",
+        "description": "Radiating with joy"
+      },
+      "expression-content": {
+        "name": "Content",
+        "description": "Peaceful satisfaction"
+      },
+      "expression-excited": {
+        "name": "Excited",
+        "description": "Enthusiastic and thrilled"
+      },
+      "expression-amused": {
+        "name": "Amused",
+        "description": "Entertained smirk"
+      },
+      "expression-proud": {
+        "name": "Proud",
+        "description": "Self-satisfied pride"
+      },
+      "expression-loving": {
+        "name": "Loving",
+        "description": "Warm affectionate gaze"
+      },
+      "expression-hopeful": {
+        "name": "Hopeful",
+        "description": "Optimistic and expecting"
+      },
+      "expression-confident": {
+        "name": "Confident",
+        "description": "Self-assured, bold expression"
+      },
+      "expression-determined": {
+        "name": "Determined",
+        "description": "Resolute and focused"
+      },
+      "expression-serious": {
+        "name": "Serious",
+        "description": "Focused, serious demeanor"
+      },
+      "expression-stern": {
+        "name": "Stern",
+        "description": "Strict serious look"
+      },
+      "expression-intense": {
+        "name": "Intense",
+        "description": "Deep concentrated gaze"
+      },
+      "expression-stoic": {
+        "name": "Stoic",
+        "description": "Emotionless and controlled"
+      },
+      "expression-thoughtful": {
+        "name": "Thoughtful",
+        "description": "Deep in thought"
+      },
+      "expression-pensive": {
+        "name": "Pensive",
+        "description": "Lost in deep thought"
+      },
+      "expression-curious": {
+        "name": "Curious",
+        "description": "Interested and questioning"
+      },
+      "expression-wondering": {
+        "name": "Wondering",
+        "description": "Imaginative pondering"
+      },
+      "expression-skeptical": {
+        "name": "Skeptical",
+        "description": "Doubtful and questioning"
+      },
+      "expression-focused": {
+        "name": "Focused",
+        "description": "Concentrated attention"
+      },
+      "expression-surprised": {
+        "name": "Surprised",
+        "description": "Shocked or amazed expression"
+      },
+      "expression-amazed": {
+        "name": "Amazed",
+        "description": "Wonder and astonishment"
+      },
+      "expression-shocked": {
+        "name": "Shocked",
+        "description": "Stunned disbelief"
+      },
+      "expression-bewildered": {
+        "name": "Bewildered",
+        "description": "Confused amazement"
+      },
+      "expression-sad": {
+        "name": "Sad",
+        "description": "Sorrowful expression"
+      },
+      "expression-melancholic": {
+        "name": "Melancholic",
+        "description": "Deep sadness and longing"
+      },
+      "expression-worried": {
+        "name": "Worried",
+        "description": "Anxious and concerned"
+      },
+      "expression-fearful": {
+        "name": "Fearful",
+        "description": "Scared and alarmed"
+      },
+      "expression-angry": {
+        "name": "Angry",
+        "description": "Rage and frustration"
+      },
+      "expression-frustrated": {
+        "name": "Frustrated",
+        "description": "Annoyed and vexed"
+      },
+      "expression-disgusted": {
+        "name": "Disgusted",
+        "description": "Revulsion and distaste"
+      },
+      "expression-disappointed": {
+        "name": "Disappointed",
+        "description": "Let down and dismayed"
+      },
+      "expression-mysterious": {
+        "name": "Mysterious",
+        "description": "Enigmatic, intriguing expression"
+      },
+      "expression-secretive": {
+        "name": "Secretive",
+        "description": "Hiding something"
+      },
+      "expression-smirking": {
+        "name": "Smirking",
+        "description": "Knowing half-smile"
+      },
+      "expression-mischievous": {
+        "name": "Mischievous",
+        "description": "Playfully naughty"
+      },
+      "expression-seductive": {
+        "name": "Seductive",
+        "description": "Alluring and enticing"
+      },
+      "expression-dreamy": {
+        "name": "Dreamy",
+        "description": "Lost in fantasy"
+      },
+      "expression-sleepy": {
+        "name": "Sleepy",
+        "description": "Drowsy and tired"
+      },
+      "expression-bored": {
+        "name": "Bored",
+        "description": "Uninterested and dull"
+      },
+      "expression-embarrassed": {
+        "name": "Embarrassed",
+        "description": "Flustered and shy"
+      },
+      "expression-awkward": {
+        "name": "Awkward",
+        "description": "Uncomfortable and uneasy"
+      },
+      "expression-blank": {
+        "name": "Blank",
+        "description": "Empty expressionless face"
       }
     }
   }

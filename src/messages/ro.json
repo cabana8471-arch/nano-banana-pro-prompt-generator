@@ -374,7 +374,17 @@
     "pose": "Poza",
     "posePlaceholder": "Selecteaza sau scrie poza...",
     "action": "Actiune",
-    "actionPlaceholder": "Selecteaza sau scrie actiunea..."
+    "actionPlaceholder": "Selecteaza sau scrie actiunea...",
+    "clothing": "Imbracaminte",
+    "clothingPlaceholder": "Selecteaza sau scrie imbracamintea...",
+    "expression": "Expresie",
+    "expressionPlaceholder": "Selecteaza sau scrie expresia...",
+    "hair": "Par (optional)",
+    "hairPlaceholder": "ex: par lung saten, par scurt blond",
+    "makeup": "Machiaj (optional)",
+    "makeupPlaceholder": "ex: machiaj natural, ruj rosu",
+    "customDescription": "Descriere personalizata (optional)",
+    "customDescriptionPlaceholder": "Orice detalii suplimentare..."
   },
   "templates": {
     "style": {
@@ -1439,6 +1449,410 @@
       "action-watching": {
         "name": "Privind",
         "description": "Observand ceva"
+      }
+    },
+    "clothing": {
+      "clothing-casual": {
+        "name": "Casual",
+        "description": "Tinuta de zi cu zi"
+      },
+      "clothing-tshirt-jeans": {
+        "name": "Tricou si blugi",
+        "description": "Combinatie casual clasica"
+      },
+      "clothing-hoodie": {
+        "name": "Hanorac",
+        "description": "Hanorac confortabil cu gluga"
+      },
+      "clothing-sweater": {
+        "name": "Pulover",
+        "description": "Pulover tricotat confortabil"
+      },
+      "clothing-cardigan": {
+        "name": "Cardigan",
+        "description": "Cardigan tricotat cu nasturi"
+      },
+      "clothing-polo": {
+        "name": "Tricou polo",
+        "description": "Polo smart casual"
+      },
+      "clothing-formal": {
+        "name": "Formal",
+        "description": "Tinuta de afaceri sau formala"
+      },
+      "clothing-suit": {
+        "name": "Costum de afaceri",
+        "description": "Costum profesional cu cravata"
+      },
+      "clothing-blazer": {
+        "name": "Blazer",
+        "description": "Sacou elegant"
+      },
+      "clothing-dress-shirt": {
+        "name": "Camasa eleganta",
+        "description": "Camasa formala cu nasturi"
+      },
+      "clothing-tuxedo": {
+        "name": "Smoking",
+        "description": "Tinuta formala de seara"
+      },
+      "clothing-business-casual": {
+        "name": "Business casual",
+        "description": "Tinuta de birou eleganta dar relaxata"
+      },
+      "clothing-dress": {
+        "name": "Rochie",
+        "description": "Rochie casual sau eleganta"
+      },
+      "clothing-evening-gown": {
+        "name": "Rochie de seara",
+        "description": "Rochie eleganta de gala"
+      },
+      "clothing-cocktail-dress": {
+        "name": "Rochie cocktail",
+        "description": "Rochie semi-formala scurta"
+      },
+      "clothing-sundress": {
+        "name": "Rochie de vara",
+        "description": "Rochie usoara de vara"
+      },
+      "clothing-maxi-dress": {
+        "name": "Rochie maxi",
+        "description": "Rochie lunga si vaporoasa"
+      },
+      "clothing-skirt": {
+        "name": "Fusta",
+        "description": "Diverse stiluri de fuste"
+      },
+      "clothing-athletic": {
+        "name": "Sportiv",
+        "description": "Imbracaminte sport sau de antrenament"
+      },
+      "clothing-yoga": {
+        "name": "Tinuta de yoga",
+        "description": "Imbracaminte flexibila pentru yoga"
+      },
+      "clothing-running-gear": {
+        "name": "Echipament de alergare",
+        "description": "Tinuta pentru alergare"
+      },
+      "clothing-swimwear": {
+        "name": "Costum de baie",
+        "description": "Tinuta pentru inot"
+      },
+      "clothing-sports-uniform": {
+        "name": "Uniforma sportiva",
+        "description": "Tinuta de echipa sportiva"
+      },
+      "clothing-streetwear": {
+        "name": "Streetwear",
+        "description": "Moda stradala urbana"
+      },
+      "clothing-hypebeast": {
+        "name": "Hypebeast",
+        "description": "Streetwear de lux"
+      },
+      "clothing-urban-layers": {
+        "name": "Straturi urbane",
+        "description": "Stil stradal stratificat"
+      },
+      "clothing-denim-jacket": {
+        "name": "Geaca de blugi",
+        "description": "Geaca clasica din denim"
+      },
+      "clothing-bomber-jacket": {
+        "name": "Geaca bomber",
+        "description": "Stil bomber clasic"
+      },
+      "clothing-elegant": {
+        "name": "Elegant",
+        "description": "Moda sofisticata, de lux"
+      },
+      "clothing-haute-couture": {
+        "name": "Haute Couture",
+        "description": "Moda de designer de inalta clasa"
+      },
+      "clothing-designer": {
+        "name": "Haine de designer",
+        "description": "Imbracaminte de brand de lux"
+      },
+      "clothing-silk": {
+        "name": "Tinuta din matase",
+        "description": "Haine luxoase din matase"
+      },
+      "clothing-vintage": {
+        "name": "Vintage",
+        "description": "Imbracaminte retro sau de epoca"
+      },
+      "clothing-retro-50s": {
+        "name": "Stil anii 1950",
+        "description": "Moda clasica din anii 50"
+      },
+      "clothing-retro-70s": {
+        "name": "Stil anii 1970",
+        "description": "Moda groovy din anii 70"
+      },
+      "clothing-retro-80s": {
+        "name": "Stil anii 1980",
+        "description": "Moda indrazneata din anii 80"
+      },
+      "clothing-retro-90s": {
+        "name": "Stil anii 1990",
+        "description": "Grunge si minimalist din anii 90"
+      },
+      "clothing-traditional": {
+        "name": "Tinuta traditionala",
+        "description": "Imbracaminte traditionala culturala"
+      },
+      "clothing-kimono": {
+        "name": "Kimono",
+        "description": "Imbracaminte traditionala japoneza"
+      },
+      "clothing-hanbok": {
+        "name": "Hanbok",
+        "description": "Tinuta traditionala coreeana"
+      },
+      "clothing-saree": {
+        "name": "Sari",
+        "description": "Imbracaminte traditionala indiana"
+      },
+      "clothing-cheongsam": {
+        "name": "Cheongsam",
+        "description": "Rochie traditionala chinezeasca"
+      },
+      "clothing-uniform": {
+        "name": "Uniforma",
+        "description": "Uniforma profesionala sau scolara"
+      },
+      "clothing-military": {
+        "name": "Stil militar",
+        "description": "Moda inspirata din armata"
+      },
+      "clothing-punk": {
+        "name": "Punk",
+        "description": "Moda punk rock"
+      },
+      "clothing-goth": {
+        "name": "Gotic",
+        "description": "Stil de moda gotica"
+      },
+      "clothing-bohemian": {
+        "name": "Boem",
+        "description": "Stil boho chic"
+      },
+      "clothing-minimalist": {
+        "name": "Minimalist",
+        "description": "Moda simpla si curata"
+      },
+      "clothing-winter-coat": {
+        "name": "Palton de iarna",
+        "description": "Imbracaminte groasa de iarna"
+      },
+      "clothing-leather-jacket": {
+        "name": "Geaca de piele",
+        "description": "Geaca clasica din piele"
+      },
+      "clothing-trench-coat": {
+        "name": "Trenci",
+        "description": "Stil clasic de trenci"
+      },
+      "clothing-raincoat": {
+        "name": "Impermeabil",
+        "description": "Protectie impotriva ploii"
+      },
+      "clothing-fantasy-armor": {
+        "name": "Armura fantasy",
+        "description": "Armura medievala sau fantasy"
+      },
+      "clothing-royal-robes": {
+        "name": "Haine regale",
+        "description": "Vestminte regale maiestuoase"
+      },
+      "clothing-futuristic": {
+        "name": "Futurist",
+        "description": "Moda inspirata din sci-fi"
+      },
+      "clothing-cyberpunk": {
+        "name": "Moda cyberpunk",
+        "description": "Imbracaminte urbana cu tehnologie"
+      }
+    },
+    "expression": {
+      "expression-neutral": {
+        "name": "Neutra",
+        "description": "Expresie faciala calma, neutra"
+      },
+      "expression-happy": {
+        "name": "Fericit",
+        "description": "Expresie vesela, multumita"
+      },
+      "expression-joyful": {
+        "name": "Vesel",
+        "description": "Radiind de bucurie"
+      },
+      "expression-content": {
+        "name": "Implinit",
+        "description": "Satisfactie pasnica"
+      },
+      "expression-excited": {
+        "name": "Entuziasmat",
+        "description": "Entuziast si incântat"
+      },
+      "expression-amused": {
+        "name": "Amuzat",
+        "description": "Zambet distractiv"
+      },
+      "expression-proud": {
+        "name": "Mandru",
+        "description": "Mandrie satisfacuta de sine"
+      },
+      "expression-loving": {
+        "name": "Iubitor",
+        "description": "Privire calda si afectuoasa"
+      },
+      "expression-hopeful": {
+        "name": "Sperant",
+        "description": "Optimist si plin de asteptari"
+      },
+      "expression-confident": {
+        "name": "Increzator",
+        "description": "Expresie sigura pe sine, indrazneata"
+      },
+      "expression-determined": {
+        "name": "Hotarat",
+        "description": "Rezolut si concentrat"
+      },
+      "expression-serious": {
+        "name": "Serios",
+        "description": "Concentrat, cu aer serios"
+      },
+      "expression-stern": {
+        "name": "Sever",
+        "description": "Privire stricta si serioasa"
+      },
+      "expression-intense": {
+        "name": "Intens",
+        "description": "Privire adanc concentrata"
+      },
+      "expression-stoic": {
+        "name": "Stoic",
+        "description": "Fara emotii si controlat"
+      },
+      "expression-thoughtful": {
+        "name": "Ganditor",
+        "description": "Adanc in ganduri"
+      },
+      "expression-pensive": {
+        "name": "Meditativ",
+        "description": "Pierdut in ganduri profunde"
+      },
+      "expression-curious": {
+        "name": "Curios",
+        "description": "Interesat si interogativ"
+      },
+      "expression-wondering": {
+        "name": "Mirat",
+        "description": "Meditatie imaginativa"
+      },
+      "expression-skeptical": {
+        "name": "Sceptic",
+        "description": "Dubitativ si interogativ"
+      },
+      "expression-focused": {
+        "name": "Concentrat",
+        "description": "Atentie concentrata"
+      },
+      "expression-surprised": {
+        "name": "Surprins",
+        "description": "Expresie socata sau uimita"
+      },
+      "expression-amazed": {
+        "name": "Uimit",
+        "description": "Mirare si uimire"
+      },
+      "expression-shocked": {
+        "name": "Socat",
+        "description": "Uluit de necredere"
+      },
+      "expression-bewildered": {
+        "name": "Nedumerit",
+        "description": "Uimire confuza"
+      },
+      "expression-sad": {
+        "name": "Trist",
+        "description": "Expresie plina de intristare"
+      },
+      "expression-melancholic": {
+        "name": "Melancolic",
+        "description": "Tristete profunda si dor"
+      },
+      "expression-worried": {
+        "name": "Ingrijorat",
+        "description": "Anxios si preocupat"
+      },
+      "expression-fearful": {
+        "name": "Temator",
+        "description": "Speriat si alarmat"
+      },
+      "expression-angry": {
+        "name": "Furios",
+        "description": "Furie si frustrare"
+      },
+      "expression-frustrated": {
+        "name": "Frustrat",
+        "description": "Iritat si enervat"
+      },
+      "expression-disgusted": {
+        "name": "Dezgustat",
+        "description": "Repulsie si scarba"
+      },
+      "expression-disappointed": {
+        "name": "Dezamagit",
+        "description": "Dezamagit si descurajat"
+      },
+      "expression-mysterious": {
+        "name": "Misterios",
+        "description": "Expresie enigmatica, intriganta"
+      },
+      "expression-secretive": {
+        "name": "Secretos",
+        "description": "Ascunzand ceva"
+      },
+      "expression-smirking": {
+        "name": "Cu un zambet viclean",
+        "description": "Jumatate de zambet stiutor"
+      },
+      "expression-mischievous": {
+        "name": "Obraznic",
+        "description": "Jucaus si poznas"
+      },
+      "expression-seductive": {
+        "name": "Seducator",
+        "description": "Atragatoare si ispititoare"
+      },
+      "expression-dreamy": {
+        "name": "Visator",
+        "description": "Pierdut in fantezie"
+      },
+      "expression-sleepy": {
+        "name": "Somnoros",
+        "description": "Adormit si obosit"
+      },
+      "expression-bored": {
+        "name": "Plictisit",
+        "description": "Dezinteresat si apatic"
+      },
+      "expression-embarrassed": {
+        "name": "Jenat",
+        "description": "Stanjenit si timid"
+      },
+      "expression-awkward": {
+        "name": "Inconfortabil",
+        "description": "Neconfortabil si jenat"
+      },
+      "expression-blank": {
+        "name": "Gol",
+        "description": "Fata goala fara expresie"
       }
     }
   }

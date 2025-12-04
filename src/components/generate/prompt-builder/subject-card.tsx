@@ -115,49 +115,51 @@ export function SubjectCard({
 
         {/* Clothing */}
         <TemplateSelector
-          label="Clothing"
+          label={t("clothing")}
           templates={clothingTemplates}
           value={subject.clothing || ""}
           onChange={(value) => onUpdate({ clothing: value })}
-          placeholder="Select or type clothing..."
+          placeholder={t("clothingPlaceholder")}
+          category="clothing"
         />
 
         {/* Expression */}
         <TemplateSelector
-          label="Expression"
+          label={t("expression")}
           templates={expressionTemplates}
           value={subject.expression || ""}
           onChange={(value) => onUpdate({ expression: value })}
-          placeholder="Select or type expression..."
+          placeholder={t("expressionPlaceholder")}
+          category="expression"
         />
 
         {/* Hair */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Hair (optional)</Label>
+          <Label className="text-sm font-medium">{t("hair")}</Label>
           <Input
             value={subject.hair || ""}
             onChange={(e) => onUpdate({ hair: e.target.value })}
-            placeholder="e.g., long brown hair, short blonde hair"
+            placeholder={t("hairPlaceholder")}
           />
         </div>
 
         {/* Makeup */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Makeup (optional)</Label>
+          <Label className="text-sm font-medium">{t("makeup")}</Label>
           <Input
             value={subject.makeup || ""}
             onChange={(e) => onUpdate({ makeup: e.target.value })}
-            placeholder="e.g., natural makeup, red lipstick"
+            placeholder={t("makeupPlaceholder")}
           />
         </div>
 
         {/* Custom Description */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Custom Description (optional)</Label>
+          <Label className="text-sm font-medium">{t("customDescription")}</Label>
           <Input
             value={subject.customDescription || ""}
             onChange={(e) => onUpdate({ customDescription: e.target.value })}
-            placeholder="Any additional details..."
+            placeholder={t("customDescriptionPlaceholder")}
           />
         </div>
       </CardContent>
