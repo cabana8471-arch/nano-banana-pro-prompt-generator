@@ -365,6 +365,17 @@
     "title": "Nano Banana Pro - AI Image Generation",
     "description": "Create stunning AI-generated images using Gemini. Build with customizable prompts, reusable avatars, and powerful image-to-image capabilities."
   },
+  "subjectCard": {
+    "subjectNumber": "Subject {number}",
+    "referenceAvatar": "Reference Avatar",
+    "noAvatarSelected": "No avatar selected",
+    "clickToSelect": "Click to select",
+    "clickToChange": "Click to change",
+    "pose": "Pose",
+    "posePlaceholder": "Select or type pose...",
+    "action": "Action",
+    "actionPlaceholder": "Select or type action..."
+  },
   "templates": {
     "style": {
       "style-photorealistic": {
@@ -598,6 +609,346 @@
       "style-pixel-art": {
         "name": "Pixel Art",
         "description": "Retro pixel art game style"
+      }
+    },
+    "pose": {
+      "pose-standing": {
+        "name": "Standing",
+        "description": "Upright standing position"
+      },
+      "pose-standing-relaxed": {
+        "name": "Relaxed Standing",
+        "description": "Casual relaxed standing"
+      },
+      "pose-standing-confident": {
+        "name": "Power Pose",
+        "description": "Confident assertive stance"
+      },
+      "pose-standing-crossed-arms": {
+        "name": "Arms Crossed",
+        "description": "Standing with folded arms"
+      },
+      "pose-hands-in-pockets": {
+        "name": "Hands in Pockets",
+        "description": "Casual hands in pockets"
+      },
+      "pose-contrapposto": {
+        "name": "Contrapposto",
+        "description": "Classic weight shift pose"
+      },
+      "pose-sitting": {
+        "name": "Sitting",
+        "description": "Seated position on chair or surface"
+      },
+      "pose-sitting-crossed-legs": {
+        "name": "Cross-Legged",
+        "description": "Sitting with legs crossed"
+      },
+      "pose-sitting-floor": {
+        "name": "Floor Sitting",
+        "description": "Sitting on the ground"
+      },
+      "pose-sitting-edge": {
+        "name": "Perched",
+        "description": "Sitting on edge of surface"
+      },
+      "pose-lounging": {
+        "name": "Lounging",
+        "description": "Relaxed lounging position"
+      },
+      "pose-meditation": {
+        "name": "Meditation",
+        "description": "Cross-legged meditation pose"
+      },
+      "pose-leaning": {
+        "name": "Leaning",
+        "description": "Leaning against wall or surface"
+      },
+      "pose-leaning-wall": {
+        "name": "Wall Lean",
+        "description": "Leaning against a wall"
+      },
+      "pose-leaning-forward": {
+        "name": "Forward Lean",
+        "description": "Leaning forward with interest"
+      },
+      "pose-leaning-back": {
+        "name": "Backward Lean",
+        "description": "Leaning back casually"
+      },
+      "pose-lying": {
+        "name": "Lying Down",
+        "description": "Horizontal resting position"
+      },
+      "pose-lying-side": {
+        "name": "Side Lying",
+        "description": "Lying on one side"
+      },
+      "pose-lying-back": {
+        "name": "Lying on Back",
+        "description": "Supine position facing up"
+      },
+      "pose-lying-stomach": {
+        "name": "Lying on Stomach",
+        "description": "Prone position facing down"
+      },
+      "pose-walking": {
+        "name": "Walking",
+        "description": "Mid-stride walking motion"
+      },
+      "pose-running": {
+        "name": "Running",
+        "description": "Dynamic running motion"
+      },
+      "pose-jumping": {
+        "name": "Jumping",
+        "description": "Mid-air jumping action"
+      },
+      "pose-crouching": {
+        "name": "Crouching",
+        "description": "Low crouching or squatting position"
+      },
+      "pose-kneeling": {
+        "name": "Kneeling",
+        "description": "On one or both knees"
+      },
+      "pose-turning": {
+        "name": "Mid-Turn",
+        "description": "Caught mid-turn movement"
+      },
+      "pose-stepping": {
+        "name": "Stepping Forward",
+        "description": "Taking a step forward"
+      },
+      "pose-reaching": {
+        "name": "Reaching",
+        "description": "Reaching for something"
+      },
+      "pose-pointing": {
+        "name": "Pointing",
+        "description": "Pointing gesture"
+      },
+      "pose-waving": {
+        "name": "Waving",
+        "description": "Hand wave gesture"
+      },
+      "pose-stretching": {
+        "name": "Stretching",
+        "description": "Full body stretch"
+      },
+      "pose-dancing": {
+        "name": "Dance Pose",
+        "description": "Elegant dance position"
+      },
+      "pose-action-hero": {
+        "name": "Action Hero",
+        "description": "Dynamic heroic stance"
+      },
+      "pose-defensive": {
+        "name": "Defensive Stance",
+        "description": "Guarded protective position"
+      },
+      "pose-arms-behind-back": {
+        "name": "Arms Behind Back",
+        "description": "Hands clasped behind"
+      },
+      "pose-chin-rest": {
+        "name": "Chin Rest",
+        "description": "Hand resting under chin"
+      },
+      "pose-head-tilt": {
+        "name": "Head Tilt",
+        "description": "Slight head tilt"
+      },
+      "pose-looking-away": {
+        "name": "Looking Away",
+        "description": "Gaze directed off-camera"
+      },
+      "pose-over-shoulder": {
+        "name": "Over Shoulder Look",
+        "description": "Looking back over shoulder"
+      }
+    },
+    "action": {
+      "action-smiling": {
+        "name": "Smiling",
+        "description": "Happy, smiling expression"
+      },
+      "action-laughing": {
+        "name": "Laughing",
+        "description": "Genuine laughter expression"
+      },
+      "action-thinking": {
+        "name": "Thinking",
+        "description": "Contemplative, thoughtful expression"
+      },
+      "action-talking": {
+        "name": "Talking",
+        "description": "Engaged in conversation"
+      },
+      "action-whispering": {
+        "name": "Whispering",
+        "description": "Speaking softly, secretive"
+      },
+      "action-shouting": {
+        "name": "Shouting",
+        "description": "Calling out loudly"
+      },
+      "action-working": {
+        "name": "Working",
+        "description": "Engaged in work or task"
+      },
+      "action-typing": {
+        "name": "Typing",
+        "description": "Typing on keyboard or device"
+      },
+      "action-writing": {
+        "name": "Writing",
+        "description": "Writing by hand"
+      },
+      "action-reading": {
+        "name": "Reading",
+        "description": "Reading a book or document"
+      },
+      "action-studying": {
+        "name": "Studying",
+        "description": "Intense focused learning"
+      },
+      "action-presenting": {
+        "name": "Presenting",
+        "description": "Giving a presentation"
+      },
+      "action-meeting": {
+        "name": "In a Meeting",
+        "description": "Participating in discussion"
+      },
+      "action-dancing": {
+        "name": "Dancing",
+        "description": "Dynamic dancing movement"
+      },
+      "action-exercising": {
+        "name": "Exercising",
+        "description": "Physical workout activity"
+      },
+      "action-yoga": {
+        "name": "Yoga",
+        "description": "Yoga practice pose"
+      },
+      "action-running": {
+        "name": "Running",
+        "description": "Jogging or sprinting"
+      },
+      "action-swimming": {
+        "name": "Swimming",
+        "description": "Swimming motion"
+      },
+      "action-climbing": {
+        "name": "Climbing",
+        "description": "Climbing activity"
+      },
+      "action-jumping": {
+        "name": "Jumping",
+        "description": "Mid-jump action"
+      },
+      "action-playing-music": {
+        "name": "Playing Music",
+        "description": "Playing an instrument"
+      },
+      "action-singing": {
+        "name": "Singing",
+        "description": "Vocal performance"
+      },
+      "action-painting": {
+        "name": "Painting",
+        "description": "Creating art"
+      },
+      "action-cooking": {
+        "name": "Cooking",
+        "description": "Preparing food"
+      },
+      "action-gaming": {
+        "name": "Gaming",
+        "description": "Playing video games"
+      },
+      "action-gardening": {
+        "name": "Gardening",
+        "description": "Tending to plants"
+      },
+      "action-photography": {
+        "name": "Taking Photos",
+        "description": "Using a camera"
+      },
+      "action-hugging": {
+        "name": "Hugging",
+        "description": "Embracing someone"
+      },
+      "action-handshake": {
+        "name": "Handshake",
+        "description": "Formal greeting"
+      },
+      "action-waving": {
+        "name": "Waving",
+        "description": "Greeting wave"
+      },
+      "action-cheering": {
+        "name": "Cheering",
+        "description": "Celebratory cheering"
+      },
+      "action-applauding": {
+        "name": "Applauding",
+        "description": "Clapping hands"
+      },
+      "action-toasting": {
+        "name": "Toasting",
+        "description": "Raising glass for toast"
+      },
+      "action-eating": {
+        "name": "Eating",
+        "description": "Enjoying food"
+      },
+      "action-drinking": {
+        "name": "Drinking",
+        "description": "Having a beverage"
+      },
+      "action-coffee": {
+        "name": "Drinking Coffee",
+        "description": "Enjoying coffee"
+      },
+      "action-sleeping": {
+        "name": "Sleeping",
+        "description": "Asleep or resting"
+      },
+      "action-stretching": {
+        "name": "Stretching",
+        "description": "Morning stretch or workout stretch"
+      },
+      "action-phone-call": {
+        "name": "Phone Call",
+        "description": "On the phone"
+      },
+      "action-texting": {
+        "name": "Texting",
+        "description": "Using smartphone"
+      },
+      "action-walking": {
+        "name": "Walking",
+        "description": "Casual walking"
+      },
+      "action-meditating": {
+        "name": "Meditating",
+        "description": "Mindfulness practice"
+      },
+      "action-daydreaming": {
+        "name": "Daydreaming",
+        "description": "Lost in thought"
+      },
+      "action-stargazing": {
+        "name": "Stargazing",
+        "description": "Looking at the sky"
+      },
+      "action-watching": {
+        "name": "Watching",
+        "description": "Observing something"
       }
     }
   }

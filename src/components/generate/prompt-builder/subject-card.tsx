@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Trash2, ImagePlus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -35,12 +36,14 @@ export function SubjectCard({
   onRemove,
   onSelectAvatar,
 }: SubjectCardProps) {
+  const t = useTranslations("subjectCard");
+
   return (
     <Card>
       <CardHeader className="p-4 pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium">
-            Subject {index + 1}
+            {t("subjectNumber", { number: index + 1 })}
           </CardTitle>
           <Button
             variant="ghost"
@@ -55,7 +58,7 @@ export function SubjectCard({
       <CardContent className="p-4 pt-0 space-y-4">
         {/* Avatar Selection */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Reference Avatar</Label>
+          <Label className="text-sm font-medium">{t("referenceAvatar")}</Label>
           <button
             type="button"
             onClick={onSelectAvatar}
@@ -73,7 +76,7 @@ export function SubjectCard({
                 </div>
                 <div className="text-left flex-1">
                   <div className="font-medium text-sm">{subject.avatarName}</div>
-                  <div className="text-xs text-muted-foreground">Click to change</div>
+                  <div className="text-xs text-muted-foreground">{t("clickToChange")}</div>
                 </div>
               </>
             ) : (
@@ -82,8 +85,8 @@ export function SubjectCard({
                   <ImagePlus className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div className="text-left flex-1">
-                  <div className="font-medium text-sm">No avatar selected</div>
-                  <div className="text-xs text-muted-foreground">Click to select</div>
+                  <div className="font-medium text-sm">{t("noAvatarSelected")}</div>
+                  <div className="text-xs text-muted-foreground">{t("clickToSelect")}</div>
                 </div>
               </>
             )}
@@ -92,20 +95,22 @@ export function SubjectCard({
 
         {/* Pose */}
         <TemplateSelector
-          label="Pose"
+          label={t("pose")}
           templates={poseTemplates}
           value={subject.pose || ""}
           onChange={(value) => onUpdate({ pose: value })}
-          placeholder="Select or type pose..."
+          placeholder={t("posePlaceholder")}
+          category="pose"
         />
 
         {/* Action */}
         <TemplateSelector
-          label="Action"
+          label={t("action")}
           templates={actionTemplates}
           value={subject.action || ""}
           onChange={(value) => onUpdate({ action: value })}
-          placeholder="Select or type action..."
+          placeholder={t("actionPlaceholder")}
+          category="action"
         />
 
         {/* Clothing */}

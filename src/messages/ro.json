@@ -365,6 +365,17 @@
     "title": "Nano Banana Pro - Generare imagini AI",
     "description": "Creeaza imagini AI uimitoare folosind Gemini. Construieste cu prompturi personalizabile, avatare reutilizabile si capabilitati puternice de transformare imagine-in-imagine."
   },
+  "subjectCard": {
+    "subjectNumber": "Subiect {number}",
+    "referenceAvatar": "Avatar de referinta",
+    "noAvatarSelected": "Niciun avatar selectat",
+    "clickToSelect": "Click pentru a selecta",
+    "clickToChange": "Click pentru a schimba",
+    "pose": "Poza",
+    "posePlaceholder": "Selecteaza sau scrie poza...",
+    "action": "Actiune",
+    "actionPlaceholder": "Selecteaza sau scrie actiunea..."
+  },
   "templates": {
     "style": {
       "style-photorealistic": {
@@ -1088,6 +1099,346 @@
       "camera-split-diopter": {
         "name": "Dioptrie separata",
         "description": "Atat prim-planul cat si fundalul in focus"
+      }
+    },
+    "pose": {
+      "pose-standing": {
+        "name": "In picioare",
+        "description": "Pozitie verticala in picioare"
+      },
+      "pose-standing-relaxed": {
+        "name": "In picioare relaxat",
+        "description": "Pozitie casual relaxata"
+      },
+      "pose-standing-confident": {
+        "name": "Poza de putere",
+        "description": "Pozitie sigura si asertiva"
+      },
+      "pose-standing-crossed-arms": {
+        "name": "Bratele incrucisate",
+        "description": "In picioare cu bratele incrucisate"
+      },
+      "pose-hands-in-pockets": {
+        "name": "Mainile in buzunare",
+        "description": "Pozitie casual cu mainile in buzunare"
+      },
+      "pose-contrapposto": {
+        "name": "Contrapposto",
+        "description": "Poza clasica cu greutatea transferata"
+      },
+      "pose-sitting": {
+        "name": "Sezand",
+        "description": "Pozitie asezata pe scaun sau suprafata"
+      },
+      "pose-sitting-crossed-legs": {
+        "name": "Picioarele incrucisate",
+        "description": "Sezand cu picioarele incrucisate"
+      },
+      "pose-sitting-floor": {
+        "name": "Sezand pe podea",
+        "description": "Sezand pe pamant"
+      },
+      "pose-sitting-edge": {
+        "name": "Cocotat",
+        "description": "Sezand pe marginea unei suprafete"
+      },
+      "pose-lounging": {
+        "name": "Relaxare",
+        "description": "Pozitie relaxata de lounging"
+      },
+      "pose-meditation": {
+        "name": "Meditatie",
+        "description": "Pozitie de meditatie cu picioarele incrucisate"
+      },
+      "pose-leaning": {
+        "name": "Rezemat",
+        "description": "Rezemat de perete sau suprafata"
+      },
+      "pose-leaning-wall": {
+        "name": "Rezemat de perete",
+        "description": "Rezemat de un perete"
+      },
+      "pose-leaning-forward": {
+        "name": "Inclinat inainte",
+        "description": "Inclinat inainte cu interes"
+      },
+      "pose-leaning-back": {
+        "name": "Inclinat inapoi",
+        "description": "Inclinat inapoi casual"
+      },
+      "pose-lying": {
+        "name": "Intins",
+        "description": "Pozitie orizontala de odihna"
+      },
+      "pose-lying-side": {
+        "name": "Intins pe o parte",
+        "description": "Intins pe o parte"
+      },
+      "pose-lying-back": {
+        "name": "Intins pe spate",
+        "description": "Pozitie supina cu fata in sus"
+      },
+      "pose-lying-stomach": {
+        "name": "Intins pe burta",
+        "description": "Pozitie prona cu fata in jos"
+      },
+      "pose-walking": {
+        "name": "Mergand",
+        "description": "Miscare de mers la mijlocul pasului"
+      },
+      "pose-running": {
+        "name": "Alergand",
+        "description": "Miscare dinamica de alergare"
+      },
+      "pose-jumping": {
+        "name": "Sarind",
+        "description": "Actiune de saritura in aer"
+      },
+      "pose-crouching": {
+        "name": "Ghemuit",
+        "description": "Pozitie joasa ghemuit sau scuatata"
+      },
+      "pose-kneeling": {
+        "name": "In genunchi",
+        "description": "Pe unul sau ambii genunchi"
+      },
+      "pose-turning": {
+        "name": "La intoarcere",
+        "description": "Prins in mijlocul miscarii de intoarcere"
+      },
+      "pose-stepping": {
+        "name": "Pasind inainte",
+        "description": "Facand un pas inainte"
+      },
+      "pose-reaching": {
+        "name": "Intinzand mana",
+        "description": "Intinzand mana spre ceva"
+      },
+      "pose-pointing": {
+        "name": "Aratand",
+        "description": "Gest de aratare"
+      },
+      "pose-waving": {
+        "name": "Facand cu mana",
+        "description": "Gest de salut cu mana"
+      },
+      "pose-stretching": {
+        "name": "Intindere",
+        "description": "Intindere a intregului corp"
+      },
+      "pose-dancing": {
+        "name": "Poza de dans",
+        "description": "Pozitie eleganta de dans"
+      },
+      "pose-action-hero": {
+        "name": "Erou de actiune",
+        "description": "Pozitie eroica dinamica"
+      },
+      "pose-defensive": {
+        "name": "Pozitie defensiva",
+        "description": "Pozitie de aparare protectoare"
+      },
+      "pose-arms-behind-back": {
+        "name": "Mainile la spate",
+        "description": "Mainile incrucisate la spate"
+      },
+      "pose-chin-rest": {
+        "name": "Sprijinit pe barbie",
+        "description": "Mana sprijinita sub barbie"
+      },
+      "pose-head-tilt": {
+        "name": "Capul inclinat",
+        "description": "Usoara inclinare a capului"
+      },
+      "pose-looking-away": {
+        "name": "Privind in departare",
+        "description": "Privire indreptata in afara camerei"
+      },
+      "pose-over-shoulder": {
+        "name": "Peste umar",
+        "description": "Privind inapoi peste umar"
+      }
+    },
+    "action": {
+      "action-smiling": {
+        "name": "Zambind",
+        "description": "Expresie fericita, zambind"
+      },
+      "action-laughing": {
+        "name": "Razand",
+        "description": "Expresie de ras autentic"
+      },
+      "action-thinking": {
+        "name": "Gandind",
+        "description": "Expresie contemplativa, ganditoare"
+      },
+      "action-talking": {
+        "name": "Vorbind",
+        "description": "Angajat in conversatie"
+      },
+      "action-whispering": {
+        "name": "Soptind",
+        "description": "Vorbind incet, secretos"
+      },
+      "action-shouting": {
+        "name": "Strigand",
+        "description": "Strigand tare"
+      },
+      "action-working": {
+        "name": "Lucrand",
+        "description": "Angajat in munca sau sarcina"
+      },
+      "action-typing": {
+        "name": "Tastând",
+        "description": "Tastand pe tastatura sau dispozitiv"
+      },
+      "action-writing": {
+        "name": "Scriind",
+        "description": "Scriind de mana"
+      },
+      "action-reading": {
+        "name": "Citind",
+        "description": "Citind o carte sau document"
+      },
+      "action-studying": {
+        "name": "Studiind",
+        "description": "Invatare intensa si concentrata"
+      },
+      "action-presenting": {
+        "name": "Prezentand",
+        "description": "Tinand o prezentare"
+      },
+      "action-meeting": {
+        "name": "In sedinta",
+        "description": "Participand la o discutie"
+      },
+      "action-dancing": {
+        "name": "Dansand",
+        "description": "Miscare dinamica de dans"
+      },
+      "action-exercising": {
+        "name": "Facand exercitii",
+        "description": "Activitate fizica de antrenament"
+      },
+      "action-yoga": {
+        "name": "Yoga",
+        "description": "Poza de practica yoga"
+      },
+      "action-running": {
+        "name": "Alergand",
+        "description": "Alergare sau sprint"
+      },
+      "action-swimming": {
+        "name": "Inotand",
+        "description": "Miscare de inot"
+      },
+      "action-climbing": {
+        "name": "Catarandu-se",
+        "description": "Activitate de catarare"
+      },
+      "action-jumping": {
+        "name": "Sarind",
+        "description": "Actiune de saritura"
+      },
+      "action-playing-music": {
+        "name": "Cantand la instrument",
+        "description": "Cantand la un instrument"
+      },
+      "action-singing": {
+        "name": "Cantand",
+        "description": "Performanta vocala"
+      },
+      "action-painting": {
+        "name": "Pictand",
+        "description": "Creand arta"
+      },
+      "action-cooking": {
+        "name": "Gatind",
+        "description": "Pregatind mancare"
+      },
+      "action-gaming": {
+        "name": "Jucand jocuri",
+        "description": "Jucand jocuri video"
+      },
+      "action-gardening": {
+        "name": "Gradinarit",
+        "description": "Ingrijind plantele"
+      },
+      "action-photography": {
+        "name": "Fotografiind",
+        "description": "Folosind o camera"
+      },
+      "action-hugging": {
+        "name": "Imbratisand",
+        "description": "Imbratisand pe cineva"
+      },
+      "action-handshake": {
+        "name": "Strangere de mana",
+        "description": "Salut formal"
+      },
+      "action-waving": {
+        "name": "Facand cu mana",
+        "description": "Salut cu mana"
+      },
+      "action-cheering": {
+        "name": "Incurajand",
+        "description": "Incurajare celebratoare"
+      },
+      "action-applauding": {
+        "name": "Aplaudand",
+        "description": "Batand din palme"
+      },
+      "action-toasting": {
+        "name": "Ciocnind paharele",
+        "description": "Ridicand paharul pentru toast"
+      },
+      "action-eating": {
+        "name": "Mancand",
+        "description": "Savurand mancarea"
+      },
+      "action-drinking": {
+        "name": "Band",
+        "description": "Avand o bautura"
+      },
+      "action-coffee": {
+        "name": "Band cafea",
+        "description": "Savurand cafeaua"
+      },
+      "action-sleeping": {
+        "name": "Dormind",
+        "description": "Adormit sau odihnindu-se"
+      },
+      "action-stretching": {
+        "name": "Intinzandu-se",
+        "description": "Intindere de dimineata sau antrenament"
+      },
+      "action-phone-call": {
+        "name": "Convorbire telefonica",
+        "description": "La telefon"
+      },
+      "action-texting": {
+        "name": "Trimitand mesaje",
+        "description": "Folosind smartphone-ul"
+      },
+      "action-walking": {
+        "name": "Mergand",
+        "description": "Mers casual"
+      },
+      "action-meditating": {
+        "name": "Meditand",
+        "description": "Practica de mindfulness"
+      },
+      "action-daydreaming": {
+        "name": "Visand cu ochii deschisi",
+        "description": "Pierdut in ganduri"
+      },
+      "action-stargazing": {
+        "name": "Privind stelele",
+        "description": "Privind cerul"
+      },
+      "action-watching": {
+        "name": "Privind",
+        "description": "Observand ceva"
       }
     }
   }
