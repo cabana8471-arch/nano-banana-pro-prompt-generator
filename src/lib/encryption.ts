@@ -95,10 +95,17 @@ export function getKeyHint(apiKey: string): string {
  * Google API keys typically start with "AIza" and are about 39 characters
  */
 export function isValidGoogleApiKey(apiKey: string): boolean {
-  // Basic validation - Google API keys start with "AIza" and are about 39 chars
-  if (!apiKey || apiKey.length < 20) {
+  // Google API keys start with "AIza" and are typically 39 characters
+  // Allow a reasonable range (35-45) to accommodate any variations
+  if (!apiKey || apiKey.length < 35 || apiKey.length > 45) {
     return false;
   }
-  // Allow any key that's reasonably long - don't be too strict
-  return true;
+
+  // Google API keys must start with "AIza"
+  if (!apiKey.startsWith("AIza")) {
+    return false;
+  }
+
+  // Validate that the key contains only valid characters (alphanumeric, underscore, hyphen)
+  return /^AIza[A-Za-z0-9_-]+$/.test(apiKey);
 }
