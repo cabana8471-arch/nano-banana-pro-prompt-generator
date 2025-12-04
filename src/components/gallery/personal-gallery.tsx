@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import type {
   GenerationWithImages,
@@ -22,6 +23,7 @@ type PersonalImage = GeneratedImage & {
 };
 
 export function PersonalGallery() {
+  const t = useTranslations("gallery");
   const [images, setImages] = useState<PersonalImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -79,7 +81,7 @@ export function PersonalGallery() {
       <GalleryGrid
         loading={loading}
         isEmpty={images.length === 0}
-        emptyMessage="No images yet. Start generating to see your creations here!"
+        emptyMessage={t("noImagesYet")}
       >
         {images.map((image) => (
           <ImageCard
@@ -102,10 +104,10 @@ export function PersonalGallery() {
             disabled={page === 1 || loading}
           >
             <ChevronLeft className="h-4 w-4 mr-1" />
-            Previous
+            {t("previous")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            Page {page} of {totalPages}
+            {t("pageOf", { current: page, total: totalPages })}
           </span>
           <Button
             variant="outline"
@@ -113,7 +115,7 @@ export function PersonalGallery() {
             onClick={() => setPage((p) => p + 1)}
             disabled={!hasMore || loading}
           >
-            Next
+            {t("next")}
             <ChevronRight className="h-4 w-4 ml-1" />
           </Button>
         </div>

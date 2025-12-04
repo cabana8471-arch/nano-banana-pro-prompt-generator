@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Key, Eye, EyeOff, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -31,6 +32,8 @@ interface ApiKeyStatus {
 }
 
 export function ApiKeyForm() {
+  const t = useTranslations("apiKey");
+  const tCommon = useTranslations("common");
   const [status, setStatus] = useState<ApiKeyStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -117,13 +120,13 @@ export function ApiKeyForm() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Key className="h-5 w-5" />
-            Google AI API Key
+            {t("title")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Loading...
+            {tCommon("loading")}
           </div>
         </CardContent>
       </Card>
@@ -135,10 +138,10 @@ export function ApiKeyForm() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Key className="h-5 w-5" />
-          Google AI API Key
+          {t("title")}
         </CardTitle>
         <CardDescription>
-          Your API key is required for image generation. Get one from{" "}
+          {t("description")}{" "}
           <a
             href="https://aistudio.google.com/apikey"
             target="_blank"
@@ -155,7 +158,7 @@ export function ApiKeyForm() {
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
               <div className="space-y-1">
-                <p className="font-medium">API Key Configured</p>
+                <p className="font-medium">{t("configured")}</p>
                 <p className="text-sm text-muted-foreground font-mono">
                   {status.hint}
                 </p>
@@ -172,16 +175,15 @@ export function ApiKeyForm() {
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Delete API Key?</AlertDialogTitle>
+                    <AlertDialogTitle>{t("deleteConfirm")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This will remove your stored API key. You will need to add
-                      a new key to continue using image generation.
+                      {t("deleteDescription")}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
                     <AlertDialogAction onClick={handleDelete}>
-                      Delete
+                      {tCommon("delete")}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -189,14 +191,13 @@ export function ApiKeyForm() {
             </div>
 
             <div className="text-sm text-muted-foreground">
-              <p>Want to update your key? Enter a new one below:</p>
+              <p>{t("updateHint")}</p>
             </div>
           </div>
         ) : (
           <div className="p-4 border rounded-lg border-yellow-500/50 bg-yellow-500/10">
             <p className="text-sm text-yellow-600 dark:text-yellow-400">
-              No API key configured. Add your Google AI API key to start
-              generating images.
+              {t("notConfigured")}
             </p>
           </div>
         )}
@@ -204,7 +205,7 @@ export function ApiKeyForm() {
         <form onSubmit={handleSave} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="apiKey">
-              {status?.hasKey ? "New API Key" : "API Key"}
+              {status?.hasKey ? t("updateKey") : t("saveKey")}
             </Label>
             <div className="relative">
               <Input
@@ -212,7 +213,7 @@ export function ApiKeyForm() {
                 type={showKey ? "text" : "password"}
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Enter your Google AI API key"
+                placeholder={t("placeholder")}
                 className="pr-10"
               />
               <Button
@@ -235,19 +236,18 @@ export function ApiKeyForm() {
             {saving ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Saving...
+                {t("saving")}
               </>
             ) : status?.hasKey ? (
-              "Update API Key"
+              t("updateKey")
             ) : (
-              "Save API Key"
+              t("saveKey")
             )}
           </Button>
         </form>
 
         <p className="text-xs text-muted-foreground">
-          Your API key is encrypted and stored securely. We never share your key
-          with third parties.
+          {t("securityNote")}
         </p>
       </CardContent>
     </Card>

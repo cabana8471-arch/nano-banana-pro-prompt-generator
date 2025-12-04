@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { ArrowLeft, Heart, ImageIcon, Calendar } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,6 +19,8 @@ interface UserGalleryClientProps {
 }
 
 export function UserGalleryClient({ userId }: UserGalleryClientProps) {
+  const t = useTranslations("gallery");
+  const tCommon = useTranslations("common");
   const [userProfile, setUserProfile] = useState<PublicUserProfile | null>(null);
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -112,7 +115,7 @@ export function UserGalleryClient({ userId }: UserGalleryClientProps) {
       <Link href="/gallery/public">
         <Button variant="ghost" className="gap-2 -ml-2">
           <ArrowLeft className="h-4 w-4" />
-          Back to Gallery
+          {t("backToGallery")}
         </Button>
       </Link>
 
@@ -144,7 +147,7 @@ export function UserGalleryClient({ userId }: UserGalleryClientProps) {
                 <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1.5">
                     <Calendar className="h-4 w-4" />
-                    <span>Member since {formatDistanceToNow(new Date(userProfile.createdAt), { addSuffix: true })}</span>
+                    <span>{t("memberSince", { time: formatDistanceToNow(new Date(userProfile.createdAt), { addSuffix: true }) })}</span>
                   </div>
                 </div>
               </div>
@@ -155,14 +158,14 @@ export function UserGalleryClient({ userId }: UserGalleryClientProps) {
                     <ImageIcon className="h-5 w-5 text-purple-500" />
                     {userProfile.stats.totalPublicImages}
                   </div>
-                  <p className="text-xs text-muted-foreground">Public Images</p>
+                  <p className="text-xs text-muted-foreground">{t("publicImages")}</p>
                 </div>
                 <div className="text-center">
                   <div className="flex items-center justify-center gap-1.5 text-2xl font-bold">
                     <Heart className="h-5 w-5 text-red-500" />
                     {userProfile.stats.totalLikesReceived}
                   </div>
-                  <p className="text-xs text-muted-foreground">Total Likes</p>
+                  <p className="text-xs text-muted-foreground">{t("totalLikes")}</p>
                 </div>
               </div>
             </div>
@@ -173,7 +176,7 @@ export function UserGalleryClient({ userId }: UserGalleryClientProps) {
       {/* User's Images */}
       <section>
         <div className="flex items-center gap-2 mb-4">
-          <h2 className="text-xl font-semibold">Public Images</h2>
+          <h2 className="text-xl font-semibold">{t("publicImages")}</h2>
           {total > 0 && (
             <span className="text-sm text-muted-foreground">({total})</span>
           )}
@@ -182,7 +185,7 @@ export function UserGalleryClient({ userId }: UserGalleryClientProps) {
         <GalleryGrid
           loading={loading}
           isEmpty={images.length === 0}
-          emptyMessage="This user hasn't shared any public images yet."
+          emptyMessage={t("noUserImages")}
         >
           {images.map((image) => (
             <ImageCard
@@ -204,7 +207,7 @@ export function UserGalleryClient({ userId }: UserGalleryClientProps) {
               onClick={handleLoadMore}
               disabled={loadingMore}
             >
-              {loadingMore ? "Loading..." : "Load More"}
+              {loadingMore ? tCommon("loading") : t("loadMore")}
             </Button>
           </div>
         )}

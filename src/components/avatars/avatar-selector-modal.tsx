@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Check, User, Package, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +37,8 @@ export function AvatarSelectorModal({
   onSelect,
   filterType = "all",
 }: AvatarSelectorModalProps) {
+  const t = useTranslations("avatars");
+  const tCommon = useTranslations("common");
   const [searchQuery, setSearchQuery] = useState("");
   const [localSelectedId, setLocalSelectedId] = useState<string | undefined>(selectedId);
 
@@ -65,9 +68,9 @@ export function AvatarSelectorModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle>Select Avatar</DialogTitle>
+          <DialogTitle>{t("selectAvatar")}</DialogTitle>
           <DialogDescription>
-            Choose an avatar to use as a reference image in your generation.
+            {t("selectDescription")}
           </DialogDescription>
         </DialogHeader>
 
@@ -75,7 +78,7 @@ export function AvatarSelectorModal({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search avatars..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -95,9 +98,9 @@ export function AvatarSelectorModal({
             </div>
           ) : filteredAvatars.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full py-8 text-muted-foreground">
-              <p className="text-lg">No avatars found</p>
+              <p className="text-lg">{t("noAvatarsFound")}</p>
               {searchQuery && (
-                <p className="text-sm">Try a different search term</p>
+                <p className="text-sm">{t("tryDifferentSearch")}</p>
               )}
             </div>
           ) : (
@@ -137,7 +140,7 @@ export function AvatarSelectorModal({
                       ) : (
                         <Package className="h-3 w-3 mr-1" />
                       )}
-                      {avatar.avatarType}
+                      {avatar.avatarType === "human" ? t("typeHuman") : t("typeObject")}
                     </Badge>
                   </div>
                 </button>
@@ -148,7 +151,7 @@ export function AvatarSelectorModal({
 
         <DialogFooter className="flex-row justify-between sm:justify-between">
           <Button type="button" variant="ghost" onClick={handleClear}>
-            Clear Selection
+            {t("clearSelection")}
           </Button>
           <div className="flex gap-2">
             <Button
@@ -156,10 +159,10 @@ export function AvatarSelectorModal({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button type="button" onClick={handleConfirm}>
-              Confirm
+              {t("confirm")}
             </Button>
           </div>
         </DialogFooter>

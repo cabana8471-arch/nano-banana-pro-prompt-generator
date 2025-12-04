@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Search, TrendingUp, Users, Sparkles } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +14,8 @@ import { ImageCard } from "./image-card";
 import { ImageDetailModal } from "./image-detail-modal";
 
 export function PublicGalleryClient() {
+  const t = useTranslations("gallery");
+  const tCommon = useTranslations("common");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -138,7 +141,7 @@ export function PublicGalleryClient() {
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search images by prompt..."
+          placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-10"
@@ -153,7 +156,7 @@ export function PublicGalleryClient() {
             <section>
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="h-5 w-5 text-red-500" />
-                <h2 className="text-xl font-semibold">Most Liked</h2>
+                <h2 className="text-xl font-semibold">{t("mostLiked")}</h2>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {mostLikedImages.slice(0, 8).map((image) => (
@@ -175,7 +178,7 @@ export function PublicGalleryClient() {
             <section>
               <div className="flex items-center gap-2 mb-4">
                 <Users className="h-5 w-5 text-blue-500" />
-                <h2 className="text-xl font-semibold">Top Contributors</h2>
+                <h2 className="text-xl font-semibold">{t("topContributors")}</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 {topContributors.map((contributor, index) => (
@@ -201,7 +204,7 @@ export function PublicGalleryClient() {
                         <div className="min-w-0 flex-1">
                           <p className="font-medium truncate">{contributor.user.name}</p>
                           <p className="text-xs text-muted-foreground">
-                            {contributor.totalImages} images · {contributor.totalLikes} likes
+                            {t("imagesAndLikes", { images: contributor.totalImages, likes: contributor.totalLikes })}
                           </p>
                         </div>
                       </CardContent>
@@ -219,10 +222,10 @@ export function PublicGalleryClient() {
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className="h-5 w-5 text-purple-500" />
           <h2 className="text-xl font-semibold">
-            {debouncedSearch ? `Search Results` : "Latest Images"}
+            {debouncedSearch ? t("searchResults") : t("latestImages")}
           </h2>
           {total > 0 && (
-            <span className="text-sm text-muted-foreground">({total} total)</span>
+            <span className="text-sm text-muted-foreground">{t("total", { total })}</span>
           )}
         </div>
 
@@ -231,8 +234,8 @@ export function PublicGalleryClient() {
           isEmpty={images.length === 0}
           emptyMessage={
             debouncedSearch
-              ? `No images found for "${debouncedSearch}"`
-              : "No public images yet. Be the first to share!"
+              ? t("noImagesFound", { query: debouncedSearch })
+              : t("noPublicImages")
           }
         >
           {images.map((image) => (
@@ -255,7 +258,7 @@ export function PublicGalleryClient() {
               onClick={handleLoadMore}
               disabled={loadingMore}
             >
-              {loadingMore ? "Loading..." : "Load More"}
+              {loadingMore ? tCommon("loading") : t("loadMore")}
             </Button>
           </div>
         )}

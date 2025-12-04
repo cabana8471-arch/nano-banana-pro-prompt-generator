@@ -24,7 +24,10 @@
       "Bash(npx pnpm run lint:*)",
       "Bash(npx pnpm run typecheck)",
       "Bash(openssl rand:*)",
-      "Bash(npx pnpm:*)"
+      "Bash(npx pnpm:*)",
+      "Bash(grep:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm typecheck:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

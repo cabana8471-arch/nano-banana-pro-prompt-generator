@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Pencil, Trash2, User, Package } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +20,8 @@ interface AvatarCardProps {
 }
 
 export function AvatarCard({ avatar, onEdit, onDelete }: AvatarCardProps) {
+  const t = useTranslations("avatars");
+  const tCommon = useTranslations("common");
   return (
     <Card className="overflow-hidden">
       <CardHeader className="p-0">
@@ -41,7 +44,7 @@ export function AvatarCard({ avatar, onEdit, onDelete }: AvatarCardProps) {
             ) : (
               <Package className="h-3 w-3" />
             )}
-            {avatar.avatarType}
+            {avatar.avatarType === "human" ? t("typeHuman") : t("typeObject")}
           </Badge>
         </div>
         {avatar.description && (
@@ -58,7 +61,7 @@ export function AvatarCard({ avatar, onEdit, onDelete }: AvatarCardProps) {
           onClick={() => onEdit(avatar)}
         >
           <Pencil className="h-4 w-4 mr-2" />
-          Edit
+          {t("edit")}
         </Button>
         <Button
           variant="outline"
@@ -67,7 +70,7 @@ export function AvatarCard({ avatar, onEdit, onDelete }: AvatarCardProps) {
           onClick={() => onDelete(avatar)}
         >
           <Trash2 className="h-4 w-4 mr-2" />
-          Delete
+          {tCommon("delete")}
         </Button>
       </CardFooter>
     </Card>

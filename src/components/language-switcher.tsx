@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useLocale, useTranslations } from "next-intl";
 import { Globe } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter, usePathname } from "@/i18n/routing";
 import { locales, localeNames, type Locale } from "@/i18n/config";
+import { useRouter, usePathname } from "@/i18n/routing";
 
 export function LanguageSwitcher() {
   const t = useTranslations("profile.language");

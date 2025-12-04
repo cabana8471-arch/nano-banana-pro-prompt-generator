@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Save, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -29,6 +30,8 @@ export function SavePresetModal({
   disabled = false,
   trigger,
 }: SavePresetModalProps) {
+  const t = useTranslations("presets");
+  const tCommon = useTranslations("common");
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -47,10 +50,10 @@ export function SavePresetModal({
         setOpen(false);
         setName("");
       } else {
-        setError("Failed to save preset");
+        setError(t("failedToSave"));
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to save preset");
+      setError(err instanceof Error ? err.message : t("failedToSave"));
     } finally {
       setIsSaving(false);
     }
@@ -73,9 +76,9 @@ export function SavePresetModal({
     if (config.lighting) summary.push(`Lighting: ${config.lighting}`);
     if (config.camera) summary.push(`Camera: ${config.camera}`);
     if (config.subjects.length > 0) {
-      summary.push(`${config.subjects.length} subject(s)`);
+      summary.push(t("subjects", { count: config.subjects.length }));
     }
-    if (config.customPrompt) summary.push("Custom prompt included");
+    if (config.customPrompt) summary.push(t("customPromptIncluded"));
     return summary;
   };
 
@@ -87,25 +90,25 @@ export function SavePresetModal({
         {trigger || (
           <Button variant="outline" size="sm" disabled={disabled}>
             <Save className="h-4 w-4 mr-2" />
-            Save Preset
+            {t("savePreset")}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSave}>
           <DialogHeader>
-            <DialogTitle>Save Preset</DialogTitle>
+            <DialogTitle>{t("savePreset")}</DialogTitle>
             <DialogDescription>
-              Save your current prompt configuration as a preset to reuse later.
+              {t("saveDescription")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="preset-name">Preset Name</Label>
+              <Label htmlFor="preset-name">{t("presetName")}</Label>
               <Input
                 id="preset-name"
-                placeholder="e.g., Portrait Studio Setup"
+                placeholder={t("presetPlaceholder")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={isSaving}
@@ -116,7 +119,7 @@ export function SavePresetModal({
             {configSummary.length > 0 && (
               <div className="grid gap-2">
                 <Label className="text-muted-foreground text-sm">
-                  Configuration Summary
+                  {t("configSummary")}
                 </Label>
                 <ul className="text-sm text-muted-foreground list-disc list-inside">
                   {configSummary.map((item, i) => (
@@ -138,18 +141,18 @@ export function SavePresetModal({
               onClick={() => handleOpenChange(false)}
               disabled={isSaving}
             >
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button type="submit" disabled={!name.trim() || isSaving}>
               {isSaving ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Saving...
+                  {t("savingPreset")}
                 </>
               ) : (
                 <>
                   <Save className="h-4 w-4 mr-2" />
-                  Save Preset
+                  {t("savePreset")}
                 </>
               )}
             </Button>

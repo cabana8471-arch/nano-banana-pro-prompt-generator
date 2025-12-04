@@ -1,10 +1,10 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { locales, type Locale } from "@/i18n/config";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { userPreferences } from "@/lib/schema";
-import { locales, type Locale } from "@/i18n/config";
 
 /**
  * GET /api/user/preferences

@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, User, Package } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -37,6 +38,8 @@ export function AvatarFormModal({
   onSubmit,
   isSubmitting,
 }: AvatarFormModalProps) {
+  const t = useTranslations("avatars");
+  const tCommon = useTranslations("common");
   const [name, setName] = useState(avatar?.name || "");
   const [description, setDescription] = useState(avatar?.description || "");
   const [avatarType, setAvatarType] = useState<AvatarType>(avatar?.avatarType || "human");
@@ -91,11 +94,11 @@ export function AvatarFormModal({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{isEditing ? "Edit Avatar" : "Create Avatar"}</DialogTitle>
+          <DialogTitle>{isEditing ? t("editAvatar") : t("createAvatar")}</DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update your avatar's information."
-              : "Create a new avatar to use as a reference image in your generations."}
+              ? t("updateDescription")
+              : t("createDescription")}
           </DialogDescription>
         </DialogHeader>
 
@@ -103,7 +106,7 @@ export function AvatarFormModal({
           {/* Image Upload */}
           {!isEditing && (
             <div className="space-y-2">
-              <Label>Reference Image</Label>
+              <Label>{t("referenceImage")}</Label>
               <div className="relative">
                 {imagePreview ? (
                   <div className="relative aspect-square w-full max-w-[200px] mx-auto rounded-lg overflow-hidden border">
@@ -131,10 +134,10 @@ export function AvatarFormModal({
                   >
                     <Upload className="h-8 w-8 text-muted-foreground" />
                     <span className="text-sm text-muted-foreground">
-                      Click to upload an image
+                      {t("clickToUpload")}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      JPEG, PNG, GIF, WEBP (max 5MB)
+                      {t("imageFormats")}
                     </span>
                   </button>
                 )}
@@ -151,31 +154,31 @@ export function AvatarFormModal({
 
           {/* Name */}
           <div className="space-y-2">
-            <Label htmlFor="avatar-name">Name</Label>
+            <Label htmlFor="avatar-name">{t("name")}</Label>
             <Input
               id="avatar-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g., John, Red Sports Car, My Cat"
+              placeholder={t("namePlaceholder")}
               required
             />
           </div>
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="avatar-description">Description (optional)</Label>
+            <Label htmlFor="avatar-description">{t("descriptionLabel")}</Label>
             <Textarea
               id="avatar-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe the avatar's key features..."
+              placeholder={t("descriptionPlaceholder")}
               rows={3}
             />
           </div>
 
           {/* Avatar Type */}
           <div className="space-y-2">
-            <Label>Type</Label>
+            <Label>{t("type")}</Label>
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
@@ -187,9 +190,9 @@ export function AvatarFormModal({
                 }`}
               >
                 <User className="h-6 w-6" />
-                <span className="font-medium">Human</span>
+                <span className="font-medium">{t("typeHuman")}</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  Person, character
+                  {t("humanDescription")}
                 </span>
               </button>
               <button
@@ -202,9 +205,9 @@ export function AvatarFormModal({
                 }`}
               >
                 <Package className="h-6 w-6" />
-                <span className="font-medium">Object</span>
+                <span className="font-medium">{t("typeObject")}</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  Item, product, pet
+                  {t("objectDescription")}
                 </span>
               </button>
             </div>
@@ -217,13 +220,13 @@ export function AvatarFormModal({
               onClick={handleClose}
               disabled={isSubmitting}
             >
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting || (!isEditing && !imageFile) || !name.trim()}
             >
-              {isSubmitting ? "Saving..." : isEditing ? "Save Changes" : "Create Avatar"}
+              {isSubmitting ? t("saving") : isEditing ? tCommon("saveChanges") : t("createAvatar")}
             </Button>
           </DialogFooter>
         </form>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MoreVertical, Pencil, Trash2, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,6 +44,8 @@ export function PresetList({
   onEdit,
   isLoading = false,
 }: PresetListProps) {
+  const t = useTranslations("presets");
+  const tCommon = useTranslations("common");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -70,9 +73,9 @@ export function PresetList({
     if (preset.config.style) parts.push(`Style: ${preset.config.style}`);
     if (preset.config.location) parts.push(`Location: ${preset.config.location}`);
     if (preset.config.subjects.length > 0) {
-      parts.push(`${preset.config.subjects.length} subject(s)`);
+      parts.push(t("subjects", { count: preset.config.subjects.length }));
     }
-    return parts.join(" | ") || "No configuration";
+    return parts.join(" | ") || t("noConfiguration");
   };
 
   if (isLoading) {
@@ -86,8 +89,8 @@ export function PresetList({
   if (presets.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        <p className="text-lg mb-2">No presets saved</p>
-        <p className="text-sm">Save your current prompt configuration as a preset to reuse later.</p>
+        <p className="text-lg mb-2">{t("noPresetsSaved")}</p>
+        <p className="text-sm">{t("noPresetsSavedHint")}</p>
       </div>
     );
   }
@@ -114,7 +117,7 @@ export function PresetList({
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 flex-shrink-0"
+                      className="h-8 w-8 shrink-0"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <MoreVertical className="h-4 w-4" />
@@ -127,7 +130,7 @@ export function PresetList({
                         onLoad(preset);
                       }}
                     >
-                      Load Preset
+                      {t("loadPreset")}
                     </DropdownMenuItem>
                     {onEdit && (
                       <DropdownMenuItem
@@ -137,7 +140,7 @@ export function PresetList({
                         }}
                       >
                         <Pencil className="h-4 w-4 mr-2" />
-                        Edit
+                        {t("edit")}
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem
@@ -148,7 +151,7 @@ export function PresetList({
                       }}
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
-                      Delete
+                      {tCommon("delete")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -166,19 +169,19 @@ export function PresetList({
       <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Preset</AlertDialogTitle>
+            <AlertDialogTitle>{t("deletePreset")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this preset? This action cannot be undone.
+              {t("deletePresetConfirm")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>{tCommon("cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ? t("deleting") : tCommon("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

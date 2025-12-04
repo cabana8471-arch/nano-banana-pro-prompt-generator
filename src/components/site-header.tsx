@@ -1,14 +1,14 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { UserProfile } from "@/components/auth/user-profile";
+import { Link, usePathname } from "@/i18n/routing";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./ui/mode-toggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { Link, usePathname } from "@/i18n/routing";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -32,7 +32,7 @@ export function SiteHeader() {
       >
         {t("skipToMainContent")}
       </a>
-      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50" role="banner">
+      <header className="border-b sticky top-0 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 z-50" role="banner">
         <nav
           className="container mx-auto px-4 py-4 flex justify-between items-center"
           aria-label={t("mainNavigation")}
@@ -50,7 +50,7 @@ export function SiteHeader() {
               >
                 <Banana className="h-5 w-5 text-yellow-500" />
               </div>
-              <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent hidden sm:inline">
+              <span className="bg-linear-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent hidden sm:inline">
                 {tBrand("name")}
               </span>
             </Link>

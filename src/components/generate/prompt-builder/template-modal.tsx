@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -33,12 +34,14 @@ export function TemplateModal({
   selectedId,
   onSelect,
 }: TemplateModalProps) {
+  const t = useTranslations("generate");
+  const tCommon = useTranslations("common");
   const [search, setSearch] = useState("");
 
   const filteredTemplates = templates.filter(
-    (t) =>
-      t.name.toLowerCase().includes(search.toLowerCase()) ||
-      t.description.toLowerCase().includes(search.toLowerCase())
+    (template) =>
+      template.name.toLowerCase().includes(search.toLowerCase()) ||
+      template.description.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleSelect = (template: Template) => {
@@ -59,7 +62,7 @@ export function TemplateModal({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search templates..."
+            placeholder={t("searchTemplates")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9"
@@ -70,7 +73,7 @@ export function TemplateModal({
         <ScrollArea className="flex-1 min-h-[300px] max-h-[400px]">
           {filteredTemplates.length === 0 ? (
             <div className="flex items-center justify-center h-full text-muted-foreground">
-              No templates found
+              {t("noTemplatesFound")}
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-3 p-1">
@@ -103,7 +106,7 @@ export function TemplateModal({
 
         <div className="flex justify-end pt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Close
+            {tCommon("close")}
           </Button>
         </div>
       </DialogContent>

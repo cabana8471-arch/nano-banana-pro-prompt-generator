@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Globe, Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +19,7 @@ export function VisibilityToggle({
   onToggle,
   className,
 }: VisibilityToggleProps) {
+  const t = useTranslations("gallery");
   const [loading, setLoading] = useState(false);
   const [currentVisibility, setCurrentVisibility] = useState(isPublic);
 
@@ -51,17 +53,17 @@ export function VisibilityToggle({
       onClick={handleToggle}
       disabled={loading}
       className={cn("gap-2", className)}
-      title={currentVisibility ? "Make private" : "Make public"}
+      title={currentVisibility ? t("makePrivate") : t("makePublic")}
     >
       {currentVisibility ? (
         <>
           <Globe className="h-4 w-4" />
-          <span>Public</span>
+          <span>{t("public")}</span>
         </>
       ) : (
         <>
           <Lock className="h-4 w-4" />
-          <span>Private</span>
+          <span>{t("private")}</span>
         </>
       )}
     </Button>

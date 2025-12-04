@@ -1,7 +1,6 @@
 "use client";
 
 import { Wand2 } from "lucide-react";
-import { Link } from "@/i18n/routing";
 import { LoadPresetDropdown } from "@/components/presets/load-preset-dropdown";
 import { SavePresetModal } from "@/components/presets/save-preset-modal";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "@/i18n/routing";
 import type { GenerationSettings, Preset, PresetConfig } from "@/lib/types/generation";
 
 interface PreviewPanelProps {

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AlertCircle, XCircle, RefreshCw, Key, ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 
@@ -11,12 +12,15 @@ interface GenerationErrorAlertProps {
   onRetry?: () => void;
 }
 
-// Error type detection and friendly messages
-function getErrorInfo(error: string): {
-  title: string;
-  message: string;
+type ErrorInfoResult = {
+  titleKey: string;
+  messageKey: string;
   action?: "api-key" | "retry" | "quota" | "none";
-} {
+  fallbackMessage?: string;
+};
+
+// Error type detection - returns translation keys
+function getErrorInfo(error: string): ErrorInfoResult {
   const errorLower = error.toLowerCase();
 
   // API Key errors
@@ -27,9 +31,8 @@ function getErrorInfo(error: string): {
     errorLower.includes("authentication")
   ) {
     return {
-      title: "Invalid API Key",
-      message:
-        "Your Google API key appears to be invalid or expired. Please check your key and try again.",
+      titleKey: "invalidApiKey",
+      messageKey: "invalidApiKeyMessage",
       action: "api-key",
     };
   }
@@ -42,9 +45,8 @@ function getErrorInfo(error: string): {
     errorLower.includes("429")
   ) {
     return {
-      title: "Rate Limit Exceeded",
-      message:
-        "You've exceeded the API rate limit. Please wait a few minutes before trying again.",
+      titleKey: "rateLimitExceeded",
+      messageKey: "rateLimitExceededMessage",
       action: "retry",
     };
   }
@@ -52,9 +54,8 @@ function getErrorInfo(error: string): {
   // Quota errors
   if (errorLower.includes("quota") || errorLower.includes("billing")) {
     return {
-      title: "API Quota Exceeded",
-      message:
-        "Your Google API quota has been exceeded. Please check your Google Cloud billing settings.",
+      titleKey: "apiQuotaExceeded",
+      messageKey: "apiQuotaExceededMessage",
       action: "quota",
     };
   }
@@ -67,9 +68,8 @@ function getErrorInfo(error: string): {
     errorLower.includes("harmful")
   ) {
     return {
-      title: "Content Policy Violation",
-      message:
-        "Your prompt was blocked due to content policy. Please modify your prompt and try again.",
+      titleKey: "contentPolicyViolation",
+      messageKey: "contentPolicyViolationMessage",
       action: "none",
     };
   }
@@ -81,18 +81,18 @@ function getErrorInfo(error: string): {
     errorLower.includes("connection")
   ) {
     return {
-      title: "Connection Error",
-      message:
-        "There was a problem connecting to the server. Please check your internet connection and try again.",
+      titleKey: "connectionError",
+      messageKey: "connectionErrorMessage",
       action: "retry",
     };
   }
 
   // Default error
   return {
-    title: "Generation Failed",
-    message: error || "An unexpected error occurred. Please try again.",
+    titleKey: "generationFailed",
+    messageKey: "generationFailedMessage",
     action: "retry",
+    fallbackMessage: error,
   };
 }
 
@@ -101,7 +101,12 @@ export function GenerationErrorAlert({
   onDismiss,
   onRetry,
 }: GenerationErrorAlertProps) {
-  const { title, message, action } = getErrorInfo(error);
+  const t = useTranslations("errors");
+  const tCommon = useTranslations("common");
+  const { titleKey, messageKey, action, fallbackMessage } = getErrorInfo(error);
+
+  const title = t(titleKey);
+  const message = fallbackMessage || t(messageKey);
 
   return (
     <Alert variant="destructive" className="mb-4">
@@ -116,7 +121,7 @@ export function GenerationErrorAlert({
             className="h-6 w-6 p-0 hover:bg-destructive/20"
           >
             <XCircle className="h-4 w-4" />
-            <span className="sr-only">Dismiss</span>
+            <span className="sr-only">{t("dismiss")}</span>
           </Button>
         )}
       </AlertTitle>
@@ -127,14 +132,14 @@ export function GenerationErrorAlert({
             <Button asChild variant="outline" size="sm" className="gap-2">
               <Link href="/profile">
                 <Key className="h-4 w-4" />
-                Check API Key
+                {t("checkApiKey")}
               </Link>
             </Button>
           )}
           {action === "retry" && onRetry && (
             <Button variant="outline" size="sm" onClick={onRetry} className="gap-2">
               <RefreshCw className="h-4 w-4" />
-              Try Again
+              {tCommon("tryAgain")}
             </Button>
           )}
           {action === "quota" && (
@@ -145,7 +150,7 @@ export function GenerationErrorAlert({
                 rel="noopener noreferrer"
               >
                 <ExternalLink className="h-4 w-4" />
-                Google Cloud Console
+                {t("googleCloudConsole")}
               </a>
             </Button>
           )}

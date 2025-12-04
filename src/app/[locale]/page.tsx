@@ -37,7 +37,7 @@ export default async function HomePage({ params }: Props) {
           </div>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold">
-          <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent">
             {tBrand("name")}
           </span>
         </h1>

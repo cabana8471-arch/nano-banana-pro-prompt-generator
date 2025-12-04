@@ -4,6 +4,7 @@ import { useState, useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import { Download, Copy, Check, ExternalLink, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { createPortal } from "react-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -53,6 +54,7 @@ export function ImageDetailModal({
   showVisibilityToggle = false,
   ...props
 }: ImageDetailModalProps) {
+  const t = useTranslations("gallery");
   const [copied, setCopied] = useState(false);
   const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
@@ -126,7 +128,7 @@ export function ImageDetailModal({
         onClick={() => onOpenChange(false)}
       >
         <X className="h-5 w-5" />
-        <span className="sr-only">Close</span>
+        <span className="sr-only">{t("close")}</span>
       </Button>
 
       {/* Full-screen container */}
@@ -144,7 +146,7 @@ export function ImageDetailModal({
         </div>
 
         {/* Details bar at bottom */}
-        <div className="flex-shrink-0 pt-3 pb-1">
+        <div className="shrink-0 pt-3 pb-1">
           <div className="flex flex-wrap items-center justify-between gap-2">
             {/* Left side: user/time and settings */}
             <div className="flex items-center gap-3 text-sm">
@@ -175,11 +177,11 @@ export function ImageDetailModal({
             <div className="flex items-center gap-1">
               <Button variant="ghost" size="sm" onClick={handleCopyPrompt} className="h-8 gap-1.5">
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                <span className="hidden sm:inline">{copied ? "Copied" : "Copy Prompt"}</span>
+                <span className="hidden sm:inline">{copied ? t("copied") : t("copyPrompt")}</span>
               </Button>
               <Button variant="ghost" size="sm" onClick={handleDownload} className="h-8 gap-1.5">
                 <Download className="h-4 w-4" />
-                <span className="hidden sm:inline">Download</span>
+                <span className="hidden sm:inline">{t("download")}</span>
               </Button>
               <Button
                 variant="ghost"
@@ -188,7 +190,7 @@ export function ImageDetailModal({
                 className="h-8 gap-1.5"
               >
                 <ExternalLink className="h-4 w-4" />
-                <span className="hidden sm:inline">Open</span>
+                <span className="hidden sm:inline">{t("open")}</span>
               </Button>
               {showVisibilityToggle && (
                 <VisibilityToggle

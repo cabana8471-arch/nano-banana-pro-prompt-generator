@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { User, LogOut } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,8 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useSession, signOut } from "@/lib/auth-client";
 import { Link, useRouter } from "@/i18n/routing";
+import { useSession, signOut } from "@/lib/auth-client";
 import { SignInButton } from "./sign-in-button";
 
 export function UserProfile() {

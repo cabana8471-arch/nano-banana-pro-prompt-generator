@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Wand2, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,18 +13,19 @@ interface RefineInputProps {
   disabled?: boolean;
 }
 
-const REFINEMENT_SUGGESTIONS = [
-  "Make the lighting more dramatic",
-  "Add more vibrant colors",
-  "Make the background more detailed",
-  "Change the expression to be happier",
-  "Add more depth and shadows",
-  "Make the composition more dynamic",
-  "Increase the contrast",
-  "Add a warm color tone",
-];
+const SUGGESTION_KEYS = [
+  "dramaticLighting",
+  "vibrantColors",
+  "detailedBackground",
+  "happierExpression",
+  "depthShadows",
+  "dynamicComposition",
+  "increaseContrast",
+  "warmTone",
+] as const;
 
 export function RefineInput({ onRefine, isRefining, disabled = false }: RefineInputProps) {
+  const t = useTranslations("results");
   const [instruction, setInstruction] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,37 +44,40 @@ export function RefineInput({ onRefine, isRefining, disabled = false }: RefineIn
     <div className="space-y-4">
       <div>
         <Label htmlFor="refine-instruction" className="text-sm font-medium">
-          Refine Your Image
+          {t("refineTitle")}
         </Label>
         <p className="text-xs text-muted-foreground mt-1">
-          Describe how you would like to modify the generated image
+          {t("refineDescription")}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <Textarea
           id="refine-instruction"
-          placeholder="e.g., Make the lighting more dramatic and add a sunset glow..."
+          placeholder={t("refinePlaceholder")}
           value={instruction}
           onChange={(e) => setInstruction(e.target.value)}
           disabled={isRefining || disabled}
-          className="min-h-[80px] resize-none"
+          className="min-h-20 resize-none"
         />
 
         <div className="flex flex-wrap gap-2">
-          {REFINEMENT_SUGGESTIONS.slice(0, 4).map((suggestion) => (
-            <Button
-              key={suggestion}
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => handleSuggestionClick(suggestion)}
-              disabled={isRefining || disabled}
-              className="text-xs"
-            >
-              {suggestion}
-            </Button>
-          ))}
+          {SUGGESTION_KEYS.slice(0, 4).map((key) => {
+            const suggestion = t(`suggestions.${key}`);
+            return (
+              <Button
+                key={key}
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => handleSuggestionClick(suggestion)}
+                disabled={isRefining || disabled}
+                className="text-xs"
+              >
+                {suggestion}
+              </Button>
+            );
+          })}
         </div>
 
         <Button
@@ -83,12 +88,12 @@ export function RefineInput({ onRefine, isRefining, disabled = false }: RefineIn
           {isRefining ? (
             <>
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Refining...
+              {t("refining")}
             </>
           ) : (
             <>
               <Wand2 className="h-4 w-4 mr-2" />
-              Refine Image
+              {t("refineButton")}
             </>
           )}
         </Button>

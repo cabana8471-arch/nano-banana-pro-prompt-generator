@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Avatar } from "@/lib/types/generation";
 import { AvatarCard } from "./avatar-card";
@@ -31,6 +32,8 @@ function AvatarSkeleton() {
 }
 
 export function AvatarList({ avatars, isLoading, onEdit, onDelete }: AvatarListProps) {
+  const t = useTranslations("avatars");
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -44,8 +47,8 @@ export function AvatarList({ avatars, isLoading, onEdit, onDelete }: AvatarListP
   if (avatars.length === 0) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        <p className="text-lg">No avatars yet</p>
-        <p className="text-sm">Create your first avatar to use as a reference in image generation.</p>
+        <p className="text-lg">{t("noAvatars")}</p>
+        <p className="text-sm">{t("noAvatarsHint")}</p>
       </div>
     );
   }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Download, ExternalLink, ImageIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -31,6 +32,7 @@ export function ResultsPanel({
   onRefine,
   isRefining = false,
 }: ResultsPanelProps) {
+  const t = useTranslations("results");
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
   const hasImages = images.length > 0;
   const fullscreenImage = fullscreenIndex !== null ? images[fullscreenIndex] : null;
@@ -65,9 +67,9 @@ export function ResultsPanel({
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
-        <h2 className="font-semibold text-lg">Results</h2>
+        <h2 className="font-semibold text-lg">{t("title")}</h2>
         <p className="text-sm text-muted-foreground">
-          Your generated images will appear here
+          {t("imagesWillAppear")}
         </p>
       </div>
 
@@ -76,8 +78,8 @@ export function ResultsPanel({
           {!hasImages && !isGenerating ? (
             <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
               <ImageIcon className="h-12 w-12 mb-4" />
-              <p className="text-lg">No images yet</p>
-              <p className="text-sm">Build your prompt and generate images</p>
+              <p className="text-lg">{t("noImages")}</p>
+              <p className="text-sm">{t("buildPrompt")}</p>
             </div>
           ) : (
             <>
@@ -107,7 +109,7 @@ export function ResultsPanel({
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                         <span className="text-white opacity-0 group-hover:opacity-100 text-sm font-medium">
-                          Click to view
+                          {t("clickToView")}
                         </span>
                       </div>
                     </div>
@@ -135,7 +137,7 @@ export function ResultsPanel({
       <Dialog open={fullscreenIndex !== null} onOpenChange={(open) => !open && setFullscreenIndex(null)}>
         <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 border-0 bg-black/95">
           <DialogTitle className="sr-only">
-            Generated Image {fullscreenIndex !== null ? fullscreenIndex + 1 : ""}
+            {t("generatedImage")} {fullscreenIndex !== null ? fullscreenIndex + 1 : ""}
           </DialogTitle>
           {fullscreenIndex !== null && fullscreenImage && (
             <div className="relative w-full h-[90vh] flex items-center justify-center">
@@ -156,7 +158,7 @@ export function ResultsPanel({
                   onClick={() => handleDownload(fullscreenImage, fullscreenIndex)}
                 >
                   <Download className="h-4 w-4 mr-2" />
-                  Download
+                  {t("download")}
                 </Button>
                 <Button
                   variant="secondary"
@@ -164,7 +166,7 @@ export function ResultsPanel({
                   onClick={() => handleOpenInNewTab(fullscreenImage)}
                 >
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  Open in new tab
+                  {t("openInNewTab")}
                 </Button>
               </div>
 
@@ -190,7 +192,7 @@ export function ResultsPanel({
 
                   {/* Image counter */}
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                    {fullscreenIndex + 1} / {images.length}
+                    {t("imageCounter", { current: fullscreenIndex + 1, total: images.length })}
                   </div>
                 </>
               )}

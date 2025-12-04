@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AlertCircle, Key } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 
@@ -14,21 +15,26 @@ interface ApiKeyAlertProps {
 
 export function ApiKeyAlert({
   variant = "warning",
-  title = "API Key Required",
-  message = "Please add your Google API key to generate images.",
+  title,
+  message,
   showSettingsLink = true,
 }: ApiKeyAlertProps) {
+  const t = useTranslations("generate");
+
+  const displayTitle = title ?? t("apiKeyRequired");
+  const displayMessage = message ?? t("apiKeyRequiredMessage");
+
   return (
     <Alert variant={variant === "error" ? "destructive" : "default"} className="mb-4">
       <AlertCircle className="h-4 w-4" />
-      <AlertTitle>{title}</AlertTitle>
+      <AlertTitle>{displayTitle}</AlertTitle>
       <AlertDescription className="flex flex-col gap-3">
-        <span>{message}</span>
+        <span>{displayMessage}</span>
         {showSettingsLink && (
           <Button asChild variant="outline" size="sm" className="w-fit gap-2">
             <Link href="/profile">
               <Key className="h-4 w-4" />
-              Add API Key in Settings
+              {t("addApiKeyInSettings")}
             </Link>
           </Button>
         )}

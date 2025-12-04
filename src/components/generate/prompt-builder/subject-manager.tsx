@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { AvatarSelectorModal } from "@/components/avatars/avatar-selector-modal";
 import { Button } from "@/components/ui/button";
 import { useAvatars } from "@/hooks/use-avatars";
@@ -23,6 +24,7 @@ export function SubjectManager({
   onUpdate,
   onLinkAvatar,
 }: SubjectManagerProps) {
+  const t = useTranslations("promptBuilder");
   const { avatars, isLoading: avatarsLoading } = useAvatars();
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
   const [selectingForSubjectId, setSelectingForSubjectId] = useState<string | null>(null);
@@ -47,19 +49,19 @@ export function SubjectManager({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-medium">Subjects</h3>
+        <h3 className="font-medium">{t("subjects")}</h3>
         <Button variant="outline" size="sm" onClick={onAdd}>
           <Plus className="h-4 w-4 mr-2" />
-          Add Subject
+          {t("addSubject")}
         </Button>
       </div>
 
       {subjects.length === 0 ? (
         <div className="p-8 text-center border border-dashed rounded-lg">
-          <p className="text-muted-foreground mb-4">No subjects added yet</p>
+          <p className="text-muted-foreground mb-4">{t("noSubjects")}</p>
           <Button variant="outline" onClick={onAdd}>
             <Plus className="h-4 w-4 mr-2" />
-            Add Your First Subject
+            {t("addFirstSubject")}
           </Button>
         </div>
       ) : (

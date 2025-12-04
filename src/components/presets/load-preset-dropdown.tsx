@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FolderOpen, Loader2, ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -38,6 +39,8 @@ export function LoadPresetDropdown({
   isLoading = false,
   disabled = false,
 }: LoadPresetDropdownProps) {
+  const t = useTranslations("presets");
+  const tCommon = useTranslations("common");
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const handleLoad = (preset: Preset) => {
@@ -53,7 +56,7 @@ export function LoadPresetDropdown({
     return (
       <Button variant="outline" size="sm" disabled>
         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-        Loading...
+        {tCommon("loading")}
       </Button>
     );
   }
@@ -62,7 +65,7 @@ export function LoadPresetDropdown({
     return (
       <Button variant="outline" size="sm" disabled>
         <FolderOpen className="h-4 w-4 mr-2" />
-        No Presets
+        {t("noPresets")}
       </Button>
     );
   }
@@ -73,12 +76,12 @@ export function LoadPresetDropdown({
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" disabled={disabled}>
             <FolderOpen className="h-4 w-4 mr-2" />
-            Load Preset
+            {t("loadPreset")}
             <ChevronDown className="h-4 w-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-56">
-          <DropdownMenuLabel>Recent Presets</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("recentPresets")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {recentPresets.map((preset) => (
             <DropdownMenuItem
@@ -98,14 +101,14 @@ export function LoadPresetDropdown({
                     onSelect={(e) => e.preventDefault()}
                     className="cursor-pointer"
                   >
-                    View all presets ({presets.length})
+                    {t("viewAll")} ({presets.length})
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-full sm:max-w-lg">
                   <SheetHeader>
-                    <SheetTitle>All Presets</SheetTitle>
+                    <SheetTitle>{t("allPresets")}</SheetTitle>
                     <SheetDescription>
-                      Select a preset to load or manage your saved presets
+                      {t("selectPreset")}
                     </SheetDescription>
                   </SheetHeader>
                   <ScrollArea className="h-[calc(100vh-120px)] mt-4 pr-4">
