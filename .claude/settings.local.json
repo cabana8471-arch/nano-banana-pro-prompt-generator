@@ -22,7 +22,9 @@
       "Bash(pnpm install:*)",
       "Bash(npx pnpm install)",
       "Bash(npx pnpm run lint:*)",
-      "Bash(npx pnpm run typecheck)"
+      "Bash(npx pnpm run typecheck)",
+      "Bash(openssl rand:*)",
+      "Bash(npx pnpm:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
