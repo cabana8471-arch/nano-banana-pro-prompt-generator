@@ -2561,13 +2561,5 @@
       "cta-full-width": { "name": "Latime Completa", "description": "Pe toata latimea" },
       "cta-floating": { "name": "Buton Plutitor", "description": "Buton de actiune plutitor" }
     }
-  },
-  "quickStartTemplates": {
-    "quick-ecommerce-sale": { "name": "Vanzare E-commerce", "description": "Perfect pentru vanzari flash si reduceri" },
-    "quick-saas-launch": { "name": "Lansare SaaS", "description": "Ideal pentru lansari de produs si startup-uri tech" },
-    "quick-restaurant-promo": { "name": "Promo Restaurant", "description": "Excelent pentru promotii food service" },
-    "quick-fashion-brand": { "name": "Brand Fashion", "description": "Elegant pentru fashion si lifestyle" },
-    "quick-tech-startup": { "name": "Tech Startup", "description": "Modern pentru descarcari app si tech" },
-    "quick-holiday-special": { "name": "Special Sarbatori", "description": "Festiv pentru promotii sezoniere" }
   }
 }

@@ -2593,13 +2593,5 @@
       "cta-full-width": { "name": "Full Width", "description": "Spanning full width" },
       "cta-floating": { "name": "Floating Button", "description": "Floating action button" }
     }
-  },
-  "quickStartTemplates": {
-    "quick-ecommerce-sale": { "name": "E-commerce Sale", "description": "Perfect for flash sales and discounts" },
-    "quick-saas-launch": { "name": "SaaS Launch", "description": "Ideal for product launches and tech startups" },
-    "quick-restaurant-promo": { "name": "Restaurant Promo", "description": "Great for food service promotions" },
-    "quick-fashion-brand": { "name": "Fashion Brand", "description": "Elegant for fashion and lifestyle" },
-    "quick-tech-startup": { "name": "Tech Startup", "description": "Modern for app downloads and tech" },
-    "quick-holiday-special": { "name": "Holiday Special", "description": "Festive for seasonal promotions" }
   }
 }
