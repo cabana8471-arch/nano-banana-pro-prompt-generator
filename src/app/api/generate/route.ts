@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, inArray } from "drizzle-orm";
+import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { INPUT_LIMITS, GENERATION } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -13,17 +14,39 @@ import type {
   GenerationWithImages,
 } from "@/lib/types/generation";
 
+// Zod schema for request body validation
+const GenerateRequestSchema = z.object({
+  prompt: z
+    .string()
+    .min(1, "Prompt is required")
+    .max(INPUT_LIMITS.MAX_PROMPT_LENGTH, `Prompt too long. Maximum ${INPUT_LIMITS.MAX_PROMPT_LENGTH} characters allowed`),
+  settings: z.object({
+    resolution: z.enum(GENERATION.VALID_RESOLUTIONS, {
+      message: "Invalid resolution",
+    }),
+    aspectRatio: z.enum(GENERATION.VALID_ASPECT_RATIOS, {
+      message: "Invalid aspect ratio",
+    }),
+    imageCount: z
+      .union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)])
+      .optional()
+      .default(1),
+  }),
+  referenceImages: z
+    .array(
+      z.object({
+        avatarId: z.string().uuid({ message: "Invalid avatar ID format" }),
+        type: z.enum(["human", "object"], {
+          message: "Invalid avatar type",
+        }),
+      })
+    )
+    .optional()
+    .default([]),
+});
+
 // Maximum duration for Vercel Hobby plan is 60 seconds
 export const maxDuration = 60;
-
-interface GenerateRequestBody {
-  prompt: string;
-  settings: GenerationSettings;
-  referenceImages?: {
-    avatarId: string;
-    type: AvatarType;
-  }[];
-}
 
 /**
  * POST /api/generate
@@ -36,53 +59,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = (await request.json()) as GenerateRequestBody;
-    const { prompt, settings, referenceImages = [] } = body;
-
-    // Validate required fields
-    if (!prompt || typeof prompt !== "string" || prompt.trim().length === 0) {
+    // Validate request body using Zod schema
+    const parseResult = GenerateRequestSchema.safeParse(await request.json());
+    if (!parseResult.success) {
+      const firstIssue = parseResult.error.issues[0];
       return NextResponse.json(
-        { error: "Prompt is required" },
+        { error: firstIssue?.message || "Invalid request body" },
         { status: 400 }
       );
     }
 
-    // Validate prompt length to prevent DoS and database bloat
-    if (prompt.length > INPUT_LIMITS.MAX_PROMPT_LENGTH) {
-      return NextResponse.json(
-        { error: `Prompt too long. Maximum ${INPUT_LIMITS.MAX_PROMPT_LENGTH} characters allowed` },
-        { status: 400 }
-      );
-    }
-
-    if (!settings || !settings.resolution || !settings.aspectRatio) {
-      return NextResponse.json(
-        { error: "Settings with resolution and aspectRatio are required" },
-        { status: 400 }
-      );
-    }
-
-    // Validate settings using centralized constants
-    if (!GENERATION.VALID_RESOLUTIONS.includes(settings.resolution as typeof GENERATION.VALID_RESOLUTIONS[number])) {
-      return NextResponse.json(
-        { error: "Invalid resolution" },
-        { status: 400 }
-      );
-    }
-
-    if (!GENERATION.VALID_ASPECT_RATIOS.includes(settings.aspectRatio as typeof GENERATION.VALID_ASPECT_RATIOS[number])) {
-      return NextResponse.json(
-        { error: "Invalid aspect ratio" },
-        { status: 400 }
-      );
-    }
-
-    if (settings.imageCount && !GENERATION.VALID_IMAGE_COUNTS.includes(settings.imageCount as typeof GENERATION.VALID_IMAGE_COUNTS[number])) {
-      return NextResponse.json(
-        { error: "Invalid image count. Must be 1-4" },
-        { status: 400 }
-      );
-    }
+    const { prompt, settings, referenceImages } = parseResult.data;
 
     // Get avatar details for reference images
     let avatarDetails: ReferenceImage[] = [];
