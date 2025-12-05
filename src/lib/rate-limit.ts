@@ -145,3 +145,9 @@ export const imageLikeLimiter = createRateLimiter("image-like", {
   limit: 100,
   windowMs: 60 * 60 * 1000, // 1 hour
 });
+
+/** Rate limiter for banner reference uploads: 15 uploads per hour per user */
+export const bannerReferenceUploadLimiter = createRateLimiter("banner-reference-upload", {
+  limit: 15,
+  windowMs: 60 * 60 * 1000, // 1 hour
+});

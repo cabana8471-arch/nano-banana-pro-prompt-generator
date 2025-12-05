@@ -239,3 +239,24 @@ export const userPreferences = pgTable(
   },
   (table) => [index("user_preferences_user_id_idx").on(table.userId)]
 );
+
+// Banner References - Reference images for banner generation
+export const bannerReferences = pgTable(
+  "banner_references",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    description: text("description"),
+    imageUrl: text("image_url").notNull(),
+    referenceType: text("reference_type").notNull().default("style"), // "style" | "composition" | "color"
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index("banner_references_user_id_idx").on(table.userId)]
+);

@@ -19,6 +19,11 @@ export const avatarTypeSchema = z.enum(["human", "object"], {
   message: "Avatar type must be 'human' or 'object'",
 });
 
+/** Validates banner reference type - must be "style", "composition", or "color" */
+export const bannerReferenceTypeSchema = z.enum(["style", "composition", "color"], {
+  message: "Reference type must be 'style', 'composition', or 'color'",
+});
+
 /** Validates locale - must be one of the supported languages */
 export const localeSchema = z.enum(locales, {
   message: `Invalid language. Supported: ${locales.join(", ")}`,
@@ -89,6 +94,28 @@ export const updatePresetSchema = z
     config: presetConfigSchema.optional(),
   })
   .refine((data) => data.name !== undefined || data.config !== undefined, {
+    message: "No valid fields to update",
+  });
+
+// ============================================================================
+// Banner Reference Schemas
+// ============================================================================
+
+/** Schema for creating a new banner reference (form data fields) */
+export const createBannerReferenceSchema = z.object({
+  name: nameSchema,
+  description: descriptionSchema,
+  referenceType: bannerReferenceTypeSchema,
+});
+
+/** Schema for updating a banner reference - all fields optional but at least one required */
+export const updateBannerReferenceSchema = z
+  .object({
+    name: nameSchema.optional(),
+    description: descriptionSchema,
+    referenceType: bannerReferenceTypeSchema.optional(),
+  })
+  .refine((data) => Object.values(data).some((v) => v !== undefined), {
     message: "No valid fields to update",
   });
 
@@ -186,6 +213,8 @@ export type CreateAvatarInput = z.infer<typeof createAvatarSchema>;
 export type UpdateAvatarInput = z.infer<typeof updateAvatarSchema>;
 export type CreatePresetInput = z.infer<typeof createPresetSchema>;
 export type UpdatePresetInput = z.infer<typeof updatePresetSchema>;
+export type CreateBannerReferenceInput = z.infer<typeof createBannerReferenceSchema>;
+export type UpdateBannerReferenceInput = z.infer<typeof updateBannerReferenceSchema>;
 export type GenerateRequestInput = z.infer<typeof generateRequestSchema>;
 export type RefineRequestInput = z.infer<typeof refineRequestSchema>;
 export type SaveApiKeyInput = z.infer<typeof saveApiKeySchema>;

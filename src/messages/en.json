@@ -1879,7 +1879,8 @@
       "visualElements": "Visual Elements",
       "layoutTypography": "Layout & Typography",
       "textContent": "Text Content",
-      "brandAssets": "Brand Assets"
+      "brandAssets": "Brand Assets",
+      "referenceImages": "Reference Images"
     },
     "categories": {
       "bannerType": "Banner Type",
@@ -1940,6 +1941,42 @@
       "primaryColor": "Primary Color",
       "secondaryColor": "Secondary Color",
       "accentColor": "Accent Color"
+    },
+    "referenceImages": {
+      "title": "Reference Images",
+      "description": "Upload banners to use as style, composition, or color references",
+      "uploadNew": "Upload Reference",
+      "noReferences": "No reference images",
+      "noReferencesHint": "Upload banner images to use as references for generation",
+      "selectReferences": "Select references to use",
+      "selectedCount": "{count} selected",
+      "maxSelected": "Maximum {max} references per generation",
+      "types": {
+        "style": "Style",
+        "styleDescription": "Use as visual style reference",
+        "composition": "Composition",
+        "compositionDescription": "Use for layout guidance",
+        "color": "Color",
+        "colorDescription": "Use color palette"
+      },
+      "form": {
+        "title": "Upload Reference Image",
+        "name": "Name",
+        "namePlaceholder": "e.g., Summer Sale Banner",
+        "description": "Description",
+        "descriptionPlaceholder": "Optional description...",
+        "type": "Reference Type",
+        "selectType": "Select type...",
+        "image": "Image",
+        "uploading": "Uploading...",
+        "upload": "Upload",
+        "dropHint": "Drop image here or click to select"
+      },
+      "delete": {
+        "title": "Delete Reference",
+        "confirm": "Are you sure you want to delete this reference image? This action cannot be undone.",
+        "deleting": "Deleting..."
+      }
     },
     "customPrompt": {
       "label": "Additional Instructions",

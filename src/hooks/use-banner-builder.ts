@@ -10,6 +10,7 @@ import type {
   BannerGenerationSettings,
   BannerSizeTemplate,
   BannerTemplateCategory,
+  SelectedBannerReference,
 } from "@/lib/types/banner";
 import {
   DEFAULT_BANNER_BUILDER_STATE,
@@ -79,6 +80,11 @@ interface UseBannerBuilderReturn {
   // Reference images for generation (logo and product)
   referenceImages: { avatarId: string; type: "logo" | "product" }[];
 
+  // Banner references (style, composition, color)
+  selectedBannerReferenceIds: string[];
+  setSelectedBannerReferenceIds: (ids: string[]) => void;
+  bannerReferences: SelectedBannerReference[];
+
   // Actions
   reset: () => void;
   loadFromPreset: (config: BannerPresetConfig) => void;
@@ -105,6 +111,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     DEFAULT_BANNER_GENERATION_SETTINGS
   );
   const [brandAssets, setBrandAssetsState] = useState<BannerBrandAssets>(defaultBrandAssets);
+  const [selectedBannerReferenceIds, setSelectedBannerReferenceIds] = useState<string[]>([]);
 
   // ==========================================
   // Section A: Basic Configuration Setters
@@ -508,6 +515,22 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
   }, [brandAssets.logoAvatarId, brandAssets.productImageAvatarId]);
 
   // ==========================================
+  // Banner References (for style/composition/color)
+  // ==========================================
+
+  // Note: We store just IDs here. The actual reference type comes from the database.
+  // The bannerReferences computed value will be populated by the parent component
+  // which has access to the full BannerReference objects from useBannerReferences hook.
+  const bannerReferences = useMemo((): SelectedBannerReference[] => {
+    // This returns empty array - actual data should be joined with useBannerReferences
+    // in the parent component that has access to the full reference data
+    return selectedBannerReferenceIds.map((id) => ({
+      referenceId: id,
+      type: "style" as const, // Default type, will be overridden by actual data
+    }));
+  }, [selectedBannerReferenceIds]);
+
+  // ==========================================
   // Actions
   // ==========================================
 
@@ -515,6 +538,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     setState(DEFAULT_BANNER_BUILDER_STATE);
     setSettingsState(DEFAULT_BANNER_GENERATION_SETTINGS);
     setBrandAssetsState(defaultBrandAssets);
+    setSelectedBannerReferenceIds([]);
   }, []);
 
   const loadFromPreset = useCallback((config: BannerPresetConfig) => {
@@ -709,6 +733,11 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     hasAnySelection,
     selectionCount,
     referenceImages,
+
+    // Banner references
+    selectedBannerReferenceIds,
+    setSelectedBannerReferenceIds,
+    bannerReferences,
 
     // Actions
     reset,

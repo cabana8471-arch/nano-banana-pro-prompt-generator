@@ -6,8 +6,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useBannerValidation } from "@/hooks/use-banner-validation";
-import type { BannerBuilderState, BannerGenerationSettings, BannerBrandAssets } from "@/lib/types/banner";
+import type { BannerBuilderState, BannerGenerationSettings, BannerBrandAssets, BannerReference, CreateBannerReferenceInput } from "@/lib/types/banner";
 import type { Avatar } from "@/lib/types/generation";
+import { BannerReferenceManager } from "./banner-reference-manager";
 import { BrandAssetsManager } from "./brand-assets-manager";
 import { BasicConfigSection } from "./sections/basic-config-section";
 import { LayoutTypographySection } from "./sections/layout-typography-section";
@@ -64,6 +65,14 @@ interface BannerBuilderPanelProps {
   avatars: Avatar[];
   isLoadingAvatars: boolean;
   getAvatarById: (id: string) => Avatar | undefined;
+
+  // Banner references
+  bannerReferences: BannerReference[];
+  selectedBannerReferenceIds: string[];
+  isLoadingBannerReferences: boolean;
+  onBannerReferenceSelectionChange: (ids: string[]) => void;
+  onCreateBannerReference: (input: CreateBannerReferenceInput, image: File) => Promise<BannerReference | null>;
+  onDeleteBannerReference: (id: string) => Promise<boolean>;
 }
 
 export function BannerBuilderPanel({
@@ -97,6 +106,12 @@ export function BannerBuilderPanel({
   avatars,
   isLoadingAvatars,
   getAvatarById,
+  bannerReferences,
+  selectedBannerReferenceIds,
+  isLoadingBannerReferences,
+  onBannerReferenceSelectionChange,
+  onCreateBannerReference,
+  onDeleteBannerReference,
 }: BannerBuilderPanelProps) {
   const t = useTranslations("bannerGenerator");
 
@@ -198,6 +213,18 @@ export function BannerBuilderPanel({
             onSecondaryColorChange={onSecondaryColorChange}
             onAccentColorChange={onAccentColorChange}
             getAvatarById={getAvatarById}
+          />
+
+          <Separator />
+
+          {/* Banner Reference Images */}
+          <BannerReferenceManager
+            bannerReferences={bannerReferences}
+            selectedReferenceIds={selectedBannerReferenceIds}
+            isLoading={isLoadingBannerReferences}
+            onCreateReference={onCreateBannerReference}
+            onDeleteReference={onDeleteBannerReference}
+            onSelectionChange={onBannerReferenceSelectionChange}
           />
 
           <Separator />

@@ -18,6 +18,7 @@ import { useAvatars } from "@/hooks/use-avatars";
 import { useBannerBuilder } from "@/hooks/use-banner-builder";
 import { useBannerHistory } from "@/hooks/use-banner-history";
 import { useBannerPresets } from "@/hooks/use-banner-presets";
+import { useBannerReferences } from "@/hooks/use-banner-references";
 import { useGeneration } from "@/hooks/use-generation";
 import { useSession } from "@/lib/auth-client";
 import type { BannerPreset, BannerPresetConfig, BannerBuilderState } from "@/lib/types/banner";
@@ -30,6 +31,14 @@ export default function BannerGeneratorPage() {
 
   // Avatars state (for logo and product images)
   const { avatars, isLoading: avatarsLoading, getAvatarById } = useAvatars();
+
+  // Banner references state
+  const {
+    bannerReferences,
+    isLoading: bannerReferencesLoading,
+    createBannerReference,
+    deleteBannerReference,
+  } = useBannerReferences();
 
   // Banner builder state
   const {
@@ -67,6 +76,8 @@ export default function BannerGeneratorPage() {
     getCurrentConfig,
     reset,
     swapColors,
+    selectedBannerReferenceIds,
+    setSelectedBannerReferenceIds,
   } = useBannerBuilder();
 
   // History state for undo/redo
@@ -383,6 +394,12 @@ export default function BannerGeneratorPage() {
             avatars={avatars}
             isLoadingAvatars={avatarsLoading}
             getAvatarById={getAvatarById}
+            bannerReferences={bannerReferences}
+            selectedBannerReferenceIds={selectedBannerReferenceIds}
+            isLoadingBannerReferences={bannerReferencesLoading}
+            onBannerReferenceSelectionChange={setSelectedBannerReferenceIds}
+            onCreateBannerReference={createBannerReference}
+            onDeleteBannerReference={deleteBannerReference}
           />
         }
         middlePanel={

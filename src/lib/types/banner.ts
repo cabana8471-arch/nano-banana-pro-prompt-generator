@@ -270,6 +270,58 @@ export interface BannerBrandAssets {
 }
 
 // ==========================================
+// Banner References
+// ==========================================
+
+/**
+ * Reference type for banner references
+ * - style: Use this banner as a style/visual reference
+ * - composition: Use this banner for layout/composition guidance
+ * - color: Use this banner's color palette as reference
+ */
+export type BannerReferenceType = "style" | "composition" | "color";
+
+/**
+ * Banner reference image for generation
+ */
+export interface BannerReference {
+  id: string;
+  userId: string;
+  name: string;
+  description?: string;
+  imageUrl: string;
+  referenceType: BannerReferenceType;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * Input for creating a new banner reference
+ */
+export interface CreateBannerReferenceInput {
+  name: string;
+  description?: string;
+  referenceType: BannerReferenceType;
+}
+
+/**
+ * Input for updating a banner reference
+ */
+export interface UpdateBannerReferenceInput {
+  name?: string;
+  description?: string;
+  referenceType?: BannerReferenceType;
+}
+
+/**
+ * Selected banner reference for generation
+ */
+export interface SelectedBannerReference {
+  referenceId: string;
+  type: BannerReferenceType;
+}
+
+// ==========================================
 // Banner Validation
 // ==========================================
 

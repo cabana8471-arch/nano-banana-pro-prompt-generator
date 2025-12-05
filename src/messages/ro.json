@@ -1879,7 +1879,8 @@
       "visualElements": "Elemente Vizuale",
       "layoutTypography": "Layout si Tipografie",
       "textContent": "Continut Text",
-      "brandAssets": "Active Brand"
+      "brandAssets": "Active Brand",
+      "referenceImages": "Imagini de Referinta"
     },
     "categories": {
       "bannerType": "Tip Banner",
@@ -1940,6 +1941,42 @@
       "primaryColor": "Culoare Principala",
       "secondaryColor": "Culoare Secundara",
       "accentColor": "Culoare Accent"
+    },
+    "referenceImages": {
+      "title": "Imagini de Referinta",
+      "description": "Incarca bannere pentru a le folosi ca referinta de stil, compozitie sau culoare",
+      "uploadNew": "Incarca Referinta",
+      "noReferences": "Nicio imagine de referinta",
+      "noReferencesHint": "Incarca imagini de banner pentru a le folosi ca referinte la generare",
+      "selectReferences": "Selecteaza referintele de folosit",
+      "selectedCount": "{count} selectate",
+      "maxSelected": "Maximum {max} referinte per generare",
+      "types": {
+        "style": "Stil",
+        "styleDescription": "Foloseste ca referinta de stil vizual",
+        "composition": "Compozitie",
+        "compositionDescription": "Foloseste pentru ghidare layout",
+        "color": "Culoare",
+        "colorDescription": "Foloseste paleta de culori"
+      },
+      "form": {
+        "title": "Incarca Imagine de Referinta",
+        "name": "Nume",
+        "namePlaceholder": "ex: Banner Promotie Vara",
+        "description": "Descriere",
+        "descriptionPlaceholder": "Descriere optionala...",
+        "type": "Tip Referinta",
+        "selectType": "Selecteaza tipul...",
+        "image": "Imagine",
+        "uploading": "Se incarca...",
+        "upload": "Incarca",
+        "dropHint": "Trage imaginea aici sau click pentru a selecta"
+      },
+      "delete": {
+        "title": "Sterge Referinta",
+        "confirm": "Esti sigur ca vrei sa stergi aceasta imagine de referinta? Aceasta actiune nu poate fi anulata.",
+        "deleting": "Se sterge..."
+      }
     },
     "customPrompt": {
       "label": "Instructiuni Suplimentare",

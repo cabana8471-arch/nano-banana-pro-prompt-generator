@@ -72,4 +72,15 @@ export const RESOURCE_LIMITS = {
 
   /** Maximum presets a user can create */
   MAX_PRESETS_PER_USER: 50,
+
+  /** Maximum banner references a user can create */
+  MAX_BANNER_REFERENCES_PER_USER: 50,
+
+  /** Maximum banner references per generation */
+  MAX_BANNER_REFERENCES_PER_GENERATION: 4,
+} as const;
+
+export const BANNER_REFERENCE_LIMITS = {
+  /** Maximum banner reference uploads per hour per user */
+  UPLOADS_PER_HOUR: 15,
 } as const;
