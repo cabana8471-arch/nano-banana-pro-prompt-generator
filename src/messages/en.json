@@ -2211,6 +2211,7 @@
       "size-hero-1920x600": { "name": "Hero Banner (1920x600)", "description": "Full-width website hero banner" },
       "size-hero-1920x800": { "name": "Large Hero (1920x800)", "description": "Tall full-width hero banner" },
       "size-hero-1440x600": { "name": "Standard Hero (1440x600)", "description": "Standard width hero banner" },
+      "size-hero-1440x768": { "name": "Extended Hero 1 (1440x768)", "description": "Extended height hero banner" },
       "size-sidebar-300x250": { "name": "Sidebar (300x250)", "description": "Website sidebar banner" },
       "size-sidebar-tall-300x600": { "name": "Tall Sidebar (300x600)", "description": "Tall website sidebar banner" },
       "size-full-width-1920x400": { "name": "Full Width (1920x400)", "description": "Full-width promotional banner" },

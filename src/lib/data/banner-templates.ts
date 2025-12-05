@@ -459,6 +459,16 @@ export const bannerSizeTemplates: BannerSizeTemplate[] = [
     platform: "website",
     category: "hero",
   },
+  {
+    id: "size-hero-1440x768",
+    name: "Extended Hero 1 (1440x768)",
+    description: "Extended height hero banner",
+    promptFragment: "extended hero format, tall website header image, prominent homepage banner design",
+    width: 1440,
+    height: 768,
+    platform: "website",
+    category: "hero",
+  },
   // Website - Sidebar
   {
     id: "size-sidebar-300x250",
