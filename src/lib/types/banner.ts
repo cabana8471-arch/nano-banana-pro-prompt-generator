@@ -35,7 +35,8 @@ export type BannerPlatform =
   | "instagram"
   | "website"
   | "twitter"
-  | "linkedin";
+  | "linkedin"
+  | "custom";
 
 /**
  * Banner size categories
@@ -51,7 +52,8 @@ export type BannerSizeCategory =
   | "cover"
   | "hero"
   | "sidebar"
-  | "cta";
+  | "cta"
+  | "custom";
 
 // ==========================================
 // Banner Text Content
@@ -92,6 +94,7 @@ export const DEFAULT_CHARACTER_LIMITS: Record<BannerSizeCategory, CharacterLimit
   hero: { headline: 80, subheadline: 150, ctaText: 20, tagline: 50 },
   sidebar: { headline: 35, subheadline: 50, ctaText: 12, tagline: 20 },
   cta: { headline: 50, subheadline: 80, ctaText: 15, tagline: 30 },
+  custom: { headline: 60, subheadline: 100, ctaText: 15, tagline: 35 },
 };
 
 // ==========================================
@@ -107,6 +110,10 @@ export interface BannerBuilderState {
   bannerType: string;
   bannerSize: string;
   industry: string;
+
+  // Custom banner size dimensions (used when bannerSize is "size-custom")
+  customWidth: number | null;
+  customHeight: number | null;
 
   // Section B: Visual Style
   designStyle: string;
@@ -140,6 +147,8 @@ export const DEFAULT_BANNER_BUILDER_STATE: BannerBuilderState = {
   bannerType: "",
   bannerSize: "",
   industry: "",
+  customWidth: null,
+  customHeight: null,
   designStyle: "",
   colorScheme: "",
   mood: "",
@@ -173,6 +182,10 @@ export interface BannerPresetConfig {
   bannerType?: string;
   bannerSize?: string;
   industry?: string;
+
+  // Custom banner size dimensions
+  customWidth?: number | null;
+  customHeight?: number | null;
 
   // Section B: Visual Style
   designStyle?: string;

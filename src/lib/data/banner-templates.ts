@@ -164,6 +164,87 @@ export const bannerTypeTemplates: BannerTemplate[] = [
     description: "Social platform advertisement",
     promptFragment: "social media ad banner, social platform promotion, social advertising design",
   },
+  // Informational / Company
+  {
+    id: "banner-type-about-us",
+    name: "About Us",
+    description: "Company story and team showcase",
+    promptFragment: "about us banner, company story showcase, team introduction design, who we are presentation",
+  },
+  {
+    id: "banner-type-our-services",
+    name: "Our Services",
+    description: "Services overview banner",
+    promptFragment: "services overview banner, what we offer showcase, service listing design, capabilities presentation",
+  },
+  {
+    id: "banner-type-our-team",
+    name: "Our Team",
+    description: "Team members showcase",
+    promptFragment: "team showcase banner, staff introduction design, meet the team presentation, employee highlight",
+  },
+  {
+    id: "banner-type-company-values",
+    name: "Company Values",
+    description: "Core values and mission banner",
+    promptFragment: "company values banner, mission statement design, core principles showcase, brand values presentation",
+  },
+  {
+    id: "banner-type-case-study",
+    name: "Case Study",
+    description: "Success story or portfolio piece",
+    promptFragment: "case study banner, success story showcase, portfolio piece design, client results presentation",
+  },
+  {
+    id: "banner-type-testimonials",
+    name: "Testimonials",
+    description: "Customer reviews and testimonials",
+    promptFragment: "testimonials banner, customer review showcase, social proof design, client feedback presentation",
+  },
+  // Content
+  {
+    id: "banner-type-blog-post",
+    name: "Blog Post Promotion",
+    description: "Article or blog feature banner",
+    promptFragment: "blog post banner, article promotion design, content feature showcase, editorial announcement",
+  },
+  {
+    id: "banner-type-portfolio",
+    name: "Portfolio Showcase",
+    description: "Work samples display banner",
+    promptFragment: "portfolio showcase banner, work samples display, creative gallery design, project highlight",
+  },
+  {
+    id: "banner-type-faq-help",
+    name: "FAQ / Help",
+    description: "Help section or FAQ banner",
+    promptFragment: "FAQ banner, help section design, support information showcase, customer assistance presentation",
+  },
+  {
+    id: "banner-type-coming-soon",
+    name: "Coming Soon",
+    description: "Pre-launch teaser banner",
+    promptFragment: "coming soon banner, pre-launch teaser design, anticipation builder, upcoming release announcement",
+  },
+  // Trust / Social Proof
+  {
+    id: "banner-type-awards",
+    name: "Awards & Recognition",
+    description: "Certifications and awards banner",
+    promptFragment: "awards banner, recognition showcase, certification display, achievement presentation design",
+  },
+  {
+    id: "banner-type-partnership",
+    name: "Partnership",
+    description: "Partner or client logos banner",
+    promptFragment: "partnership banner, client logos showcase, trusted by design, business partners presentation",
+  },
+  {
+    id: "banner-type-press-media",
+    name: "Press / Media",
+    description: "Media mentions and press banner",
+    promptFragment: "press banner, media mentions showcase, featured in design, news coverage presentation",
+  },
 ];
 
 // ==========================================
@@ -441,6 +522,17 @@ export const bannerSizeTemplates: BannerSizeTemplate[] = [
     platform: "website",
     category: "cta",
   },
+  // Custom Size
+  {
+    id: "size-custom",
+    name: "Custom Size",
+    description: "Enter your own custom dimensions",
+    promptFragment: "custom dimensions banner format",
+    width: 0,
+    height: 0,
+    platform: "custom",
+    category: "custom",
+  },
 ];
 
 // ==========================================
@@ -693,6 +785,80 @@ export const industryTemplates: BannerTemplate[] = [
     name: "Pharmaceutical",
     description: "Pharmaceutical and medical products",
     promptFragment: "pharmaceutical industry style, medical product aesthetic, healthcare brand design",
+  },
+  // Tech Services
+  {
+    id: "industry-phone-repair",
+    name: "Phone Repair",
+    description: "Mobile device repair services",
+    promptFragment: "phone repair service style, mobile device fix aesthetic, smartphone repair design",
+  },
+  {
+    id: "industry-laptop-repair",
+    name: "Laptop Repair",
+    description: "Computer and laptop repair services",
+    promptFragment: "laptop repair service style, computer fix aesthetic, PC repair design",
+  },
+  {
+    id: "industry-it-outsourcing",
+    name: "IT Outsourcing",
+    description: "IT staffing and outsourcing services",
+    promptFragment: "IT outsourcing style, tech staffing aesthetic, managed services design",
+  },
+  {
+    id: "industry-nanotechnology",
+    name: "Nanotechnology",
+    description: "Nanotech research and products",
+    promptFragment: "nanotechnology industry style, nano-scale aesthetic, advanced materials design",
+  },
+  {
+    id: "industry-data-center",
+    name: "Data Center",
+    description: "Data center and hosting services",
+    promptFragment: "data center style, server hosting aesthetic, infrastructure design",
+  },
+  {
+    id: "industry-cloud-services",
+    name: "Cloud Services",
+    description: "Cloud computing and SaaS hosting",
+    promptFragment: "cloud services style, SaaS hosting aesthetic, cloud computing design",
+  },
+  // Additional Tech
+  {
+    id: "industry-3d-printing",
+    name: "3D Printing",
+    description: "Additive manufacturing services",
+    promptFragment: "3D printing industry style, additive manufacturing aesthetic, rapid prototyping design",
+  },
+  {
+    id: "industry-drone-services",
+    name: "Drone Services",
+    description: "Commercial drone operations",
+    promptFragment: "drone services style, aerial operations aesthetic, UAV business design",
+  },
+  {
+    id: "industry-ev-electric",
+    name: "EV & Electric",
+    description: "Electric vehicles and charging",
+    promptFragment: "electric vehicle style, EV charging aesthetic, sustainable transport design",
+  },
+  {
+    id: "industry-solar-renewable",
+    name: "Solar & Renewable",
+    description: "Solar panels and green energy",
+    promptFragment: "solar energy style, renewable power aesthetic, green energy design",
+  },
+  {
+    id: "industry-smart-home",
+    name: "Smart Home",
+    description: "IoT and home automation",
+    promptFragment: "smart home style, IoT aesthetic, home automation design",
+  },
+  {
+    id: "industry-telecom",
+    name: "Telecommunications",
+    description: "Telecommunications services",
+    promptFragment: "telecom industry style, telecommunications aesthetic, connectivity design",
   },
 ];
 

@@ -1899,6 +1899,12 @@
       "typographyStyle": "Typography Style",
       "ctaButtonStyle": "CTA Button Style"
     },
+    "customSize": {
+      "description": "Enter your custom banner dimensions",
+      "width": "Width",
+      "height": "Height",
+      "limits": "Min: 50px, Max: 4096px"
+    },
     "placeholders": {
       "bannerType": "Select banner purpose...",
       "bannerSize": "Select banner dimensions...",

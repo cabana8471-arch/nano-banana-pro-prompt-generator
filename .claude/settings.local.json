@@ -29,7 +29,16 @@
       "Bash(pnpm lint:*)",
       "Bash(pnpm typecheck:*)",
       "Bash(git diff:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(ls:*)",
+      "Bash(git reset:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx shadcn:*)",
+      "Bash(npx shadcn@latest add tooltip:*)",
+      "Bash(git rm:*)",
+      "Bash(git fetch:*)",
+      "Bash(tree:*)",
+      "Bash(POSTGRES_URL=\"postgresql://neondb_owner:npg_NGKwTFepia25@ep-nameless-lab-ahcqyr1g-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require\" npx pnpm db:push:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

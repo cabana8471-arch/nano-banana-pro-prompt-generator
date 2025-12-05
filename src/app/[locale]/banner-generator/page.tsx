@@ -48,6 +48,8 @@ export default function BannerGeneratorPage() {
     setBannerType,
     setBannerSize,
     setIndustry,
+    setCustomWidth,
+    setCustomHeight,
     setDesignStyle,
     setColorScheme,
     setMood,
@@ -107,6 +109,10 @@ export default function BannerGeneratorPage() {
     if (s.bannerType) config.bannerType = s.bannerType;
     if (s.bannerSize) config.bannerSize = s.bannerSize;
     if (s.industry) config.industry = s.industry;
+    if (s.bannerSize === "size-custom") {
+      if (s.customWidth) config.customWidth = s.customWidth;
+      if (s.customHeight) config.customHeight = s.customHeight;
+    }
     if (s.designStyle) config.designStyle = s.designStyle;
     if (s.colorScheme) config.colorScheme = s.colorScheme;
     if (s.mood) config.mood = s.mood;
@@ -357,6 +363,8 @@ export default function BannerGeneratorPage() {
             onBannerTypeChange={setBannerType}
             onBannerSizeChange={setBannerSize}
             onIndustryChange={setIndustry}
+            onCustomWidthChange={setCustomWidth}
+            onCustomHeightChange={setCustomHeight}
             onDesignStyleChange={setDesignStyle}
             onColorSchemeChange={setColorScheme}
             onMoodChange={setMood}

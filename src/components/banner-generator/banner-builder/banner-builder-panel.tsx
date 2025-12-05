@@ -26,6 +26,8 @@ interface BannerBuilderPanelProps {
   onBannerTypeChange: (value: string) => void;
   onBannerSizeChange: (value: string) => void;
   onIndustryChange: (value: string) => void;
+  onCustomWidthChange: (value: number | null) => void;
+  onCustomHeightChange: (value: number | null) => void;
 
   // Section B: Visual Style setters
   onDesignStyleChange: (value: string) => void;
@@ -81,6 +83,8 @@ export function BannerBuilderPanel({
   onBannerTypeChange,
   onBannerSizeChange,
   onIndustryChange,
+  onCustomWidthChange,
+  onCustomHeightChange,
   onDesignStyleChange,
   onColorSchemeChange,
   onMoodChange,
@@ -139,9 +143,13 @@ export function BannerBuilderPanel({
             bannerType={state.bannerType}
             bannerSize={state.bannerSize}
             industry={state.industry}
+            customWidth={state.customWidth}
+            customHeight={state.customHeight}
             onBannerTypeChange={onBannerTypeChange}
             onBannerSizeChange={onBannerSizeChange}
             onIndustryChange={onIndustryChange}
+            onCustomWidthChange={onCustomWidthChange}
+            onCustomHeightChange={onCustomHeightChange}
           />
 
           <Separator />

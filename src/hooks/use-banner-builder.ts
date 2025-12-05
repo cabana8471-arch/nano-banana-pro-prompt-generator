@@ -32,6 +32,10 @@ interface UseBannerBuilderReturn {
   setBannerSize: (value: string) => void;
   setIndustry: (value: string) => void;
 
+  // Custom size setters
+  setCustomWidth: (value: number | null) => void;
+  setCustomHeight: (value: number | null) => void;
+
   // Category setters (Section B: Visual Style)
   setDesignStyle: (value: string) => void;
   setColorScheme: (value: string) => void;
@@ -127,6 +131,15 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
 
   const setIndustry = useCallback((value: string) => {
     setState((prev) => ({ ...prev, industry: value }));
+  }, []);
+
+  // Custom size setters
+  const setCustomWidth = useCallback((value: number | null) => {
+    setState((prev) => ({ ...prev, customWidth: value }));
+  }, []);
+
+  const setCustomHeight = useCallback((value: number | null) => {
+    setState((prev) => ({ ...prev, customHeight: value }));
   }, []);
 
   // ==========================================
@@ -387,8 +400,14 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     // Add banner size context
     const sizeTemplate = state.bannerSize ? getBannerSizeById(state.bannerSize) : undefined;
     if (sizeTemplate) {
-      parts.push(sizeTemplate.promptFragment);
-      parts.push(`${sizeTemplate.width}x${sizeTemplate.height} pixels aspect ratio`);
+      // Handle custom size
+      if (state.bannerSize === "size-custom" && state.customWidth && state.customHeight) {
+        parts.push("custom dimensions banner format");
+        parts.push(`${state.customWidth}x${state.customHeight} pixels aspect ratio`);
+      } else if (sizeTemplate.width > 0 && sizeTemplate.height > 0) {
+        parts.push(sizeTemplate.promptFragment);
+        parts.push(`${sizeTemplate.width}x${sizeTemplate.height} pixels aspect ratio`);
+      }
     }
 
     // Add text content to prompt if settings allow
@@ -443,10 +462,22 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
   // Selected Banner Size
   // ==========================================
 
-  const selectedBannerSize = useMemo(() => {
+  const selectedBannerSize = useMemo((): BannerSizeTemplate | undefined => {
     if (!state.bannerSize) return undefined;
-    return getBannerSizeById(state.bannerSize);
-  }, [state.bannerSize]);
+    const template = getBannerSizeById(state.bannerSize);
+    if (!template) return undefined;
+
+    // For custom size, return a modified template with custom dimensions
+    if (state.bannerSize === "size-custom" && state.customWidth && state.customHeight) {
+      return {
+        ...template,
+        width: state.customWidth,
+        height: state.customHeight,
+      };
+    }
+
+    return template;
+  }, [state.bannerSize, state.customWidth, state.customHeight]);
 
   // ==========================================
   // Selection Statistics
@@ -547,6 +578,8 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       bannerType: config.bannerType ?? prev.bannerType,
       bannerSize: config.bannerSize ?? prev.bannerSize,
       industry: config.industry ?? prev.industry,
+      customWidth: config.customWidth ?? prev.customWidth,
+      customHeight: config.customHeight ?? prev.customHeight,
       designStyle: config.designStyle ?? prev.designStyle,
       colorScheme: config.colorScheme ?? prev.colorScheme,
       mood: config.mood ?? prev.mood,
@@ -573,6 +606,11 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     if (state.bannerType) config.bannerType = state.bannerType;
     if (state.bannerSize) config.bannerSize = state.bannerSize;
     if (state.industry) config.industry = state.industry;
+    // Include custom dimensions if custom size is selected
+    if (state.bannerSize === "size-custom") {
+      if (state.customWidth) config.customWidth = state.customWidth;
+      if (state.customHeight) config.customHeight = state.customHeight;
+    }
     if (state.designStyle) config.designStyle = state.designStyle;
     if (state.colorScheme) config.colorScheme = state.colorScheme;
     if (state.mood) config.mood = state.mood;
@@ -687,6 +725,10 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     setBannerType,
     setBannerSize,
     setIndustry,
+
+    // Custom size setters
+    setCustomWidth,
+    setCustomHeight,
 
     // Section B setters
     setDesignStyle,
