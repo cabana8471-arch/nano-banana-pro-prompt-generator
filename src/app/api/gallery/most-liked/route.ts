@@ -66,7 +66,16 @@ export async function GET(request: Request) {
       isLikedByUser: row.isLikedByUser || false,
     }));
 
-    return NextResponse.json({ images: galleryImages });
+    const jsonResponse = NextResponse.json({ images: galleryImages });
+
+    // Add cache headers for most-liked gallery (short cache, revalidate frequently)
+    // Cache for 60 seconds on CDN, allow stale content while revalidating
+    jsonResponse.headers.set(
+      "Cache-Control",
+      "public, s-maxage=60, stale-while-revalidate=30"
+    );
+
+    return jsonResponse;
   } catch (error) {
     return handleApiError(error, "fetching most liked images");
   }

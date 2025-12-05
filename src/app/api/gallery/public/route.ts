@@ -100,7 +100,16 @@ export async function GET(request: Request) {
       hasMore: offset + publicImages.length < total,
     };
 
-    return NextResponse.json(response);
+    const jsonResponse = NextResponse.json(response);
+
+    // Add cache headers for public gallery (short cache, revalidate frequently)
+    // Cache for 60 seconds on CDN, allow stale content while revalidating
+    jsonResponse.headers.set(
+      "Cache-Control",
+      "public, s-maxage=60, stale-while-revalidate=30"
+    );
+
+    return jsonResponse;
   } catch (error) {
     return handleApiError(error, "fetching public gallery");
   }
