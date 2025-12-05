@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { encrypt, getKeyHint, isValidGoogleApiKey } from "@/lib/encryption";
@@ -34,11 +35,7 @@ export async function GET() {
       hint: firstKey.hint,
     });
   } catch (error) {
-    console.error("Error checking API key:", error);
-    return NextResponse.json(
-      { error: "Failed to check API key status" },
-      { status: 500 }
-    );
+    return handleApiError(error, "checking API key status");
   }
 }
 
@@ -119,11 +116,7 @@ export async function POST(request: Request) {
       hint: hint,
     });
   } catch (error) {
-    console.error("Error saving API key:", error);
-    return NextResponse.json(
-      { error: "Failed to save API key" },
-      { status: 500 }
-    );
+    return handleApiError(error, "saving API key");
   }
 }
 
@@ -144,10 +137,6 @@ export async function DELETE() {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting API key:", error);
-    return NextResponse.json(
-      { error: "Failed to delete API key" },
-      { status: 500 }
-    );
+    return handleApiError(error, "deleting API key");
   }
 }

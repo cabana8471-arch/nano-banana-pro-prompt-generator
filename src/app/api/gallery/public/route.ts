@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc, count, ilike, and, sql } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -101,10 +102,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("Error fetching public gallery:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch public gallery" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching public gallery");
   }
 }

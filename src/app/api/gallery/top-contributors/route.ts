@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { eq, sql, desc, count, countDistinct } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { db } from "@/lib/db";
 import { user, generations, generatedImages, imageLikes } from "@/lib/schema";
 import type { TopContributor } from "@/lib/types/generation";
@@ -46,10 +47,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ contributors: topContributors });
   } catch (error) {
-    console.error("Error fetching top contributors:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch top contributors" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching top contributors");
   }
 }

@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { avatars } from "@/lib/schema";
@@ -37,11 +38,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
 
     return NextResponse.json({ avatar: avatar as Avatar });
   } catch (error) {
-    console.error("Error fetching avatar:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch avatar" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching avatar");
   }
 }
 
@@ -97,11 +94,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
 
     return NextResponse.json({ avatar: updatedAvatar as Avatar });
   } catch (error) {
-    console.error("Error updating avatar:", error);
-    return NextResponse.json(
-      { error: "Failed to update avatar" },
-      { status: 500 }
-    );
+    return handleApiError(error, "updating avatar");
   }
 }
 
@@ -144,10 +137,6 @@ export async function DELETE(_request: Request, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting avatar:", error);
-    return NextResponse.json(
-      { error: "Failed to delete avatar" },
-      { status: 500 }
-    );
+    return handleApiError(error, "deleting avatar");
   }
 }

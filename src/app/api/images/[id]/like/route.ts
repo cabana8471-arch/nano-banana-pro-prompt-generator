@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and, count } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { RATE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -103,11 +104,7 @@ export async function POST(
       likeCount,
     });
   } catch (error) {
-    console.error("Error toggling like:", error);
-    return NextResponse.json(
-      { error: "Failed to toggle like" },
-      { status: 500 }
-    );
+    return handleApiError(error, "toggling like");
   }
 }
 
@@ -152,10 +149,6 @@ export async function GET(
       likeCount,
     });
   } catch (error) {
-    console.error("Error getting like status:", error);
-    return NextResponse.json(
-      { error: "Failed to get like status" },
-      { status: 500 }
-    );
+    return handleApiError(error, "getting like status");
   }
 }

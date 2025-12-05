@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, inArray } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
@@ -224,10 +225,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ generation: generationWithImages }, { status: 201 });
   } catch (error) {
-    console.error("Error generating images:", error);
-    return NextResponse.json(
-      { error: "Failed to generate images" },
-      { status: 500 }
-    );
+    return handleApiError(error, "generating images");
   }
 }

@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc, sql, count } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generations, generatedImages, user, imageLikes } from "@/lib/schema";
@@ -67,10 +68,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ images: galleryImages });
   } catch (error) {
-    console.error("Error fetching most liked images:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch most liked images" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching most liked images");
   }
 }

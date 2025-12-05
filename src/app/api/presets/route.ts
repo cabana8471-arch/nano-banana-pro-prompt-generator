@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { presets } from "@/lib/schema";
@@ -35,11 +36,7 @@ export async function GET() {
 
     return NextResponse.json({ presets: formattedPresets });
   } catch (error) {
-    console.error("Error fetching presets:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch presets" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching presets");
   }
 }
 
@@ -96,10 +93,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ preset: formattedPreset }, { status: 201 });
   } catch (error) {
-    console.error("Error creating preset:", error);
-    return NextResponse.json(
-      { error: "Failed to create preset" },
-      { status: 500 }
-    );
+    return handleApiError(error, "creating preset");
   }
 }

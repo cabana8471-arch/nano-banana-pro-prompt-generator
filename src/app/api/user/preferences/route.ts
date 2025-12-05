@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { userPreferences } from "@/lib/schema";
@@ -35,11 +36,7 @@ export async function GET() {
       language: userPref.language,
     });
   } catch (error) {
-    console.error("Error getting preferences:", error);
-    return NextResponse.json(
-      { error: "Failed to get preferences" },
-      { status: 500 }
-    );
+    return handleApiError(error, "getting preferences");
   }
 }
 
@@ -97,10 +94,6 @@ export async function POST(request: Request) {
       language: language || "en",
     });
   } catch (error) {
-    console.error("Error saving preferences:", error);
-    return NextResponse.json(
-      { error: "Failed to save preferences" },
-      { status: 500 }
-    );
+    return handleApiError(error, "saving preferences");
   }
 }
