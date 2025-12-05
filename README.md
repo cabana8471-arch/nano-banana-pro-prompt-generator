@@ -11,13 +11,30 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ### Banner Generator
 - **Professional Banner Creation**: Dedicated banner generator for web ads, social media, and marketing materials
-- **15 Template Categories**: 385+ presets covering banner types, sizes, industries, design styles, colors, moods, backgrounds, effects, layouts, typography, and CTA buttons
+- **Reference Images**: Upload existing banners/images as references to guide AI generation
+  - **3 Reference Types**: Style (visual aesthetics), Composition (layout structure), Color (palette inspiration)
+  - **Multi-Reference Support**: Use up to 4 reference images per generation
+  - **Reference Library**: Store up to 50 references per user with easy management
+- **15 Template Categories**: 410+ presets organized in 4 sections:
+  - **Basic Configuration**: Banner Type (~38), Banner Size (~27 + Custom), Industry/Niche (~52)
+  - **Visual Style**: Design Style (~35), Color Scheme (~30), Mood/Emotion (~20), Seasonal/Holiday (~25)
+  - **Visual Elements**: Background Style (~35), Visual Effects (~30), Icons/Graphics (~20), Promotional Elements (~15)
+  - **Layout & Typography**: Layout Style (~25), Text Placement (~15), Typography Style (~25), CTA Button Style (~20)
 - **Platform Support**: Google Ads (IAB Standard), Facebook, Instagram, Twitter, LinkedIn, and website banners
-- **Quick Start Templates**: Pre-configured templates for common scenarios (e-commerce, tech, food, fashion, services, events)
-- **Advanced Color Picker**: EyeDropper API integration, predefined palettes, WCAG contrast checker, saved colors
+- **Banner Sizes**:
+  - Google Display Ads: Leaderboard (728x90, 970x90), Rectangle (300x250, 336x280, 300x600), Skyscraper (160x600, 120x600), Billboard (970x250), Mobile (320x50, 320x100)
+  - Social Media: Facebook Feed (1200x628, 1080x1080), Instagram Feed (1080x1080, 1080x1350), Instagram Story (1080x1920)
+  - Website: Hero Banner (1920x600, 1920x800), Sidebar (300x250, 300x600), Full Width (1920x400)
+  - **Custom Size**: Define your own dimensions (50-4096px width/height)
+- **Quick Start Templates**: 6 pre-configured templates (E-commerce Sale, Tech Product, Food/Restaurant, Fashion Lifestyle, Service Business, Event Promotion)
+- **Text Content Manager**: Separate fields for Headline, Subheadline, CTA Text, and Tagline with character limits per banner size
+- **Brand Assets Integration**: Logo and Product Image upload via avatar system, Brand Colors (Primary, Secondary, Accent)
+- **Advanced Color Picker**: EyeDropper API integration, 5 predefined palettes, WCAG contrast ratio checker, saved colors (max 8)
 - **History & Undo**: Full undo/redo support with history viewer (up to 50 states)
-- **Responsive Preview**: Side-by-side comparison across desktop, mobile, and social platforms
-- **Quick Actions**: Duplicate config, randomize settings, swap colors, reset with confirmation
+- **Responsive Preview**: 4 preview tabs (Comparison, Desktop, Mobile, Social) with scaled visual cards
+- **Quick Actions**: Copy config to clipboard, Randomize all settings, Swap primary/secondary colors, Reset with confirmation
+- **Validation System**: Character limits per banner size, contrast checking, missing headline/CTA warnings
+- **Export Options**: Download in PNG, JPG, or WebP format with quality settings
 
 ### Social Features
 - **Gallery**: Browse and share generated images with the community
@@ -111,14 +128,15 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 ### Banner Generation
 1. Navigate to `/banner-generator`
 2. **Select a Quick Start template** or configure from scratch
-3. **Choose banner settings**: type, size (IAB standard or social media), industry
+3. **Choose banner settings**: type, size (IAB standard, social media, or custom dimensions), industry
 4. **Customize design**: style, colors, mood, seasonal theme
 5. **Add visual elements**: background, effects, icons, promotional badges
 6. **Configure layout**: text placement, typography, CTA button style
 7. **Enter text content**: headline, subheadline, CTA text, tagline
 8. **Upload brand assets**: logo and product images via avatar system
-9. **Preview and generate** your professional banner
-10. **Download** in PNG, JPG, or WebP format
+9. **Add reference images** (optional): upload existing banners for style, composition, or color guidance
+10. **Preview and generate** your professional banner
+11. **Download** in PNG, JPG, or WebP format
 
 ## Internationalization
 
@@ -182,10 +200,24 @@ src/
 ├── components/
 │   ├── generate/             # Prompt builder and generation UI
 │   ├── banner-generator/     # Banner generator components
-│   │   ├── banner-builder/   # Builder panel, sections, quick actions
-│   │   ├── preview/          # Preview panel, responsive preview
-│   │   ├── results/          # Results panel, download options
-│   │   └── presets/          # Quick start templates, preset management
+│   │   ├── banner-builder/   # Builder panel with sections
+│   │   │   ├── sections/     # 4 section components (basic, visual style, elements, layout)
+│   │   │   ├── quick-actions.tsx        # Duplicate, randomize, swap, reset
+│   │   │   ├── history-controls.tsx     # Undo/redo with history viewer
+│   │   │   ├── advanced-color-picker.tsx # EyeDropper, palettes, contrast
+│   │   │   ├── text-content-editor.tsx  # Headline, subheadline, CTA, tagline
+│   │   │   ├── brand-assets-manager.tsx # Logo, product image, brand colors
+│   │   │   └── banner-reference-manager.tsx # Reference images upload & selection
+│   │   ├── preview/          # Preview panel
+│   │   │   ├── banner-preview-panel.tsx # Main preview with generation settings
+│   │   │   └── responsive-preview.tsx   # Multi-device preview comparison
+│   │   ├── results/          # Results panel
+│   │   │   ├── banner-results-panel.tsx # Grid with download options
+│   │   │   └── banner-refine-input.tsx  # Refinement input
+│   │   └── presets/          # Preset management
+│   │       ├── quick-start-templates.tsx # 6 pre-configured templates
+│   │       ├── save-banner-preset-modal.tsx
+│   │       └── load-banner-preset-dropdown.tsx
 │   ├── auth/                 # Authentication components
 │   ├── gallery/              # Gallery components
 │   ├── avatars/              # Avatar components
@@ -194,9 +226,11 @@ src/
 │   ├── use-avatars.ts        # Avatar management
 │   ├── use-generation.ts     # Image generation logic
 │   ├── use-prompt-builder.ts # Prompt builder state
-│   ├── use-banner-builder.ts # Banner builder state
-│   ├── use-banner-history.ts # Undo/redo history
-│   └── use-banner-presets.ts # Banner preset management
+│   ├── use-banner-builder.ts # Banner builder state (15 categories + text + brand assets)
+│   ├── use-banner-history.ts # Undo/redo history (max 50 entries)
+│   ├── use-banner-presets.ts # Banner preset CRUD operations
+│   ├── use-banner-references.ts # Banner reference images CRUD operations
+│   └── use-banner-validation.ts # Character limits, contrast checking, warnings
 ├── i18n/                     # Internationalization
 │   ├── config.ts             # Locale configuration (en, ro)
 │   ├── request.ts            # Server-side i18n setup
@@ -210,9 +244,16 @@ src/
     ├── storage.ts            # File storage abstraction
     ├── auth.ts               # Authentication config
     ├── types/
-    │   └── banner.ts         # Banner generator types
+    │   ├── banner.ts         # Banner generator types (BannerBuilderState, BannerTextContent, etc.)
+    │   └── generation.ts     # Image generation types
     └── data/
-        └── banner-templates.ts # 385+ banner presets (15 categories)
+        └── banner-templates.ts # 410+ banner presets organized in 15 categories:
+                              # bannerTypeTemplates, bannerSizeTemplates, industryTemplates,
+                              # designStyleTemplates, colorSchemeTemplates, moodTemplates,
+                              # seasonalTemplates, backgroundTemplates, visualEffectsTemplates,
+                              # iconGraphicsTemplates, promotionalTemplates, layoutTemplates,
+                              # textPlacementTemplates, typographyTemplates, ctaButtonTemplates,
+                              # + 6 quickStartTemplates
 ```
 
 ## Environment Variables
