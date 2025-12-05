@@ -36,6 +36,9 @@ export const FILE_LIMITS = {
 
   /** Maximum file size for uploads (MB) */
   MAX_FILE_SIZE_MB: 5,
+
+  /** Maximum reference image size for Gemini API (bytes) - 20MB */
+  MAX_REFERENCE_IMAGE_BYTES: 20 * 1024 * 1024,
 } as const;
 
 export const GENERATION = {

@@ -164,44 +164,46 @@ export async function POST(request: Request) {
       );
     }
 
-    // Upload images to storage (external operation - cannot be rolled back)
+    // Upload images to storage in parallel (external operation - cannot be rolled back)
     // We do this before the transaction so we have the URLs ready
-    const uploadedImages: { url: string; index: number }[] = [];
-    for (let i = 0; i < result.images.length; i++) {
-      const img = result.images[i];
-      if (!img) continue;
+    const timestamp = Date.now();
+    const uploadPromises = result.images.map(async (img, i) => {
+      if (!img) return null;
 
       const buffer = Buffer.from(img.base64, "base64");
       const extension = img.mimeType.split("/")[1] || "png";
-      const timestamp = Date.now();
       const filename = `gen-${generation.id}-${i}-${timestamp}.${extension}`;
 
-      try {
-        const uploadResult = await upload(buffer, filename, "generations");
-        uploadedImages.push({ url: uploadResult.url, index: i });
-      } catch (uploadError) {
-        // If upload fails, mark generation as failed and return
-        await db
-          .update(generations)
-          .set({
+      const uploadResult = await upload(buffer, filename, "generations");
+      return { url: uploadResult.url, index: i };
+    });
+
+    let uploadedImages: { url: string; index: number }[];
+    try {
+      const results = await Promise.all(uploadPromises);
+      uploadedImages = results.filter((r): r is { url: string; index: number } => r !== null);
+    } catch (uploadError) {
+      // If any upload fails, mark generation as failed and return
+      await db
+        .update(generations)
+        .set({
+          status: "failed",
+          errorMessage: "Failed to upload generated image",
+        })
+        .where(eq(generations.id, generation.id));
+
+      console.error("Image upload failed:", uploadError);
+      return NextResponse.json(
+        {
+          error: "Failed to upload generated image",
+          generation: {
+            id: generation.id,
             status: "failed",
             errorMessage: "Failed to upload generated image",
-          })
-          .where(eq(generations.id, generation.id));
-
-        console.error("Image upload failed:", uploadError);
-        return NextResponse.json(
-          {
-            error: "Failed to upload generated image",
-            generation: {
-              id: generation.id,
-              status: "failed",
-              errorMessage: "Failed to upload generated image",
-            },
           },
-          { status: 500 }
-        );
-      }
+        },
+        { status: 500 }
+      );
     }
 
     // Use a transaction for all database completion operations

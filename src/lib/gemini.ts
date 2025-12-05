@@ -1,5 +1,6 @@
 import { GoogleGenAI, Part, Content } from "@google/genai";
 import { eq } from "drizzle-orm";
+import { FILE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { decrypt } from "@/lib/encryption";
 import { userApiKeys } from "@/lib/schema";
@@ -93,7 +94,27 @@ async function createImagePart(
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
+
+      // Check Content-Length header first to avoid downloading oversized images
+      const contentLength = response.headers.get("content-length");
+      if (contentLength) {
+        const size = parseInt(contentLength, 10);
+        if (size > FILE_LIMITS.MAX_REFERENCE_IMAGE_BYTES) {
+          throw new Error(
+            `Image too large: ${Math.round(size / 1024 / 1024)}MB exceeds ${FILE_LIMITS.MAX_REFERENCE_IMAGE_BYTES / 1024 / 1024}MB limit`
+          );
+        }
+      }
+
       const arrayBuffer = await response.arrayBuffer();
+
+      // Also check actual size in case Content-Length was missing or incorrect
+      if (arrayBuffer.byteLength > FILE_LIMITS.MAX_REFERENCE_IMAGE_BYTES) {
+        throw new Error(
+          `Image too large: ${Math.round(arrayBuffer.byteLength / 1024 / 1024)}MB exceeds ${FILE_LIMITS.MAX_REFERENCE_IMAGE_BYTES / 1024 / 1024}MB limit`
+        );
+      }
+
       const base64 = Buffer.from(arrayBuffer).toString("base64");
       const contentType = response.headers.get("content-type") || mimeType;
 
