@@ -1,12 +1,18 @@
 "use client";
 
-import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop } from "lucide-react";
+import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { UserProfile } from "@/components/auth/user-profile";
 import { Link, usePathname } from "@/i18n/routing";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 import { ModeToggle } from "./ui/mode-toggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
@@ -16,13 +22,23 @@ export function SiteHeader() {
   const t = useTranslations("navigation");
   const tBrand = useTranslations("brand");
 
-  const navigationItems = [
-    { href: "/generate" as const, labelKey: "generate" as const, icon: Wand2 },
+  // Simple navigation items (direct links)
+  const simpleNavItems = [
+    { href: "/photo-generator" as const, labelKey: "photos" as const, icon: Wand2 },
     { href: "/banner-generator" as const, labelKey: "bannerGenerator" as const, icon: LayoutPanelTop },
     { href: "/gallery" as const, labelKey: "gallery" as const, icon: ImageIcon },
-    { href: "/avatars" as const, labelKey: "avatars" as const, icon: Users },
-    { href: "/profile" as const, labelKey: "settings" as const, icon: Settings },
   ];
+
+  // Media dropdown sub-items
+  const mediaSubItems = [
+    { href: "/avatars" as const, labelKey: "avatars" as const, icon: Users },
+    { href: "/logos" as const, labelKey: "logos" as const, icon: ImageIcon },
+    { href: "/products" as const, labelKey: "products" as const, icon: ShoppingBag },
+    { href: "/references" as const, labelKey: "references" as const, icon: Palette },
+  ];
+
+  // Check if any media sub-item is active
+  const isMediaActive = mediaSubItems.some((item) => pathname === item.href);
 
   return (
     <>
@@ -60,7 +76,8 @@ export function SiteHeader() {
           {/* Desktop Navigation */}
           {session && (
             <div className="hidden md:flex items-center gap-1" role="navigation">
-              {navigationItems.map((item) => {
+              {/* Simple nav items */}
+              {simpleNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
                 return (
@@ -79,6 +96,58 @@ export function SiteHeader() {
                   </Link>
                 );
               })}
+
+              {/* Media Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      isMediaActive
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    )}
+                  >
+                    <Folder className="h-4 w-4" />
+                    {t("media")}
+                    <ChevronDown className="h-3 w-3" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {mediaSubItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = pathname === item.href;
+                    return (
+                      <DropdownMenuItem key={item.href} asChild>
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "flex items-center gap-2 cursor-pointer",
+                            isActive && "bg-primary/10 text-primary"
+                          )}
+                        >
+                          <Icon className="h-4 w-4" />
+                          {t(item.labelKey)}
+                        </Link>
+                      </DropdownMenuItem>
+                    );
+                  })}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Settings */}
+              <Link
+                href="/profile"
+                className={cn(
+                  "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                  pathname === "/profile"
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                <Settings className="h-4 w-4" />
+                {t("settings")}
+              </Link>
             </div>
           )}
 
@@ -101,7 +170,8 @@ export function SiteHeader() {
                     </SheetTitle>
                   </SheetHeader>
                   <nav className="mt-6 flex flex-col gap-2">
-                    {navigationItems.map((item) => {
+                    {/* Simple nav items */}
+                    {simpleNavItems.map((item) => {
                       const Icon = item.icon;
                       const isActive = pathname === item.href;
                       return (
@@ -120,6 +190,47 @@ export function SiteHeader() {
                         </Link>
                       );
                     })}
+
+                    {/* Media Section Header */}
+                    <div className="flex items-center gap-3 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2">
+                      <Folder className="h-4 w-4" />
+                      {t("media")}
+                    </div>
+
+                    {/* Media sub-items */}
+                    {mediaSubItems.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={cn(
+                            "flex items-center gap-3 px-3 py-3 pl-6 rounded-md text-sm font-medium transition-colors",
+                            isActive
+                              ? "bg-primary/10 text-primary"
+                              : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                          )}
+                        >
+                          <Icon className="h-5 w-5" />
+                          {t(item.labelKey)}
+                        </Link>
+                      );
+                    })}
+
+                    {/* Settings */}
+                    <Link
+                      href="/profile"
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors mt-2",
+                        pathname === "/profile"
+                          ? "bg-primary/10 text-primary"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      )}
+                    >
+                      <Settings className="h-5 w-5" />
+                      {t("settings")}
+                    </Link>
                   </nav>
                 </SheetContent>
               </Sheet>

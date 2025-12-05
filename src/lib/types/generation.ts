@@ -3,7 +3,10 @@
 // ==========================================
 
 // Avatar Types
-export type AvatarType = "human" | "object";
+export type AvatarType = "human" | "object" | "logo" | "product" | "reference";
+
+// Generation Types
+export type GenerationType = "photo" | "banner";
 
 export interface Avatar {
   id: string;
@@ -46,6 +49,7 @@ export interface Generation {
   prompt: string;
   settings: GenerationSettings;
   status: GenerationStatus;
+  generationType: GenerationType;
   errorMessage: string | null;
   createdAt: Date;
   updatedAt: Date;

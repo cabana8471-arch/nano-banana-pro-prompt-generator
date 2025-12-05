@@ -10,6 +10,8 @@ interface AvatarListProps {
   isLoading: boolean;
   onEdit: (avatar: Avatar) => void;
   onDelete: (avatar: Avatar) => void;
+  emptyMessage?: string;
+  emptyHint?: string;
 }
 
 function AvatarSkeleton() {
@@ -31,7 +33,7 @@ function AvatarSkeleton() {
   );
 }
 
-export function AvatarList({ avatars, isLoading, onEdit, onDelete }: AvatarListProps) {
+export function AvatarList({ avatars, isLoading, onEdit, onDelete, emptyMessage, emptyHint }: AvatarListProps) {
   const t = useTranslations("avatars");
 
   if (isLoading) {
@@ -47,8 +49,8 @@ export function AvatarList({ avatars, isLoading, onEdit, onDelete }: AvatarListP
   if (avatars.length === 0) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        <p className="text-lg">{t("noAvatars")}</p>
-        <p className="text-sm">{t("noAvatarsHint")}</p>
+        <p className="text-lg">{emptyMessage || t("noAvatars")}</p>
+        <p className="text-sm">{emptyHint || t("noAvatarsHint")}</p>
       </div>
     );
   }

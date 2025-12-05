@@ -4,10 +4,17 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ## Features
 
-### Image Generation
+### Photo Generation
 - **AI Image Generation**: Generate images using Google Gemini 3 Pro with multi-turn conversation support for refinements
 - **Prompt Builder**: Intuitive UI to construct detailed prompts with location, lighting, camera angle, style, and subject options
 - **Avatar System**: Upload reference images to maintain consistent characters/objects across generations
+
+### Media Library
+- **Organized Asset Management**: Dedicated sections for different asset types under the "Media" dropdown menu
+- **Avatars**: Reference images for human characters and objects in photo generation
+- **Logos**: Brand logos for banner generation with fallback to object type
+- **Products**: Product images and packshots for e-commerce banners
+- **References**: Style, composition, and color reference images for banner design guidance
 
 ### Banner Generator
 - **Professional Banner Creation**: Dedicated banner generator for web ads, social media, and marketing materials
@@ -38,6 +45,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ### Social Features
 - **Gallery**: Browse and share generated images with the community
+- **Gallery Filtering**: Filter gallery by generation type (All, Photos, Banners)
 - **Like System**: Like and discover popular images from other users
 
 ### Infrastructure
@@ -158,10 +166,18 @@ The application supports multiple languages with locale-based URL routing:
 /                    → Redirects to /en/ (default locale)
 /en/                 → English homepage
 /ro/                 → Romanian homepage
-/en/generate         → Image generation (English)
-/ro/generate         → Image generation (Romanian)
+/en/photo-generator  → Photo generation (English)
+/ro/photo-generator  → Photo generation (Romanian)
 /en/banner-generator → Banner generator (English)
 /ro/banner-generator → Banner generator (Romanian)
+/en/gallery          → Gallery with filtering (English)
+/ro/gallery          → Gallery with filtering (Romanian)
+
+Media Library:
+/en/avatars          → Avatar management (English)
+/en/logos            → Logo management (English)
+/en/products         → Product images (English)
+/en/references       → Reference images (English)
 ```
 
 ## Development Commands
@@ -192,13 +208,17 @@ src/
 ├── app/
 │   ├── api/                  # API routes (no locale prefix)
 │   └── [locale]/             # Locale-based pages (en, ro)
-│       ├── generate/         # Image generation page
+│       ├── photo-generator/  # Photo generation page
 │       ├── banner-generator/ # Banner generation page
-│       ├── gallery/          # Gallery pages
+│       ├── gallery/          # Gallery pages with filtering
 │       ├── profile/          # User profile & settings
-│       └── avatars/          # Avatar management
+│       ├── avatars/          # Avatar management
+│       ├── logos/            # Logo management
+│       ├── products/         # Product image management
+│       └── references/       # Reference image management
 ├── components/
 │   ├── generate/             # Prompt builder and generation UI
+│   ├── media/                # Reusable media page component for logos/products/references
 │   ├── banner-generator/     # Banner generator components
 │   │   ├── banner-builder/   # Builder panel with sections
 │   │   │   ├── sections/     # 4 section components (basic, visual style, elements, layout)

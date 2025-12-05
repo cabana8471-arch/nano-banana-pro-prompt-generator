@@ -59,6 +59,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
       prompt: generation.prompt,
       settings: generation.settings as GenerationSettings,
       status: generation.status as "pending" | "processing" | "completed" | "failed",
+      generationType: (generation.generationType as "photo" | "banner") || "photo",
       errorMessage: generation.errorMessage,
       createdAt: generation.createdAt,
       updatedAt: generation.updatedAt,

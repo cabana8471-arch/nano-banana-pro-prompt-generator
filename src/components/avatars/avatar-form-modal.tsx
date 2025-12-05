@@ -29,6 +29,8 @@ interface AvatarFormModalProps {
     image?: File | undefined;
   }) => Promise<void>;
   isSubmitting: boolean;
+  defaultAvatarType?: AvatarType;
+  hideTypeSelector?: boolean;
 }
 
 export function AvatarFormModal({
@@ -37,12 +39,14 @@ export function AvatarFormModal({
   avatar,
   onSubmit,
   isSubmitting,
+  defaultAvatarType = "human",
+  hideTypeSelector = false,
 }: AvatarFormModalProps) {
   const t = useTranslations("avatars");
   const tCommon = useTranslations("common");
   const [name, setName] = useState(avatar?.name || "");
   const [description, setDescription] = useState(avatar?.description || "");
-  const [avatarType, setAvatarType] = useState<AvatarType>(avatar?.avatarType || "human");
+  const [avatarType, setAvatarType] = useState<AvatarType>(avatar?.avatarType || defaultAvatarType);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(avatar?.imageUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -83,7 +87,7 @@ export function AvatarFormModal({
     if (!isSubmitting) {
       setName(avatar?.name || "");
       setDescription(avatar?.description || "");
-      setAvatarType(avatar?.avatarType || "human");
+      setAvatarType(avatar?.avatarType || defaultAvatarType);
       setImageFile(null);
       setImagePreview(avatar?.imageUrl || null);
       onOpenChange(false);
@@ -177,41 +181,43 @@ export function AvatarFormModal({
           </div>
 
           {/* Avatar Type */}
-          <div className="space-y-2">
-            <Label>{t("type")}</Label>
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                type="button"
-                onClick={() => setAvatarType("human")}
-                className={`p-4 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
-                  avatarType === "human"
-                    ? "border-primary bg-primary/5"
-                    : "hover:border-primary/50"
-                }`}
-              >
-                <User className="h-6 w-6" />
-                <span className="font-medium">{t("typeHuman")}</span>
-                <span className="text-xs text-muted-foreground text-center">
-                  {t("humanDescription")}
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setAvatarType("object")}
-                className={`p-4 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
-                  avatarType === "object"
-                    ? "border-primary bg-primary/5"
-                    : "hover:border-primary/50"
-                }`}
-              >
-                <Package className="h-6 w-6" />
-                <span className="font-medium">{t("typeObject")}</span>
-                <span className="text-xs text-muted-foreground text-center">
-                  {t("objectDescription")}
-                </span>
-              </button>
+          {!hideTypeSelector && (
+            <div className="space-y-2">
+              <Label>{t("type")}</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setAvatarType("human")}
+                  className={`p-4 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+                    avatarType === "human"
+                      ? "border-primary bg-primary/5"
+                      : "hover:border-primary/50"
+                  }`}
+                >
+                  <User className="h-6 w-6" />
+                  <span className="font-medium">{t("typeHuman")}</span>
+                  <span className="text-xs text-muted-foreground text-center">
+                    {t("humanDescription")}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAvatarType("object")}
+                  className={`p-4 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+                    avatarType === "object"
+                      ? "border-primary bg-primary/5"
+                      : "hover:border-primary/50"
+                  }`}
+                >
+                  <Package className="h-6 w-6" />
+                  <span className="font-medium">{t("typeObject")}</span>
+                  <span className="text-xs text-muted-foreground text-center">
+                    {t("objectDescription")}
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           <DialogFooter>
             <Button

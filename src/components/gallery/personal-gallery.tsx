@@ -4,10 +4,12 @@ import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type {
   GenerationWithImages,
   GeneratedImage,
   GenerationSettings,
+  GenerationType,
   PaginatedResponse,
 } from "@/lib/types/generation";
 import { GalleryGrid } from "./gallery-grid";
@@ -22,6 +24,8 @@ type PersonalImage = GeneratedImage & {
   };
 };
 
+type FilterType = "all" | GenerationType;
+
 export function PersonalGallery() {
   const t = useTranslations("gallery");
   const [images, setImages] = useState<PersonalImage[]>([]);
@@ -30,11 +34,20 @@ export function PersonalGallery() {
   const [hasMore, setHasMore] = useState(false);
   const [total, setTotal] = useState(0);
   const [selectedImage, setSelectedImage] = useState<PersonalImage | null>(null);
+  const [filter, setFilter] = useState<FilterType>("all");
 
-  const fetchImages = useCallback(async (pageNum: number) => {
+  const fetchImages = useCallback(async (pageNum: number, filterType: FilterType) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/generations?page=${pageNum}&pageSize=20`);
+      const params = new URLSearchParams({
+        page: pageNum.toString(),
+        pageSize: "20",
+      });
+      if (filterType !== "all") {
+        params.append("type", filterType);
+      }
+
+      const response = await fetch(`/api/generations?${params.toString()}`);
       if (response.ok) {
         const data: PaginatedResponse<GenerationWithImages> = await response.json();
 
@@ -62,8 +75,13 @@ export function PersonalGallery() {
   }, []);
 
   useEffect(() => {
-    fetchImages(page);
-  }, [page, fetchImages]);
+    fetchImages(page, filter);
+  }, [page, filter, fetchImages]);
+
+  const handleFilterChange = (newFilter: FilterType) => {
+    setFilter(newFilter);
+    setPage(1); // Reset to first page when filter changes
+  };
 
   const handleVisibilityChange = (imageId: string, isPublic: boolean) => {
     setImages((prev) =>
@@ -78,6 +96,17 @@ export function PersonalGallery() {
 
   return (
     <>
+      {/* Filter Tabs */}
+      <div className="mb-6">
+        <Tabs value={filter} onValueChange={(v) => handleFilterChange(v as FilterType)}>
+          <TabsList>
+            <TabsTrigger value="all">{t("filterAll")}</TabsTrigger>
+            <TabsTrigger value="photo">{t("filterPhotos")}</TabsTrigger>
+            <TabsTrigger value="banner">{t("filterBanners")}</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
       <GalleryGrid
         loading={loading}
         isEmpty={images.length === 0}

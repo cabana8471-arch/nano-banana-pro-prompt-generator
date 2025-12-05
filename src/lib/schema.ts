@@ -113,7 +113,7 @@ export const avatars = pgTable(
     name: text("name").notNull(),
     imageUrl: text("image_url").notNull(),
     description: text("description"),
-    avatarType: text("avatar_type").notNull().default("human"), // "human" | "object"
+    avatarType: text("avatar_type").notNull().default("human"), // "human" | "object" | "logo" | "product" | "reference"
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
@@ -153,6 +153,7 @@ export const generations = pgTable(
     prompt: text("prompt").notNull(),
     settings: jsonb("settings").notNull(), // Resolution, aspect ratio, etc.
     status: text("status").notNull().default("pending"), // "pending" | "processing" | "completed" | "failed"
+    generationType: text("generation_type").notNull().default("photo"), // "photo" | "banner"
     errorMessage: text("error_message"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
@@ -163,6 +164,7 @@ export const generations = pgTable(
   (table) => [
     index("generations_user_id_idx").on(table.userId),
     index("generations_status_idx").on(table.status),
+    index("generations_type_idx").on(table.generationType),
   ]
 );
 

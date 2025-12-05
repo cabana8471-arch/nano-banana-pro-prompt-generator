@@ -46,7 +46,7 @@ export default async function HomePage({ params }: Props) {
         </p>
         <div className="flex gap-4 justify-center pt-4">
           <Button asChild size="lg">
-            <Link href="/generate">{t("startCreating")}</Link>
+            <Link href="/photo-generator">{t("startCreating")}</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
             <Link href="/gallery">{t("viewGallery")}</Link>

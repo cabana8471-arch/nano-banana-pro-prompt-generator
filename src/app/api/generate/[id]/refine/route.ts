@@ -237,6 +237,7 @@ export async function POST(request: Request, { params }: RouteParams) {
       prompt: newPrompt,
       settings: settings,
       status: "completed",
+      generationType: (generation.generationType as "photo" | "banner") || "photo",
       errorMessage: null,
       createdAt: generation.createdAt,
       updatedAt: new Date(),

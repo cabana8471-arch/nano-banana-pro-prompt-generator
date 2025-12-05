@@ -24,7 +24,7 @@ export default async function NotFound() {
             <Link href="/">{tCommon("goHome")}</Link>
           </Button>
           <Button variant="outline" asChild>
-            <Link href="/generate">{tNav("generate")}</Link>
+            <Link href="/photo-generator">{tNav("photos")}</Link>
           </Button>
         </div>
       </div>

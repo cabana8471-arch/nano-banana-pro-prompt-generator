@@ -1,12 +1,12 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { eq, desc, count } from "drizzle-orm";
+import { eq, desc, count, and } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { generations, generatedImages } from "@/lib/schema";
-import type { GenerationSettings, GenerationWithImages, PaginatedResponse } from "@/lib/types/generation";
+import type { GenerationSettings, GenerationWithImages, PaginatedResponse, GenerationType } from "@/lib/types/generation";
 
 /**
  * GET /api/generations
@@ -19,17 +19,25 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Parse pagination params
+    // Parse pagination and filter params
     const { searchParams } = new URL(request.url);
     const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
     const pageSize = Math.min(PAGINATION.MAX_PAGE_SIZE, Math.max(1, parseInt(searchParams.get("pageSize") || "10", 10)));
     const offset = (page - 1) * pageSize;
+    const typeFilter = searchParams.get("type") as GenerationType | null;
+
+    // Build where conditions
+    const whereConditions = [eq(generations.userId, session.user.id)];
+    if (typeFilter && (typeFilter === "photo" || typeFilter === "banner")) {
+      whereConditions.push(eq(generations.generationType, typeFilter));
+    }
+    const whereClause = whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0];
 
     // Get total count
     const [totalResult] = await db
       .select({ count: count() })
       .from(generations)
-      .where(eq(generations.userId, session.user.id));
+      .where(whereClause);
 
     const total = totalResult?.count || 0;
 
@@ -37,7 +45,7 @@ export async function GET(request: Request) {
     const userGenerations = await db
       .select()
       .from(generations)
-      .where(eq(generations.userId, session.user.id))
+      .where(whereClause)
       .orderBy(desc(generations.createdAt))
       .limit(pageSize)
       .offset(offset);
@@ -61,6 +69,7 @@ export async function GET(request: Request) {
       prompt: gen.prompt,
       settings: gen.settings as GenerationSettings,
       status: gen.status as "pending" | "processing" | "completed" | "failed",
+      generationType: (gen.generationType as "photo" | "banner") || "photo",
       errorMessage: gen.errorMessage,
       createdAt: gen.createdAt,
       updatedAt: gen.updatedAt,

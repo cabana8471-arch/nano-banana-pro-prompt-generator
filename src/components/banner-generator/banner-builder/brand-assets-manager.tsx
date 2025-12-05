@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { BannerBrandAssets } from "@/lib/types/banner";
-import type { Avatar } from "@/lib/types/generation";
+import type { Avatar, AvatarType } from "@/lib/types/generation";
 
 interface BrandAssetsManagerProps {
   brandAssets: BannerBrandAssets;
@@ -31,7 +31,8 @@ interface AssetSelectorProps {
   avatars: Avatar[];
   isLoading: boolean;
   getAvatarById: (id: string) => Avatar | undefined;
-  filterType?: "human" | "object" | "all" | undefined;
+  filterType?: AvatarType | "all" | undefined;
+  fallbackTypes?: AvatarType[];
 }
 
 function AssetSelector({
@@ -43,6 +44,7 @@ function AssetSelector({
   isLoading,
   getAvatarById,
   filterType = "object",
+  fallbackTypes = [],
 }: AssetSelectorProps) {
   const t = useTranslations("bannerGenerator");
   const [modalOpen, setModalOpen] = useState(false);
@@ -116,6 +118,7 @@ function AssetSelector({
         selectedId={selectedAvatarId}
         onSelect={handleSelect}
         filterType={filterType}
+        fallbackTypes={fallbackTypes}
       />
     </div>
   );
@@ -200,7 +203,8 @@ export function BrandAssetsManager({
         avatars={avatars}
         isLoading={isLoadingAvatars}
         getAvatarById={getAvatarById}
-        filterType="object"
+        filterType="logo"
+        fallbackTypes={["object"]}
       />
 
       {/* Product Image Selector */}
@@ -212,7 +216,8 @@ export function BrandAssetsManager({
         avatars={avatars}
         isLoading={isLoadingAvatars}
         getAvatarById={getAvatarById}
-        filterType="object"
+        filterType="product"
+        fallbackTypes={["object"]}
       />
 
       {/* Brand Colors */}

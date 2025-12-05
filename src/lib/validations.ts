@@ -14,9 +14,14 @@ import { INPUT_LIMITS, FILE_LIMITS, GENERATION } from "@/lib/constants";
 // Common Schemas
 // ============================================================================
 
-/** Validates avatar type - must be "human" or "object" */
-export const avatarTypeSchema = z.enum(["human", "object"], {
-  message: "Avatar type must be 'human' or 'object'",
+/** Validates avatar type - human, object, logo, product, or reference */
+export const avatarTypeSchema = z.enum(["human", "object", "logo", "product", "reference"], {
+  message: "Avatar type must be 'human', 'object', 'logo', 'product', or 'reference'",
+});
+
+/** Validates generation type - photo or banner */
+export const generationTypeSchema = z.enum(["photo", "banner"], {
+  message: "Generation type must be 'photo' or 'banner'",
 });
 
 /** Validates banner reference type - must be "style", "composition", or "color" */
@@ -141,6 +146,7 @@ export const generateRequestSchema = z.object({
       .optional()
       .default(1),
   }),
+  generationType: generationTypeSchema.optional().default("photo"),
   referenceImages: z
     .array(
       z.object({

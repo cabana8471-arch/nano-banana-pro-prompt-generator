@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Check, User, Package, Search } from "lucide-react";
+import { Check, User, Package, Search, ImageIcon, ShoppingBag, Palette } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Avatar } from "@/lib/types/generation";
+import type { Avatar, AvatarType } from "@/lib/types/generation";
 
 interface AvatarSelectorModalProps {
   open: boolean;
@@ -25,7 +25,42 @@ interface AvatarSelectorModalProps {
   isLoading: boolean;
   selectedId?: string | undefined;
   onSelect: (avatar: Avatar | null) => void;
-  filterType?: "human" | "object" | "all" | undefined;
+  filterType?: AvatarType | "all" | undefined;
+  fallbackTypes?: AvatarType[];
+}
+
+// Helper function to get icon for avatar type
+function getAvatarTypeIcon(avatarType: AvatarType) {
+  switch (avatarType) {
+    case "human":
+      return User;
+    case "logo":
+      return ImageIcon;
+    case "product":
+      return ShoppingBag;
+    case "reference":
+      return Palette;
+    case "object":
+    default:
+      return Package;
+  }
+}
+
+// Helper function to get label key for avatar type
+function getAvatarTypeLabel(avatarType: AvatarType, t: ReturnType<typeof useTranslations<"avatars">>) {
+  switch (avatarType) {
+    case "human":
+      return t("typeHuman");
+    case "logo":
+      return t("typeLogo");
+    case "product":
+      return t("typeProduct");
+    case "reference":
+      return t("typeReference");
+    case "object":
+    default:
+      return t("typeObject");
+  }
 }
 
 export function AvatarSelectorModal({
@@ -36,15 +71,19 @@ export function AvatarSelectorModal({
   selectedId,
   onSelect,
   filterType = "all",
+  fallbackTypes = [],
 }: AvatarSelectorModalProps) {
   const t = useTranslations("avatars");
   const tCommon = useTranslations("common");
   const [searchQuery, setSearchQuery] = useState("");
   const [localSelectedId, setLocalSelectedId] = useState<string | undefined>(selectedId);
 
-  // Filter avatars based on type and search query
+  // Filter avatars based on type (with fallback) and search query
   const filteredAvatars = avatars.filter((avatar) => {
-    const matchesType = filterType === "all" || avatar.avatarType === filterType;
+    const matchesType =
+      filterType === "all" ||
+      avatar.avatarType === filterType ||
+      fallbackTypes.includes(avatar.avatarType);
     const matchesSearch =
       !searchQuery ||
       avatar.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -135,12 +174,11 @@ export function AvatarSelectorModal({
                   <div className="p-2 text-left">
                     <p className="text-sm font-medium truncate">{avatar.name}</p>
                     <Badge variant="outline" className="text-xs mt-1">
-                      {avatar.avatarType === "human" ? (
-                        <User className="h-3 w-3 mr-1" />
-                      ) : (
-                        <Package className="h-3 w-3 mr-1" />
-                      )}
-                      {avatar.avatarType === "human" ? t("typeHuman") : t("typeObject")}
+                      {(() => {
+                        const Icon = getAvatarTypeIcon(avatar.avatarType);
+                        return <Icon className="h-3 w-3 mr-1" />;
+                      })()}
+                      {getAvatarTypeLabel(avatar.avatarType, t)}
                     </Badge>
                   </div>
                 </button>
