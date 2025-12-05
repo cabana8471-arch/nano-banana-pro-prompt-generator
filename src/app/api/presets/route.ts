@@ -1,8 +1,9 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, count } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
+import { RESOURCE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { presets } from "@/lib/schema";
 import type { Preset, PresetConfig } from "@/lib/types/generation";
@@ -49,6 +50,21 @@ export async function POST(request: Request) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Check total preset limit per user
+    const [presetCount] = await db
+      .select({ count: count() })
+      .from(presets)
+      .where(eq(presets.userId, session.user.id));
+
+    if (presetCount && presetCount.count >= RESOURCE_LIMITS.MAX_PRESETS_PER_USER) {
+      return NextResponse.json(
+        {
+          error: `Maximum ${RESOURCE_LIMITS.MAX_PRESETS_PER_USER} presets allowed. Please delete some presets before creating new ones.`,
+        },
+        { status: 400 }
+      );
     }
 
     const body = await request.json();
