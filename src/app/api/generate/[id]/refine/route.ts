@@ -2,7 +2,6 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and, asc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
-import { INPUT_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
 import { generations, generatedImages, generationHistory } from "@/lib/schema";
@@ -12,17 +11,13 @@ import type {
   GenerationWithImages,
   GenerationHistoryEntry,
 } from "@/lib/types/generation";
+import { refineRequestSchema } from "@/lib/validations";
 
 // Maximum duration for Vercel Hobby plan is 60 seconds
 export const maxDuration = 60;
 
 interface RouteParams {
   params: Promise<{ id: string }>;
-}
-
-interface RefineRequestBody {
-  instruction: string;
-  selectedImageId?: string;
 }
 
 /**
@@ -37,24 +32,19 @@ export async function POST(request: Request, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const body = (await request.json()) as RefineRequestBody;
-    const { instruction, selectedImageId } = body;
+    const body = await request.json();
 
-    // Validate instruction
-    if (!instruction || typeof instruction !== "string" || instruction.trim().length === 0) {
+    // Validate request body using Zod schema
+    const parseResult = refineRequestSchema.safeParse(body);
+    if (!parseResult.success) {
+      const firstIssue = parseResult.error.issues[0];
       return NextResponse.json(
-        { error: "Instruction is required" },
+        { error: firstIssue?.message || "Invalid request data" },
         { status: 400 }
       );
     }
 
-    // Validate instruction length to prevent DoS and database bloat
-    if (instruction.length > INPUT_LIMITS.MAX_INSTRUCTION_LENGTH) {
-      return NextResponse.json(
-        { error: `Instruction too long. Maximum ${INPUT_LIMITS.MAX_INSTRUCTION_LENGTH} characters allowed` },
-        { status: 400 }
-      );
-    }
+    const { instruction, selectedImageId } = parseResult.data;
 
     // Get the generation and verify ownership
     const [generation] = await db

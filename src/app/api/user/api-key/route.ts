@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { encrypt, getKeyHint, isValidGoogleApiKey } from "@/lib/encryption";
 import { userApiKeys } from "@/lib/schema";
+import { saveApiKeySchema } from "@/lib/validations";
 
 /**
  * GET /api/user/api-key
@@ -53,14 +54,18 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { apiKey } = body;
 
-    if (!apiKey || typeof apiKey !== "string") {
+    // Validate request body using Zod schema
+    const parseResult = saveApiKeySchema.safeParse(body);
+    if (!parseResult.success) {
+      const firstIssue = parseResult.error.issues[0];
       return NextResponse.json(
-        { error: "API key is required" },
+        { error: firstIssue?.message || "Invalid request data" },
         { status: 400 }
       );
     }
+
+    const { apiKey } = parseResult.data;
 
     if (!isValidGoogleApiKey(apiKey)) {
       return NextResponse.json(

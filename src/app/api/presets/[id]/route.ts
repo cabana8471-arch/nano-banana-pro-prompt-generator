@@ -2,10 +2,10 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@/lib/auth";
-import { INPUT_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { presets } from "@/lib/schema";
-import type { Preset, UpdatePresetInput, PresetConfig } from "@/lib/types/generation";
+import type { Preset, PresetConfig } from "@/lib/types/generation";
+import { updatePresetSchema } from "@/lib/validations";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -69,8 +69,19 @@ export async function PUT(request: Request, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    const body = (await request.json()) as UpdatePresetInput;
-    const { name, config } = body;
+    const body = await request.json();
+
+    // Validate request body using Zod schema
+    const parseResult = updatePresetSchema.safeParse(body);
+    if (!parseResult.success) {
+      const firstIssue = parseResult.error.issues[0];
+      return NextResponse.json(
+        { error: firstIssue?.message || "Invalid request data" },
+        { status: 400 }
+      );
+    }
+
+    const { name, config } = parseResult.data;
 
     // Verify the preset exists and belongs to the user
     const [existingPreset] = await db
@@ -87,51 +98,10 @@ export async function PUT(request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: "Preset not found" }, { status: 404 });
     }
 
-    // Build update object
+    // Build update object from validated data
     const updates: Partial<{ name: string; config: PresetConfig }> = {};
-
-    if (name !== undefined) {
-      if (typeof name !== "string" || name.trim().length === 0) {
-        return NextResponse.json(
-          { error: "Name must be a non-empty string" },
-          { status: 400 }
-        );
-      }
-      // Validate name length to prevent database bloat
-      if (name.length > INPUT_LIMITS.MAX_NAME_LENGTH) {
-        return NextResponse.json(
-          { error: `Name too long. Maximum ${INPUT_LIMITS.MAX_NAME_LENGTH} characters allowed` },
-          { status: 400 }
-        );
-      }
-      updates.name = name.trim();
-    }
-
-    if (config !== undefined) {
-      if (typeof config !== "object" || !Array.isArray(config.subjects)) {
-        return NextResponse.json(
-          { error: "Config must be an object with a subjects array" },
-          { status: 400 }
-        );
-      }
-      // Validate config size to prevent database bloat
-      const configString = JSON.stringify(config);
-      if (configString.length > INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE) {
-        return NextResponse.json(
-          { error: `Preset config too large. Maximum ${INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE} characters allowed` },
-          { status: 400 }
-        );
-      }
-      updates.config = config;
-    }
-
-    // Check if there's anything to update
-    if (Object.keys(updates).length === 0) {
-      return NextResponse.json(
-        { error: "No valid fields to update" },
-        { status: 400 }
-      );
-    }
+    if (name !== undefined) updates.name = name;
+    if (config !== undefined) updates.config = config as PresetConfig;
 
     // Update the preset
     const [updatedPreset] = await db

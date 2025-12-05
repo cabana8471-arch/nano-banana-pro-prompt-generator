@@ -2,11 +2,11 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@/lib/auth";
-import { INPUT_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { avatars } from "@/lib/schema";
 import { deleteFile } from "@/lib/storage";
-import type { Avatar, AvatarType } from "@/lib/types/generation";
+import type { Avatar } from "@/lib/types/generation";
+import { updateAvatarSchema } from "@/lib/validations";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -58,11 +58,18 @@ export async function PUT(request: Request, { params }: RouteParams) {
 
     const { id } = await params;
     const body = await request.json();
-    const { name, description, avatarType } = body as {
-      name?: string;
-      description?: string;
-      avatarType?: AvatarType;
-    };
+
+    // Validate request body using Zod schema
+    const parseResult = updateAvatarSchema.safeParse(body);
+    if (!parseResult.success) {
+      const firstIssue = parseResult.error.issues[0];
+      return NextResponse.json(
+        { error: firstIssue?.message || "Invalid request data" },
+        { status: 400 }
+      );
+    }
+
+    const { name, description, avatarType } = parseResult.data;
 
     // Check if avatar exists and belongs to user
     const [existingAvatar] = await db
@@ -75,53 +82,11 @@ export async function PUT(request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: "Avatar not found" }, { status: 404 });
     }
 
-    // Build update object
+    // Build update object from validated data
     const updateData: Partial<typeof avatars.$inferInsert> = {};
-
-    if (name !== undefined) {
-      if (typeof name !== "string" || name.trim().length === 0) {
-        return NextResponse.json(
-          { error: "Name cannot be empty" },
-          { status: 400 }
-        );
-      }
-      // Validate name length to prevent database bloat
-      if (name.length > INPUT_LIMITS.MAX_NAME_LENGTH) {
-        return NextResponse.json(
-          { error: `Name too long. Maximum ${INPUT_LIMITS.MAX_NAME_LENGTH} characters allowed` },
-          { status: 400 }
-        );
-      }
-      updateData.name = name.trim();
-    }
-
-    if (description !== undefined) {
-      // Validate description length if provided and not null
-      if (description && description.length > INPUT_LIMITS.MAX_DESCRIPTION_LENGTH) {
-        return NextResponse.json(
-          { error: `Description too long. Maximum ${INPUT_LIMITS.MAX_DESCRIPTION_LENGTH} characters allowed` },
-          { status: 400 }
-        );
-      }
-      updateData.description = description?.trim() || null;
-    }
-
-    if (avatarType !== undefined) {
-      if (!["human", "object"].includes(avatarType)) {
-        return NextResponse.json(
-          { error: "Avatar type must be 'human' or 'object'" },
-          { status: 400 }
-        );
-      }
-      updateData.avatarType = avatarType;
-    }
-
-    if (Object.keys(updateData).length === 0) {
-      return NextResponse.json(
-        { error: "No valid fields to update" },
-        { status: 400 }
-      );
-    }
+    if (name !== undefined) updateData.name = name;
+    if (description !== undefined) updateData.description = description || null;
+    if (avatarType !== undefined) updateData.avatarType = avatarType;
 
     // Update the avatar
     const [updatedAvatar] = await db

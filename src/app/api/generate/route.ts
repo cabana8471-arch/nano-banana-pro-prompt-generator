@@ -1,9 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, inArray } from "drizzle-orm";
-import { z } from "zod";
 import { auth } from "@/lib/auth";
-import { INPUT_LIMITS, GENERATION } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
 import { generations, generatedImages, generationHistory, avatars } from "@/lib/schema";
@@ -13,37 +11,7 @@ import type {
   AvatarType,
   GenerationWithImages,
 } from "@/lib/types/generation";
-
-// Zod schema for request body validation
-const GenerateRequestSchema = z.object({
-  prompt: z
-    .string()
-    .min(1, "Prompt is required")
-    .max(INPUT_LIMITS.MAX_PROMPT_LENGTH, `Prompt too long. Maximum ${INPUT_LIMITS.MAX_PROMPT_LENGTH} characters allowed`),
-  settings: z.object({
-    resolution: z.enum(GENERATION.VALID_RESOLUTIONS, {
-      message: "Invalid resolution",
-    }),
-    aspectRatio: z.enum(GENERATION.VALID_ASPECT_RATIOS, {
-      message: "Invalid aspect ratio",
-    }),
-    imageCount: z
-      .union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)])
-      .optional()
-      .default(1),
-  }),
-  referenceImages: z
-    .array(
-      z.object({
-        avatarId: z.string().uuid({ message: "Invalid avatar ID format" }),
-        type: z.enum(["human", "object"], {
-          message: "Invalid avatar type",
-        }),
-      })
-    )
-    .optional()
-    .default([]),
-});
+import { generateRequestSchema } from "@/lib/validations";
 
 // Maximum duration for Vercel Hobby plan is 60 seconds
 export const maxDuration = 60;
@@ -60,7 +28,7 @@ export async function POST(request: Request) {
     }
 
     // Validate request body using Zod schema
-    const parseResult = GenerateRequestSchema.safeParse(await request.json());
+    const parseResult = generateRequestSchema.safeParse(await request.json());
     if (!parseResult.success) {
       const firstIssue = parseResult.error.issues[0];
       return NextResponse.json(

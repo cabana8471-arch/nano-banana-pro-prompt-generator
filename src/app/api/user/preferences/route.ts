@@ -1,10 +1,10 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { locales, type Locale } from "@/i18n/config";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { userPreferences } from "@/lib/schema";
+import { userPreferencesSchema } from "@/lib/validations";
 
 /**
  * GET /api/user/preferences
@@ -55,15 +55,18 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { language } = body;
 
-    // Validate language
-    if (language && !locales.includes(language as Locale)) {
+    // Validate request body using Zod schema
+    const parseResult = userPreferencesSchema.safeParse(body);
+    if (!parseResult.success) {
+      const firstIssue = parseResult.error.issues[0];
       return NextResponse.json(
-        { error: "Invalid language. Supported: en, ro" },
+        { error: firstIssue?.message || "Invalid request data" },
         { status: 400 }
       );
     }
+
+    const { language } = parseResult.data;
 
     // Check if preferences exist
     const existingPrefs = await db
