@@ -19,8 +19,8 @@ interface HistoryEntry {
   imageUrls?: string[] | null;
 }
 
-// Model for image generation
-const MODEL_ID = "gemini-3-pro-image-preview";
+// Model for image generation - configurable via environment variable
+const MODEL_ID = process.env.GEMINI_MODEL_ID || "gemini-3-pro-image-preview";
 
 /**
  * Get the user's decrypted API key from the database
