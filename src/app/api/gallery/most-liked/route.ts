@@ -1,9 +1,9 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { eq, desc, sql } from "drizzle-orm";
+import { eq, desc, sql, count } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { generations, generatedImages, user } from "@/lib/schema";
+import { generations, generatedImages, user, imageLikes } from "@/lib/schema";
 import type { GalleryImage, GenerationSettings } from "@/lib/types/generation";
 
 /**
@@ -18,7 +18,9 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const limit = Math.min(20, Math.max(1, parseInt(searchParams.get("limit") || "10", 10)));
 
-    // Get most liked public images
+    // Get most liked public images using LEFT JOIN + GROUP BY to avoid duplicate subqueries
+    const likeCountExpr = count(imageLikes.id);
+
     const mostLikedImages = await db
       .select({
         image: generatedImages,
@@ -28,29 +30,18 @@ export async function GET(request: Request) {
           name: user.name,
           image: user.image,
         },
-        likeCount: sql<number>`(
-          SELECT COUNT(*) FROM image_likes
-          WHERE image_likes.image_id = ${generatedImages.id}
-        )::int`,
+        likeCount: sql<number>`${likeCountExpr}::int`,
         isLikedByUser: currentUserId
-          ? sql<boolean>`EXISTS(
-              SELECT 1 FROM image_likes
-              WHERE image_likes.image_id = ${generatedImages.id}
-              AND image_likes.user_id = ${currentUserId}
-            )`
+          ? sql<boolean>`BOOL_OR(${imageLikes.userId} = ${currentUserId})`
           : sql<boolean>`false`,
       })
       .from(generatedImages)
       .innerJoin(generations, eq(generatedImages.generationId, generations.id))
       .innerJoin(user, eq(generations.userId, user.id))
+      .leftJoin(imageLikes, eq(imageLikes.imageId, generatedImages.id))
       .where(eq(generatedImages.isPublic, true))
-      .orderBy(
-        desc(sql`(
-          SELECT COUNT(*) FROM image_likes
-          WHERE image_likes.image_id = ${generatedImages.id}
-        )`),
-        desc(generatedImages.createdAt)
-      )
+      .groupBy(generatedImages.id, generations.id, user.id)
+      .orderBy(desc(likeCountExpr), desc(generatedImages.createdAt))
       .limit(limit);
 
     // Map to GalleryImage type
