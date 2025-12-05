@@ -1,9 +1,9 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, count } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
-import { RATE_LIMITS } from "@/lib/constants";
+import { RATE_LIMITS, RESOURCE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { avatarUploadLimiter } from "@/lib/rate-limit";
 import { avatars } from "@/lib/schema";
@@ -62,6 +62,21 @@ export async function POST(request: Request) {
             "X-RateLimit-Reset": retryAfterSeconds.toString(),
           },
         }
+      );
+    }
+
+    // Check total avatar limit per user
+    const [avatarCount] = await db
+      .select({ count: count() })
+      .from(avatars)
+      .where(eq(avatars.userId, session.user.id));
+
+    if (avatarCount && avatarCount.count >= RESOURCE_LIMITS.MAX_AVATARS_PER_USER) {
+      return NextResponse.json(
+        {
+          error: `Maximum ${RESOURCE_LIMITS.MAX_AVATARS_PER_USER} avatars allowed. Please delete some avatars before creating new ones.`,
+        },
+        { status: 400 }
       );
     }
 

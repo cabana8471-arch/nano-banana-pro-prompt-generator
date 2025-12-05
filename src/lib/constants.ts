@@ -65,3 +65,11 @@ export const RATE_LIMITS = {
   /** Rate limit window in milliseconds (1 hour) */
   WINDOW_MS: 60 * 60 * 1000,
 } as const;
+
+export const RESOURCE_LIMITS = {
+  /** Maximum avatars a user can create */
+  MAX_AVATARS_PER_USER: 20,
+
+  /** Maximum presets a user can create */
+  MAX_PRESETS_PER_USER: 50,
+} as const;
