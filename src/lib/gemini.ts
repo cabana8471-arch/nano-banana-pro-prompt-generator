@@ -1,4 +1,4 @@
-import { GoogleGenAI, Part, Content } from "@google/genai";
+import { GoogleGenAI, Part, Content, ApiError } from "@google/genai";
 import { eq } from "drizzle-orm";
 import { FILE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -338,29 +338,41 @@ export async function generateWithUserKey(
   } catch (error) {
     console.error("Gemini API error:", error);
 
-    // Handle specific error types
-    if (error instanceof Error) {
-      if (error.message.includes("API key")) {
+    // Handle API errors using HTTP status codes (more reliable than string matching)
+    if (error instanceof ApiError) {
+      // 401 Unauthorized or 403 Forbidden = Invalid API key
+      if (error.status === 401 || error.status === 403) {
         return {
           success: false,
           images: [],
           error: "Invalid API key. Please check your API key in profile settings.",
         };
       }
-      if (error.message.includes("quota") || error.message.includes("rate")) {
+      // 429 Too Many Requests = Rate limit exceeded
+      if (error.status === 429) {
         return {
           success: false,
           images: [],
           error: "API rate limit exceeded. Please try again later.",
         };
       }
-      if (error.message.includes("safety")) {
+      // 400 Bad Request - check for safety filter issues
+      if (error.status === 400 && error.message.toLowerCase().includes("safety")) {
         return {
           success: false,
           images: [],
           error: "Content was blocked by safety filters. Please modify your prompt.",
         };
       }
+      return {
+        success: false,
+        images: [],
+        error: error.message,
+      };
+    }
+
+    // Handle other Error types
+    if (error instanceof Error) {
       return {
         success: false,
         images: [],
