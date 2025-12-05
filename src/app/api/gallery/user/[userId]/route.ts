@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc, count, sql, and } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { generations, generatedImages, user } from "@/lib/schema";
 import type { GalleryImage, GenerationSettings, PaginatedResponse, PublicUserProfile } from "@/lib/types/generation";
@@ -21,7 +22,7 @@ export async function GET(
 
     const { searchParams } = new URL(request.url);
     const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
-    const pageSize = Math.min(50, Math.max(1, parseInt(searchParams.get("pageSize") || "20", 10)));
+    const pageSize = Math.min(PAGINATION.MAX_PAGE_SIZE, Math.max(1, parseInt(searchParams.get("pageSize") || String(PAGINATION.DEFAULT_PAGE_SIZE), 10)));
     const offset = (page - 1) * pageSize;
 
     // Get user info

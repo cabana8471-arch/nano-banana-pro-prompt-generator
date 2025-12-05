@@ -2,6 +2,7 @@ import { existsSync } from "fs";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { put, del } from "@vercel/blob";
+import { FILE_LIMITS } from "@/lib/constants";
 
 /**
  * Result from uploading a file to storage
@@ -25,7 +26,7 @@ export interface StorageConfig {
  * Default storage configuration
  */
 const DEFAULT_CONFIG: Required<StorageConfig> = {
-  maxSize: 5 * 1024 * 1024, // 5MB
+  maxSize: FILE_LIMITS.MAX_FILE_SIZE_BYTES,
   allowedTypes: [
     // Images
     "image/jpeg",
