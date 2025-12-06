@@ -230,7 +230,7 @@ export default function BannerGeneratorPage() {
       prompt: assembledPrompt,
       settings: {
         imageCount: settings.bannerCount,
-        resolution: "2K" as const,
+        resolution: settings.resolution,
         aspectRatio,
       },
       generationType: "banner" as const,

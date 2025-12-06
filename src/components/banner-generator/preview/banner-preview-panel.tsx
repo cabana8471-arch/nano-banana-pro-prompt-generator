@@ -14,6 +14,7 @@ import type {
   BannerSizeTemplate,
   UpdateBannerPresetInput,
   BannerCount,
+  BannerResolution,
 } from "@/lib/types/banner";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { LoadBannerPresetDropdown } from "../presets/load-banner-preset-dropdown";
@@ -189,6 +190,23 @@ export function BannerPreviewPanel({
                     onClick={() => onSettingsChange({ bannerCount: num as BannerCount })}
                   >
                     {num}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Resolution */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">{t("preview.resolution")}</Label>
+              <div className="grid grid-cols-3 gap-2">
+                {(["1K", "2K", "4K"] as const).map((res) => (
+                  <Button
+                    key={res}
+                    variant={settings.resolution === res ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => onSettingsChange({ resolution: res as BannerResolution })}
+                  >
+                    {res}
                   </Button>
                 ))}
               </div>

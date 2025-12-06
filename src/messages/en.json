@@ -2093,6 +2093,7 @@
       "promptPlaceholder": "Your prompt will appear here as you configure your banner...",
       "generationSettings": "Generation Settings",
       "numberOfBanners": "Number of Banners",
+      "resolution": "Resolution",
       "exportFormat": "Export Format",
       "selectFormat": "Select format",
       "quality": "Quality",

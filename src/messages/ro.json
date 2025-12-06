@@ -2087,6 +2087,7 @@
       "promptPlaceholder": "Prompt-ul va aparea aici pe masura ce configurezi bannerul...",
       "generationSettings": "Setari Generare",
       "numberOfBanners": "Numar de Bannere",
+      "resolution": "Rezolutie",
       "exportFormat": "Format Export",
       "selectFormat": "Selecteaza formatul",
       "quality": "Calitate",
