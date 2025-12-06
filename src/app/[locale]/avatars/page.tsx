@@ -24,7 +24,7 @@ import type { Avatar, AvatarType } from "@/lib/types/generation";
 export default function AvatarsPage() {
   const { data: session, isPending: sessionPending } = useSession();
   const router = useRouter();
-  const { avatars, isLoading, createAvatar, updateAvatar, deleteAvatar } = useAvatars();
+  const { avatars, isLoading, error, createAvatar, updateAvatar, deleteAvatar } = useAvatars();
 
   // Modal states
   const [formModalOpen, setFormModalOpen] = useState(false);
@@ -53,7 +53,7 @@ export default function AvatarsPage() {
           setFormModalOpen(false);
           setEditingAvatar(undefined);
         } else {
-          toast.error("Failed to update avatar");
+          toast.error(error || "Failed to update avatar");
         }
       } else {
         // Create new avatar
@@ -74,7 +74,7 @@ export default function AvatarsPage() {
           toast.success("Avatar created successfully");
           setFormModalOpen(false);
         } else {
-          toast.error("Failed to create avatar");
+          toast.error(error || "Failed to create avatar");
         }
       }
     } finally {
@@ -96,7 +96,7 @@ export default function AvatarsPage() {
     if (success) {
       toast.success("Avatar deleted successfully");
     } else {
-      toast.error("Failed to delete avatar");
+      toast.error(error || "Failed to delete avatar");
     }
     setDeletingAvatar(null);
   };

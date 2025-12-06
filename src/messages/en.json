@@ -352,7 +352,11 @@
     "tryDifferentSearch": "Try a different search term",
     "clearSelection": "Clear Selection",
     "confirm": "Confirm",
-    "imageRequired": "Image is required"
+    "imageRequired": "Image is required",
+    "errors": {
+      "imageTooLarge": "Image too large. Maximum size is {size}MB",
+      "invalidImageType": "Invalid image type. Allowed: JPEG, PNG, GIF, WEBP"
+    }
   },
   "logos": {
     "title": "Your Logos",

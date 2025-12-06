@@ -352,7 +352,11 @@
     "tryDifferentSearch": "Incearca un alt termen de cautare",
     "clearSelection": "Sterge selectia",
     "confirm": "Confirma",
-    "imageRequired": "Imaginea este obligatorie"
+    "imageRequired": "Imaginea este obligatorie",
+    "errors": {
+      "imageTooLarge": "Imaginea este prea mare. Dimensiunea maxima este {size}MB",
+      "invalidImageType": "Tip de imagine invalid. Permise: JPEG, PNG, GIF, WEBP"
+    }
   },
   "logos": {
     "title": "Logo-urile Tale",

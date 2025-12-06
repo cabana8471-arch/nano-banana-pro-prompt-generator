@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, User, Package } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,7 +17,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { FILE_LIMITS } from "@/lib/constants";
 import type { Avatar, AvatarType } from "@/lib/types/generation";
+import { ALLOWED_IMAGE_TYPES } from "@/lib/validations";
 
 interface AvatarFormModalProps {
   open: boolean;
@@ -55,14 +58,28 @@ export function AvatarFormModal({
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    // Validate file size before upload
+    if (file.size > FILE_LIMITS.MAX_FILE_SIZE_BYTES) {
+      toast.error(t("errors.imageTooLarge", { size: FILE_LIMITS.MAX_FILE_SIZE_MB }));
+      e.target.value = "";
+      return;
     }
+
+    // Validate file type
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type as (typeof ALLOWED_IMAGE_TYPES)[number])) {
+      toast.error(t("errors.invalidImageType"));
+      e.target.value = "";
+      return;
+    }
+
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleRemoveImage = () => {

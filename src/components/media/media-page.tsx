@@ -37,7 +37,7 @@ export function MediaPage({ filterType, translationNamespace, defaultAvatarType 
   const t = useTranslations(translationNamespace);
   const tCommon = useTranslations("common");
   const tAvatars = useTranslations("avatars");
-  const { avatars, isLoading, createAvatar, updateAvatar, deleteAvatar } = useAvatars();
+  const { avatars, isLoading, error, createAvatar, updateAvatar, deleteAvatar } = useAvatars();
 
   // Filter avatars by type
   const filteredAvatars = useMemo(() => {
@@ -71,7 +71,7 @@ export function MediaPage({ filterType, translationNamespace, defaultAvatarType 
           setFormModalOpen(false);
           setEditingAvatar(undefined);
         } else {
-          toast.error(t("updateError"));
+          toast.error(error || t("updateError"));
         }
       } else {
         // Create new item
@@ -92,7 +92,7 @@ export function MediaPage({ filterType, translationNamespace, defaultAvatarType 
           toast.success(t("createSuccess"));
           setFormModalOpen(false);
         } else {
-          toast.error(t("createError"));
+          toast.error(error || t("createError"));
         }
       }
     } finally {
@@ -114,7 +114,7 @@ export function MediaPage({ filterType, translationNamespace, defaultAvatarType 
     if (success) {
       toast.success(t("deleteSuccess"));
     } else {
-      toast.error(t("deleteError"));
+      toast.error(error || t("deleteError"));
     }
     setDeletingAvatar(null);
   };
