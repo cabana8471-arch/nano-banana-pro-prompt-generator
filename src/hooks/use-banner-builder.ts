@@ -379,24 +379,22 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       parts.push(layoutPrompt);
     }
 
-    // Add text placement (only if withText is enabled)
-    if (settings.withText) {
-      const placementPrompt = getPromptValue(state.textPlacement);
-      if (placementPrompt) {
-        parts.push(placementPrompt);
-      }
+    // Add text placement
+    const placementPrompt = getPromptValue(state.textPlacement);
+    if (placementPrompt) {
+      parts.push(placementPrompt);
+    }
 
-      // Add typography style
-      const typoPrompt = getPromptValue(state.typographyStyle);
-      if (typoPrompt) {
-        parts.push(typoPrompt);
-      }
+    // Add typography style
+    const typoPrompt = getPromptValue(state.typographyStyle);
+    if (typoPrompt) {
+      parts.push(typoPrompt);
+    }
 
-      // Add CTA button style
-      const ctaPrompt = getPromptValue(state.ctaButtonStyle);
-      if (ctaPrompt) {
-        parts.push(ctaPrompt);
-      }
+    // Add CTA button style
+    const ctaPrompt = getPromptValue(state.ctaButtonStyle);
+    if (ctaPrompt) {
+      parts.push(ctaPrompt);
     }
 
     // Add banner size context
@@ -412,29 +410,24 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       }
     }
 
-    // Add text content to prompt if settings allow, or explicitly exclude text
-    if (settings.withText) {
-      const textParts: string[] = [];
+    // Add text content to prompt only if text fields are filled
+    const textParts: string[] = [];
 
-      if (state.textContent.headline) {
-        textParts.push(`headline text: "${state.textContent.headline}"`);
-      }
-      if (state.textContent.subheadline) {
-        textParts.push(`subheadline text: "${state.textContent.subheadline}"`);
-      }
-      if (state.textContent.ctaText) {
-        textParts.push(`call-to-action button with text: "${state.textContent.ctaText}"`);
-      }
-      if (state.textContent.tagline) {
-        textParts.push(`tagline or offer text: "${state.textContent.tagline}"`);
-      }
+    if (state.textContent.headline) {
+      textParts.push(`headline text: "${state.textContent.headline}"`);
+    }
+    if (state.textContent.subheadline) {
+      textParts.push(`subheadline text: "${state.textContent.subheadline}"`);
+    }
+    if (state.textContent.ctaText) {
+      textParts.push(`call-to-action button with text: "${state.textContent.ctaText}"`);
+    }
+    if (state.textContent.tagline) {
+      textParts.push(`tagline or offer text: "${state.textContent.tagline}"`);
+    }
 
-      if (textParts.length > 0) {
-        parts.push(`Text elements: ${textParts.join(", ")}`);
-      }
-    } else {
-      // Explicitly instruct to NOT include any text when withText is disabled
-      parts.push("IMPORTANT: Do NOT include any text, headlines, buttons, or call-to-action elements in this banner. Create a text-free, visual-only design");
+    if (textParts.length > 0) {
+      parts.push(`Text elements: ${textParts.join(", ")}`);
     }
 
     // Add brand colors if specified
@@ -461,7 +454,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     parts.push("High quality, professional advertising design, clean and impactful");
 
     return parts.filter(Boolean).join(". ");
-  }, [state, settings.withText, brandAssets, getPromptValue]);
+  }, [state, brandAssets, getPromptValue]);
 
   // ==========================================
   // Selected Banner Size
