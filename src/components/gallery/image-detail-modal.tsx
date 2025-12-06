@@ -61,6 +61,23 @@ const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
+// Check if browser supports AVIF encoding
+function checkAvifSupport(): Promise<boolean> {
+  return new Promise((resolve) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    canvas.toBlob(
+      (blob) => {
+        // If blob is null or very small (fallback to PNG would be larger), AVIF is not supported
+        resolve(blob !== null && blob.type === "image/avif");
+      },
+      "image/avif",
+      0.5
+    );
+  });
+}
+
 export function ImageDetailModal({
   image,
   open,
@@ -73,6 +90,7 @@ export function ImageDetailModal({
   const tProjects = useTranslations("bannerGenerator.projects");
   const [copied, setCopied] = useState(false);
   const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
+  const [supportsAvif, setSupportsAvif] = useState(false);
   const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
   const projects = "projects" in props ? props.projects : undefined;
@@ -90,6 +108,11 @@ export function ImageDetailModal({
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  // Check AVIF support on mount
+  useEffect(() => {
+    checkAvifSupport().then(setSupportsAvif);
+  }, []);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -240,9 +263,11 @@ export function ImageDetailModal({
                   <DropdownMenuItem onClick={() => handleDownload("webp")}>
                     {t("downloadAsWebp")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleDownload("avif")}>
-                    {t("downloadAsAvif")}
-                  </DropdownMenuItem>
+                  {supportsAvif && (
+                    <DropdownMenuItem onClick={() => handleDownload("avif")}>
+                      {t("downloadAsAvif")}
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
               <Button
