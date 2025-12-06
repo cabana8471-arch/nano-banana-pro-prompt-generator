@@ -2584,6 +2584,8 @@
       "text-vertical": { "name": "Text Vertical", "description": "Text citit vertical" }
     },
     "typographyStyle": {
+      "typo-inter": { "name": "Inter", "description": "Font Inter - modern și lizibil" },
+      "typo-roboto": { "name": "Roboto", "description": "Font Roboto - fontul emblematic Google" },
       "typo-modern-sans": { "name": "Sans Modern", "description": "Sans-serif modern si curat" },
       "typo-geometric-sans": { "name": "Sans Geometric", "description": "Forme sans-serif geometrice" },
       "typo-humanist-sans": { "name": "Sans Umanist", "description": "Sans umanist prietenos" },

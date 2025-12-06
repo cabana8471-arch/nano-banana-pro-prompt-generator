@@ -2616,6 +2616,8 @@
       "text-vertical": { "name": "Vertical Text", "description": "Text reading vertically" }
     },
     "typographyStyle": {
+      "typo-inter": { "name": "Inter", "description": "Inter font - modern and readable" },
+      "typo-roboto": { "name": "Roboto", "description": "Roboto font - Google's signature font" },
       "typo-modern-sans": { "name": "Modern Sans", "description": "Clean modern sans-serif" },
       "typo-geometric-sans": { "name": "Geometric Sans", "description": "Geometric sans-serif forms" },
       "typo-humanist-sans": { "name": "Humanist Sans", "description": "Friendly humanist sans" },
