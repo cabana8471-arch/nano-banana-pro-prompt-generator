@@ -30,7 +30,7 @@ export function AvatarCard({ avatar, onEdit, onDelete }: AvatarCardProps) {
             src={avatar.imageUrl}
             alt={avatar.name}
             fill
-            className="object-cover"
+            className={avatar.avatarType === "logo" ? "object-contain p-4" : "object-cover"}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
