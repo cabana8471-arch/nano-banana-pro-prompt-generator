@@ -105,6 +105,9 @@ function SizePreviewCard({
       </div>
       <div className="text-center">
         <p className="text-xs font-medium truncate max-w-[150px]">{size.name}</p>
+        <p className="text-[11px] text-muted-foreground font-mono">
+          {size.width}×{size.height}px
+        </p>
         <div className="flex items-center justify-center gap-1 mt-0.5">
           <span className="text-[10px] px-1.5 py-0.5 bg-secondary rounded-full">
             {size.platform}
