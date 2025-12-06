@@ -15,11 +15,17 @@ interface LayoutTypographySectionProps {
   textLanguage: string;
   textPlacement: string;
   typographyStyle: string;
+  headlineTypography: string;
+  bodyTypography: string;
+  ctaTypography: string;
   ctaButtonStyle: string;
   onLayoutStyleChange: (value: string) => void;
   onTextLanguageChange: (value: string) => void;
   onTextPlacementChange: (value: string) => void;
   onTypographyStyleChange: (value: string) => void;
+  onHeadlineTypographyChange: (value: string) => void;
+  onBodyTypographyChange: (value: string) => void;
+  onCtaTypographyChange: (value: string) => void;
   onCtaButtonStyleChange: (value: string) => void;
 }
 
@@ -28,11 +34,17 @@ export function LayoutTypographySection({
   textLanguage,
   textPlacement,
   typographyStyle,
+  headlineTypography,
+  bodyTypography,
+  ctaTypography,
   ctaButtonStyle,
   onLayoutStyleChange,
   onTextLanguageChange,
   onTextPlacementChange,
   onTypographyStyleChange,
+  onHeadlineTypographyChange,
+  onBodyTypographyChange,
+  onCtaTypographyChange,
   onCtaButtonStyleChange,
 }: LayoutTypographySectionProps) {
   const t = useTranslations("bannerGenerator");
@@ -73,7 +85,7 @@ export function LayoutTypographySection({
         category="textPlacement"
       />
 
-      {/* Typography Style */}
+      {/* Typography Style (General/Fallback) */}
       <BannerTemplateSelector
         label={t("categories.typographyStyle")}
         templates={typographyStyleTemplates}
@@ -81,6 +93,37 @@ export function LayoutTypographySection({
         onChange={onTypographyStyleChange}
         placeholder={t("placeholders.typographyStyle")}
         category="typographyStyle"
+        description={t("descriptions.typographyStyle")}
+      />
+
+      {/* Headline Typography */}
+      <BannerTemplateSelector
+        label={t("categories.headlineTypography")}
+        templates={typographyStyleTemplates}
+        value={headlineTypography}
+        onChange={onHeadlineTypographyChange}
+        placeholder={t("placeholders.headlineTypography")}
+        category="headlineTypography"
+      />
+
+      {/* Body Typography (Subheadline & Tagline) */}
+      <BannerTemplateSelector
+        label={t("categories.bodyTypography")}
+        templates={typographyStyleTemplates}
+        value={bodyTypography}
+        onChange={onBodyTypographyChange}
+        placeholder={t("placeholders.bodyTypography")}
+        category="bodyTypography"
+      />
+
+      {/* CTA Typography */}
+      <BannerTemplateSelector
+        label={t("categories.ctaTypography")}
+        templates={typographyStyleTemplates}
+        value={ctaTypography}
+        onChange={onCtaTypographyChange}
+        placeholder={t("placeholders.ctaTypography")}
+        category="ctaTypography"
       />
 
       {/* CTA Button Style */}

@@ -26,7 +26,13 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **Basic Configuration**: Banner Type (~38), Banner Size (~27 + Custom), Industry/Niche (~52)
   - **Visual Style**: Design Style (~35), Color Scheme (~30), Mood/Emotion (~20), Seasonal/Holiday (~25)
   - **Visual Elements**: Background Style (~35), Visual Effects (~30), Icons/Graphics (~20), Promotional Elements (~15)
-  - **Layout & Typography**: Layout Style (~25), Text Placement (~15), Typography Style (~25), CTA Button Style (~20)
+  - **Layout & Typography**: Layout Style (~25), Text Language, Text Placement (~15), Typography Style (~25 including Inter & Roboto fonts), CTA Button Style (~20)
+- **Per-Element Typography Control**: Set different fonts for each text element:
+  - **Headline Font**: Typography style specifically for headline text
+  - **Body Font**: Typography style for subheadline and tagline text
+  - **CTA Font**: Typography style for call-to-action button text
+  - **Fallback Support**: General Typography Style applies when specific fonts not set
+- **Visual Typography Previews**: Each typography option shows a live preview of how the text style looks
 - **Platform Support**: Google Ads (IAB Standard), Facebook, Instagram, Twitter, LinkedIn, and website banners
 - **Banner Sizes**:
   - Google Display Ads: Leaderboard (728x90, 970x90), Rectangle (300x250, 336x280, 300x600), Skyscraper (160x600, 120x600), Billboard (970x250), Mobile (320x50, 320x100)
@@ -140,7 +146,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 3. **Choose banner settings**: type, size (IAB standard, social media, or custom dimensions), industry
 4. **Customize design**: style, colors, mood, seasonal theme
 5. **Add visual elements**: background, effects, icons, promotional badges
-6. **Configure layout**: text placement, typography, CTA button style
+6. **Configure layout**: text placement, typography style (or set per-element: headline, body, CTA fonts), CTA button style
 7. **Enter text content**: headline, subheadline, CTA text, tagline
 8. **Upload brand assets**: logo and product images via avatar system
 9. **Add reference images** (optional): upload existing banners for style, composition, or color guidance

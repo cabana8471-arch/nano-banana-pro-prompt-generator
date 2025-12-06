@@ -1960,8 +1960,14 @@
       "layoutStyle": "Stil Layout",
       "textLanguage": "Limba Textului",
       "textPlacement": "Pozitionare Text",
-      "typographyStyle": "Stil Tipografie",
+      "typographyStyle": "Stil Tipografie (Toate)",
+      "headlineTypography": "Font Titlu",
+      "bodyTypography": "Font Corp",
+      "ctaTypography": "Font CTA",
       "ctaButtonStyle": "Stil Buton CTA"
+    },
+    "descriptions": {
+      "typographyStyle": "Font implicit pentru tot textul. Suprascrie cu fonturi specifice mai jos."
     },
     "placeholders": {
       "bannerType": "Selecteaza scopul bannerului...",
@@ -1978,7 +1984,10 @@
       "layoutStyle": "Selecteaza layout-ul...",
       "textLanguage": "Selecteaza limba textului...",
       "textPlacement": "Selecteaza pozitionarea textului...",
-      "typographyStyle": "Selecteaza tipografia...",
+      "typographyStyle": "Selecteaza tipografia implicita...",
+      "headlineTypography": "Selecteaza fontul pentru titlu...",
+      "bodyTypography": "Selecteaza fontul pentru corp...",
+      "ctaTypography": "Selecteaza fontul pentru CTA...",
       "ctaButtonStyle": "Selecteaza stilul CTA..."
     },
     "textContent": {

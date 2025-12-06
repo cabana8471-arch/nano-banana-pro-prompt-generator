@@ -46,6 +46,9 @@ interface BannerBuilderPanelProps {
   onTextLanguageChange: (value: string) => void;
   onTextPlacementChange: (value: string) => void;
   onTypographyStyleChange: (value: string) => void;
+  onHeadlineTypographyChange: (value: string) => void;
+  onBodyTypographyChange: (value: string) => void;
+  onCtaTypographyChange: (value: string) => void;
   onCtaButtonStyleChange: (value: string) => void;
 
   // Text content setters
@@ -98,6 +101,9 @@ export function BannerBuilderPanel({
   onTextLanguageChange,
   onTextPlacementChange,
   onTypographyStyleChange,
+  onHeadlineTypographyChange,
+  onBodyTypographyChange,
+  onCtaTypographyChange,
   onCtaButtonStyleChange,
   onHeadlineChange,
   onSubheadlineChange,
@@ -190,11 +196,17 @@ export function BannerBuilderPanel({
             textLanguage={state.textLanguage}
             textPlacement={state.textPlacement}
             typographyStyle={state.typographyStyle}
+            headlineTypography={state.headlineTypography}
+            bodyTypography={state.bodyTypography}
+            ctaTypography={state.ctaTypography}
             ctaButtonStyle={state.ctaButtonStyle}
             onLayoutStyleChange={onLayoutStyleChange}
             onTextLanguageChange={onTextLanguageChange}
             onTextPlacementChange={onTextPlacementChange}
             onTypographyStyleChange={onTypographyStyleChange}
+            onHeadlineTypographyChange={onHeadlineTypographyChange}
+            onBodyTypographyChange={onBodyTypographyChange}
+            onCtaTypographyChange={onCtaTypographyChange}
             onCtaButtonStyleChange={onCtaButtonStyleChange}
           />
 

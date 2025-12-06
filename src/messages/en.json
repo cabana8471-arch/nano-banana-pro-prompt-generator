@@ -1960,8 +1960,14 @@
       "layoutStyle": "Layout Style",
       "textLanguage": "Text Language",
       "textPlacement": "Text Placement",
-      "typographyStyle": "Typography Style",
+      "typographyStyle": "Typography Style (All)",
+      "headlineTypography": "Headline Font",
+      "bodyTypography": "Body Font",
+      "ctaTypography": "CTA Font",
       "ctaButtonStyle": "CTA Button Style"
+    },
+    "descriptions": {
+      "typographyStyle": "Default font for all text. Override with specific fonts below."
     },
     "customSize": {
       "description": "Enter your custom banner dimensions",
@@ -1984,7 +1990,10 @@
       "layoutStyle": "Select layout...",
       "textLanguage": "Select text language...",
       "textPlacement": "Select text placement...",
-      "typographyStyle": "Select typography...",
+      "typographyStyle": "Select default typography...",
+      "headlineTypography": "Select headline font...",
+      "bodyTypography": "Select body font...",
+      "ctaTypography": "Select CTA font...",
       "ctaButtonStyle": "Select CTA style..."
     },
     "textContent": {

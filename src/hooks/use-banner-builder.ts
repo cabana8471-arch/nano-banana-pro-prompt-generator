@@ -53,6 +53,9 @@ interface UseBannerBuilderReturn {
   setTextLanguage: (value: string) => void;
   setTextPlacement: (value: string) => void;
   setTypographyStyle: (value: string) => void;
+  setHeadlineTypography: (value: string) => void;
+  setBodyTypography: (value: string) => void;
+  setCtaTypography: (value: string) => void;
   setCtaButtonStyle: (value: string) => void;
 
   // Generic category setter
@@ -201,6 +204,18 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
 
   const setTypographyStyle = useCallback((value: string) => {
     setState((prev) => ({ ...prev, typographyStyle: value }));
+  }, []);
+
+  const setHeadlineTypography = useCallback((value: string) => {
+    setState((prev) => ({ ...prev, headlineTypography: value }));
+  }, []);
+
+  const setBodyTypography = useCallback((value: string) => {
+    setState((prev) => ({ ...prev, bodyTypography: value }));
+  }, []);
+
+  const setCtaTypography = useCallback((value: string) => {
+    setState((prev) => ({ ...prev, ctaTypography: value }));
   }, []);
 
   const setCtaButtonStyle = useCallback((value: string) => {
@@ -396,7 +411,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       parts.push(placementPrompt);
     }
 
-    // Add typography style
+    // Add general typography style (fallback for all text if specific ones not set)
     const typoPrompt = getPromptValue(state.typographyStyle);
     if (typoPrompt) {
       parts.push(typoPrompt);
@@ -425,20 +440,29 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       }
     }
 
-    // Add text content to prompt only if text fields are filled
+    // Add text content to prompt with specific typography styles
     const textParts: string[] = [];
 
+    // Get specific typography styles or fallback to general
+    const headlineTypo = getPromptValue(state.headlineTypography) || typoPrompt;
+    const bodyTypo = getPromptValue(state.bodyTypography) || typoPrompt;
+    const ctaTextTypo = getPromptValue(state.ctaTypography) || typoPrompt;
+
     if (state.textContent.headline) {
-      textParts.push(`headline text: "${state.textContent.headline}"`);
+      const typoStyle = headlineTypo ? ` using ${headlineTypo}` : "";
+      textParts.push(`headline text: "${state.textContent.headline}"${typoStyle}`);
     }
     if (state.textContent.subheadline) {
-      textParts.push(`subheadline text: "${state.textContent.subheadline}"`);
+      const typoStyle = bodyTypo ? ` using ${bodyTypo}` : "";
+      textParts.push(`subheadline text: "${state.textContent.subheadline}"${typoStyle}`);
     }
     if (state.textContent.ctaText) {
-      textParts.push(`call-to-action button with text: "${state.textContent.ctaText}"`);
+      const typoStyle = ctaTextTypo ? ` using ${ctaTextTypo}` : "";
+      textParts.push(`call-to-action button with text: "${state.textContent.ctaText}"${typoStyle}`);
     }
     if (state.textContent.tagline) {
-      textParts.push(`tagline or offer text: "${state.textContent.tagline}"`);
+      const typoStyle = bodyTypo ? ` using ${bodyTypo}` : "";
+      textParts.push(`tagline or offer text: "${state.textContent.tagline}"${typoStyle}`);
     }
 
     if (textParts.length > 0) {
@@ -513,6 +537,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       state.textLanguage ||
       state.textPlacement ||
       state.typographyStyle ||
+      state.headlineTypography ||
+      state.bodyTypography ||
+      state.ctaTypography ||
       state.ctaButtonStyle ||
       state.textContent.headline ||
       state.textContent.subheadline ||
@@ -539,6 +566,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     if (state.textLanguage) count++;
     if (state.textPlacement) count++;
     if (state.typographyStyle) count++;
+    if (state.headlineTypography) count++;
+    if (state.bodyTypography) count++;
+    if (state.ctaTypography) count++;
     if (state.ctaButtonStyle) count++;
     return count;
   }, [state]);
@@ -607,6 +637,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       textLanguage: config.textLanguage ?? prev.textLanguage,
       textPlacement: config.textPlacement ?? prev.textPlacement,
       typographyStyle: config.typographyStyle ?? prev.typographyStyle,
+      headlineTypography: config.headlineTypography ?? prev.headlineTypography,
+      bodyTypography: config.bodyTypography ?? prev.bodyTypography,
+      ctaTypography: config.ctaTypography ?? prev.ctaTypography,
       ctaButtonStyle: config.ctaButtonStyle ?? prev.ctaButtonStyle,
       textContent: config.textContent
         ? { ...prev.textContent, ...config.textContent }
@@ -639,6 +672,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     if (state.textLanguage) config.textLanguage = state.textLanguage;
     if (state.textPlacement) config.textPlacement = state.textPlacement;
     if (state.typographyStyle) config.typographyStyle = state.typographyStyle;
+    if (state.headlineTypography) config.headlineTypography = state.headlineTypography;
+    if (state.bodyTypography) config.bodyTypography = state.bodyTypography;
+    if (state.ctaTypography) config.ctaTypography = state.ctaTypography;
     if (state.ctaButtonStyle) config.ctaButtonStyle = state.ctaButtonStyle;
 
     // Include text content if any field has a value
@@ -683,6 +719,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       textLanguage: "",
       textPlacement: "",
       typographyStyle: "",
+      headlineTypography: "",
+      bodyTypography: "",
+      ctaTypography: "",
       ctaButtonStyle: "",
       customPrompt: "",
     }));
@@ -765,6 +804,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     setTextLanguage,
     setTextPlacement,
     setTypographyStyle,
+    setHeadlineTypography,
+    setBodyTypography,
+    setCtaTypography,
     setCtaButtonStyle,
 
     // Generic setter

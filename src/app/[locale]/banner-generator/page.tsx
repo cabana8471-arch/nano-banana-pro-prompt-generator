@@ -62,6 +62,9 @@ export default function BannerGeneratorPage() {
     setTextLanguage,
     setTextPlacement,
     setTypographyStyle,
+    setHeadlineTypography,
+    setBodyTypography,
+    setCtaTypography,
     setCtaButtonStyle,
     setHeadline,
     setSubheadline,
@@ -126,6 +129,9 @@ export default function BannerGeneratorPage() {
     if (s.textLanguage) config.textLanguage = s.textLanguage;
     if (s.textPlacement) config.textPlacement = s.textPlacement;
     if (s.typographyStyle) config.typographyStyle = s.typographyStyle;
+    if (s.headlineTypography) config.headlineTypography = s.headlineTypography;
+    if (s.bodyTypography) config.bodyTypography = s.bodyTypography;
+    if (s.ctaTypography) config.ctaTypography = s.ctaTypography;
     if (s.ctaButtonStyle) config.ctaButtonStyle = s.ctaButtonStyle;
     if (s.textContent) config.textContent = s.textContent;
     if (s.customPrompt) config.customPrompt = s.customPrompt;
@@ -380,6 +386,9 @@ export default function BannerGeneratorPage() {
             onTextLanguageChange={setTextLanguage}
             onTextPlacementChange={setTextPlacement}
             onTypographyStyleChange={setTypographyStyle}
+            onHeadlineTypographyChange={setHeadlineTypography}
+            onBodyTypographyChange={setBodyTypography}
+            onCtaTypographyChange={setCtaTypography}
             onCtaButtonStyleChange={setCtaButtonStyle}
             onHeadlineChange={setHeadline}
             onSubheadlineChange={setSubheadline}

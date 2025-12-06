@@ -131,7 +131,10 @@ export interface BannerBuilderState {
   layoutStyle: string;
   textLanguage: string;
   textPlacement: string;
-  typographyStyle: string;
+  typographyStyle: string; // Legacy: applies to all text if specific ones not set
+  headlineTypography: string; // Typography for headline
+  bodyTypography: string; // Typography for subheadline and tagline
+  ctaTypography: string; // Typography for CTA button text
   ctaButtonStyle: string;
 
   // Text Content
@@ -162,6 +165,9 @@ export const DEFAULT_BANNER_BUILDER_STATE: BannerBuilderState = {
   textLanguage: "",
   textPlacement: "",
   typographyStyle: "",
+  headlineTypography: "",
+  bodyTypography: "",
+  ctaTypography: "",
   ctaButtonStyle: "",
   textContent: {
     headline: "",
@@ -206,6 +212,9 @@ export interface BannerPresetConfig {
   textLanguage?: string;
   textPlacement?: string;
   typographyStyle?: string;
+  headlineTypography?: string;
+  bodyTypography?: string;
+  ctaTypography?: string;
   ctaButtonStyle?: string;
 
   // Text Content (optional for presets)
@@ -401,6 +410,9 @@ export type BannerTemplateCategory =
   | "textLanguage"
   | "textPlacement"
   | "typographyStyle"
+  | "headlineTypography"
+  | "bodyTypography"
+  | "ctaTypography"
   | "ctaButtonStyle";
 
 /**
@@ -427,6 +439,9 @@ export const CATEGORY_TO_SECTION: Record<BannerTemplateCategory, BannerSection> 
   textLanguage: "layoutTypography",
   textPlacement: "layoutTypography",
   typographyStyle: "layoutTypography",
+  headlineTypography: "layoutTypography",
+  bodyTypography: "layoutTypography",
+  ctaTypography: "layoutTypography",
   ctaButtonStyle: "layoutTypography",
 };
 
@@ -442,6 +457,9 @@ export const SECTION_CATEGORIES: Record<BannerSection, BannerTemplateCategory[]>
     "textLanguage",
     "textPlacement",
     "typographyStyle",
+    "headlineTypography",
+    "bodyTypography",
+    "ctaTypography",
     "ctaButtonStyle",
   ],
 };
