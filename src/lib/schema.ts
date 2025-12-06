@@ -262,3 +262,22 @@ export const bannerReferences = pgTable(
   },
   (table) => [index("banner_references_user_id_idx").on(table.userId)]
 );
+
+// Banner Presets - Saved banner configuration presets
+export const bannerPresets = pgTable(
+  "banner_presets",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    config: jsonb("config").notNull(), // Full banner builder configuration
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index("banner_presets_user_id_idx").on(table.userId)]
+);

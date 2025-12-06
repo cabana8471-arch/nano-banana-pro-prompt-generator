@@ -73,6 +73,9 @@ export const RESOURCE_LIMITS = {
   /** Maximum presets a user can create */
   MAX_PRESETS_PER_USER: 50,
 
+  /** Maximum banner presets a user can create */
+  MAX_BANNER_PRESETS_PER_USER: 50,
+
   /** Maximum banner references a user can create */
   MAX_BANNER_REFERENCES_PER_USER: 50,
 

@@ -125,6 +125,35 @@ export const updateBannerReferenceSchema = z
   });
 
 // ============================================================================
+// Banner Preset Schemas
+// ============================================================================
+
+/** Schema for banner preset configuration - flexible object */
+export const bannerPresetConfigSchema = z
+  .object({})
+  .passthrough()
+  .refine(
+    (config) => JSON.stringify(config).length <= INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE,
+    `Preset config too large. Maximum ${INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE} characters allowed`
+  );
+
+/** Schema for creating a new banner preset */
+export const createBannerPresetSchema = z.object({
+  name: nameSchema,
+  config: bannerPresetConfigSchema,
+});
+
+/** Schema for updating a banner preset - all fields optional but at least one required */
+export const updateBannerPresetSchema = z
+  .object({
+    name: nameSchema.optional(),
+    config: bannerPresetConfigSchema.optional(),
+  })
+  .refine((data) => data.name !== undefined || data.config !== undefined, {
+    message: "No valid fields to update",
+  });
+
+// ============================================================================
 // Generation Schemas
 // ============================================================================
 
@@ -221,6 +250,8 @@ export type CreatePresetInput = z.infer<typeof createPresetSchema>;
 export type UpdatePresetInput = z.infer<typeof updatePresetSchema>;
 export type CreateBannerReferenceInput = z.infer<typeof createBannerReferenceSchema>;
 export type UpdateBannerReferenceInput = z.infer<typeof updateBannerReferenceSchema>;
+export type CreateBannerPresetInput = z.infer<typeof createBannerPresetSchema>;
+export type UpdateBannerPresetInput = z.infer<typeof updateBannerPresetSchema>;
 export type GenerateRequestInput = z.infer<typeof generateRequestSchema>;
 export type RefineRequestInput = z.infer<typeof refineRequestSchema>;
 export type SaveApiKeyInput = z.infer<typeof saveApiKeySchema>;
