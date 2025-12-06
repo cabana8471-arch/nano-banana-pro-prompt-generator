@@ -38,7 +38,13 @@
       "Bash(git rm:*)",
       "Bash(git fetch:*)",
       "Bash(tree:*)",
-      "Bash(POSTGRES_URL=\"postgresql://neondb_owner:npg_NGKwTFepia25@ep-nameless-lab-ahcqyr1g-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require\" npx pnpm db:push:*)"
+      "Bash(POSTGRES_URL=\"postgresql://neondb_owner:npg_NGKwTFepia25@ep-nameless-lab-ahcqyr1g-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require\" npx pnpm db:push:*)",
+      "Bash(git -C /Users/laurentiubirnescu/Claude/nano-banana-pro-prompt-generator status:*)",
+      "Bash(git -C /Users/laurentiubirnescu/Claude/nano-banana-pro-prompt-generator log --oneline -5)",
+      "Bash(git -C /Users/laurentiubirnescu/Claude/nano-banana-pro-prompt-generator diff --stat)",
+      "Bash(git -C /Users/laurentiubirnescu/Claude/nano-banana-pro-prompt-generator add src/app/[locale]/logos/ src/app/[locale]/photo-generator/ src/app/[locale]/products/ src/app/[locale]/references/ src/components/media/ README.md src/app/[locale]/generate/page.tsx src/app/[locale]/not-found.tsx src/app/[locale]/page.tsx src/app/api/generate/[id]/refine/route.ts src/app/api/generate/route.ts src/app/api/generations/[id]/route.ts src/app/api/generations/route.ts src/components/auth/sign-in-button.tsx src/components/avatars/avatar-form-modal.tsx src/components/avatars/avatar-list.tsx src/components/avatars/avatar-selector-modal.tsx src/components/banner-generator/banner-builder/brand-assets-manager.tsx src/components/gallery/personal-gallery.tsx src/components/site-header.tsx src/lib/schema.ts src/lib/types/generation.ts src/lib/validations.ts src/messages/en.json src/messages/ro.json)",
+      "Bash(git -C /Users/laurentiubirnescu/Claude/nano-banana-pro-prompt-generator commit -m \"$(cat <<''EOF''\n[3.4] Feature: Media Library with dropdown navigation and Gallery filtering\n\n- Restructure navigation: Replace \"Avatars\" menu item with \"Media\" dropdown containing Avatars, Logos, Products, References\n- Rename \"Generate\" to \"Photos\" and move from /generate to /photo-generator (with redirect for backwards compatibility)\n- Add new avatar types: logo, product, reference (extends existing human/object)\n- Create dedicated pages for Logos, Products, and References using reusable MediaPage component\n- Add Gallery filtering by generation type (All/Photos/Banners)\n- Add generationType field to generations table for distinguishing photos from banners\n- Update Brand Assets Manager to use new filterType with fallback support\n- Add translations for new avatar types and gallery filters (EN/RO)\n- Update README with new features and URL structure\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git -C /Users/laurentiubirnescu/Claude/nano-banana-pro-prompt-generator push)"
     ]
   },
   "enableAllProjectMcpServers": true,

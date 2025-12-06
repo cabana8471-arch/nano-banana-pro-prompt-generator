@@ -53,41 +53,55 @@ const comparisonSizes = [
 interface SizePreviewCardProps {
   size: BannerSizeTemplate;
   isSelected: boolean;
-  maxWidth?: number;
+  maxPreviewWidth?: number;
+  maxPreviewHeight?: number;
 }
 
-function SizePreviewCard({ size, isSelected, maxWidth = 200 }: SizePreviewCardProps) {
-
-  // Calculate scaled dimensions to fit within maxWidth while maintaining aspect ratio
+function SizePreviewCard({
+  size,
+  isSelected,
+  maxPreviewWidth = 160,
+  maxPreviewHeight = 100,
+}: SizePreviewCardProps) {
+  // Calculate scaled dimensions to fit within max bounds while maintaining aspect ratio
   const aspectRatio = size.width / size.height;
-  let displayWidth = Math.min(maxWidth, size.width / 4);
-  let displayHeight = displayWidth / aspectRatio;
 
-  // Cap height at 150px
-  if (displayHeight > 150) {
-    displayHeight = 150;
+  let displayWidth: number;
+  let displayHeight: number;
+
+  // Scale to fit within bounds
+  if (aspectRatio > maxPreviewWidth / maxPreviewHeight) {
+    // Width-constrained (wide banners like leaderboard, hero)
+    displayWidth = maxPreviewWidth;
+    displayHeight = displayWidth / aspectRatio;
+  } else {
+    // Height-constrained (tall banners like story, skyscraper)
+    displayHeight = maxPreviewHeight;
     displayWidth = displayHeight * aspectRatio;
   }
 
-  // Ensure minimum dimensions
-  displayWidth = Math.max(displayWidth, 40);
-  displayHeight = Math.max(displayHeight, 20);
+  // Ensure minimum dimensions for visibility
+  displayWidth = Math.max(displayWidth, 30);
+  displayHeight = Math.max(displayHeight, 15);
 
   return (
     <div
-      className={`flex flex-col items-center gap-2 p-3 rounded-lg border transition-colors ${
+      className={`flex flex-col items-center gap-2 p-3 rounded-lg border transition-colors h-[180px] ${
         isSelected ? "border-primary bg-primary/5" : "border-muted hover:border-muted-foreground/30"
       }`}
     >
-      <div
-        className="border-2 border-dashed rounded flex items-center justify-center text-[10px] text-muted-foreground bg-muted/30"
-        style={{
-          width: displayWidth,
-          height: displayHeight,
-          borderColor: isSelected ? "var(--primary)" : undefined,
-        }}
-      >
-        {size.width}×{size.height}
+      {/* Fixed height container for preview to ensure alignment */}
+      <div className="flex-1 flex items-center justify-center w-full" style={{ minHeight: maxPreviewHeight }}>
+        <div
+          className="border-2 border-dashed rounded flex items-center justify-center text-[10px] text-muted-foreground bg-muted/30"
+          style={{
+            width: displayWidth,
+            height: displayHeight,
+            borderColor: isSelected ? "var(--primary)" : undefined,
+          }}
+        >
+          {size.width}×{size.height}
+        </div>
       </div>
       <div className="text-center">
         <p className="text-xs font-medium truncate max-w-[150px]">{size.name}</p>
