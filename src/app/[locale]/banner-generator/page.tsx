@@ -59,6 +59,7 @@ export default function BannerGeneratorPage() {
     setIconGraphics,
     setPromotionalElements,
     setLayoutStyle,
+    setTextLanguage,
     setTextPlacement,
     setTypographyStyle,
     setCtaButtonStyle,
@@ -122,6 +123,7 @@ export default function BannerGeneratorPage() {
     if (s.iconGraphics) config.iconGraphics = s.iconGraphics;
     if (s.promotionalElements) config.promotionalElements = s.promotionalElements;
     if (s.layoutStyle) config.layoutStyle = s.layoutStyle;
+    if (s.textLanguage) config.textLanguage = s.textLanguage;
     if (s.textPlacement) config.textPlacement = s.textPlacement;
     if (s.typographyStyle) config.typographyStyle = s.typographyStyle;
     if (s.ctaButtonStyle) config.ctaButtonStyle = s.ctaButtonStyle;
@@ -375,6 +377,7 @@ export default function BannerGeneratorPage() {
             onIconGraphicsChange={setIconGraphics}
             onPromotionalElementsChange={setPromotionalElements}
             onLayoutStyleChange={setLayoutStyle}
+            onTextLanguageChange={setTextLanguage}
             onTextPlacementChange={setTextPlacement}
             onTypographyStyleChange={setTypographyStyle}
             onCtaButtonStyleChange={setCtaButtonStyle}

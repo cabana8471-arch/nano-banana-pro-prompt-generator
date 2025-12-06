@@ -1958,6 +1958,7 @@
       "iconGraphics": "Icons / Graphics",
       "promotionalElements": "Promotional Elements",
       "layoutStyle": "Layout Style",
+      "textLanguage": "Text Language",
       "textPlacement": "Text Placement",
       "typographyStyle": "Typography Style",
       "ctaButtonStyle": "CTA Button Style"
@@ -1981,6 +1982,7 @@
       "iconGraphics": "Select icons/graphics...",
       "promotionalElements": "Select promo elements...",
       "layoutStyle": "Select layout...",
+      "textLanguage": "Select text language...",
       "textPlacement": "Select text placement...",
       "typographyStyle": "Select typography...",
       "ctaButtonStyle": "Select CTA style..."

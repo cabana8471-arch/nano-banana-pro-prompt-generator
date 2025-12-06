@@ -2403,9 +2403,37 @@ export const layoutStyleTemplates: BannerTemplate[] = [
 ];
 
 // ==========================================
+// 12.5. TEXT LANGUAGE (2 presets)
+// ==========================================
+export const textLanguageTemplates: BannerTemplate[] = [
+  {
+    id: "lang-english",
+    name: "English",
+    description: "All auto-generated text in English",
+    promptFragment:
+      "all text on the banner must be written in English language, use English words and phrases only",
+  },
+  {
+    id: "lang-romanian",
+    name: "Romanian",
+    description: "All auto-generated text in Romanian",
+    promptFragment:
+      "all text on the banner must be written in Romanian language (limba română), use Romanian words and phrases only",
+  },
+];
+
+// ==========================================
 // 13. TEXT PLACEMENT (~15 presets)
 // ==========================================
 export const textPlacementTemplates: BannerTemplate[] = [
+  // No Text Option
+  {
+    id: "text-none",
+    name: "No Text",
+    description: "Banner without any text elements",
+    promptFragment:
+      "no text on the banner, purely visual design without any text elements, text-free banner, no headlines, no subtitles, no CTA text",
+  },
   // Position
   {
     id: "text-top-left",
@@ -2667,6 +2695,14 @@ export const typographyStyleTemplates: BannerTemplate[] = [
 // 15. CTA BUTTON STYLE (~20 presets)
 // ==========================================
 export const ctaButtonStyleTemplates: BannerTemplate[] = [
+  // No CTA Option
+  {
+    id: "cta-none",
+    name: "No CTA Button",
+    description: "Banner without a call-to-action button",
+    promptFragment:
+      "no CTA button on the banner, no call-to-action button, button-free design, no clickable button elements",
+  },
   // Shape
   {
     id: "cta-rounded",
@@ -2908,6 +2944,7 @@ export const allBannerTemplates = {
   iconGraphics: iconGraphicsTemplates,
   promotionalElements: promotionalTemplates,
   layoutStyle: layoutStyleTemplates,
+  textLanguage: textLanguageTemplates,
   textPlacement: textPlacementTemplates,
   typographyStyle: typographyStyleTemplates,
   ctaButtonStyle: ctaButtonStyleTemplates,

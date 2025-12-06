@@ -129,6 +129,7 @@ export interface BannerBuilderState {
 
   // Section D: Layout & Typography
   layoutStyle: string;
+  textLanguage: string;
   textPlacement: string;
   typographyStyle: string;
   ctaButtonStyle: string;
@@ -158,6 +159,7 @@ export const DEFAULT_BANNER_BUILDER_STATE: BannerBuilderState = {
   iconGraphics: "",
   promotionalElements: "",
   layoutStyle: "",
+  textLanguage: "",
   textPlacement: "",
   typographyStyle: "",
   ctaButtonStyle: "",
@@ -201,6 +203,7 @@ export interface BannerPresetConfig {
 
   // Section D: Layout & Typography
   layoutStyle?: string;
+  textLanguage?: string;
   textPlacement?: string;
   typographyStyle?: string;
   ctaButtonStyle?: string;
@@ -395,6 +398,7 @@ export type BannerTemplateCategory =
   | "iconGraphics"
   | "promotionalElements"
   | "layoutStyle"
+  | "textLanguage"
   | "textPlacement"
   | "typographyStyle"
   | "ctaButtonStyle";
@@ -420,6 +424,7 @@ export const CATEGORY_TO_SECTION: Record<BannerTemplateCategory, BannerSection> 
   iconGraphics: "visualElements",
   promotionalElements: "visualElements",
   layoutStyle: "layoutTypography",
+  textLanguage: "layoutTypography",
   textPlacement: "layoutTypography",
   typographyStyle: "layoutTypography",
   ctaButtonStyle: "layoutTypography",
@@ -432,5 +437,11 @@ export const SECTION_CATEGORIES: Record<BannerSection, BannerTemplateCategory[]>
   basicConfig: ["bannerType", "bannerSize", "industry"],
   visualStyle: ["designStyle", "colorScheme", "mood", "seasonal"],
   visualElements: ["backgroundStyle", "visualEffects", "iconGraphics", "promotionalElements"],
-  layoutTypography: ["layoutStyle", "textPlacement", "typographyStyle", "ctaButtonStyle"],
+  layoutTypography: [
+    "layoutStyle",
+    "textLanguage",
+    "textPlacement",
+    "typographyStyle",
+    "ctaButtonStyle",
+  ],
 };

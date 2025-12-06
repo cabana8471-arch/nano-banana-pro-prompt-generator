@@ -50,6 +50,7 @@ interface UseBannerBuilderReturn {
 
   // Category setters (Section D: Layout & Typography)
   setLayoutStyle: (value: string) => void;
+  setTextLanguage: (value: string) => void;
   setTextPlacement: (value: string) => void;
   setTypographyStyle: (value: string) => void;
   setCtaButtonStyle: (value: string) => void;
@@ -188,6 +189,10 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
 
   const setLayoutStyle = useCallback((value: string) => {
     setState((prev) => ({ ...prev, layoutStyle: value }));
+  }, []);
+
+  const setTextLanguage = useCallback((value: string) => {
+    setState((prev) => ({ ...prev, textLanguage: value }));
   }, []);
 
   const setTextPlacement = useCallback((value: string) => {
@@ -379,6 +384,12 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       parts.push(layoutPrompt);
     }
 
+    // Add text language
+    const textLanguagePrompt = getPromptValue(state.textLanguage);
+    if (textLanguagePrompt) {
+      parts.push(textLanguagePrompt);
+    }
+
     // Add text placement
     const placementPrompt = getPromptValue(state.textPlacement);
     if (placementPrompt) {
@@ -397,16 +408,20 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       parts.push(ctaPrompt);
     }
 
-    // Add banner size context
+    // Add banner size context with explicit size instruction
     const sizeTemplate = state.bannerSize ? getBannerSizeById(state.bannerSize) : undefined;
     if (sizeTemplate) {
       // Handle custom size
       if (state.bannerSize === "size-custom" && state.customWidth && state.customHeight) {
         parts.push("custom dimensions banner format");
-        parts.push(`${state.customWidth}x${state.customHeight} pixels aspect ratio`);
+        parts.push(
+          `IMPORTANT: The generated image MUST be exactly ${state.customWidth}x${state.customHeight} pixels. Do not deviate from these exact dimensions.`
+        );
       } else if (sizeTemplate.width > 0 && sizeTemplate.height > 0) {
         parts.push(sizeTemplate.promptFragment);
-        parts.push(`${sizeTemplate.width}x${sizeTemplate.height} pixels aspect ratio`);
+        parts.push(
+          `IMPORTANT: The generated image MUST be exactly ${sizeTemplate.width}x${sizeTemplate.height} pixels. Do not deviate from these exact dimensions.`
+        );
       }
     }
 
@@ -495,6 +510,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       state.iconGraphics ||
       state.promotionalElements ||
       state.layoutStyle ||
+      state.textLanguage ||
       state.textPlacement ||
       state.typographyStyle ||
       state.ctaButtonStyle ||
@@ -520,6 +536,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     if (state.iconGraphics) count++;
     if (state.promotionalElements) count++;
     if (state.layoutStyle) count++;
+    if (state.textLanguage) count++;
     if (state.textPlacement) count++;
     if (state.typographyStyle) count++;
     if (state.ctaButtonStyle) count++;
@@ -587,6 +604,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       iconGraphics: config.iconGraphics ?? prev.iconGraphics,
       promotionalElements: config.promotionalElements ?? prev.promotionalElements,
       layoutStyle: config.layoutStyle ?? prev.layoutStyle,
+      textLanguage: config.textLanguage ?? prev.textLanguage,
       textPlacement: config.textPlacement ?? prev.textPlacement,
       typographyStyle: config.typographyStyle ?? prev.typographyStyle,
       ctaButtonStyle: config.ctaButtonStyle ?? prev.ctaButtonStyle,
@@ -618,6 +636,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     if (state.iconGraphics) config.iconGraphics = state.iconGraphics;
     if (state.promotionalElements) config.promotionalElements = state.promotionalElements;
     if (state.layoutStyle) config.layoutStyle = state.layoutStyle;
+    if (state.textLanguage) config.textLanguage = state.textLanguage;
     if (state.textPlacement) config.textPlacement = state.textPlacement;
     if (state.typographyStyle) config.typographyStyle = state.typographyStyle;
     if (state.ctaButtonStyle) config.ctaButtonStyle = state.ctaButtonStyle;
@@ -661,6 +680,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       iconGraphics: "",
       promotionalElements: "",
       layoutStyle: "",
+      textLanguage: "",
       textPlacement: "",
       typographyStyle: "",
       ctaButtonStyle: "",
@@ -742,6 +762,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
 
     // Section D setters
     setLayoutStyle,
+    setTextLanguage,
     setTextPlacement,
     setTypographyStyle,
     setCtaButtonStyle,

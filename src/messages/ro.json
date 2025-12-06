@@ -1958,6 +1958,7 @@
       "iconGraphics": "Iconite / Grafice",
       "promotionalElements": "Elemente Promotionale",
       "layoutStyle": "Stil Layout",
+      "textLanguage": "Limba Textului",
       "textPlacement": "Pozitionare Text",
       "typographyStyle": "Stil Tipografie",
       "ctaButtonStyle": "Stil Buton CTA"
@@ -1975,6 +1976,7 @@
       "iconGraphics": "Selecteaza iconitele/graficele...",
       "promotionalElements": "Selecteaza elementele promotionale...",
       "layoutStyle": "Selecteaza layout-ul...",
+      "textLanguage": "Selecteaza limba textului...",
       "textPlacement": "Selecteaza pozitionarea textului...",
       "typographyStyle": "Selecteaza tipografia...",
       "ctaButtonStyle": "Selecteaza stilul CTA..."

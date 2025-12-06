@@ -43,6 +43,7 @@ interface BannerBuilderPanelProps {
 
   // Section D: Layout & Typography setters
   onLayoutStyleChange: (value: string) => void;
+  onTextLanguageChange: (value: string) => void;
   onTextPlacementChange: (value: string) => void;
   onTypographyStyleChange: (value: string) => void;
   onCtaButtonStyleChange: (value: string) => void;
@@ -94,6 +95,7 @@ export function BannerBuilderPanel({
   onIconGraphicsChange,
   onPromotionalElementsChange,
   onLayoutStyleChange,
+  onTextLanguageChange,
   onTextPlacementChange,
   onTypographyStyleChange,
   onCtaButtonStyleChange,
@@ -185,10 +187,12 @@ export function BannerBuilderPanel({
           {/* Section D: Layout & Typography */}
           <LayoutTypographySection
             layoutStyle={state.layoutStyle}
+            textLanguage={state.textLanguage}
             textPlacement={state.textPlacement}
             typographyStyle={state.typographyStyle}
             ctaButtonStyle={state.ctaButtonStyle}
             onLayoutStyleChange={onLayoutStyleChange}
+            onTextLanguageChange={onTextLanguageChange}
             onTextPlacementChange={onTextPlacementChange}
             onTypographyStyleChange={onTypographyStyleChange}
             onCtaButtonStyleChange={onCtaButtonStyleChange}

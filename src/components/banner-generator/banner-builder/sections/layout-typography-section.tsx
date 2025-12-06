@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import {
   layoutStyleTemplates,
+  textLanguageTemplates,
   textPlacementTemplates,
   typographyStyleTemplates,
   ctaButtonStyleTemplates,
@@ -11,10 +12,12 @@ import { BannerTemplateSelector } from "../banner-template-selector";
 
 interface LayoutTypographySectionProps {
   layoutStyle: string;
+  textLanguage: string;
   textPlacement: string;
   typographyStyle: string;
   ctaButtonStyle: string;
   onLayoutStyleChange: (value: string) => void;
+  onTextLanguageChange: (value: string) => void;
   onTextPlacementChange: (value: string) => void;
   onTypographyStyleChange: (value: string) => void;
   onCtaButtonStyleChange: (value: string) => void;
@@ -22,10 +25,12 @@ interface LayoutTypographySectionProps {
 
 export function LayoutTypographySection({
   layoutStyle,
+  textLanguage,
   textPlacement,
   typographyStyle,
   ctaButtonStyle,
   onLayoutStyleChange,
+  onTextLanguageChange,
   onTextPlacementChange,
   onTypographyStyleChange,
   onCtaButtonStyleChange,
@@ -46,6 +51,16 @@ export function LayoutTypographySection({
         onChange={onLayoutStyleChange}
         placeholder={t("placeholders.layoutStyle")}
         category="layoutStyle"
+      />
+
+      {/* Text Language */}
+      <BannerTemplateSelector
+        label={t("categories.textLanguage")}
+        templates={textLanguageTemplates}
+        value={textLanguage}
+        onChange={onTextLanguageChange}
+        placeholder={t("placeholders.textLanguage")}
+        category="textLanguage"
       />
 
       {/* Text Placement */}
