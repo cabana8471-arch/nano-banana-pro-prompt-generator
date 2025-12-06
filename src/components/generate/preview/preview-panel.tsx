@@ -3,6 +3,7 @@
 import { Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LoadPresetDropdown } from "@/components/presets/load-preset-dropdown";
+import { ManagePresetsModal } from "@/components/presets/manage-presets-modal";
 import { SavePresetModal } from "@/components/presets/save-preset-modal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
-import type { GenerationSettings, Preset, PresetConfig } from "@/lib/types/generation";
+import type { GenerationSettings, Preset, PresetConfig, UpdatePresetInput } from "@/lib/types/generation";
 
 interface PreviewPanelProps {
   assembledPrompt: string;
@@ -31,6 +32,7 @@ interface PreviewPanelProps {
   presetsLoading: boolean;
   onSavePreset: (name: string, config: PresetConfig) => Promise<boolean>;
   onLoadPreset: (preset: Preset) => void;
+  onUpdatePreset: (id: string, input: UpdatePresetInput) => Promise<boolean>;
   onDeletePreset: (id: string) => Promise<boolean>;
 }
 
@@ -46,6 +48,7 @@ export function PreviewPanel({
   presetsLoading,
   onSavePreset,
   onLoadPreset,
+  onUpdatePreset,
   onDeletePreset,
 }: PreviewPanelProps) {
   const t = useTranslations("generate");
@@ -62,7 +65,7 @@ export function PreviewPanel({
           </div>
         </div>
         {/* Preset Actions */}
-        <div className="flex items-center gap-2 mt-3">
+        <div className="flex items-center gap-2 mt-3 flex-wrap">
           <LoadPresetDropdown
             presets={presets}
             onLoad={onLoadPreset}
@@ -74,6 +77,13 @@ export function PreviewPanel({
             config={currentConfig}
             onSave={onSavePreset}
             disabled={isGenerating || !assembledPrompt}
+          />
+          <ManagePresetsModal
+            presets={presets}
+            onUpdate={onUpdatePreset}
+            onDelete={onDeletePreset}
+            isLoading={presetsLoading}
+            disabled={isGenerating}
           />
         </div>
       </div>

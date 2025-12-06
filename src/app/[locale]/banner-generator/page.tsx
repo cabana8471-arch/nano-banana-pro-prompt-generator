@@ -21,7 +21,7 @@ import { useBannerPresets } from "@/hooks/use-banner-presets";
 import { useBannerReferences } from "@/hooks/use-banner-references";
 import { useGeneration } from "@/hooks/use-generation";
 import { useSession } from "@/lib/auth-client";
-import type { BannerPreset, BannerPresetConfig, BannerBuilderState } from "@/lib/types/banner";
+import type { BannerPreset, BannerPresetConfig, BannerBuilderState, UpdateBannerPresetInput } from "@/lib/types/banner";
 import { DEFAULT_BANNER_BUILDER_STATE } from "@/lib/types/banner";
 
 export default function BannerGeneratorPage() {
@@ -170,6 +170,7 @@ export default function BannerGeneratorPage() {
     presets,
     isLoading: presetsLoading,
     createPreset,
+    updatePreset,
     deletePreset,
   } = useBannerPresets();
 
@@ -261,6 +262,17 @@ export default function BannerGeneratorPage() {
   const handleLoadPreset = (preset: BannerPreset) => {
     loadFromPreset(preset.config);
     toast.success(`Loaded preset "${preset.name}"`);
+  };
+
+  const handleUpdatePreset = async (id: string, input: UpdateBannerPresetInput): Promise<boolean> => {
+    const preset = presets.find((p) => p.id === id);
+    const success = await updatePreset(id, input);
+    if (success) {
+      toast.success(`Preset "${preset?.name}" updated`);
+    } else {
+      toast.error("Failed to update preset");
+    }
+    return success;
   };
 
   const handleDeletePreset = async (id: string): Promise<boolean> => {
@@ -437,6 +449,7 @@ export default function BannerGeneratorPage() {
             presetsLoading={presetsLoading}
             onSavePreset={handleSavePreset}
             onLoadPreset={handleLoadPreset}
+            onUpdatePreset={handleUpdatePreset}
             onDeletePreset={handleDeletePreset}
           />
         }

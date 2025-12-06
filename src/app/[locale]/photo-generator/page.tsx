@@ -13,7 +13,7 @@ import { useGeneration } from "@/hooks/use-generation";
 import { usePresets } from "@/hooks/use-presets";
 import { usePromptBuilder } from "@/hooks/use-prompt-builder";
 import { useSession } from "@/lib/auth-client";
-import type { Preset, PresetConfig } from "@/lib/types/generation";
+import type { Preset, PresetConfig, UpdatePresetInput } from "@/lib/types/generation";
 
 export default function GeneratePage() {
   const { data: session, isPending: sessionPending } = useSession();
@@ -43,6 +43,7 @@ export default function GeneratePage() {
     presets,
     isLoading: presetsLoading,
     createPreset,
+    updatePreset,
     deletePreset,
   } = usePresets();
 
@@ -127,6 +128,17 @@ export default function GeneratePage() {
       customPrompt: preset.config.customPrompt ?? "",
     });
     toast.success(`Loaded preset "${preset.name}"`);
+  };
+
+  const handleUpdatePreset = async (id: string, input: UpdatePresetInput): Promise<boolean> => {
+    const preset = presets.find((p) => p.id === id);
+    const success = await updatePreset(id, input);
+    if (success) {
+      toast.success(`Preset "${preset?.name}" updated`);
+    } else {
+      toast.error("Failed to update preset");
+    }
+    return success;
   };
 
   const handleDeletePreset = async (id: string): Promise<boolean> => {
@@ -219,6 +231,7 @@ export default function GeneratePage() {
             presetsLoading={presetsLoading}
             onSavePreset={handleSavePreset}
             onLoadPreset={handleLoadPreset}
+            onUpdatePreset={handleUpdatePreset}
             onDeletePreset={handleDeletePreset}
           />
         }

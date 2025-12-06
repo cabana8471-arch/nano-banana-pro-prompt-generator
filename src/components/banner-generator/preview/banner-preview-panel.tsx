@@ -20,8 +20,10 @@ import type {
   BannerGenerationSettings,
   BannerExportFormat,
   BannerSizeTemplate,
+  UpdateBannerPresetInput,
 } from "@/lib/types/banner";
 import { LoadBannerPresetDropdown } from "../presets/load-banner-preset-dropdown";
+import { ManageBannerPresetsModal } from "../presets/manage-banner-presets-modal";
 import { SaveBannerPresetModal } from "../presets/save-banner-preset-modal";
 
 interface BannerPreviewPanelProps {
@@ -38,6 +40,7 @@ interface BannerPreviewPanelProps {
   presetsLoading: boolean;
   onSavePreset: (name: string, config: BannerPresetConfig) => Promise<boolean>;
   onLoadPreset: (preset: BannerPreset) => void;
+  onUpdatePreset: (id: string, input: UpdateBannerPresetInput) => Promise<boolean>;
   onDeletePreset: (id: string) => Promise<boolean>;
 }
 
@@ -54,6 +57,7 @@ export function BannerPreviewPanel({
   presetsLoading,
   onSavePreset,
   onLoadPreset,
+  onUpdatePreset,
   onDeletePreset,
 }: BannerPreviewPanelProps) {
   const t = useTranslations("bannerGenerator");
@@ -71,7 +75,7 @@ export function BannerPreviewPanel({
           </div>
         </div>
         {/* Preset Actions */}
-        <div className="flex items-center gap-2 mt-3">
+        <div className="flex items-center gap-2 mt-3 flex-wrap">
           <LoadBannerPresetDropdown
             presets={presets}
             onLoad={onLoadPreset}
@@ -83,6 +87,13 @@ export function BannerPreviewPanel({
             config={currentConfig}
             onSave={onSavePreset}
             disabled={isGenerating || !assembledPrompt}
+          />
+          <ManageBannerPresetsModal
+            presets={presets}
+            onUpdate={onUpdatePreset}
+            onDelete={onDeletePreset}
+            isLoading={presetsLoading}
+            disabled={isGenerating}
           />
         </div>
       </div>

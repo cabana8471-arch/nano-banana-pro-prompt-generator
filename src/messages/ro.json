@@ -246,7 +246,11 @@
     "subjects": "{count} subiect(e)",
     "customPromptIncluded": "Prompt personalizat inclus",
     "noConfiguration": "Nicio configuratie",
-    "edit": "Editeaza"
+    "edit": "Editeaza",
+    "managePresets": "Gestioneaza preseturi",
+    "managePresetsDescription": "Editeaza sau sterge preseturile salvate",
+    "summaryStyle": "Stil",
+    "summaryLocation": "Locatie"
   },
   "theme": {
     "toggleTheme": "Schimba tema",
@@ -2135,7 +2139,9 @@
       "summarySubheadline": "Subtitlu",
       "summaryCta": "CTA",
       "summaryTextContent": "{count} camp(uri) de text",
-      "summaryCustomPrompt": "Prompt personalizat inclus"
+      "summaryCustomPrompt": "Prompt personalizat inclus",
+      "managePresets": "Gestioneaza preseturi",
+      "managePresetsDescription": "Editeaza sau sterge preseturile de bannere salvate"
     },
     "quickStart": {
       "buttonLabel": "Start Rapid",

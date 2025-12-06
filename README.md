@@ -8,6 +8,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 - **AI Image Generation**: Generate images using Google Gemini 3 Pro with multi-turn conversation support for refinements
 - **Prompt Builder**: Intuitive UI to construct detailed prompts with location, lighting, camera angle, style, and subject options
 - **Avatar System**: Upload reference images to maintain consistent characters/objects across generations
+- **Preset Management**: Save, load, rename, and delete prompt presets for quick reuse
 
 ### Media Library
 - **Organized Asset Management**: Dedicated sections for different asset types under the "Media" dropdown menu
@@ -48,6 +49,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 - **Quick Actions**: Copy config to clipboard, Randomize all settings, Swap primary/secondary colors, Reset with confirmation
 - **Validation System**: Character limits per banner size, contrast checking, missing headline/CTA warnings
 - **Export Options**: Download in PNG, JPG, or WebP format with quality settings
+- **Preset Management**: Save, load, rename, and delete banner presets with full configuration
 
 ### Social Features
 - **Gallery**: Browse and share generated images with the community
@@ -244,7 +246,12 @@ src/
 │   │   └── presets/          # Preset management
 │   │       ├── quick-start-templates.tsx # 6 pre-configured templates
 │   │       ├── save-banner-preset-modal.tsx
-│   │       └── load-banner-preset-dropdown.tsx
+│   │       ├── load-banner-preset-dropdown.tsx
+│   │       └── manage-banner-presets-modal.tsx # Edit/delete presets
+│   ├── presets/              # Photo preset components
+│   │   ├── save-preset-modal.tsx
+│   │   ├── load-preset-dropdown.tsx
+│   │   └── manage-presets-modal.tsx # Edit/delete presets
 │   ├── auth/                 # Authentication components
 │   ├── gallery/              # Gallery components
 │   ├── avatars/              # Avatar components

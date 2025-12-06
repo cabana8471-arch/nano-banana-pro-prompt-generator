@@ -246,7 +246,11 @@
     "subjects": "{count} subject(s)",
     "customPromptIncluded": "Custom prompt included",
     "noConfiguration": "No configuration",
-    "edit": "Edit"
+    "edit": "Edit",
+    "managePresets": "Manage Presets",
+    "managePresetsDescription": "Edit or delete your saved presets",
+    "summaryStyle": "Style",
+    "summaryLocation": "Location"
   },
   "theme": {
     "toggleTheme": "Toggle theme",
@@ -2141,7 +2145,9 @@
       "summarySubheadline": "Subheadline",
       "summaryCta": "CTA",
       "summaryTextContent": "{count} text field(s)",
-      "summaryCustomPrompt": "Custom prompt included"
+      "summaryCustomPrompt": "Custom prompt included",
+      "managePresets": "Manage Presets",
+      "managePresetsDescription": "Edit or delete your saved banner presets"
     },
     "quickStart": {
       "buttonLabel": "Quick Start",
