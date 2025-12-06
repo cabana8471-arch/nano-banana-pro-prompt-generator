@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { Link } from "@/i18n/routing";
 import type {
   BannerPreset,
@@ -200,19 +199,6 @@ export function BannerPreviewPanel({
               </div>
             </div>
 
-            {/* Include Text */}
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label className="text-sm font-medium">{t("preview.includeText")}</Label>
-                <p className="text-xs text-muted-foreground">
-                  {t("preview.includeTextDescription")}
-                </p>
-              </div>
-              <Switch
-                checked={settings.withText}
-                onCheckedChange={(checked: boolean) => onSettingsChange({ withText: checked })}
-              />
-            </div>
           </div>
         </div>
       </ScrollArea>
