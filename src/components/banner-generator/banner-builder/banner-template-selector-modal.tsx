@@ -14,6 +14,77 @@ import { Input } from "@/components/ui/input";
 import type { BannerTemplate, BannerSizeTemplate, BannerTemplateCategory } from "@/lib/types/banner";
 import { cn } from "@/lib/utils";
 
+// Typography preview styles mapping - shows example text in each style
+const typographyStyles: Record<string, { className: string; text: string }> = {
+  // Popular Fonts
+  "typo-inter": { className: "font-[family-name:var(--font-inter)]", text: "Inter Font Style" },
+  "typo-roboto": { className: "font-[family-name:var(--font-roboto)]", text: "Roboto Font Style" },
+  // Sans-Serif
+  "typo-modern-sans": { className: "font-sans tracking-tight", text: "Clean & Modern" },
+  "typo-geometric-sans": { className: "font-sans tracking-wide uppercase", text: "GEOMETRIC" },
+  "typo-humanist-sans": { className: "font-sans", text: "Friendly Text" },
+  "typo-industrial": { className: "font-sans font-black uppercase tracking-wider", text: "INDUSTRIAL" },
+  "typo-grotesque": { className: "font-sans font-medium", text: "Neutral Style" },
+  // Serif
+  "typo-classic-serif": { className: "font-serif", text: "Traditional Elegance" },
+  "typo-modern-serif": { className: "font-serif tracking-tight", text: "Contemporary" },
+  "typo-slab-serif": { className: "font-serif font-bold", text: "Bold & Strong" },
+  "typo-editorial": { className: "font-serif italic", text: "Magazine Style" },
+  "typo-didone": { className: "font-serif font-light tracking-wide", text: "High Contrast" },
+  // Display
+  "typo-bold-display": { className: "font-sans font-black text-base uppercase", text: "IMPACT" },
+  "typo-condensed": { className: "font-sans font-semibold tracking-tighter", text: "CONDENSED TYPE" },
+  "typo-extended": { className: "font-sans tracking-[0.3em] uppercase", text: "EXTENDED" },
+  "typo-decorative": { className: "font-serif italic", text: "✦ Ornate ✦" },
+  "typo-outlined": { className: "font-sans font-bold uppercase", text: "OUTLINE" },
+  // Script
+  "typo-elegant-script": { className: "font-serif italic", text: "Elegant Script" },
+  "typo-handwriting": { className: "font-sans", text: "casual handwriting" },
+  "typo-brush-script": { className: "font-sans font-bold italic", text: "Brush Style" },
+  "typo-signature": { className: "font-serif italic", text: "Signature" },
+  // Special
+  "typo-monospace": { className: "font-mono", text: "code_style" },
+  "typo-stencil": { className: "font-sans font-bold uppercase tracking-widest", text: "STENCIL" },
+  "typo-retro": { className: "font-serif font-bold", text: "RETRO '70s" },
+  "typo-futuristic": { className: "font-sans font-light uppercase tracking-widest", text: "FUTURE" },
+  // Combinations
+  "typo-serif-sans-combo": { className: "font-sans", text: "Serif + Sans" },
+  "typo-display-body-combo": { className: "font-sans font-semibold", text: "Display + Body" },
+  "typo-script-sans-combo": { className: "font-sans italic", text: "Script meets Sans" },
+  // Weights
+  "typo-light-weight": { className: "font-sans font-light", text: "Light & Airy" },
+  "typo-regular-weight": { className: "font-sans font-normal", text: "Regular Weight" },
+  "typo-bold-weight": { className: "font-sans font-bold", text: "Bold Statement" },
+  "typo-extra-bold": { className: "font-sans font-extrabold uppercase", text: "EXTRA BOLD" },
+  // Styles
+  "typo-all-caps": { className: "font-sans uppercase tracking-wide", text: "ALL CAPITALS" },
+  "typo-small-caps": { className: "font-sans uppercase text-[10px] tracking-widest", text: "SMALL CAPS" },
+  "typo-title-case": { className: "font-sans font-medium", text: "Title Case Style" },
+  "typo-sentence-case": { className: "font-sans", text: "Sentence case text" },
+  // Effects
+  "typo-drop-shadow": { className: "font-sans font-bold [text-shadow:2px_2px_4px_rgba(0,0,0,0.3)]", text: "Shadow Text" },
+  "typo-gradient-text": { className: "font-sans font-bold bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent", text: "Gradient" },
+  "typo-3d-text": { className: "font-sans font-black uppercase", text: "3D DEPTH" },
+  "typo-neon-glow": { className: "font-sans font-bold text-primary", text: "✨ Neon ✨" },
+};
+
+function TypographyPreview({ templateId }: { templateId: string }) {
+  const style = typographyStyles[templateId];
+
+  if (!style) {
+    return <p className="text-xs text-muted-foreground mb-2">Typography style</p>;
+  }
+
+  return (
+    <div className={cn(
+      "text-sm mb-2 py-1 transition-all",
+      style.className
+    )}>
+      {style.text}
+    </div>
+  );
+}
+
 interface BannerTemplateSelectorModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -238,9 +309,14 @@ export function BannerTemplateSelectorModal({
                         >
                           {translated.name}
                         </h4>
-                        <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
-                          {translated.description}
-                        </p>
+                        {/* Typography Style preview - show styled example text */}
+                        {category === "typographyStyle" ? (
+                          <TypographyPreview templateId={template.id} />
+                        ) : (
+                          <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                            {translated.description}
+                          </p>
+                        )}
                         {isSize && (
                           <div className="flex items-center gap-2 mb-2">
                             <span className="text-xs font-mono bg-muted px-2 py-0.5 rounded">

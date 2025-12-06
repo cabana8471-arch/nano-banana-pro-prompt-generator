@@ -2533,6 +2533,19 @@ export const textPlacementTemplates: BannerTemplate[] = [
 // 14. TYPOGRAPHY STYLE (~25 presets)
 // ==========================================
 export const typographyStyleTemplates: BannerTemplate[] = [
+  // Popular Fonts
+  {
+    id: "typo-inter",
+    name: "Inter",
+    description: "Inter font - modern and readable",
+    promptFragment: "Inter font typography, modern readable font, clean geometric sans-serif",
+  },
+  {
+    id: "typo-roboto",
+    name: "Roboto",
+    description: "Roboto font - Google's signature font",
+    promptFragment: "Roboto font typography, Google Material Design font, friendly mechanical type",
+  },
   // Sans-Serif
   {
     id: "typo-modern-sans",
