@@ -35,17 +35,17 @@ export function ThreeColumnLayout({
             <TabsTrigger value="results">{t("resultsTab")}</TabsTrigger>
           </TabsList>
           <TabsContent value="builder" className="mt-0">
-            <div className="rounded-lg border bg-card min-h-[calc(100vh-12rem)] overflow-y-auto">
+            <div className="rounded-lg border bg-card min-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden">
               {leftPanel}
             </div>
           </TabsContent>
           <TabsContent value="preview" className="mt-0">
-            <div className="rounded-lg border bg-card min-h-[calc(100vh-12rem)] overflow-y-auto">
+            <div className="rounded-lg border bg-card min-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden">
               {middlePanel}
             </div>
           </TabsContent>
           <TabsContent value="results" className="mt-0">
-            <div className="rounded-lg border bg-card min-h-[calc(100vh-12rem)] overflow-y-auto">
+            <div className="rounded-lg border bg-card min-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden">
               {rightPanel}
             </div>
           </TabsContent>
@@ -68,8 +68,8 @@ export function ThreeColumnLayout({
       >
         {/* Left Panel - Prompt Builder */}
         {!leftCollapsed && (
-          <div className="h-[calc(100vh-8rem)] overflow-hidden relative">
-            <div className="h-full overflow-y-auto rounded-lg border bg-card">
+          <div className="h-[calc(100vh-8rem)] overflow-hidden relative min-w-0">
+            <div className="h-full overflow-y-auto rounded-lg border bg-card overflow-x-hidden">
               {leftPanel}
             </div>
             <Button
@@ -99,15 +99,15 @@ export function ThreeColumnLayout({
         )}
 
         {/* Middle Panel - Preview & Generate */}
-        <div className="h-[calc(100vh-8rem)] overflow-hidden">
-          <div className="h-full overflow-y-auto rounded-lg border bg-card">
+        <div className="h-[calc(100vh-8rem)] overflow-hidden min-w-0">
+          <div className="h-full overflow-y-auto rounded-lg border bg-card overflow-x-hidden">
             {middlePanel}
           </div>
         </div>
 
         {/* Right Panel - Results */}
         {!rightCollapsed && (
-          <div className="h-[calc(100vh-8rem)] overflow-hidden relative">
+          <div className="h-[calc(100vh-8rem)] overflow-hidden relative min-w-0">
             <Button
               variant="ghost"
               size="icon"
@@ -117,7 +117,7 @@ export function ThreeColumnLayout({
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
-            <div className="h-full overflow-y-auto rounded-lg border bg-card">
+            <div className="h-full overflow-y-auto rounded-lg border bg-card overflow-x-hidden">
               {rightPanel}
             </div>
           </div>
