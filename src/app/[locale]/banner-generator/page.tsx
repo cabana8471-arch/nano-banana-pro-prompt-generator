@@ -209,6 +209,7 @@ export default function BannerGeneratorPage() {
         resolution: "2K" as const,
         aspectRatio,
       },
+      generationType: "banner" as const,
       ...(referenceImages.length > 0 && { referenceImages }),
     };
 

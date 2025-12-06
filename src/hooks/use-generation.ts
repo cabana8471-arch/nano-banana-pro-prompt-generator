@@ -7,11 +7,13 @@ import type {
   GenerationHistoryEntry,
   PaginatedResponse,
   AvatarType,
+  GenerationType,
 } from "@/lib/types/generation";
 
 interface GenerateInput {
   prompt: string;
   settings: GenerationSettings;
+  generationType?: GenerationType;
   referenceImages?: {
     avatarId: string;
     type: AvatarType;
