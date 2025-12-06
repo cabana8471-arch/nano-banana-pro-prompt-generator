@@ -25,6 +25,9 @@ import type { CreateProjectInput } from "@/lib/types/project";
 import { GalleryGrid } from "./gallery-grid";
 import { ImageCard } from "./image-card";
 import { ImageDetailModal } from "./image-detail-modal";
+import { ViewModeSelector, type ViewMode } from "./view-mode-selector";
+
+const GALLERY_VIEW_MODE_KEY = "gallery-view-mode";
 
 export type PersonalImage = GeneratedImage & {
   generation: {
@@ -38,6 +41,15 @@ export type PersonalImage = GeneratedImage & {
 
 type FilterType = "all" | GenerationType;
 
+function getInitialViewMode(): ViewMode {
+  if (typeof window === "undefined") return "grid-4";
+  const stored = localStorage.getItem(GALLERY_VIEW_MODE_KEY);
+  if (stored && ["grid-4", "grid-3", "grid-2", "grid-1", "masonry"].includes(stored)) {
+    return stored as ViewMode;
+  }
+  return "grid-4";
+}
+
 export function PersonalGallery() {
   const t = useTranslations("gallery");
   const { projects, isLoading: projectsLoading, createProject } = useProjects();
@@ -49,6 +61,17 @@ export function PersonalGallery() {
   const [selectedImage, setSelectedImage] = useState<PersonalImage | null>(null);
   const [filter, setFilter] = useState<FilterType>("all");
   const [projectFilter, setProjectFilter] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>("grid-4");
+
+  // Load view mode from localStorage on mount
+  useEffect(() => {
+    setViewMode(getInitialViewMode());
+  }, []);
+
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    localStorage.setItem(GALLERY_VIEW_MODE_KEY, mode);
+  };
 
   const fetchImages = useCallback(async (pageNum: number, filterType: FilterType, projectId: string | null) => {
     setLoading(true);
@@ -164,43 +187,49 @@ export function PersonalGallery() {
 
   return (
     <>
-      {/* Filter Tabs and Project Filter */}
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
-        <Tabs value={filter} onValueChange={(v) => handleFilterChange(v as FilterType)}>
-          <TabsList>
-            <TabsTrigger value="all">{t("filterAll")}</TabsTrigger>
-            <TabsTrigger value="photo">{t("filterPhotos")}</TabsTrigger>
-            <TabsTrigger value="banner">{t("filterBanners")}</TabsTrigger>
-          </TabsList>
-        </Tabs>
+      {/* Filter Tabs, Project Filter, and View Mode */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <Tabs value={filter} onValueChange={(v) => handleFilterChange(v as FilterType)}>
+            <TabsList>
+              <TabsTrigger value="all">{t("filterAll")}</TabsTrigger>
+              <TabsTrigger value="photo">{t("filterPhotos")}</TabsTrigger>
+              <TabsTrigger value="banner">{t("filterBanners")}</TabsTrigger>
+            </TabsList>
+          </Tabs>
 
-        {/* Project Filter */}
-        <div className="flex items-center gap-2">
-          <FolderOpen className="h-4 w-4 text-muted-foreground" />
-          <Select
-            value={projectFilter || "all"}
-            onValueChange={(v) => handleProjectFilterChange(v === "all" ? null : v)}
-            disabled={projectsLoading}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={t("allProjects")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">{t("allProjects")}</SelectItem>
-              {projects.map((project) => (
-                <SelectItem key={project.id} value={project.id}>
-                  {project.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {/* Project Filter */}
+          <div className="flex items-center gap-2">
+            <FolderOpen className="h-4 w-4 text-muted-foreground" />
+            <Select
+              value={projectFilter || "all"}
+              onValueChange={(v) => handleProjectFilterChange(v === "all" ? null : v)}
+              disabled={projectsLoading}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder={t("allProjects")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{t("allProjects")}</SelectItem>
+                {projects.map((project) => (
+                  <SelectItem key={project.id} value={project.id}>
+                    {project.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
+
+        {/* View Mode Selector */}
+        <ViewModeSelector value={viewMode} onChange={handleViewModeChange} />
       </div>
 
       <GalleryGrid
         loading={loading}
         isEmpty={images.length === 0}
         emptyMessage={t("noImagesYet")}
+        viewMode={viewMode}
       >
         {images.map((image) => (
           <ImageCard
@@ -209,6 +238,7 @@ export function PersonalGallery() {
             showVisibilityToggle
             onClick={() => setSelectedImage(image)}
             onVisibilityChange={handleVisibilityChange}
+            viewMode={viewMode}
           />
         ))}
       </GalleryGrid>

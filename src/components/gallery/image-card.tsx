@@ -9,10 +9,12 @@ import { Card } from "@/components/ui/card";
 import type { GalleryImage, GeneratedImage, GenerationSettings } from "@/lib/types/generation";
 import { LikeButton } from "./like-button";
 import { VisibilityToggle } from "./visibility-toggle";
+import type { ViewMode } from "./view-mode-selector";
 
 interface BaseImageCardProps {
   onClick?: () => void;
   className?: string;
+  viewMode?: ViewMode;
 }
 
 interface GalleryImageCardProps extends BaseImageCardProps {
@@ -43,12 +45,21 @@ function isGalleryImage(image: GalleryImageCardProps["image"] | PersonalImageCar
   return "user" in image && "likeCount" in image;
 }
 
+const aspectClasses: Record<ViewMode, string> = {
+  "grid-4": "aspect-square",
+  "grid-3": "aspect-square",
+  "grid-2": "aspect-video",
+  "grid-1": "aspect-video",
+  "masonry": "", // No fixed aspect for masonry - use natural dimensions
+};
+
 export function ImageCard({
   image,
   showUser = false,
   showVisibilityToggle = false,
   onClick,
   className,
+  viewMode = "grid-4",
   ...props
 }: ImageCardProps) {
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
@@ -58,20 +69,32 @@ export function ImageCard({
   const prompt = image.generation.prompt;
   const truncatedPrompt = prompt.length > 100 ? `${prompt.slice(0, 100)}...` : prompt;
   const createdAt = new Date(image.createdAt);
+  const isMasonry = viewMode === "masonry";
 
   return (
     <Card
-      className={`group relative overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] ${className || ""}`}
+      className={`group relative overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] ${isMasonry ? "break-inside-avoid mb-4" : ""} ${className || ""}`}
       onClick={onClick}
     >
-      <div className="aspect-square relative">
-        <Image
-          src={image.imageUrl}
-          alt={prompt}
-          fill
-          className="object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
+      <div className={`${aspectClasses[viewMode]} relative`}>
+        {isMasonry ? (
+          <Image
+            src={image.imageUrl}
+            alt={prompt}
+            width={800}
+            height={600}
+            className="w-full h-auto object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          />
+        ) : (
+          <Image
+            src={image.imageUrl}
+            alt={prompt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        )}
         {/* Overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="absolute bottom-0 left-0 right-0 p-4 text-white">

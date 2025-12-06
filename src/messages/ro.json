@@ -321,7 +321,14 @@
     "addedToProject": "Adaugat in proiectul \"{name}\"",
     "failedToAddToProject": "Nu s-a putut adauga in proiect",
     "projectCreated": "Proiectul \"{name}\" a fost creat",
-    "failedToCreateProject": "Nu s-a putut crea proiectul"
+    "failedToCreateProject": "Nu s-a putut crea proiectul",
+    "viewMode": {
+      "grid-4": "4 Coloane",
+      "grid-3": "3 Coloane",
+      "grid-2": "2 Coloane",
+      "grid-1": "O Coloana",
+      "masonry": "Mozaic"
+    }
   },
   "avatars": {
     "title": "Avatarele tale",
