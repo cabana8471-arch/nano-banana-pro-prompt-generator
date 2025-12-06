@@ -116,16 +116,23 @@ export function BannerTemplateSelectorModal({
   const [search, setSearch] = useState("");
   const [localCustomValue, setLocalCustomValue] = useState(customValue);
 
+  // Typography categories that share the same templates as typographyStyle
+  const typographyCategories = ["headlineTypography", "bodyTypography", "ctaTypography"];
+  const isTypographyCategory = typographyCategories.includes(category) || category === "typographyStyle";
+
   // Helper function to get translated template name and description
   const getTranslatedTemplate = (template: BannerTemplate) => {
+    // For typography categories (headline, body, CTA), use typographyStyle translations
+    const translationCategory = typographyCategories.includes(category) ? "typographyStyle" : category;
+
     try {
-      const translatedName = tTemplates(`${category}.${template.id}.name`);
-      const translatedDescription = tTemplates(`${category}.${template.id}.description`);
+      const translatedName = tTemplates(`${translationCategory}.${template.id}.name`);
+      const translatedDescription = tTemplates(`${translationCategory}.${template.id}.description`);
       // Check if translation exists (next-intl returns the key if not found)
-      if (translatedName !== `${category}.${template.id}.name`) {
+      if (translatedName !== `${translationCategory}.${template.id}.name`) {
         return {
           name: translatedName,
-          description: translatedDescription !== `${category}.${template.id}.description`
+          description: translatedDescription !== `${translationCategory}.${template.id}.description`
             ? translatedDescription
             : template.description,
         };
@@ -309,8 +316,8 @@ export function BannerTemplateSelectorModal({
                         >
                           {translated.name}
                         </h4>
-                        {/* Typography Style preview - show styled example text */}
-                        {category === "typographyStyle" ? (
+                        {/* Typography preview - show styled example text for all typography categories */}
+                        {isTypographyCategory ? (
                           <TypographyPreview templateId={template.id} />
                         ) : (
                           <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
