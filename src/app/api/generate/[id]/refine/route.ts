@@ -98,22 +98,9 @@ export async function POST(request: Request, { params }: RouteParams) {
       );
     }
 
-    // Get the generation history for multi-turn context (text only, no images)
-    // Note: We don't pass imageUrls in history because Gemini 3's thinking mode
-    // requires thought_signature for images from previous turns, which we don't store
-    const history = await db
-      .select()
-      .from(generationHistory)
-      .where(eq(generationHistory.generationId, id))
-      .orderBy(asc(generationHistory.createdAt));
-
-    // Build history entries for the API (text only to avoid thought_signature requirement)
-    const historyEntries: { role: "user" | "assistant"; content: string; imageUrls: string[] }[] =
-      history.map((h) => ({
-        role: h.role as "user" | "assistant",
-        content: h.content,
-        imageUrls: [], // Don't include images in history to avoid thought_signature requirement
-      }));
+    // Note: We intentionally don't pass conversation history to avoid Gemini's
+    // thought_signature requirement. Each refinement is treated as a fresh request
+    // with only the reference image and new instruction.
 
     // Update generation status to processing
     await db
@@ -141,7 +128,7 @@ export async function POST(request: Request, { params }: RouteParams) {
       },
     ];
 
-    // Generate refined image(s) with history context
+    // Generate refined image(s) without history (to avoid thought_signature issues)
     const result = await generateWithUserKey(
       session.user.id,
       instruction.trim(),
@@ -150,7 +137,7 @@ export async function POST(request: Request, { params }: RouteParams) {
         aspectRatio: settings.aspectRatio,
         imageCount: settings.imageCount || 1,
         referenceImages,
-        history: historyEntries,
+        // No history passed - each refinement is a fresh request with reference image
       }
     );
 
