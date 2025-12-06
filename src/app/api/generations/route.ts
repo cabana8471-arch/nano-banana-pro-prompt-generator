@@ -25,11 +25,15 @@ export async function GET(request: Request) {
     const pageSize = Math.min(PAGINATION.MAX_PAGE_SIZE, Math.max(1, parseInt(searchParams.get("pageSize") || "10", 10)));
     const offset = (page - 1) * pageSize;
     const typeFilter = searchParams.get("type") as GenerationType | null;
+    const projectIdFilter = searchParams.get("projectId");
 
     // Build where conditions
     const whereConditions = [eq(generations.userId, session.user.id)];
     if (typeFilter && (typeFilter === "photo" || typeFilter === "banner")) {
       whereConditions.push(eq(generations.generationType, typeFilter));
+    }
+    if (projectIdFilter) {
+      whereConditions.push(eq(generations.projectId, projectIdFilter));
     }
     const whereClause = whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0];
 
@@ -66,6 +70,7 @@ export async function GET(request: Request) {
     const generationsWithImages: GenerationWithImages[] = userGenerations.map((gen) => ({
       id: gen.id,
       userId: gen.userId,
+      projectId: gen.projectId,
       prompt: gen.prompt,
       settings: gen.settings as GenerationSettings,
       status: gen.status as "pending" | "processing" | "completed" | "failed",

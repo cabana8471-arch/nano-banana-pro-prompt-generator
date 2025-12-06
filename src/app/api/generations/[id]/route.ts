@@ -5,7 +5,7 @@ import { z } from "zod";
 import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { generations, generatedImages, generationHistory } from "@/lib/schema";
+import { generations, generatedImages, generationHistory, projects } from "@/lib/schema";
 import { deleteFile } from "@/lib/storage";
 import type { GenerationSettings, GenerationWithImages, GenerationHistoryEntry } from "@/lib/types/generation";
 import { generationTypeSchema } from "@/lib/validations";
@@ -58,6 +58,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
     const generationWithImages: GenerationWithImages = {
       id: generation.id,
       userId: generation.userId,
+      projectId: generation.projectId,
       prompt: generation.prompt,
       settings: generation.settings as GenerationSettings,
       status: generation.status as "pending" | "processing" | "completed" | "failed",
@@ -148,11 +149,12 @@ export async function DELETE(_request: Request, { params }: RouteParams) {
 /** Schema for updating a generation */
 const updateGenerationSchema = z.object({
   generationType: generationTypeSchema.optional(),
+  projectId: z.string().uuid({ message: "Invalid project ID" }).nullable().optional(),
 });
 
 /**
  * PATCH /api/generations/[id]
- * Update a generation (e.g., change generationType)
+ * Update a generation (e.g., change generationType or projectId)
  */
 export async function PATCH(request: Request, { params }: RouteParams) {
   try {
@@ -174,7 +176,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       );
     }
 
-    const { generationType } = parseResult.data;
+    const { generationType, projectId } = parseResult.data;
 
     // Verify the generation belongs to the user
     const [generation] = await db
@@ -191,10 +193,30 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: "Generation not found" }, { status: 404 });
     }
 
+    // If projectId is provided, verify it belongs to the user
+    if (projectId !== undefined && projectId !== null) {
+      const [project] = await db
+        .select()
+        .from(projects)
+        .where(
+          and(
+            eq(projects.id, projectId),
+            eq(projects.userId, session.user.id)
+          )
+        );
+
+      if (!project) {
+        return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      }
+    }
+
     // Update the generation
-    const updateData: { generationType?: string } = {};
+    const updateData: { generationType?: string; projectId?: string | null } = {};
     if (generationType) {
       updateData.generationType = generationType;
+    }
+    if (projectId !== undefined) {
+      updateData.projectId = projectId;
     }
 
     if (Object.keys(updateData).length === 0) {
@@ -220,6 +242,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
     const generationWithImages: GenerationWithImages = {
       id: updatedGeneration!.id,
       userId: updatedGeneration!.userId,
+      projectId: updatedGeneration!.projectId,
       prompt: updatedGeneration!.prompt,
       settings: updatedGeneration!.settings as GenerationSettings,
       status: updatedGeneration!.status as "pending" | "processing" | "completed" | "failed",

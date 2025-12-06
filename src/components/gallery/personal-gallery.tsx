@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useProjects } from "@/hooks/use-projects";
 import type {
   GenerationWithImages,
   GeneratedImage,
@@ -28,6 +36,7 @@ type FilterType = "all" | GenerationType;
 
 export function PersonalGallery() {
   const t = useTranslations("gallery");
+  const { projects, isLoading: projectsLoading } = useProjects();
   const [images, setImages] = useState<PersonalImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -35,8 +44,9 @@ export function PersonalGallery() {
   const [total, setTotal] = useState(0);
   const [selectedImage, setSelectedImage] = useState<PersonalImage | null>(null);
   const [filter, setFilter] = useState<FilterType>("all");
+  const [projectFilter, setProjectFilter] = useState<string | null>(null);
 
-  const fetchImages = useCallback(async (pageNum: number, filterType: FilterType) => {
+  const fetchImages = useCallback(async (pageNum: number, filterType: FilterType, projectId: string | null) => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -45,6 +55,9 @@ export function PersonalGallery() {
       });
       if (filterType !== "all") {
         params.append("type", filterType);
+      }
+      if (projectId) {
+        params.append("projectId", projectId);
       }
 
       const response = await fetch(`/api/generations?${params.toString()}`);
@@ -75,12 +88,17 @@ export function PersonalGallery() {
   }, []);
 
   useEffect(() => {
-    fetchImages(page, filter);
-  }, [page, filter, fetchImages]);
+    fetchImages(page, filter, projectFilter);
+  }, [page, filter, projectFilter, fetchImages]);
 
   const handleFilterChange = (newFilter: FilterType) => {
     setFilter(newFilter);
     setPage(1); // Reset to first page when filter changes
+  };
+
+  const handleProjectFilterChange = (projectId: string | null) => {
+    setProjectFilter(projectId);
+    setPage(1); // Reset to first page when project filter changes
   };
 
   const handleVisibilityChange = (imageId: string, isPublic: boolean) => {
@@ -96,8 +114,8 @@ export function PersonalGallery() {
 
   return (
     <>
-      {/* Filter Tabs */}
-      <div className="mb-6">
+      {/* Filter Tabs and Project Filter */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
         <Tabs value={filter} onValueChange={(v) => handleFilterChange(v as FilterType)}>
           <TabsList>
             <TabsTrigger value="all">{t("filterAll")}</TabsTrigger>
@@ -105,6 +123,28 @@ export function PersonalGallery() {
             <TabsTrigger value="banner">{t("filterBanners")}</TabsTrigger>
           </TabsList>
         </Tabs>
+
+        {/* Project Filter */}
+        <div className="flex items-center gap-2">
+          <FolderOpen className="h-4 w-4 text-muted-foreground" />
+          <Select
+            value={projectFilter || "all"}
+            onValueChange={(v) => handleProjectFilterChange(v === "all" ? null : v)}
+            disabled={projectsLoading}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={t("allProjects")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("allProjects")}</SelectItem>
+              {projects.map((project) => (
+                <SelectItem key={project.id} value={project.id}>
+                  {project.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <GalleryGrid

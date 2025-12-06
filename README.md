@@ -20,6 +20,10 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 ### Banner Generator
 - **Professional Banner Creation**: Dedicated banner generator for web ads, social media, and marketing materials
 - **Multi-Banner Generation**: Generate 1-4 banners simultaneously, similar to photo generation
+- **Project Organization**: Organize banners into projects for better workflow management
+  - **Required Project Selection**: Choose a project before generating banners
+  - **Inline Project Creation**: Create new projects directly from the generator
+  - **Post-Generation Assignment**: Add generated banners to different projects via dedicated modal
 - **Reference Images**: Upload existing banners/images as references to guide AI generation
   - **3 Reference Types**: Style (visual aesthetics), Composition (layout structure), Color (palette inspiration)
   - **Multi-Reference Support**: Use up to 4 reference images per generation
@@ -54,7 +58,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ### Social Features
 - **Gallery**: Browse and share generated images with the community
-- **Gallery Filtering**: Filter gallery by generation type (All, Photos, Banners)
+- **Gallery Filtering**: Filter gallery by generation type (All, Photos, Banners) and by project
 - **Like System**: Like and discover popular images from other users
 
 ### Infrastructure
@@ -244,11 +248,15 @@ src/
 │   │   ├── results/          # Results panel
 │   │   │   ├── banner-results-panel.tsx # Grid with download options
 │   │   │   └── banner-refine-input.tsx  # Refinement input
-│   │   └── presets/          # Preset management
-│   │       ├── quick-start-templates.tsx # 6 pre-configured templates
-│   │       ├── save-banner-preset-modal.tsx
-│   │       ├── load-banner-preset-dropdown.tsx
-│   │       └── manage-banner-presets-modal.tsx # Edit/delete presets
+│   │   ├── presets/          # Preset management
+│   │   │   ├── quick-start-templates.tsx # 6 pre-configured templates
+│   │   │   ├── save-banner-preset-modal.tsx
+│   │   │   ├── load-banner-preset-dropdown.tsx
+│   │   │   └── manage-banner-presets-modal.tsx # Edit/delete presets
+│   │   └── projects/         # Project organization
+│   │       ├── project-selector.tsx       # Dropdown with create option
+│   │       ├── create-project-modal.tsx   # New project dialog
+│   │       └── add-to-project-modal.tsx   # Assign banner to project
 │   ├── presets/              # Photo preset components
 │   │   ├── save-preset-modal.tsx
 │   │   ├── load-preset-dropdown.tsx
@@ -265,7 +273,8 @@ src/
 │   ├── use-banner-history.ts # Undo/redo history (max 50 entries)
 │   ├── use-banner-presets.ts # Banner preset CRUD operations
 │   ├── use-banner-references.ts # Banner reference images CRUD operations
-│   └── use-banner-validation.ts # Character limits, contrast checking, warnings
+│   ├── use-banner-validation.ts # Character limits, contrast checking, warnings
+│   └── use-projects.ts       # Project CRUD operations
 ├── i18n/                     # Internationalization
 │   ├── config.ts             # Locale configuration (en, ro)
 │   ├── request.ts            # Server-side i18n setup
@@ -275,12 +284,13 @@ src/
 │   └── ro.json               # Romanian translations (~2500 keys)
 └── lib/
     ├── gemini.ts             # Gemini API integration
-    ├── schema.ts             # Database schema
+    ├── schema.ts             # Database schema (includes projects table)
     ├── storage.ts            # File storage abstraction
     ├── auth.ts               # Authentication config
     ├── types/
     │   ├── banner.ts         # Banner generator types (BannerBuilderState, BannerTextContent, etc.)
-    │   └── generation.ts     # Image generation types
+    │   ├── generation.ts     # Image generation types
+    │   └── project.ts        # Project types (Project, CreateProjectInput, etc.)
     └── data/
         └── banner-templates.ts # 410+ banner presets organized in 15 categories:
                               # bannerTypeTemplates, bannerSizeTemplates, industryTemplates,

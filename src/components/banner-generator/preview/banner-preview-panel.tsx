@@ -1,6 +1,6 @@
 "use client";
 
-import { Wand2, FileText, Settings2, Image as ImageIcon } from "lucide-react";
+import { Wand2, FileText, Settings2, Image as ImageIcon, FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -23,9 +23,11 @@ import type {
   UpdateBannerPresetInput,
   BannerCount,
 } from "@/lib/types/banner";
+import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { LoadBannerPresetDropdown } from "../presets/load-banner-preset-dropdown";
 import { ManageBannerPresetsModal } from "../presets/manage-banner-presets-modal";
 import { SaveBannerPresetModal } from "../presets/save-banner-preset-modal";
+import { ProjectSelector } from "../projects/project-selector";
 
 interface BannerPreviewPanelProps {
   assembledPrompt: string;
@@ -43,6 +45,12 @@ interface BannerPreviewPanelProps {
   onLoadPreset: (preset: BannerPreset) => void;
   onUpdatePreset: (id: string, input: UpdateBannerPresetInput) => Promise<boolean>;
   onDeletePreset: (id: string) => Promise<boolean>;
+  // Project props
+  projects: Project[];
+  projectsLoading: boolean;
+  selectedProjectId: string | null;
+  onProjectChange: (projectId: string | null) => void;
+  onCreateProject: (input: CreateProjectInput) => Promise<Project | null>;
 }
 
 export function BannerPreviewPanel({
@@ -60,6 +68,11 @@ export function BannerPreviewPanel({
   onLoadPreset,
   onUpdatePreset,
   onDeletePreset,
+  projects,
+  projectsLoading,
+  selectedProjectId,
+  onProjectChange,
+  onCreateProject,
 }: BannerPreviewPanelProps) {
   const t = useTranslations("bannerGenerator");
   const tCommon = useTranslations("common");
@@ -228,6 +241,28 @@ export function BannerPreviewPanel({
               </div>
             </div>
 
+            {/* Project Selection */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium flex items-center gap-2">
+                <FolderOpen className="h-4 w-4" />
+                {t("projects.title")}
+                <span className="text-destructive">*</span>
+              </Label>
+              <ProjectSelector
+                projects={projects}
+                isLoading={projectsLoading}
+                selectedId={selectedProjectId}
+                onSelect={onProjectChange}
+                onCreateProject={onCreateProject}
+                disabled={isGenerating}
+              />
+              {!selectedProjectId && (
+                <p className="text-xs text-muted-foreground">
+                  {t("projects.required")}
+                </p>
+              )}
+            </div>
+
           </div>
         </div>
       </ScrollArea>
@@ -248,7 +283,7 @@ export function BannerPreviewPanel({
             className="w-full"
             size="lg"
             onClick={onGenerate}
-            disabled={isGenerating || !assembledPrompt}
+            disabled={isGenerating || !assembledPrompt || !selectedProjectId}
           >
             <Wand2 className="h-5 w-5 mr-2" />
             {isGenerating ? tCommon("loading") : t("preview.generateBanner")}

@@ -221,6 +221,7 @@ export async function POST(request: Request, { params }: RouteParams) {
     const generationWithImages: GenerationWithImages = {
       id: generation.id,
       userId: generation.userId,
+      projectId: generation.projectId ?? null,
       prompt: newPrompt,
       settings: settings,
       status: "completed",

@@ -46,6 +46,7 @@ export interface GenerationSettings {
 export interface Generation {
   id: string;
   userId: string;
+  projectId: string | null;
   prompt: string;
   settings: GenerationSettings;
   status: GenerationStatus;

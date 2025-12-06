@@ -209,6 +209,7 @@ export async function POST(request: Request) {
     const generationWithImages: GenerationWithImages = {
       id: updatedGeneration!.id,
       userId: updatedGeneration!.userId,
+      projectId: updatedGeneration!.projectId ?? null,
       prompt: updatedGeneration!.prompt,
       settings: updatedGeneration!.settings as GenerationSettings,
       status: "completed",

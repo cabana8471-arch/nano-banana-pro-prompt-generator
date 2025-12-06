@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Download, ExternalLink, FileImage } from "lucide-react";
+import { Download, ExternalLink, FileImage, FolderPlus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +20,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { BannerSizeTemplate, BannerExportFormat } from "@/lib/types/banner";
+import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { BannerRefineInput } from "./banner-refine-input";
+import { AddToProjectModal } from "../projects/add-to-project-modal";
 
 interface BannerResultsPanelProps {
   images: string[];
@@ -31,6 +33,12 @@ interface BannerResultsPanelProps {
   isRefining?: boolean | undefined;
   selectedBannerSize?: BannerSizeTemplate | undefined;
   exportFormat: BannerExportFormat;
+  // Project props
+  projects: Project[];
+  projectsLoading: boolean;
+  currentProjectId?: string | null | undefined;
+  onAddToProject: (generationId: string, projectId: string) => Promise<boolean>;
+  onCreateProject: (input: CreateProjectInput) => Promise<Project | null>;
 }
 
 export function BannerResultsPanel({
@@ -42,9 +50,16 @@ export function BannerResultsPanel({
   isRefining = false,
   selectedBannerSize,
   exportFormat,
+  projects,
+  projectsLoading,
+  currentProjectId,
+  onAddToProject,
+  onCreateProject,
 }: BannerResultsPanelProps) {
   const t = useTranslations("bannerGenerator.results");
+  const tProjects = useTranslations("bannerGenerator.projects");
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
+  const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
   const hasImages = images.length > 0;
   const fullscreenImage = fullscreenIndex !== null ? images[fullscreenIndex] : null;
 
@@ -87,8 +102,22 @@ export function BannerResultsPanel({
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
-        <h2 className="font-semibold text-lg">{t("title")}</h2>
-        <p className="text-sm text-muted-foreground">{t("description")}</p>
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="font-semibold text-lg">{t("title")}</h2>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
+          </div>
+          {hasImages && generationId && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setAddToProjectModalOpen(true)}
+            >
+              <FolderPlus className="h-4 w-4 mr-2" />
+              {tProjects("addToProject")}
+            </Button>
+          )}
+        </div>
       </div>
 
       <ScrollArea className="flex-1">
@@ -301,6 +330,20 @@ export function BannerResultsPanel({
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Add to Project Modal */}
+      {generationId && (
+        <AddToProjectModal
+          open={addToProjectModalOpen}
+          onOpenChange={setAddToProjectModalOpen}
+          projects={projects}
+          projectsLoading={projectsLoading}
+          generationId={generationId}
+          currentProjectId={currentProjectId}
+          onAddToProject={onAddToProject}
+          onCreateProject={onCreateProject}
+        />
+      )}
     </div>
   );
 }

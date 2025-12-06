@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { BannerBuilderPanel } from "@/components/banner-generator/banner-builder/banner-builder-panel";
@@ -20,9 +20,11 @@ import { useBannerHistory } from "@/hooks/use-banner-history";
 import { useBannerPresets } from "@/hooks/use-banner-presets";
 import { useBannerReferences } from "@/hooks/use-banner-references";
 import { useGeneration } from "@/hooks/use-generation";
+import { useProjects } from "@/hooks/use-projects";
 import { useSession } from "@/lib/auth-client";
 import type { BannerPreset, BannerPresetConfig, BannerBuilderState, UpdateBannerPresetInput } from "@/lib/types/banner";
 import { DEFAULT_BANNER_BUILDER_STATE } from "@/lib/types/banner";
+import type { CreateProjectInput } from "@/lib/types/project";
 
 export default function BannerGeneratorPage() {
   const { data: session, isPending: sessionPending } = useSession();
@@ -174,6 +176,14 @@ export default function BannerGeneratorPage() {
     deletePreset,
   } = useBannerPresets();
 
+  // Projects state
+  const {
+    projects,
+    isLoading: projectsLoading,
+    createProject,
+  } = useProjects();
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+
   // Generation state
   const {
     currentGeneration,
@@ -194,6 +204,11 @@ export default function BannerGeneratorPage() {
 
     if (!hasKey) {
       toast.error("Please add your Google API key in your profile");
+      return;
+    }
+
+    if (!selectedProjectId) {
+      toast.error("Please select a project before generating");
       return;
     }
 
@@ -219,6 +234,7 @@ export default function BannerGeneratorPage() {
         aspectRatio,
       },
       generationType: "banner" as const,
+      projectId: selectedProjectId,
       ...(referenceImages.length > 0 && { referenceImages }),
     };
 
@@ -284,6 +300,38 @@ export default function BannerGeneratorPage() {
       toast.error("Failed to delete preset");
     }
     return success;
+  };
+
+  // Project handlers
+  const handleCreateProject = async (input: CreateProjectInput) => {
+    const project = await createProject(input);
+    if (project) {
+      toast.success(`Project "${input.name}" created!`);
+      setSelectedProjectId(project.id);
+    } else {
+      toast.error("Failed to create project");
+    }
+    return project;
+  };
+
+  const handleAddToProject = async (generationId: string, projectId: string): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/generations/${generationId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ projectId }),
+      });
+      if (response.ok) {
+        const project = projects.find((p) => p.id === projectId);
+        toast.success(`Added to project "${project?.name}"`);
+        return true;
+      }
+      toast.error("Failed to add to project");
+      return false;
+    } catch {
+      toast.error("Failed to add to project");
+      return false;
+    }
   };
 
   // Get current config for preset saving
@@ -451,6 +499,11 @@ export default function BannerGeneratorPage() {
             onLoadPreset={handleLoadPreset}
             onUpdatePreset={handleUpdatePreset}
             onDeletePreset={handleDeletePreset}
+            projects={projects}
+            projectsLoading={projectsLoading}
+            selectedProjectId={selectedProjectId}
+            onProjectChange={setSelectedProjectId}
+            onCreateProject={handleCreateProject}
           />
         }
         rightPanel={
@@ -463,6 +516,11 @@ export default function BannerGeneratorPage() {
             isRefining={isRefining}
             selectedBannerSize={selectedBannerSize}
             exportFormat={settings.format}
+            projects={projects}
+            projectsLoading={projectsLoading}
+            currentProjectId={currentGeneration?.projectId}
+            onAddToProject={handleAddToProject}
+            onCreateProject={handleCreateProject}
           />
         }
       />

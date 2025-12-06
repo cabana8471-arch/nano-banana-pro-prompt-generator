@@ -316,7 +316,8 @@
     "total": "({total} total)",
     "filterAll": "Toate",
     "filterPhotos": "Fotografii",
-    "filterBanners": "Bannere"
+    "filterBanners": "Bannere",
+    "allProjects": "Toate Proiectele"
   },
   "avatars": {
     "title": "Avatarele tale",
@@ -2158,6 +2159,28 @@
       "resetConfirmDescription": "Esti sigur ca vrei sa resetezi toate setarile bannerului? Aceasta actiune nu poate fi anulata.",
       "cancel": "Anuleaza",
       "confirmReset": "Reseteaza"
+    },
+    "projects": {
+      "title": "Proiect",
+      "selectProject": "Selecteaza un proiect",
+      "createNew": "Creeaza proiect nou",
+      "createProject": "Creeaza Proiect",
+      "createDescription": "Creeaza un proiect nou pentru a-ti organiza bannerele generate.",
+      "projectName": "Nume Proiect",
+      "projectNamePlaceholder": "ex: Campanie de Vara, Lansare Produs",
+      "projectDescription": "Descriere",
+      "projectDescriptionPlaceholder": "Descriere optionala pentru acest proiect",
+      "creating": "Se creeaza...",
+      "addToProject": "Adauga in Proiect",
+      "addToProjectDescription": "Adauga acest banner intr-un proiect existent sau creeaza unul nou.",
+      "adding": "Se adauga...",
+      "failedToCreate": "Nu s-a putut crea proiectul",
+      "failedToAdd": "Nu s-a putut adauga in proiect",
+      "noProjects": "Niciun proiect",
+      "noProjectsSaved": "Niciun proiect salvat inca",
+      "noProjectsSavedHint": "Creeaza primul tau proiect pentru a-ti organiza bannerele.",
+      "required": "Selectia proiectului este obligatorie",
+      "loading": "Se incarca proiectele..."
     },
     "history": {
       "undo": "Anuleaza",

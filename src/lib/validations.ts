@@ -154,6 +154,31 @@ export const updateBannerPresetSchema = z
   });
 
 // ============================================================================
+// Project Schemas
+// ============================================================================
+
+/** Schema for creating a new project */
+export const createProjectSchema = z.object({
+  name: nameSchema,
+  description: descriptionSchema,
+});
+
+/** Schema for updating a project - all fields optional but at least one required */
+export const updateProjectSchema = z
+  .object({
+    name: nameSchema.optional(),
+    description: descriptionSchema,
+  })
+  .refine((data) => data.name !== undefined || data.description !== undefined, {
+    message: "No valid fields to update",
+  });
+
+/** Schema for adding generation to project */
+export const addToProjectSchema = z.object({
+  projectId: z.string().uuid({ message: "Invalid project ID" }).nullable(),
+});
+
+// ============================================================================
 // Generation Schemas
 // ============================================================================
 
@@ -176,6 +201,7 @@ export const generateRequestSchema = z.object({
       .default(1),
   }),
   generationType: generationTypeSchema.optional().default("photo"),
+  projectId: z.string().uuid({ message: "Invalid project ID" }).optional().nullable(),
   referenceImages: z
     .array(
       z.object({
@@ -252,6 +278,9 @@ export type CreateBannerReferenceInput = z.infer<typeof createBannerReferenceSch
 export type UpdateBannerReferenceInput = z.infer<typeof updateBannerReferenceSchema>;
 export type CreateBannerPresetInput = z.infer<typeof createBannerPresetSchema>;
 export type UpdateBannerPresetInput = z.infer<typeof updateBannerPresetSchema>;
+export type CreateProjectInput = z.infer<typeof createProjectSchema>;
+export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
+export type AddToProjectInput = z.infer<typeof addToProjectSchema>;
 export type GenerateRequestInput = z.infer<typeof generateRequestSchema>;
 export type RefineRequestInput = z.infer<typeof refineRequestSchema>;
 export type SaveApiKeyInput = z.infer<typeof saveApiKeySchema>;

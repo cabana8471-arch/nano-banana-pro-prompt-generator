@@ -316,7 +316,8 @@
     "total": "({total} total)",
     "filterAll": "All",
     "filterPhotos": "Photos",
-    "filterBanners": "Banners"
+    "filterBanners": "Banners",
+    "allProjects": "All Projects"
   },
   "avatars": {
     "title": "Your Avatars",
@@ -2164,6 +2165,28 @@
       "resetConfirmDescription": "Are you sure you want to reset all banner settings? This action cannot be undone.",
       "cancel": "Cancel",
       "confirmReset": "Reset"
+    },
+    "projects": {
+      "title": "Project",
+      "selectProject": "Select a project",
+      "createNew": "Create new project",
+      "createProject": "Create Project",
+      "createDescription": "Create a new project to organize your generated banners.",
+      "projectName": "Project Name",
+      "projectNamePlaceholder": "e.g., Summer Campaign, Product Launch",
+      "projectDescription": "Description",
+      "projectDescriptionPlaceholder": "Optional description for this project",
+      "creating": "Creating...",
+      "addToProject": "Add to Project",
+      "addToProjectDescription": "Add this banner to an existing project or create a new one.",
+      "adding": "Adding...",
+      "failedToCreate": "Failed to create project",
+      "failedToAdd": "Failed to add to project",
+      "noProjects": "No projects",
+      "noProjectsSaved": "No projects saved yet",
+      "noProjectsSavedHint": "Create your first project to organize your banners.",
+      "required": "Project selection is required",
+      "loading": "Loading projects..."
     },
     "history": {
       "undo": "Undo",

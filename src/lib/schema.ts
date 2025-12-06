@@ -142,6 +142,25 @@ export const presets = pgTable(
   (table) => [index("presets_user_id_idx").on(table.userId)]
 );
 
+// Projects - User project organization for banner generations
+export const projects = pgTable(
+  "projects",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    description: text("description"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index("projects_user_id_idx").on(table.userId)]
+);
+
 // Generations - Parent record for each generation session
 export const generations = pgTable(
   "generations",
@@ -150,6 +169,7 @@ export const generations = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
+    projectId: uuid("project_id").references(() => projects.id, { onDelete: "set null" }),
     prompt: text("prompt").notNull(),
     settings: jsonb("settings").notNull(), // Resolution, aspect ratio, etc.
     status: text("status").notNull().default("pending"), // "pending" | "processing" | "completed" | "failed"
@@ -165,6 +185,7 @@ export const generations = pgTable(
     index("generations_user_id_idx").on(table.userId),
     index("generations_status_idx").on(table.status),
     index("generations_type_idx").on(table.generationType),
+    index("generations_project_id_idx").on(table.projectId),
   ]
 );
 
