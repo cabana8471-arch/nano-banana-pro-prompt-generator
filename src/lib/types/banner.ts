@@ -276,7 +276,6 @@ export type BannerResolution = "1K" | "2K" | "4K";
  */
 export interface BannerGenerationSettings {
   format: BannerExportFormat;
-  quality: number; // 1-100
   withText: boolean; // Generate with text overlay or just visual
   bannerCount: BannerCount; // Number of banners to generate
   resolution: BannerResolution; // Image resolution
@@ -287,7 +286,6 @@ export interface BannerGenerationSettings {
  */
 export const DEFAULT_BANNER_GENERATION_SETTINGS: BannerGenerationSettings = {
   format: "png",
-  quality: 90,
   withText: true,
   bannerCount: 1,
   resolution: "2K",

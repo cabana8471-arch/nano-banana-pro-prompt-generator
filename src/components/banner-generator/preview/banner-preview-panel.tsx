@@ -212,25 +212,6 @@ export function BannerPreviewPanel({
               </div>
             </div>
 
-            {/* Quality */}
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">
-                {t("preview.quality")} ({settings.quality}%)
-              </Label>
-              <div className="grid grid-cols-4 gap-2">
-                {[70, 80, 90, 100].map((quality) => (
-                  <Button
-                    key={quality}
-                    variant={settings.quality === quality ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => onSettingsChange({ quality })}
-                  >
-                    {quality}%
-                  </Button>
-                ))}
-              </div>
-            </div>
-
             {/* Project Selection */}
             <div className="space-y-2">
               <Label className="text-sm font-medium flex items-center gap-2">
