@@ -48,10 +48,13 @@ function isGalleryImage(image: GalleryImageCardProps["image"] | PersonalImageCar
 const aspectClasses: Record<ViewMode, string> = {
   "grid-4": "aspect-square",
   "grid-3": "aspect-square",
-  "grid-2": "aspect-video",
-  "grid-1": "aspect-video",
-  "masonry": "", // No fixed aspect for masonry - use natural dimensions
+  "grid-2": "", // Natural dimensions for large view
+  "grid-1": "", // Natural dimensions for single column
+  "masonry": "", // Natural dimensions for masonry
 };
+
+// View modes that should preserve natural image dimensions
+const naturalDimensionModes: ViewMode[] = ["grid-2", "grid-1", "masonry"];
 
 export function ImageCard({
   image,
@@ -69,6 +72,7 @@ export function ImageCard({
   const prompt = image.generation.prompt;
   const truncatedPrompt = prompt.length > 100 ? `${prompt.slice(0, 100)}...` : prompt;
   const createdAt = new Date(image.createdAt);
+  const useNaturalDimensions = naturalDimensionModes.includes(viewMode);
   const isMasonry = viewMode === "masonry";
 
   return (
@@ -77,14 +81,14 @@ export function ImageCard({
       onClick={onClick}
     >
       <div className={`${aspectClasses[viewMode]} relative`}>
-        {isMasonry ? (
+        {useNaturalDimensions ? (
           <Image
             src={image.imageUrl}
             alt={prompt}
-            width={800}
-            height={600}
-            className="w-full h-auto object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            width={1200}
+            height={800}
+            className="w-full h-auto"
+            sizes={viewMode === "grid-1" ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
           />
         ) : (
           <Image
