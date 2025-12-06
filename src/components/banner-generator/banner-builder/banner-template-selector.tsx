@@ -33,12 +33,18 @@ export function BannerTemplateSelector({
   const tTemplates = useTranslations("bannerTemplates");
   const [open, setOpen] = useState(false);
 
+  // Typography categories that share the same templates as typographyStyle
+  const typographyCategories = ["headlineTypography", "bodyTypography", "ctaTypography"];
+
   // Helper function to get translated template name
   const getTranslatedName = (template: BannerTemplate) => {
+    // For typography categories (headline, body, CTA), use typographyStyle translations
+    const translationCategory = typographyCategories.includes(category) ? "typographyStyle" : category;
+
     try {
-      const translatedName = tTemplates(`${category}.${template.id}.name`);
+      const translatedName = tTemplates(`${translationCategory}.${template.id}.name`);
       // Check if translation exists (next-intl returns the key if not found)
-      if (translatedName !== `${category}.${template.id}.name`) {
+      if (translatedName !== `${translationCategory}.${template.id}.name`) {
         return translatedName;
       }
     } catch {
