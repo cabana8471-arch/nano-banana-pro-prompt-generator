@@ -335,6 +335,40 @@ export async function generateWithUserKey(
       };
     }
 
+    // If we need more images, make additional parallel API calls
+    // Gemini doesn't support numberOfImages parameter, so we need multiple calls
+    const imageCount = options.imageCount || 1;
+    if (imageCount > 1 && images.length === 1) {
+      const additionalCalls = imageCount - 1;
+      const additionalPromises = Array.from({ length: additionalCalls }, () =>
+        client.models.generateContent({
+          model: MODEL_ID,
+          contents,
+          config: {
+            responseModalities: ["TEXT", "IMAGE"],
+            imageConfig: {
+              aspectRatio: aspectRatio,
+              imageSize: resolution,
+            },
+            thinkingConfig: {
+              thinkingBudget: 0,
+            },
+          },
+        })
+      );
+
+      try {
+        const additionalResponses = await Promise.all(additionalPromises);
+        for (const additionalResponse of additionalResponses) {
+          const { images: additionalImages } = extractFromResponse(additionalResponse);
+          images.push(...additionalImages);
+        }
+      } catch (additionalError) {
+        console.warn("Some additional image generations failed:", additionalError);
+        // Continue with the images we have
+      }
+    }
+
     return {
       success: true,
       images,
