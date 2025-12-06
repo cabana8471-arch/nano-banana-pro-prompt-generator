@@ -379,22 +379,24 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       parts.push(layoutPrompt);
     }
 
-    // Add text placement
-    const placementPrompt = getPromptValue(state.textPlacement);
-    if (placementPrompt) {
-      parts.push(placementPrompt);
-    }
+    // Add text placement (only if withText is enabled)
+    if (settings.withText) {
+      const placementPrompt = getPromptValue(state.textPlacement);
+      if (placementPrompt) {
+        parts.push(placementPrompt);
+      }
 
-    // Add typography style
-    const typoPrompt = getPromptValue(state.typographyStyle);
-    if (typoPrompt) {
-      parts.push(typoPrompt);
-    }
+      // Add typography style
+      const typoPrompt = getPromptValue(state.typographyStyle);
+      if (typoPrompt) {
+        parts.push(typoPrompt);
+      }
 
-    // Add CTA button style
-    const ctaPrompt = getPromptValue(state.ctaButtonStyle);
-    if (ctaPrompt) {
-      parts.push(ctaPrompt);
+      // Add CTA button style
+      const ctaPrompt = getPromptValue(state.ctaButtonStyle);
+      if (ctaPrompt) {
+        parts.push(ctaPrompt);
+      }
     }
 
     // Add banner size context
@@ -410,7 +412,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       }
     }
 
-    // Add text content to prompt if settings allow
+    // Add text content to prompt if settings allow, or explicitly exclude text
     if (settings.withText) {
       const textParts: string[] = [];
 
@@ -430,6 +432,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       if (textParts.length > 0) {
         parts.push(`Text elements: ${textParts.join(", ")}`);
       }
+    } else {
+      // Explicitly instruct to NOT include any text when withText is disabled
+      parts.push("IMPORTANT: Do NOT include any text, headlines, buttons, or call-to-action elements in this banner. Create a text-free, visual-only design");
     }
 
     // Add brand colors if specified
