@@ -306,6 +306,8 @@ export async function generateWithUserKey(
     });
 
     // Generate the image(s)
+    // Note: We disable thinking mode to avoid thought_signature requirements in multi-turn conversations
+    // This prevents the "Text part is missing a thought_signature" error when refining images
     const response = await client.models.generateContent({
       model: MODEL_ID,
       contents,
@@ -314,6 +316,9 @@ export async function generateWithUserKey(
         imageConfig: {
           aspectRatio: aspectRatio,
           imageSize: resolution,
+        },
+        thinkingConfig: {
+          thinkingBudget: 0, // Disable thinking mode for image generation
         },
       },
     });
@@ -429,6 +434,7 @@ export async function refineGeneration(
     ];
 
     // Generate the refined image
+    // Note: We disable thinking mode to avoid thought_signature requirements
     const response = await client.models.generateContent({
       model: MODEL_ID,
       contents,
@@ -437,6 +443,9 @@ export async function refineGeneration(
         imageConfig: {
           aspectRatio: aspectRatio,
           imageSize: resolution,
+        },
+        thinkingConfig: {
+          thinkingBudget: 0, // Disable thinking mode for image generation
         },
       },
     });
