@@ -262,12 +262,18 @@ export interface UpdateBannerPresetInput {
 export type BannerExportFormat = "png" | "jpg" | "webp";
 
 /**
+ * Banner count options for generation
+ */
+export type BannerCount = 1 | 2 | 3 | 4;
+
+/**
  * Banner generation settings
  */
 export interface BannerGenerationSettings {
   format: BannerExportFormat;
   quality: number; // 1-100
   withText: boolean; // Generate with text overlay or just visual
+  bannerCount: BannerCount; // Number of banners to generate
 }
 
 /**
@@ -277,6 +283,7 @@ export const DEFAULT_BANNER_GENERATION_SETTINGS: BannerGenerationSettings = {
   format: "png",
   quality: 90,
   withText: true,
+  bannerCount: 1,
 };
 
 // ==========================================

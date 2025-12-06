@@ -21,6 +21,7 @@ import type {
   BannerExportFormat,
   BannerSizeTemplate,
   UpdateBannerPresetInput,
+  BannerCount,
 } from "@/lib/types/banner";
 import { LoadBannerPresetDropdown } from "../presets/load-banner-preset-dropdown";
 import { ManageBannerPresetsModal } from "../presets/manage-banner-presets-modal";
@@ -189,6 +190,23 @@ export function BannerPreviewPanel({
                   <SelectItem value="webp">WebP</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Number of Banners */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">{t("preview.numberOfBanners")}</Label>
+              <div className="grid grid-cols-4 gap-2">
+                {([1, 2, 3, 4] as const).map((num) => (
+                  <Button
+                    key={num}
+                    variant={settings.bannerCount === num ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => onSettingsChange({ bannerCount: num as BannerCount })}
+                  >
+                    {num}
+                  </Button>
+                ))}
+              </div>
             </div>
 
             {/* Quality */}

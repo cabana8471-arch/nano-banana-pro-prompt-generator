@@ -214,7 +214,7 @@ export default function BannerGeneratorPage() {
     const generateInput = {
       prompt: assembledPrompt,
       settings: {
-        imageCount: 1 as const,
+        imageCount: settings.bannerCount,
         resolution: "2K" as const,
         aspectRatio,
       },
@@ -457,7 +457,7 @@ export default function BannerGeneratorPage() {
           <BannerResultsPanel
             images={generatedImages}
             isGenerating={isGenerating}
-            expectedCount={1}
+            expectedCount={settings.bannerCount}
             generationId={currentGeneration?.id}
             onRefine={handleRefine}
             isRefining={isRefining}

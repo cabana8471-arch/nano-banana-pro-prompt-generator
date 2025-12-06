@@ -19,6 +19,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ### Banner Generator
 - **Professional Banner Creation**: Dedicated banner generator for web ads, social media, and marketing materials
+- **Multi-Banner Generation**: Generate 1-4 banners simultaneously, similar to photo generation
 - **Reference Images**: Upload existing banners/images as references to guide AI generation
   - **3 Reference Types**: Style (visual aesthetics), Composition (layout structure), Color (palette inspiration)
   - **Multi-Reference Support**: Use up to 4 reference images per generation

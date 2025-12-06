@@ -2077,6 +2077,7 @@
       "generatedPrompt": "Generated Prompt",
       "promptPlaceholder": "Your prompt will appear here as you configure your banner...",
       "generationSettings": "Generation Settings",
+      "numberOfBanners": "Number of Banners",
       "exportFormat": "Export Format",
       "selectFormat": "Select format",
       "quality": "Quality",
