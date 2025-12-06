@@ -5,20 +5,12 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
 import type {
   BannerPreset,
   BannerPresetConfig,
   BannerGenerationSettings,
-  BannerExportFormat,
   BannerSizeTemplate,
   UpdateBannerPresetInput,
   BannerCount,
@@ -184,26 +176,6 @@ export function BannerPreviewPanel({
               <Settings2 className="h-4 w-4" />
               {t("preview.generationSettings")}
             </h3>
-
-            {/* Export Format */}
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">{t("preview.exportFormat")}</Label>
-              <Select
-                value={settings.format}
-                onValueChange={(value) =>
-                  onSettingsChange({ format: value as BannerExportFormat })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t("preview.selectFormat")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="png">PNG</SelectItem>
-                  <SelectItem value="jpg">JPG</SelectItem>
-                  <SelectItem value="webp">WebP</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
             {/* Number of Banners */}
             <div className="space-y-2">

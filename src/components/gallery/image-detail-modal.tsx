@@ -3,13 +3,19 @@
 import { useState, useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
-import { Download, Copy, Check, ExternalLink, X, FolderPlus } from "lucide-react";
+import { Download, Copy, Check, ExternalLink, X, FolderPlus, ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createPortal } from "react-dom";
 import { AddToProjectModal } from "@/components/banner-generator/projects/add-to-project-modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import type { GalleryImage, GeneratedImage, GenerationSettings } from "@/lib/types/generation";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { VisibilityToggle } from "./visibility-toggle";
@@ -107,18 +113,43 @@ export function ImageDetailModal({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDownload = async () => {
+  const handleDownload = async (format: "jpg" | "webp" | "avif" = "jpg") => {
     try {
       const response = await fetch(image.imageUrl);
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `nano-banana-${image.id}.png`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+
+      // Convert image to requested format using canvas
+      const img = new window.Image();
+      const originalUrl = window.URL.createObjectURL(blob);
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        ctx.drawImage(img, 0, 0);
+
+        const mimeType = format === "jpg" ? "image/jpeg" : format === "webp" ? "image/webp" : "image/avif";
+        const quality = 0.92;
+
+        canvas.toBlob((convertedBlob) => {
+          if (!convertedBlob) return;
+
+          const downloadUrl = window.URL.createObjectURL(convertedBlob);
+          const a = document.createElement("a");
+          a.href = downloadUrl;
+          a.download = `nano-banana-${image.id}.${format}`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(downloadUrl);
+          window.URL.revokeObjectURL(originalUrl);
+          document.body.removeChild(a);
+        }, mimeType, quality);
+      };
+
+      img.src = originalUrl;
     } catch (error) {
       console.error("Failed to download image:", error);
     }
@@ -194,10 +225,26 @@ export function ImageDetailModal({
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 <span className="hidden sm:inline">{copied ? t("copied") : t("copyPrompt")}</span>
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleDownload} className="h-8 gap-1.5">
-                <Download className="h-4 w-4" />
-                <span className="hidden sm:inline">{t("download")}</span>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="h-8 gap-1.5">
+                    <Download className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t("download")}</span>
+                    <ChevronDown className="h-3 w-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => handleDownload("jpg")}>
+                    {t("downloadAsJpg")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleDownload("webp")}>
+                    {t("downloadAsWebp")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleDownload("avif")}>
+                    {t("downloadAsAvif")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button
                 variant="ghost"
                 size="sm"
