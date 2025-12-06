@@ -317,7 +317,11 @@
     "filterAll": "Toate",
     "filterPhotos": "Fotografii",
     "filterBanners": "Bannere",
-    "allProjects": "Toate Proiectele"
+    "allProjects": "Toate Proiectele",
+    "addedToProject": "Adaugat in proiectul \"{name}\"",
+    "failedToAddToProject": "Nu s-a putut adauga in proiect",
+    "projectCreated": "Proiectul \"{name}\" a fost creat",
+    "failedToCreateProject": "Nu s-a putut crea proiectul"
   },
   "avatars": {
     "title": "Avatarele tale",

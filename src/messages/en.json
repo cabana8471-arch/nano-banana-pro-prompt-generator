@@ -317,7 +317,11 @@
     "filterAll": "All",
     "filterPhotos": "Photos",
     "filterBanners": "Banners",
-    "allProjects": "All Projects"
+    "allProjects": "All Projects",
+    "addedToProject": "Added to project \"{name}\"",
+    "failedToAddToProject": "Failed to add to project",
+    "projectCreated": "Project \"{name}\" created",
+    "failedToCreateProject": "Failed to create project"
   },
   "avatars": {
     "title": "Your Avatars",

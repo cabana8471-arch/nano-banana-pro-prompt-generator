@@ -3,13 +3,15 @@
 import { useState, useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
-import { Download, Copy, Check, ExternalLink, X } from "lucide-react";
+import { Download, Copy, Check, ExternalLink, X, FolderPlus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createPortal } from "react-dom";
+import { AddToProjectModal } from "@/components/banner-generator/projects/add-to-project-modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { GalleryImage, GeneratedImage, GenerationSettings } from "@/lib/types/generation";
+import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { VisibilityToggle } from "./visibility-toggle";
 
 interface BaseModalProps {
@@ -26,14 +28,21 @@ interface GalleryImageModalProps extends BaseModalProps {
 interface PersonalImageModalProps extends BaseModalProps {
   image: (GeneratedImage & {
     generation: {
+      id: string;
       prompt: string;
       settings: GenerationSettings;
       createdAt: Date;
+      projectId: string | null;
     };
   }) | null;
   showUser?: false;
   showVisibilityToggle?: boolean;
   onVisibilityChange?: (imageId: string, isPublic: boolean) => void;
+  // Project props (optional for personal gallery)
+  projects?: Project[];
+  projectsLoading?: boolean;
+  onAddToProject?: (generationId: string, projectId: string) => Promise<boolean>;
+  onCreateProject?: (input: CreateProjectInput) => Promise<Project | null>;
 }
 
 type ImageDetailModalProps = GalleryImageModalProps | PersonalImageModalProps;
@@ -55,9 +64,15 @@ export function ImageDetailModal({
   ...props
 }: ImageDetailModalProps) {
   const t = useTranslations("gallery");
+  const tProjects = useTranslations("bannerGenerator.projects");
   const [copied, setCopied] = useState(false);
+  const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
   const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
+  const projects = "projects" in props ? props.projects : undefined;
+  const projectsLoading = "projectsLoading" in props ? props.projectsLoading : false;
+  const onAddToProject = "onAddToProject" in props ? props.onAddToProject : undefined;
+  const onCreateProject = "onCreateProject" in props ? props.onCreateProject : undefined;
 
   useEffect(() => {
     if (open) {
@@ -199,6 +214,18 @@ export function ImageDetailModal({
                   onToggle={onVisibilityChange}
                 />
               )}
+              {/* Add to Project button - only for personal images with project support */}
+              {!isGalleryImage(image) && projects && onAddToProject && onCreateProject && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setAddToProjectModalOpen(true)}
+                  className="h-8 gap-1.5"
+                >
+                  <FolderPlus className="h-4 w-4" />
+                  <span className="hidden sm:inline">{tProjects("addToProject")}</span>
+                </Button>
+              )}
             </div>
           </div>
 
@@ -206,6 +233,20 @@ export function ImageDetailModal({
           <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{prompt}</p>
         </div>
       </div>
+
+      {/* Add to Project Modal */}
+      {!isGalleryImage(image) && projects && onAddToProject && onCreateProject && (
+        <AddToProjectModal
+          open={addToProjectModalOpen}
+          onOpenChange={setAddToProjectModalOpen}
+          projects={projects}
+          projectsLoading={projectsLoading ?? false}
+          generationId={image.generation.id}
+          currentProjectId={image.generation.projectId}
+          onAddToProject={onAddToProject}
+          onCreateProject={onCreateProject}
+        />
+      )}
     </div>
   );
 

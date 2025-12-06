@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight, FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -20,15 +21,18 @@ import type {
   GenerationType,
   PaginatedResponse,
 } from "@/lib/types/generation";
+import type { CreateProjectInput } from "@/lib/types/project";
 import { GalleryGrid } from "./gallery-grid";
 import { ImageCard } from "./image-card";
 import { ImageDetailModal } from "./image-detail-modal";
 
-type PersonalImage = GeneratedImage & {
+export type PersonalImage = GeneratedImage & {
   generation: {
+    id: string;
     prompt: string;
     settings: GenerationSettings;
     createdAt: Date;
+    projectId: string | null;
   };
 };
 
@@ -36,7 +40,7 @@ type FilterType = "all" | GenerationType;
 
 export function PersonalGallery() {
   const t = useTranslations("gallery");
-  const { projects, isLoading: projectsLoading } = useProjects();
+  const { projects, isLoading: projectsLoading, createProject } = useProjects();
   const [images, setImages] = useState<PersonalImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -69,9 +73,11 @@ export function PersonalGallery() {
           gen.images.map((img) => ({
             ...img,
             generation: {
+              id: gen.id,
               prompt: gen.prompt,
               settings: gen.settings,
               createdAt: gen.createdAt,
+              projectId: gen.projectId,
             },
           }))
         );
@@ -108,6 +114,50 @@ export function PersonalGallery() {
     if (selectedImage?.id === imageId) {
       setSelectedImage({ ...selectedImage, isPublic });
     }
+  };
+
+  const handleAddToProject = async (generationId: string, projectId: string): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/generations/${generationId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ projectId }),
+      });
+      if (response.ok) {
+        const project = projects.find((p) => p.id === projectId);
+        toast.success(t("addedToProject", { name: project?.name ?? "" }));
+        // Update the image's projectId in state
+        setImages((prev) =>
+          prev.map((img) =>
+            img.generation.id === generationId
+              ? { ...img, generation: { ...img.generation, projectId } }
+              : img
+          )
+        );
+        if (selectedImage?.generation.id === generationId) {
+          setSelectedImage({
+            ...selectedImage,
+            generation: { ...selectedImage.generation, projectId },
+          });
+        }
+        return true;
+      }
+      toast.error(t("failedToAddToProject"));
+      return false;
+    } catch {
+      toast.error(t("failedToAddToProject"));
+      return false;
+    }
+  };
+
+  const handleCreateProject = async (input: CreateProjectInput) => {
+    const project = await createProject(input);
+    if (project) {
+      toast.success(t("projectCreated", { name: input.name }));
+    } else {
+      toast.error(t("failedToCreateProject"));
+    }
+    return project;
   };
 
   const totalPages = Math.ceil(total / 20);
@@ -196,6 +246,10 @@ export function PersonalGallery() {
         onOpenChange={(open) => !open && setSelectedImage(null)}
         showVisibilityToggle
         onVisibilityChange={handleVisibilityChange}
+        projects={projects}
+        projectsLoading={projectsLoading}
+        onAddToProject={handleAddToProject}
+        onCreateProject={handleCreateProject}
       />
     </>
   );
