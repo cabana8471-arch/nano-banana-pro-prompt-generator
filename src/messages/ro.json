@@ -2561,7 +2561,12 @@
       "layout-f-pattern": { "name": "Pattern F", "description": "Pattern citire in forma de F" },
       "layout-golden-ratio": { "name": "Sectiunea de Aur", "description": "Proportii bazate pe Fibonacci" }
     },
+    "textLanguage": {
+      "lang-english": { "name": "Engleza", "description": "Tot textul auto-generat in limba engleza" },
+      "lang-romanian": { "name": "Romana", "description": "Tot textul auto-generat in limba romana" }
+    },
     "textPlacement": {
+      "text-none": { "name": "Fara Text", "description": "Banner fara elemente de text" },
       "text-top-left": { "name": "Sus Stanga", "description": "Text in coltul sus stanga" },
       "text-top-center": { "name": "Sus Centru", "description": "Text centrat sus" },
       "text-top-right": { "name": "Sus Dreapta", "description": "Text in coltul sus dreapta" },
@@ -2606,6 +2611,7 @@
       "typo-script-sans-combo": { "name": "Combo Script + Sans", "description": "Script cu sans-serif" }
     },
     "ctaButtonStyle": {
+      "cta-none": { "name": "Fara Buton CTA", "description": "Banner fara buton de actiune" },
       "cta-rounded": { "name": "Rotunjit", "description": "Colturi rotunjite delicate" },
       "cta-pill": { "name": "Forma Pastila", "description": "Buton pastila complet rotunjit" },
       "cta-square": { "name": "Patrat", "description": "Colturi patrate ascutite" },

@@ -2593,7 +2593,12 @@
       "layout-f-pattern": { "name": "F-Pattern", "description": "F-shaped reading pattern" },
       "layout-golden-ratio": { "name": "Golden Ratio", "description": "Fibonacci-based proportions" }
     },
+    "textLanguage": {
+      "lang-english": { "name": "English", "description": "All auto-generated text in English" },
+      "lang-romanian": { "name": "Romanian", "description": "All auto-generated text in Romanian" }
+    },
     "textPlacement": {
+      "text-none": { "name": "No Text", "description": "Banner without any text elements" },
       "text-top-left": { "name": "Top Left", "description": "Text in top left corner" },
       "text-top-center": { "name": "Top Center", "description": "Text centered at top" },
       "text-top-right": { "name": "Top Right", "description": "Text in top right corner" },
@@ -2638,6 +2643,7 @@
       "typo-script-sans-combo": { "name": "Script + Sans Combo", "description": "Script with sans-serif" }
     },
     "ctaButtonStyle": {
+      "cta-none": { "name": "No CTA Button", "description": "Banner without a call-to-action button" },
       "cta-rounded": { "name": "Rounded", "description": "Soft rounded corners" },
       "cta-pill": { "name": "Pill Shape", "description": "Fully rounded pill button" },
       "cta-square": { "name": "Square", "description": "Sharp square corners" },
