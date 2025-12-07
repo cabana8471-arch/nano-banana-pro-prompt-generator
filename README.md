@@ -75,7 +75,14 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **AI-Optimized Layouts**: Each size is generated with layout adapted to its aspect ratio (not just resized)
   - **Sequential Generation**: Banners are generated one by one with real-time progress tracking
   - **Batch Download**: Download all generated platform banners as organized ZIP file
-- **Preset Management**: Save, load, rename, and delete banner presets with full configuration
+- **Advanced Preset Management**: Comprehensive preset system for banner configurations
+  - **Full Preset Editing**: Edit all 20+ configuration fields across 6 sections (Basic, Visual Style, Visual Elements, Layout & Typography, Text Content, Custom Prompt)
+  - **Update Existing Presets**: Save changes to existing presets instead of creating duplicates
+  - **Preset Preview**: Hover preview showing all configured fields before loading
+  - **Partial Load**: Load only selected sections or individual fields from a preset
+  - **Preset Comparison**: Side-by-side comparison of two presets with diff highlighting
+  - **Duplicate Presets**: Clone presets with custom names from multiple locations
+  - **Field Count Badges**: Visual indicators showing how many fields each preset configures
 
 ### Social Features
 - **Gallery**: Browse and share generated images with the community
@@ -274,10 +281,20 @@ src/
 │   │   │   ├── banner-refine-input.tsx  # Refinement input
 │   │   │   └── export-multi-size-modal.tsx # Multi-platform batch export
 │   │   ├── presets/          # Preset management
-│   │   │   ├── quick-start-templates.tsx # 6 pre-configured templates
-│   │   │   ├── save-banner-preset-modal.tsx
-│   │   │   ├── load-banner-preset-dropdown.tsx
-│   │   │   └── manage-banner-presets-modal.tsx # Edit/delete presets
+│   │   │   ├── quick-start-templates.tsx      # 46 pre-configured templates
+│   │   │   ├── save-banner-preset-modal.tsx   # Save/update presets with diff preview
+│   │   │   ├── load-banner-preset-dropdown.tsx # Load with preview & partial load
+│   │   │   ├── manage-banner-presets-modal.tsx # Edit/delete/duplicate presets
+│   │   │   ├── edit-banner-preset-sheet.tsx   # Full preset configuration editor
+│   │   │   ├── partial-load-modal.tsx         # Section/field-level partial load
+│   │   │   ├── compare-presets-modal.tsx      # Side-by-side preset comparison
+│   │   │   ├── banner-preset-card.tsx         # Expandable preset preview card
+│   │   │   ├── banner-preset-list.tsx         # Preset list with actions
+│   │   │   ├── duplicate-preset-dialog.tsx    # Duplicate with custom name
+│   │   │   └── shared/                        # Shared preset utilities
+│   │   │       ├── preset-section-summary.tsx # Section field summaries
+│   │   │       ├── preset-config-diff.tsx     # Configuration diff viewer
+│   │   │       └── preset-field-checkbox.tsx  # Individual field selection
 │   │   └── projects/         # Project organization
 │   │       ├── project-selector.tsx       # Dropdown with create option
 │   │       ├── create-project-modal.tsx   # New project dialog
@@ -296,7 +313,8 @@ src/
 │   ├── use-prompt-builder.ts # Prompt builder state
 │   ├── use-banner-builder.ts # Banner builder state (15 categories + text + brand assets)
 │   ├── use-banner-history.ts # Undo/redo history (max 50 entries)
-│   ├── use-banner-presets.ts # Banner preset CRUD operations
+│   ├── use-banner-presets.ts # Banner preset CRUD with compare & duplicate
+│   ├── use-preset-editor.ts  # Preset editor state management
 │   ├── use-banner-references.ts # Banner reference images CRUD operations
 │   ├── use-banner-validation.ts # Character limits, contrast checking, warnings
 │   └── use-projects.ts       # Project CRUD operations

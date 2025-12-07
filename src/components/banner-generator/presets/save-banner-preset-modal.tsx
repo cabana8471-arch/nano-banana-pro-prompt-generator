@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { Save, Loader2 } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Save, Loader2, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   Dialog,
   DialogContent,
@@ -15,11 +20,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { BannerPresetConfig } from "@/lib/types/banner";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import type { BannerPreset, BannerPresetConfig, UpdateBannerPresetInput } from "@/lib/types/banner";
+import { PresetConfigDiff } from "./shared/preset-config-diff";
 
 interface SaveBannerPresetModalProps {
   config: BannerPresetConfig;
   onSave: (name: string, config: BannerPresetConfig) => Promise<boolean>;
+  onUpdate: (id: string, input: UpdateBannerPresetInput) => Promise<boolean>;
+  existingPresets: BannerPreset[];
   disabled?: boolean;
   trigger?: React.ReactNode;
 }
@@ -27,6 +36,8 @@ interface SaveBannerPresetModalProps {
 export function SaveBannerPresetModal({
   config,
   onSave,
+  onUpdate,
+  existingPresets,
   disabled = false,
   trigger,
 }: SaveBannerPresetModalProps) {
@@ -36,6 +47,25 @@ export function SaveBannerPresetModal({
   const [name, setName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saveMode, setSaveMode] = useState<"new" | "update">("new");
+  const [showChanges, setShowChanges] = useState(false);
+
+  // Find existing preset with same name
+  const existingPreset = useMemo(() => {
+    if (!name.trim()) return null;
+    return existingPresets.find(
+      (p) => p.name.toLowerCase() === name.trim().toLowerCase()
+    );
+  }, [name, existingPresets]);
+
+  // Reset save mode when name changes
+  useEffect(() => {
+    if (existingPreset) {
+      setSaveMode("update");
+    } else {
+      setSaveMode("new");
+    }
+  }, [existingPreset]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,10 +75,20 @@ export function SaveBannerPresetModal({
     setError(null);
 
     try {
-      const success = await onSave(name.trim(), config);
+      let success = false;
+
+      if (saveMode === "update" && existingPreset) {
+        // Update existing preset
+        success = await onUpdate(existingPreset.id, { config });
+      } else {
+        // Create new preset
+        success = await onSave(name.trim(), config);
+      }
+
       if (success) {
         setOpen(false);
         setName("");
+        setShowChanges(false);
       } else {
         setError(t("failedToSave"));
       }
@@ -65,6 +105,8 @@ export function SaveBannerPresetModal({
       if (!newOpen) {
         setName("");
         setError(null);
+        setSaveMode("new");
+        setShowChanges(false);
       }
     }
   };
@@ -102,7 +144,7 @@ export function SaveBannerPresetModal({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <form onSubmit={handleSave}>
           <DialogHeader>
             <DialogTitle>{t("savePreset")}</DialogTitle>
@@ -122,6 +164,65 @@ export function SaveBannerPresetModal({
               />
             </div>
 
+            {/* Existing Preset Warning & Options */}
+            {existingPreset && (
+              <div className="space-y-3 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                  <span className="text-sm font-medium text-yellow-700 dark:text-yellow-300">
+                    {t("presetExists")}
+                  </span>
+                </div>
+
+                <RadioGroup
+                  value={saveMode}
+                  onValueChange={(value: string) => setSaveMode(value as "new" | "update")}
+                  className="space-y-2"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="new" id="save-new" />
+                    <Label htmlFor="save-new" className="font-normal cursor-pointer">
+                      {t("saveAsNew")}
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="update" id="save-update" />
+                    <Label htmlFor="save-update" className="font-normal cursor-pointer">
+                      {t("updateExisting")}
+                    </Label>
+                  </div>
+                </RadioGroup>
+
+                {/* Show Changes Collapsible */}
+                {saveMode === "update" && (
+                  <Collapsible open={showChanges} onOpenChange={setShowChanges}>
+                    <CollapsibleTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-between"
+                      >
+                        {showChanges ? t("hideChanges") : t("showChanges")}
+                        {showChanges ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-2">
+                      <PresetConfigDiff
+                        original={existingPreset.config}
+                        modified={config}
+                      />
+                    </CollapsibleContent>
+                  </Collapsible>
+                )}
+              </div>
+            )}
+
+            {/* Config Summary */}
             {configSummary.length > 0 && (
               <div className="grid gap-2">
                 <Label className="text-muted-foreground text-sm">{t("configSummary")}</Label>
@@ -154,7 +255,9 @@ export function SaveBannerPresetModal({
               ) : (
                 <>
                   <Save className="h-4 w-4 mr-2" />
-                  {t("savePreset")}
+                  {saveMode === "update" && existingPreset
+                    ? t("updatePreset")
+                    : t("savePreset")}
                 </>
               )}
             </Button>

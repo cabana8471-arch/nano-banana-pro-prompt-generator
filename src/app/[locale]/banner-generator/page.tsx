@@ -502,6 +502,35 @@ export default function BannerGeneratorPage() {
     return success;
   };
 
+  const handlePartialLoadPreset = (config: Partial<BannerPresetConfig>) => {
+    loadFromPreset(config);
+    toast.success("Partial preset loaded");
+  };
+
+  const handleDuplicatePreset = async (id: string, newName?: string): Promise<boolean> => {
+    const preset = presets.find((p) => p.id === id);
+    if (!preset) return false;
+    const duplicateName = newName || `${preset.name} (Copy)`;
+    const success = await createPreset(duplicateName, preset.config);
+    if (success) {
+      toast.success(`Preset duplicated as "${duplicateName}"`);
+    } else {
+      toast.error("Failed to duplicate preset");
+    }
+    return success;
+  };
+
+  const handleEditPreset = (preset: BannerPreset) => {
+    // For now, just load the preset - the edit sheet will be handled by the modal
+    loadFromPreset(preset.config);
+    toast.info(`Editing preset "${preset.name}" - make changes and save`);
+  };
+
+  const handleComparePresets = () => {
+    // The compare modal is triggered from ManageBannerPresetsModal
+    // This is a placeholder for any additional actions
+  };
+
   // Project handlers
   const handleCreateProject = async (input: CreateProjectInput) => {
     const project = await createProject(input);
@@ -697,8 +726,12 @@ export default function BannerGeneratorPage() {
             presetsLoading={presetsLoading}
             onSavePreset={handleSavePreset}
             onLoadPreset={handleLoadPreset}
+            onPartialLoadPreset={handlePartialLoadPreset}
             onUpdatePreset={handleUpdatePreset}
             onDeletePreset={handleDeletePreset}
+            onDuplicatePreset={handleDuplicatePreset}
+            onEditPreset={handleEditPreset}
+            onComparePresets={handleComparePresets}
             projects={projects}
             projectsLoading={projectsLoading}
             selectedProjectId={selectedProjectId}

@@ -36,8 +36,12 @@ interface BannerPreviewPanelProps {
   presetsLoading: boolean;
   onSavePreset: (name: string, config: BannerPresetConfig) => Promise<boolean>;
   onLoadPreset: (preset: BannerPreset) => void;
+  onPartialLoadPreset: (config: Partial<BannerPresetConfig>) => void;
   onUpdatePreset: (id: string, input: UpdateBannerPresetInput) => Promise<boolean>;
   onDeletePreset: (id: string) => Promise<boolean>;
+  onDuplicatePreset: (id: string, newName?: string) => Promise<boolean>;
+  onEditPreset: (preset: BannerPreset) => void;
+  onComparePresets: () => void;
   // Project props
   projects: Project[];
   projectsLoading: boolean;
@@ -59,8 +63,12 @@ export function BannerPreviewPanel({
   presetsLoading,
   onSavePreset,
   onLoadPreset,
+  onPartialLoadPreset,
   onUpdatePreset,
   onDeletePreset,
+  onDuplicatePreset,
+  onEditPreset,
+  onComparePresets,
   projects,
   projectsLoading,
   selectedProjectId,
@@ -86,19 +94,26 @@ export function BannerPreviewPanel({
           <LoadBannerPresetDropdown
             presets={presets}
             onLoad={onLoadPreset}
+            onPartialLoad={onPartialLoadPreset}
             onDelete={onDeletePreset}
+            onDuplicate={onDuplicatePreset}
             isLoading={presetsLoading}
             disabled={isGenerating}
           />
           <SaveBannerPresetModal
             config={currentConfig}
             onSave={onSavePreset}
+            onUpdate={onUpdatePreset}
+            existingPresets={presets}
             disabled={isGenerating || !assembledPrompt}
           />
           <ManageBannerPresetsModal
             presets={presets}
             onUpdate={onUpdatePreset}
             onDelete={onDeletePreset}
+            onDuplicate={onDuplicatePreset}
+            onEdit={onEditPreset}
+            onCompare={onComparePresets}
             isLoading={presetsLoading}
             disabled={isGenerating}
           />
