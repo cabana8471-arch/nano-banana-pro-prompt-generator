@@ -437,6 +437,148 @@ export type BannerTemplateCategory =
  */
 export type BannerSection = "basicConfig" | "visualStyle" | "visualElements" | "layoutTypography";
 
+// ==========================================
+// Platform Export Presets (Multi-Size Export)
+// ==========================================
+
+/**
+ * A single size preset for a platform
+ */
+export interface PlatformSizePreset {
+  name: string;
+  width: number;
+  height: number;
+}
+
+/**
+ * Platform preset with multiple sizes
+ */
+export interface PlatformPreset {
+  id: string;
+  name: string;
+  icon: string;
+  sizes: PlatformSizePreset[];
+}
+
+/**
+ * All available platform presets for multi-size export
+ */
+export const PLATFORM_PRESETS: PlatformPreset[] = [
+  {
+    id: "google-ads",
+    name: "Google Ads",
+    icon: "google",
+    sizes: [
+      { name: "Leaderboard", width: 728, height: 90 },
+      { name: "Medium Rectangle", width: 300, height: 250 },
+      { name: "Large Rectangle", width: 336, height: 280 },
+      { name: "Wide Skyscraper", width: 160, height: 600 },
+      { name: "Half Page", width: 300, height: 600 },
+      { name: "Billboard", width: 970, height: 250 },
+      { name: "Large Leaderboard", width: 970, height: 90 },
+      { name: "Mobile Banner", width: 320, height: 50 },
+      { name: "Mobile Leaderboard", width: 320, height: 100 },
+    ],
+  },
+  {
+    id: "facebook",
+    name: "Facebook",
+    icon: "facebook",
+    sizes: [
+      { name: "Feed Image", width: 1200, height: 628 },
+      { name: "Story", width: 1080, height: 1920 },
+      { name: "Cover Photo", width: 820, height: 312 },
+      { name: "Event Cover", width: 1920, height: 1005 },
+      { name: "Carousel", width: 1080, height: 1080 },
+      { name: "Link Ad", width: 1200, height: 627 },
+    ],
+  },
+  {
+    id: "instagram",
+    name: "Instagram",
+    icon: "instagram",
+    sizes: [
+      { name: "Square Post", width: 1080, height: 1080 },
+      { name: "Portrait Post", width: 1080, height: 1350 },
+      { name: "Landscape Post", width: 1080, height: 566 },
+      { name: "Story / Reels", width: 1080, height: 1920 },
+    ],
+  },
+  {
+    id: "twitter",
+    name: "Twitter / X",
+    icon: "twitter",
+    sizes: [
+      { name: "In-Stream Image", width: 1600, height: 900 },
+      { name: "Header Photo", width: 1500, height: 500 },
+      { name: "Card Image", width: 800, height: 418 },
+    ],
+  },
+  {
+    id: "linkedin",
+    name: "LinkedIn",
+    icon: "linkedin",
+    sizes: [
+      { name: "Sponsored Content", width: 1200, height: 627 },
+      { name: "Company Cover", width: 1128, height: 191 },
+      { name: "Personal Cover", width: 1584, height: 396 },
+      { name: "Square Post", width: 1200, height: 1200 },
+    ],
+  },
+  {
+    id: "pinterest",
+    name: "Pinterest",
+    icon: "pin",
+    sizes: [
+      { name: "Standard Pin", width: 1000, height: 1500 },
+      { name: "Square Pin", width: 1000, height: 1000 },
+      { name: "Long Pin", width: 1000, height: 2100 },
+    ],
+  },
+  {
+    id: "youtube",
+    name: "YouTube",
+    icon: "youtube",
+    sizes: [
+      { name: "Thumbnail", width: 1280, height: 720 },
+      { name: "Channel Art", width: 2560, height: 1440 },
+      { name: "Display Ad", width: 300, height: 250 },
+      { name: "Overlay Ad", width: 480, height: 70 },
+    ],
+  },
+  {
+    id: "tiktok",
+    name: "TikTok",
+    icon: "tiktok",
+    sizes: [
+      { name: "Video Cover", width: 1080, height: 1920 },
+      { name: "Profile Photo", width: 200, height: 200 },
+    ],
+  },
+  {
+    id: "email",
+    name: "Email Marketing",
+    icon: "mail",
+    sizes: [
+      { name: "Email Header", width: 600, height: 200 },
+      { name: "Email Banner", width: 600, height: 300 },
+      { name: "Full Width", width: 600, height: 400 },
+    ],
+  },
+  {
+    id: "web",
+    name: "Website",
+    icon: "globe",
+    sizes: [
+      { name: "Hero Banner", width: 1920, height: 600 },
+      { name: "Hero Large", width: 1920, height: 800 },
+      { name: "Blog Featured", width: 1200, height: 630 },
+      { name: "Sidebar Banner", width: 300, height: 250 },
+      { name: "Mobile Hero", width: 750, height: 400 },
+    ],
+  },
+];
+
 /**
  * Mapping of categories to sections
  */

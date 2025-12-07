@@ -2130,7 +2130,18 @@
         "moreProfessional": "More professional look",
         "addGradient": "Add gradient effect",
         "minimalistStyle": "More minimalist style"
-      }
+      },
+      "exportMultiSize": "Export for Platforms"
+    },
+    "multiSizeExport": {
+      "title": "Export for Multiple Platforms",
+      "description": "Select platform sizes to export this banner in multiple dimensions at once",
+      "selectedCount": "{count, plural, =0 {No sizes selected} one {1 size selected} other {# sizes selected}}",
+      "selectAll": "Select All",
+      "clearAll": "Clear All",
+      "cancel": "Cancel",
+      "exporting": "Exporting...",
+      "exportSelected": "{count, plural, =0 {Select sizes} one {Export 1 size} other {Export # sizes}}"
     },
     "presets": {
       "savePreset": "Save Preset",

@@ -2124,7 +2124,18 @@
         "moreProfessional": "Aspect mai profesional",
         "addGradient": "Adauga efect de gradient",
         "minimalistStyle": "Stil mai minimalist"
-      }
+      },
+      "exportMultiSize": "Export pentru Platforme"
+    },
+    "multiSizeExport": {
+      "title": "Export pentru Multiple Platforme",
+      "description": "Selecteaza dimensiunile platformelor pentru a exporta acest banner in mai multe dimensiuni simultan",
+      "selectedCount": "{count, plural, =0 {Nicio dimensiune selectata} one {1 dimensiune selectata} other {# dimensiuni selectate}}",
+      "selectAll": "Selecteaza Tot",
+      "clearAll": "Sterge Tot",
+      "cancel": "Anuleaza",
+      "exporting": "Se exporta...",
+      "exportSelected": "{count, plural, =0 {Selecteaza dimensiuni} one {Exporta 1 dimensiune} other {Exporta # dimensiuni}}"
     },
     "presets": {
       "savePreset": "Salveaza Preset",

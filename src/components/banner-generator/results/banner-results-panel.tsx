@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import { Download, ExternalLink, FileImage, FolderPlus } from "lucide-react";
+import { Download, ExternalLink, FileImage, FolderPlus, Layers } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -23,6 +24,7 @@ import { useBannerResize } from "@/hooks/use-banner-resize";
 import type { BannerSizeTemplate, BannerExportFormat } from "@/lib/types/banner";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { BannerRefineInput } from "./banner-refine-input";
+import { ExportMultiSizeModal } from "./export-multi-size-modal";
 import { AddToProjectModal } from "../projects/add-to-project-modal";
 
 interface BannerResultsPanelProps {
@@ -61,6 +63,8 @@ export function BannerResultsPanel({
   const tProjects = useTranslations("bannerGenerator.projects");
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
   const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
+  const [multiSizeModalOpen, setMultiSizeModalOpen] = useState(false);
+  const [multiSizeImageIndex, setMultiSizeImageIndex] = useState<number>(0);
   const hasImages = images.length > 0;
   const fullscreenImage = fullscreenIndex !== null ? images[fullscreenIndex] : null;
   const { resizeIfNeeded } = useBannerResize();
@@ -164,6 +168,11 @@ export function BannerResultsPanel({
   const handleOpenInNewTab = (url: string) => {
     window.open(url, "_blank");
   };
+
+  const handleOpenMultiSizeModal = useCallback((index: number) => {
+    setMultiSizeImageIndex(index);
+    setMultiSizeModalOpen(true);
+  }, []);
 
   // Calculate aspect ratio for skeleton preview
   const aspectRatio = selectedBannerSize
@@ -281,6 +290,16 @@ export function BannerResultsPanel({
                             >
                               {t("downloadAsWebp")}
                             </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOpenMultiSizeModal(i);
+                              }}
+                            >
+                              <Layers className="h-4 w-4 mr-2" />
+                              {t("exportMultiSize")}
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -350,6 +369,13 @@ export function BannerResultsPanel({
                     >
                       {t("downloadAsWebp")}
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => handleOpenMultiSizeModal(fullscreenIndex)}
+                    >
+                      <Layers className="h-4 w-4 mr-2" />
+                      {t("exportMultiSize")}
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Button
@@ -413,6 +439,17 @@ export function BannerResultsPanel({
           currentProjectId={currentProjectId}
           onAddToProject={onAddToProject}
           onCreateProject={onCreateProject}
+        />
+      )}
+
+      {/* Export Multi-Size Modal */}
+      {hasImages && images[multiSizeImageIndex] && (
+        <ExportMultiSizeModal
+          open={multiSizeModalOpen}
+          onOpenChange={setMultiSizeModalOpen}
+          imageUrl={images[multiSizeImageIndex]}
+          imageIndex={multiSizeImageIndex}
+          exportFormat={exportFormat}
         />
       )}
     </div>

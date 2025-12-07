@@ -65,6 +65,11 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 - **Quick Actions**: Copy config to clipboard, Randomize all settings, Swap primary/secondary colors, Reset with confirmation
 - **Validation System**: Character limits per banner size, contrast checking, missing headline/CTA warnings
 - **Export Options**: Download in PNG, JPG, or WebP format with quality settings
+- **Multi-Size Export**: Export banners in multiple platform dimensions at once
+  - **10 Platform Presets**: Google Ads (9 sizes), Facebook (6), Instagram (4), Twitter/X (3), LinkedIn (4), Pinterest (3), YouTube (4), TikTok (2), Email Marketing (3), Website (5)
+  - **Batch Processing**: Select multiple sizes across platforms and export as organized ZIP
+  - **Smart Resize**: Automatic image resizing with cover mode to maintain visual quality
+  - **Progress Tracking**: Real-time progress indicator during export
 - **Preset Management**: Save, load, rename, and delete banner presets with full configuration
 
 ### Social Features
@@ -170,6 +175,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 9. **Add reference images** (optional): upload existing banners for style, composition, or color guidance
 10. **Preview and generate** your professional banner
 11. **Download** in PNG, JPG, or WebP format
+12. **Export Multi-Size**: Use "Export for Platforms" to batch-export the same banner in multiple dimensions for different platforms (ZIP download)
 
 ## Internationalization
 
@@ -258,7 +264,8 @@ src/
 │   │   │   └── responsive-preview.tsx   # Multi-device preview comparison
 │   │   ├── results/          # Results panel
 │   │   │   ├── banner-results-panel.tsx # Grid with download options
-│   │   │   └── banner-refine-input.tsx  # Refinement input
+│   │   │   ├── banner-refine-input.tsx  # Refinement input
+│   │   │   └── export-multi-size-modal.tsx # Multi-platform batch export
 │   │   ├── presets/          # Preset management
 │   │   │   ├── quick-start-templates.tsx # 6 pre-configured templates
 │   │   │   ├── save-banner-preset-modal.tsx
@@ -299,7 +306,7 @@ src/
     ├── storage.ts            # File storage abstraction
     ├── auth.ts               # Authentication config
     ├── types/
-    │   ├── banner.ts         # Banner generator types (BannerBuilderState, BannerTextContent, etc.)
+    │   ├── banner.ts         # Banner generator types (BannerBuilderState, BannerTextContent, PLATFORM_PRESETS, etc.)
     │   ├── generation.ts     # Image generation types
     │   └── project.ts        # Project types (Project, CreateProjectInput, etc.)
     └── data/
