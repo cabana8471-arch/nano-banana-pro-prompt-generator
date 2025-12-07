@@ -2143,6 +2143,18 @@
       "exporting": "Exporting...",
       "exportSelected": "{count, plural, =0 {Select sizes} one {Export 1 size} other {Export # sizes}}"
     },
+    "platformGeneration": {
+      "title": "Platform Bundle Generation",
+      "generatingProgress": "Generating size {current} of {total}...",
+      "completed": "{count, plural, one {1 banner generated} other {# banners generated}}",
+      "error": "Some banners failed to generate",
+      "cancel": "Cancel",
+      "downloadAll": "Download All",
+      "generating": "Generating",
+      "currentlyGenerating": "Currently generating: {name} ({width}x{height})",
+      "successCount": "{count, plural, one {1 success} other {# successful}}",
+      "failedCount": "{count, plural, one {1 failed} other {# failed}}"
+    },
     "presets": {
       "savePreset": "Save Preset",
       "savingPreset": "Saving...",

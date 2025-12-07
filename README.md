@@ -70,6 +70,11 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **Batch Processing**: Select multiple sizes across platforms and export as organized ZIP
   - **Smart Resize**: Automatic image resizing with cover mode to maintain visual quality
   - **Progress Tracking**: Real-time progress indicator during export
+- **Native Platform Generation**: Generate AI banners natively for all sizes of a platform at once
+  - **9 Platform Bundles**: Select "Google Ads - All Sizes", "Facebook - All Sizes", etc. from Banner Size dropdown
+  - **AI-Optimized Layouts**: Each size is generated with layout adapted to its aspect ratio (not just resized)
+  - **Sequential Generation**: Banners are generated one by one with real-time progress tracking
+  - **Batch Download**: Download all generated platform banners as organized ZIP file
 - **Preset Management**: Save, load, rename, and delete banner presets with full configuration
 
 ### Social Features
@@ -167,6 +172,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 1. Navigate to `/banner-generator`
 2. **Select a Quick Start template** or configure from scratch
 3. **Choose banner settings**: type, size (IAB standard, social media, or custom dimensions), industry
+   - **For platform bundles**: Select "Google Ads - All Sizes" or similar to generate all platform sizes natively
 4. **Customize design**: style, colors, mood, seasonal theme
 5. **Add visual elements**: background, effects, icons, promotional badges
 6. **Configure layout**: text placement, typography style (or set per-element: headline, body, CTA fonts), CTA button style
@@ -176,6 +182,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 10. **Preview and generate** your professional banner
 11. **Download** in PNG, JPG, or WebP format
 12. **Export Multi-Size**: Use "Export for Platforms" to batch-export the same banner in multiple dimensions for different platforms (ZIP download)
+13. **Native Platform Generation**: When a platform bundle is selected, AI generates each size with optimized layout
 
 ## Internationalization
 

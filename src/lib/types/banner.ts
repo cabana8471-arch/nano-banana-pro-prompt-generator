@@ -24,6 +24,10 @@ export interface BannerSizeTemplate extends BannerTemplate {
   height: number;
   platform: BannerPlatform;
   category: BannerSizeCategory;
+  /** If true, this represents a platform bundle that generates all sizes for the platform */
+  isPlatformBundle?: boolean;
+  /** For platform bundles, the list of size IDs to generate */
+  bundleSizeIds?: string[];
 }
 
 /**

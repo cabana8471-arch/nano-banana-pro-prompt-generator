@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { BannerBuilderPanel } from "@/components/banner-generator/banner-builder/banner-builder-panel";
@@ -20,9 +20,11 @@ import { useBannerHistory } from "@/hooks/use-banner-history";
 import { useBannerPresets } from "@/hooks/use-banner-presets";
 import { useBannerReferences } from "@/hooks/use-banner-references";
 import { useGeneration } from "@/hooks/use-generation";
+import { usePlatformGeneration } from "@/hooks/use-platform-generation";
 import { useProjects } from "@/hooks/use-projects";
 import { useSession } from "@/lib/auth-client";
-import type { BannerPreset, BannerPresetConfig, BannerBuilderState, UpdateBannerPresetInput } from "@/lib/types/banner";
+import { isPlatformBundle, getPlatformBundleSizes, getBannerTemplateById, getBannerSizeById } from "@/lib/data/banner-templates";
+import type { BannerPreset, BannerPresetConfig, BannerBuilderState, UpdateBannerPresetInput, BannerSizeTemplate } from "@/lib/types/banner";
 import { DEFAULT_BANNER_BUILDER_STATE } from "@/lib/types/banner";
 import type { CreateProjectInput } from "@/lib/types/project";
 
@@ -195,7 +197,175 @@ export default function BannerGeneratorPage() {
     clearError,
   } = useGeneration();
 
-  // Handle generation
+  // Platform generation state (for multi-size native generation)
+  const {
+    progress: platformProgress,
+    generateForPlatform,
+    cancelGeneration: cancelPlatformGeneration,
+    reset: resetPlatformGeneration,
+    allImages: platformImages,
+  } = usePlatformGeneration();
+
+  // Check if current selection is a platform bundle
+  const isPlatformBundleSelected = useMemo(() => {
+    return state.bannerSize ? isPlatformBundle(state.bannerSize) : false;
+  }, [state.bannerSize]);
+
+  // Get platform bundle sizes if selected
+  const platformBundleSizes = useMemo(() => {
+    if (!isPlatformBundleSelected || !state.bannerSize) return [];
+    return getPlatformBundleSizes(state.bannerSize);
+  }, [isPlatformBundleSelected, state.bannerSize]);
+
+  // Build prompt for a specific size (used for platform bundle generation)
+  const buildPromptForSize = useCallback((size: BannerSizeTemplate): string => {
+    const parts: string[] = [];
+
+    // Start with a base banner prompt
+    parts.push("Professional web banner design");
+
+    // Add banner type/purpose
+    if (state.bannerType) {
+      const template = getBannerTemplateById(state.bannerType);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add industry/niche context
+    if (state.industry) {
+      const template = getBannerTemplateById(state.industry);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add design style
+    if (state.designStyle) {
+      const template = getBannerTemplateById(state.designStyle);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add color scheme
+    if (state.colorScheme) {
+      const template = getBannerTemplateById(state.colorScheme);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add mood/emotion
+    if (state.mood) {
+      const template = getBannerTemplateById(state.mood);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add seasonal/holiday theme
+    if (state.seasonal) {
+      const template = getBannerTemplateById(state.seasonal);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add background style
+    if (state.backgroundStyle) {
+      const template = getBannerTemplateById(state.backgroundStyle);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add visual effects
+    if (state.visualEffects) {
+      const template = getBannerTemplateById(state.visualEffects);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add icon/graphics
+    if (state.iconGraphics) {
+      const template = getBannerTemplateById(state.iconGraphics);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add promotional elements
+    if (state.promotionalElements) {
+      const template = getBannerTemplateById(state.promotionalElements);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add layout style
+    if (state.layoutStyle) {
+      const template = getBannerTemplateById(state.layoutStyle);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add text language
+    if (state.textLanguage) {
+      const template = getBannerTemplateById(state.textLanguage);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add text placement
+    if (state.textPlacement) {
+      const template = getBannerTemplateById(state.textPlacement);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add typography style
+    if (state.typographyStyle) {
+      const template = getBannerTemplateById(state.typographyStyle);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add CTA button style
+    if (state.ctaButtonStyle) {
+      const template = getBannerTemplateById(state.ctaButtonStyle);
+      if (template) parts.push(template.promptFragment);
+    }
+
+    // Add size-specific context
+    parts.push(size.promptFragment);
+    parts.push(
+      `IMPORTANT: The generated image MUST be exactly ${size.width}x${size.height} pixels. Do not deviate from these exact dimensions.`
+    );
+
+    // Add text content
+    const textParts: string[] = [];
+    if (state.textContent.headline) {
+      textParts.push(`headline text: "${state.textContent.headline}"`);
+    }
+    if (state.textContent.subheadline) {
+      textParts.push(`subheadline text: "${state.textContent.subheadline}"`);
+    }
+    if (state.textContent.ctaText) {
+      textParts.push(`call-to-action button with text: "${state.textContent.ctaText}"`);
+    }
+    if (state.textContent.tagline) {
+      textParts.push(`tagline or offer text: "${state.textContent.tagline}"`);
+    }
+
+    if (textParts.length > 0) {
+      parts.push(`Text elements: ${textParts.join(", ")}`);
+    }
+
+    // Add brand colors if specified
+    if (brandAssets.primaryColor || brandAssets.secondaryColor || brandAssets.accentColor) {
+      const colorParts: string[] = [];
+      if (brandAssets.primaryColor) {
+        colorParts.push(`primary brand color ${brandAssets.primaryColor}`);
+      }
+      if (brandAssets.secondaryColor) {
+        colorParts.push(`secondary color ${brandAssets.secondaryColor}`);
+      }
+      if (brandAssets.accentColor) {
+        colorParts.push(`accent color ${brandAssets.accentColor}`);
+      }
+      parts.push(`Using ${colorParts.join(", ")}`);
+    }
+
+    // Add custom prompt at the end
+    if (state.customPrompt) {
+      parts.push(state.customPrompt);
+    }
+
+    // Final quality instructions
+    parts.push("High quality, professional advertising design, clean and impactful");
+
+    return parts.filter(Boolean).join(". ");
+  }, [state, brandAssets]);
+
+  // Handle generation (supports both single and platform bundle)
   const handleGenerate = async () => {
     if (!assembledPrompt) {
       toast.error("Please configure your banner before generating");
@@ -221,7 +391,37 @@ export default function BannerGeneratorPage() {
       referenceImages.push({ avatarId: brandAssets.productImageAvatarId, type: "object" });
     }
 
-    // Determine aspect ratio from banner size
+    // Check if this is a platform bundle generation
+    if (isPlatformBundleSelected && platformBundleSizes.length > 0) {
+      // Reset previous platform generation
+      resetPlatformGeneration();
+
+      // Get the bundle template for toast message
+      const bundleTemplate = getBannerSizeById(state.bannerSize);
+      toast.info(`Generating ${platformBundleSizes.length} banner sizes for ${bundleTemplate?.name || "platform"}...`);
+
+      // Generate for all platform sizes
+      await generateForPlatform(
+        platformBundleSizes,
+        {
+          prompt: "", // Will be built per size
+          settings: {
+            imageCount: 1, // Always 1 per size for platform bundle
+            resolution: settings.resolution,
+            aspectRatio: "1:1", // Will be calculated per size
+          },
+          generationType: "banner",
+          projectId: selectedProjectId,
+          ...(referenceImages.length > 0 && { referenceImages }),
+        },
+        buildPromptForSize
+      );
+
+      toast.success(`Platform generation completed! ${platformBundleSizes.length} banners generated.`);
+      return;
+    }
+
+    // Regular single-size generation
     const aspectRatio = selectedBannerSize
       ? getAspectRatioForBannerSize(selectedBannerSize.width, selectedBannerSize.height)
       : "1:1";
@@ -509,8 +709,8 @@ export default function BannerGeneratorPage() {
         rightPanel={
           <BannerResultsPanel
             images={generatedImages}
-            isGenerating={isGenerating}
-            expectedCount={settings.bannerCount}
+            isGenerating={isGenerating || platformProgress.isGenerating}
+            expectedCount={isPlatformBundleSelected ? platformBundleSizes.length : settings.bannerCount}
             generationId={currentGeneration?.id}
             onRefine={handleRefine}
             isRefining={isRefining}
@@ -521,6 +721,9 @@ export default function BannerGeneratorPage() {
             currentProjectId={currentGeneration?.projectId}
             onAddToProject={handleAddToProject}
             onCreateProject={handleCreateProject}
+            platformProgress={platformProgress}
+            platformImages={platformImages}
+            onCancelPlatformGeneration={cancelPlatformGeneration}
           />
         }
       />

@@ -21,10 +21,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBannerResize } from "@/hooks/use-banner-resize";
+import type { PlatformGenerationProgress as PlatformProgressType } from "@/hooks/use-platform-generation";
 import type { BannerSizeTemplate, BannerExportFormat } from "@/lib/types/banner";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { BannerRefineInput } from "./banner-refine-input";
 import { ExportMultiSizeModal } from "./export-multi-size-modal";
+import { PlatformGenerationProgress } from "./platform-generation-progress";
 import { AddToProjectModal } from "../projects/add-to-project-modal";
 
 interface BannerResultsPanelProps {
@@ -42,6 +44,10 @@ interface BannerResultsPanelProps {
   currentProjectId?: string | null | undefined;
   onAddToProject: (generationId: string, projectId: string) => Promise<boolean>;
   onCreateProject: (input: CreateProjectInput) => Promise<Project | null>;
+  // Platform generation props
+  platformProgress?: PlatformProgressType | undefined;
+  platformImages?: string[] | undefined;
+  onCancelPlatformGeneration?: (() => void) | undefined;
 }
 
 export function BannerResultsPanel({
@@ -58,6 +64,9 @@ export function BannerResultsPanel({
   currentProjectId,
   onAddToProject,
   onCreateProject,
+  platformProgress,
+  platformImages = [],
+  onCancelPlatformGeneration,
 }: BannerResultsPanelProps) {
   const t = useTranslations("bannerGenerator.results");
   const tProjects = useTranslations("bannerGenerator.projects");
@@ -65,7 +74,8 @@ export function BannerResultsPanel({
   const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
   const [multiSizeModalOpen, setMultiSizeModalOpen] = useState(false);
   const [multiSizeImageIndex, setMultiSizeImageIndex] = useState<number>(0);
-  const hasImages = images.length > 0;
+  const hasImages = images.length > 0 || platformImages.length > 0;
+  const showPlatformProgress = platformProgress && platformProgress.status !== "idle";
   const fullscreenImage = fullscreenIndex !== null ? images[fullscreenIndex] : null;
   const { resizeIfNeeded } = useBannerResize();
 
@@ -202,13 +212,23 @@ export function BannerResultsPanel({
 
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-6">
-          {!hasImages && !isGenerating ? (
+          {/* Platform Generation Progress */}
+          {showPlatformProgress && platformProgress && (
+            <PlatformGenerationProgress
+              progress={platformProgress}
+              exportFormat={exportFormat}
+              onCancel={onCancelPlatformGeneration}
+            />
+          )}
+
+          {/* Regular generation view (when not in platform mode) */}
+          {!showPlatformProgress && !hasImages && !isGenerating ? (
             <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
               <FileImage className="h-12 w-12 mb-4" />
               <p className="text-lg">{t("noImages")}</p>
               <p className="text-sm">{t("buildPrompt")}</p>
             </div>
-          ) : (
+          ) : !showPlatformProgress ? (
             <>
               {/* Image Grid */}
               <div
@@ -320,7 +340,7 @@ export function BannerResultsPanel({
                 </>
               )}
             </>
-          )}
+          ) : null}
         </div>
       </ScrollArea>
 

@@ -324,6 +324,164 @@ export const bannerTypeTemplates: BannerTemplate[] = [
 // 2. BANNER SIZE / FORMAT (~25 presets)
 // ==========================================
 export const bannerSizeTemplates: BannerSizeTemplate[] = [
+  // ==========================================
+  // PLATFORM BUNDLES - Generate All Sizes for a Platform
+  // ==========================================
+  {
+    id: "platform-google-ads-all",
+    name: "Google Ads - All Sizes",
+    description: "Generate banners for all 9 Google Ads standard sizes",
+    promptFragment: "Google Display Ads format, IAB standard advertising banner",
+    width: 0,
+    height: 0,
+    platform: "google-ads",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-leaderboard-728x90",
+      "size-large-leaderboard-970x90",
+      "size-medium-rectangle-300x250",
+      "size-large-rectangle-336x280",
+      "size-half-page-300x600",
+      "size-wide-skyscraper-160x600",
+      "size-billboard-970x250",
+      "size-mobile-banner-320x50",
+      "size-mobile-large-320x100",
+    ],
+  },
+  {
+    id: "platform-facebook-all",
+    name: "Facebook - All Sizes",
+    description: "Generate banners for all 4 Facebook standard sizes",
+    promptFragment: "Facebook social media format, Meta advertising banner",
+    width: 0,
+    height: 0,
+    platform: "facebook",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-facebook-feed-1200x628",
+      "size-facebook-square-1080x1080",
+      "size-facebook-cover-820x312",
+      "size-instagram-story-1080x1920", // Story is shared with Facebook
+    ],
+  },
+  {
+    id: "platform-instagram-all",
+    name: "Instagram - All Sizes",
+    description: "Generate banners for all 4 Instagram standard sizes",
+    promptFragment: "Instagram social media format, visual storytelling banner",
+    width: 0,
+    height: 0,
+    platform: "instagram",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-instagram-square-1080x1080",
+      "size-instagram-portrait-1080x1350",
+      "size-instagram-story-1080x1920",
+      "size-facebook-feed-1200x628", // Landscape shared with Facebook
+    ],
+  },
+  {
+    id: "platform-twitter-all",
+    name: "Twitter/X - All Sizes",
+    description: "Generate banners for all 3 Twitter/X standard sizes",
+    promptFragment: "Twitter X social media format, social engagement banner",
+    width: 0,
+    height: 0,
+    platform: "twitter",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-twitter-header-1500x500",
+      "size-twitter-post-1200x675",
+    ],
+  },
+  {
+    id: "platform-linkedin-all",
+    name: "LinkedIn - All Sizes",
+    description: "Generate banners for all 3 LinkedIn standard sizes",
+    promptFragment: "LinkedIn professional format, business social media banner",
+    width: 0,
+    height: 0,
+    platform: "linkedin",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-linkedin-cover-1584x396",
+      "size-linkedin-post-1200x627",
+    ],
+  },
+  {
+    id: "platform-youtube-all",
+    name: "YouTube - All Sizes",
+    description: "Generate banners for YouTube thumbnail and channel banner",
+    promptFragment: "YouTube video platform format, video marketing banner",
+    width: 0,
+    height: 0,
+    platform: "youtube",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-youtube-thumbnail-1280x720",
+      "size-youtube-banner-2560x1440",
+    ],
+  },
+  {
+    id: "platform-website-all",
+    name: "Website - All Sizes",
+    description: "Generate banners for all 8 website standard sizes",
+    promptFragment: "Website banner format, web design promotional banner",
+    width: 0,
+    height: 0,
+    platform: "website",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-hero-1920x600",
+      "size-hero-1920x800",
+      "size-hero-1440x600",
+      "size-sidebar-300x250",
+      "size-sidebar-tall-300x600",
+      "size-full-width-1920x400",
+      "size-cta-800x200",
+      "size-cta-1200x300",
+    ],
+  },
+  {
+    id: "platform-pinterest-all",
+    name: "Pinterest - All Sizes",
+    description: "Generate banners for Pinterest standard and long pins",
+    promptFragment: "Pinterest visual discovery format, pin-style banner",
+    width: 0,
+    height: 0,
+    platform: "pinterest",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-pinterest-1000x1500",
+    ],
+  },
+  {
+    id: "platform-tiktok-all",
+    name: "TikTok - All Sizes",
+    description: "Generate banners for TikTok/Reels vertical format",
+    promptFragment: "TikTok Reels format, short-form video cover banner",
+    width: 0,
+    height: 0,
+    platform: "tiktok",
+    category: "custom",
+    isPlatformBundle: true,
+    bundleSizeIds: [
+      "size-tiktok-1080x1920",
+    ],
+  },
+
+  // ==========================================
+  // INDIVIDUAL SIZES
+  // ==========================================
+
   // Google Display Ads (IAB Standard) - Leaderboard
   {
     id: "size-leaderboard-728x90",
@@ -4347,6 +4505,36 @@ export function getBannerTemplateById(id: string): BannerTemplate | BannerSizeTe
  */
 export function getBannerSizeById(id: string): BannerSizeTemplate | undefined {
   return bannerSizeTemplates.find((t) => t.id === id);
+}
+
+/**
+ * Check if a banner size is a platform bundle
+ */
+export function isPlatformBundle(sizeId: string): boolean {
+  const template = getBannerSizeById(sizeId);
+  return template?.isPlatformBundle === true;
+}
+
+/**
+ * Get all individual size templates for a platform bundle
+ * Returns the actual size templates (not the bundle template)
+ */
+export function getPlatformBundleSizes(bundleSizeId: string): BannerSizeTemplate[] {
+  const bundleTemplate = getBannerSizeById(bundleSizeId);
+  if (!bundleTemplate?.isPlatformBundle || !bundleTemplate.bundleSizeIds) {
+    return [];
+  }
+
+  return bundleTemplate.bundleSizeIds
+    .map((sizeId) => getBannerSizeById(sizeId))
+    .filter((template): template is BannerSizeTemplate => template !== undefined);
+}
+
+/**
+ * Get all platform bundle templates
+ */
+export function getAllPlatformBundles(): BannerSizeTemplate[] {
+  return bannerSizeTemplates.filter((t) => t.isPlatformBundle === true);
 }
 
 /**
