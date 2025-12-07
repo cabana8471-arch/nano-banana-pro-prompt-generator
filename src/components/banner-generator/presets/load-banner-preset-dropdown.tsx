@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { FolderOpen, Loader2, ChevronDown, ChevronRight, ListFilter } from "lucide-react";
+import { FolderOpen, Loader2, ChevronDown, ListFilter } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -16,17 +15,8 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import type { BannerPreset, BannerPresetConfig } from "@/lib/types/banner";
-import { BannerPresetList } from "./banner-preset-list";
 import { PartialLoadModal } from "./partial-load-modal";
 import { PresetSectionSummary, getTotalConfiguredFields } from "./shared/preset-section-summary";
 
@@ -44,19 +34,17 @@ export function LoadBannerPresetDropdown({
   presets,
   onLoad,
   onPartialLoad,
-  onDelete,
-  onDuplicate,
+  onDelete: _onDelete,
+  onDuplicate: _onDuplicate,
   isLoading = false,
   disabled = false,
 }: LoadBannerPresetDropdownProps) {
   const t = useTranslations("bannerGenerator.presets");
   const tCommon = useTranslations("common");
-  const [sheetOpen, setSheetOpen] = useState(false);
   const [partialLoadPreset, setPartialLoadPreset] = useState<BannerPreset | null>(null);
 
   const handleLoad = (preset: BannerPreset) => {
     onLoad(preset);
-    setSheetOpen(false);
   };
 
   const handlePartialLoad = (preset: BannerPreset) => {
@@ -68,9 +56,9 @@ export function LoadBannerPresetDropdown({
     setPartialLoadPreset(null);
   };
 
-  // Show up to 5 recent presets in dropdown, rest in sheet
-  const recentPresets = presets.slice(0, 5);
-  const hasMorePresets = presets.length > 5;
+  // Suppress unused variable warnings
+  void _onDelete;
+  void _onDuplicate;
 
   if (isLoading) {
     return (
@@ -101,97 +89,69 @@ export function LoadBannerPresetDropdown({
               <ChevronDown className="h-4 w-4 ml-2" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-72">
-            <DropdownMenuLabel>{t("recentPresets")}</DropdownMenuLabel>
+          <DropdownMenuContent align="start" className="w-80">
+            <DropdownMenuLabel>{t("savedPresets")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {recentPresets.map((preset) => {
-              const fieldCount = getTotalConfiguredFields(preset.config);
+            <ScrollArea className="max-h-[400px]">
+              {presets.map((preset) => {
+                const fieldCount = getTotalConfiguredFields(preset.config);
 
-              return (
-                <DropdownMenuSub key={preset.id}>
-                  <DropdownMenuSubTrigger className="cursor-pointer">
-                    <div className="flex items-center justify-between w-full pr-2">
-                      <span className="truncate flex-1">{preset.name}</span>
-                      <Badge variant="secondary" className="text-xs ml-2 shrink-0">
-                        {fieldCount}
-                      </Badge>
-                    </div>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent className="w-64 p-0">
-                    {/* Preview Header */}
-                    <div className="px-3 py-2 border-b bg-muted/30">
-                      <p className="font-medium text-sm">{preset.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {t("fieldsConfigured", { count: fieldCount })}
-                      </p>
-                    </div>
+                return (
+                  <DropdownMenuSub key={preset.id}>
+                    <DropdownMenuSubTrigger className="cursor-pointer py-2">
+                      <div className="flex items-center justify-between w-full pr-2">
+                        <span className="truncate flex-1 font-medium">{preset.name}</span>
+                        <Badge variant="secondary" className="text-xs ml-2 shrink-0">
+                          {fieldCount} {t("fields")}
+                        </Badge>
+                      </div>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="w-80 p-0" sideOffset={8}>
+                      {/* Preview Header */}
+                      <div className="px-4 py-3 border-b bg-muted/30">
+                        <p className="font-semibold text-sm">{preset.name}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {t("fieldsConfigured", { count: fieldCount })}
+                        </p>
+                      </div>
 
-                    {/* Preview Content */}
-                    <div className="p-2 space-y-1 max-h-48 overflow-y-auto">
-                      <PresetSectionSummary section="basicConfig" config={preset.config} compact />
-                      <PresetSectionSummary section="visualStyle" config={preset.config} compact />
-                      <PresetSectionSummary section="visualElements" config={preset.config} compact />
-                      <PresetSectionSummary section="layoutTypography" config={preset.config} compact />
-                      <PresetSectionSummary section="textContent" config={preset.config} compact />
-                      <PresetSectionSummary section="customPrompt" config={preset.config} compact />
-                    </div>
+                      {/* Preview Content */}
+                      <ScrollArea className="max-h-[300px]">
+                        <div className="p-3 space-y-2">
+                          <PresetSectionSummary section="basicConfig" config={preset.config} />
+                          <PresetSectionSummary section="visualStyle" config={preset.config} />
+                          <PresetSectionSummary section="visualElements" config={preset.config} />
+                          <PresetSectionSummary section="layoutTypography" config={preset.config} />
+                          <PresetSectionSummary section="textContent" config={preset.config} />
+                          <PresetSectionSummary section="customPrompt" config={preset.config} />
+                        </div>
+                      </ScrollArea>
 
-                    {/* Actions */}
-                    <div className="p-2 border-t bg-muted/20 flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="default"
-                        className="flex-1 h-8"
-                        onClick={() => handleLoad(preset)}
-                      >
-                        {t("loadAll")}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex-1 h-8"
-                        onClick={() => handlePartialLoad(preset)}
-                      >
-                        <ListFilter className="h-3 w-3 mr-1" />
-                        {t("loadPartial")}
-                      </Button>
-                    </div>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-              );
-            })}
-            {hasMorePresets && (
-              <>
-                <DropdownMenuSeparator />
-                <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-                  <SheetTrigger asChild>
-                    <DropdownMenuItem
-                      onSelect={(e) => e.preventDefault()}
-                      className="cursor-pointer"
-                    >
-                      {t("viewAll")} ({presets.length})
-                      <ChevronRight className="h-4 w-4 ml-auto" />
-                    </DropdownMenuItem>
-                  </SheetTrigger>
-                  <SheetContent side="right" className="w-full sm:max-w-lg">
-                    <SheetHeader>
-                      <SheetTitle>{t("allPresets")}</SheetTitle>
-                      <SheetDescription>{t("selectPreset")}</SheetDescription>
-                    </SheetHeader>
-                    <ScrollArea className="h-[calc(100vh-120px)] mt-4 pr-4">
-                      <BannerPresetList
-                        presets={presets}
-                        onLoad={handleLoad}
-                        onPartialLoad={handlePartialLoad}
-                        onDelete={onDelete}
-                        {...(onDuplicate && { onDuplicate })}
-                        isLoading={isLoading}
-                      />
-                    </ScrollArea>
-                  </SheetContent>
-                </Sheet>
-              </>
-            )}
+                      {/* Actions */}
+                      <div className="p-3 border-t bg-muted/20 flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="default"
+                          className="flex-1"
+                          onClick={() => handleLoad(preset)}
+                        >
+                          {t("loadAll")}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="flex-1"
+                          onClick={() => handlePartialLoad(preset)}
+                        >
+                          <ListFilter className="h-3 w-3 mr-1" />
+                          {t("loadPartial")}
+                        </Button>
+                      </div>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                );
+              })}
+            </ScrollArea>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -7,6 +7,8 @@ import { BannerBuilderPanel } from "@/components/banner-generator/banner-builder
 import { HistoryControls } from "@/components/banner-generator/banner-builder/history-controls";
 import { QuickActions } from "@/components/banner-generator/banner-builder/quick-actions";
 import { QuickStartTemplates } from "@/components/banner-generator/presets/quick-start-templates";
+import { ComparePresetsModal } from "@/components/banner-generator/presets/compare-presets-modal";
+import { EditBannerPresetSheet } from "@/components/banner-generator/presets/edit-banner-preset-sheet";
 import { BannerPreviewPanel } from "@/components/banner-generator/preview/banner-preview-panel";
 import { ResponsivePreview } from "@/components/banner-generator/preview/responsive-preview";
 import { BannerResultsPanel } from "@/components/banner-generator/results/banner-results-panel";
@@ -185,6 +187,10 @@ export default function BannerGeneratorPage() {
     createProject,
   } = useProjects();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+
+  // Compare & Edit preset modal state
+  const [compareModalOpen, setCompareModalOpen] = useState(false);
+  const [editingPreset, setEditingPreset] = useState<BannerPreset | null>(null);
 
   // Generation state
   const {
@@ -521,14 +527,22 @@ export default function BannerGeneratorPage() {
   };
 
   const handleEditPreset = (preset: BannerPreset) => {
-    // For now, just load the preset - the edit sheet will be handled by the modal
-    loadFromPreset(preset.config);
-    toast.info(`Editing preset "${preset.name}" - make changes and save`);
+    setEditingPreset(preset);
   };
 
   const handleComparePresets = () => {
-    // The compare modal is triggered from ManageBannerPresetsModal
-    // This is a placeholder for any additional actions
+    setCompareModalOpen(true);
+  };
+
+  const handleSaveEditedPreset = async (id: string, input: UpdateBannerPresetInput): Promise<boolean> => {
+    const success = await updatePreset(id, input);
+    if (success) {
+      toast.success(`Preset "${input.name || 'Preset'}" updated successfully!`);
+      setEditingPreset(null);
+    } else {
+      toast.error("Failed to update preset");
+    }
+    return success;
   };
 
   // Project handlers
@@ -759,6 +773,23 @@ export default function BannerGeneratorPage() {
             onCancelPlatformGeneration={cancelPlatformGeneration}
           />
         }
+      />
+
+      {/* Compare Presets Modal */}
+      <ComparePresetsModal
+        presets={presets}
+        open={compareModalOpen}
+        onOpenChange={setCompareModalOpen}
+        onLoad={handleLoadPreset}
+      />
+
+      {/* Edit Preset Sheet */}
+      <EditBannerPresetSheet
+        preset={editingPreset}
+        open={!!editingPreset}
+        onOpenChange={(open) => !open && setEditingPreset(null)}
+        onSave={handleSaveEditedPreset}
+        onDuplicate={handleDuplicatePreset}
       />
     </div>
   );

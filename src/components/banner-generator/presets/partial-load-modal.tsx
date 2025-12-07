@@ -261,7 +261,7 @@ export function PartialLoadModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-4xl max-h-[85vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{t("partialLoadTitle")}</DialogTitle>
           <DialogDescription>
@@ -286,9 +286,9 @@ export function PartialLoadModal({
 
         <Separator />
 
-        {/* Sections List */}
+        {/* Sections List - 2 Columns */}
         <ScrollArea className="flex-1 pr-4 -mr-4">
-          <div className="space-y-2 py-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 py-2">
             {SECTIONS.map((section) => {
               const counts = getSectionFieldCounts[section.key] ?? { available: 0, selected: 0 };
               const isExpanded = expandedSections.has(section.key);

@@ -133,7 +133,7 @@ export function ManageBannerPresetsModal({
             {t("managePresets")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-xl">
+        <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>{t("managePresets")}</DialogTitle>
             <DialogDescription>{t("managePresetsDescription")}</DialogDescription>
@@ -149,109 +149,119 @@ export function ManageBannerPresetsModal({
               <p className="text-sm">{t("noPresetsSavedHint")}</p>
             </div>
           ) : (
-            <ScrollArea className="max-h-[400px] pr-4">
-              <div className="space-y-3">
+            <ScrollArea className="flex-1 pr-4">
+              <div className="space-y-4">
                 {presets.map((preset) => {
                   const totalFields = getTotalConfiguredFields(preset.config);
 
                   return (
                     <div
                       key={preset.id}
-                      className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/30 transition-colors"
+                      className="p-4 rounded-lg border bg-card hover:bg-accent/30 transition-colors"
                     >
-                      <div className="flex-1 min-w-0">
-                        {editingId === preset.id ? (
-                          <div className="flex items-center gap-2">
-                            <Input
-                              value={editingName}
-                              onChange={(e) => setEditingName(e.target.value)}
-                              className="h-8"
-                              autoFocus
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                  handleSaveEdit(preset);
-                                } else if (e.key === "Escape") {
-                                  handleCancelEdit();
-                                }
-                              }}
-                            />
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="h-8 w-8 shrink-0"
-                              onClick={() => handleSaveEdit(preset)}
-                              disabled={isUpdating}
-                            >
-                              {isUpdating ? (
-                                <Loader2 className="h-4 w-4 animate-spin" />
-                              ) : (
-                                <Check className="h-4 w-4" />
-                              )}
-                            </Button>
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="h-8 w-8 shrink-0"
-                              onClick={handleCancelEdit}
-                              disabled={isUpdating}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        ) : (
-                          <>
-                            <div className="flex items-center gap-2">
-                              <p className="font-medium truncate">{preset.name}</p>
-                              <Badge variant="secondary" className="text-xs shrink-0">
-                                {t("fieldsConfigured", { count: totalFields })}
-                              </Badge>
-                            </div>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                              {formatDate(preset.createdAt)}
-                            </p>
-                            <div className="mt-2 space-y-1">
-                              <PresetSectionSummary section="basicConfig" config={preset.config} compact />
-                              <PresetSectionSummary section="visualStyle" config={preset.config} compact />
-                            </div>
-                          </>
-                        )}
-                      </div>
-
-                      {editingId !== preset.id && (
-                        <div className="flex flex-col gap-1 shrink-0">
+                      {editingId === preset.id ? (
+                        <div className="flex items-center gap-2">
+                          <Input
+                            value={editingName}
+                            onChange={(e) => setEditingName(e.target.value)}
+                            className="h-9 flex-1"
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleSaveEdit(preset);
+                              } else if (e.key === "Escape") {
+                                handleCancelEdit();
+                              }
+                            }}
+                          />
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="h-8 w-8"
-                            onClick={() => handleEditFull(preset)}
-                            title={t("editFull")}
+                            className="h-9 w-9 shrink-0"
+                            onClick={() => handleSaveEdit(preset)}
+                            disabled={isUpdating}
                           >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            className="h-8 w-8"
-                            onClick={() => handleDuplicate(preset.id)}
-                            disabled={isDuplicating === preset.id}
-                            title={t("duplicate")}
-                          >
-                            {isDuplicating === preset.id ? (
+                            {isUpdating ? (
                               <Loader2 className="h-4 w-4 animate-spin" />
                             ) : (
-                              <Copy className="h-4 w-4" />
+                              <Check className="h-4 w-4" />
                             )}
                           </Button>
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="h-8 w-8 text-destructive hover:text-destructive"
-                            onClick={() => setDeleteId(preset.id)}
-                            title={tCommon("delete")}
+                            className="h-9 w-9 shrink-0"
+                            onClick={handleCancelEdit}
+                            disabled={isUpdating}
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <X className="h-4 w-4" />
                           </Button>
                         </div>
+                      ) : (
+                        <>
+                          {/* Header Row */}
+                          <div className="flex items-start justify-between gap-4 mb-3">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <h3 className="font-semibold text-base">{preset.name}</h3>
+                                <Badge variant="secondary" className="text-xs">
+                                  {totalFields} {t("fields")}
+                                </Badge>
+                              </div>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                {formatDate(preset.createdAt)}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-8 px-3"
+                                onClick={() => handleEditFull(preset)}
+                              >
+                                <Pencil className="h-3.5 w-3.5 mr-1.5" />
+                                {t("edit")}
+                              </Button>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-8 w-8"
+                                onClick={() => handleDuplicate(preset.id)}
+                                disabled={isDuplicating === preset.id}
+                                title={t("duplicate")}
+                              >
+                                {isDuplicating === preset.id ? (
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <Copy className="h-4 w-4" />
+                                )}
+                              </Button>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-8 w-8 text-destructive hover:text-destructive"
+                                onClick={() => setDeleteId(preset.id)}
+                                title={tCommon("delete")}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+
+                          {/* Content Preview - Grid Layout */}
+                          <div className="grid grid-cols-2 gap-3 text-sm">
+                            <div className="space-y-1.5">
+                              <PresetSectionSummary section="basicConfig" config={preset.config} />
+                              <PresetSectionSummary section="visualStyle" config={preset.config} />
+                              <PresetSectionSummary section="visualElements" config={preset.config} />
+                            </div>
+                            <div className="space-y-1.5">
+                              <PresetSectionSummary section="layoutTypography" config={preset.config} />
+                              <PresetSectionSummary section="textContent" config={preset.config} />
+                              <PresetSectionSummary section="customPrompt" config={preset.config} />
+                            </div>
+                          </div>
+                        </>
                       )}
                     </div>
                   );
