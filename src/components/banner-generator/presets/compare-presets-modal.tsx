@@ -177,7 +177,7 @@ export function ComparePresetsModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-4xl max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>{t("comparePresets")}</DialogTitle>
           <DialogDescription>{t("compareDescription")}</DialogDescription>
@@ -246,7 +246,7 @@ export function ComparePresetsModal({
         )}
 
         {/* Comparison Table */}
-        <ScrollArea className="flex-1 border rounded-lg">
+        <ScrollArea className="max-h-[50vh] border rounded-lg">
           {preset1 && preset2 ? (
             <Table>
               <TableHeader>
