@@ -19,11 +19,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useBannerResize } from "@/hooks/use-banner-resize";
 import type { BannerSizeTemplate, BannerExportFormat } from "@/lib/types/banner";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { BannerRefineInput } from "./banner-refine-input";
 import { AddToProjectModal } from "../projects/add-to-project-modal";
-import { useBannerResize } from "@/hooks/use-banner-resize";
 
 interface BannerResultsPanelProps {
   images: string[];
@@ -71,76 +71,95 @@ export function BannerResultsPanel({
     }
   };
 
-  const handleDownload = async (url: string, index: number, format?: BannerExportFormat) => {
-    try {
-      const extension = format || exportFormat || "png";
-      const sizeSuffix = selectedBannerSize
-        ? `_${selectedBannerSize.width}x${selectedBannerSize.height}`
-        : "";
-      const filename = `banner${sizeSuffix}_${index + 1}.${extension}`;
+  const handleDownload = useCallback(
+    async (url: string, index: number, format?: BannerExportFormat) => {
+      try {
+        const extension = format || exportFormat || "png";
+        const sizeSuffix = selectedBannerSize
+          ? `_${selectedBannerSize.width}x${selectedBannerSize.height}`
+          : "";
+        const filename = `banner${sizeSuffix}_${index + 1}.${extension}`;
 
-      // Fetch the original image
-      const response = await fetch(url);
-      const blob = await response.blob();
+        let finalBlob: Blob;
 
-      // Create an image element to load the blob
-      const img = new window.Image();
-      const blobUrl = URL.createObjectURL(blob);
+        // If we have target dimensions, resize the image to guarantee exact dimensions
+        if (selectedBannerSize && selectedBannerSize.width > 0 && selectedBannerSize.height > 0) {
+          const { blob } = await resizeIfNeeded(url, {
+            targetWidth: selectedBannerSize.width,
+            targetHeight: selectedBannerSize.height,
+            mode: "cover", // Cover mode crops to fit exact dimensions
+            format: extension,
+            quality: 0.92,
+          });
+          finalBlob = blob;
+        } else {
+          // No specific dimensions, just convert format
+          const response = await fetch(url);
+          const originalBlob = await response.blob();
 
-      await new Promise<void>((resolve, reject) => {
-        img.onload = () => resolve();
-        img.onerror = () => reject(new Error("Failed to load image"));
-        img.src = blobUrl;
-      });
+          // Create an image element to load the blob
+          const img = new window.Image();
+          const blobUrl = URL.createObjectURL(originalBlob);
 
-      // Create canvas and draw the image
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
+          await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = () => reject(new Error("Failed to load image"));
+            img.src = blobUrl;
+          });
 
-      if (!ctx) {
-        throw new Error("Failed to get canvas context");
-      }
+          // Create canvas and draw the image
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
 
-      ctx.drawImage(img, 0, 0);
-
-      // Clean up the blob URL
-      URL.revokeObjectURL(blobUrl);
-
-      // Determine MIME type and quality based on format
-      const mimeType =
-        extension === "jpg"
-          ? "image/jpeg"
-          : extension === "webp"
-            ? "image/webp"
-            : "image/png";
-      // PNG doesn't use quality parameter, JPG and WebP use 0.92 for high quality
-      const quality = extension === "png" ? undefined : 0.92;
-
-      // Convert to the requested format using canvas.toBlob
-      canvas.toBlob(
-        (convertedBlob) => {
-          if (convertedBlob) {
-            const downloadUrl = URL.createObjectURL(convertedBlob);
-            const link = document.createElement("a");
-            link.href = downloadUrl;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(downloadUrl);
-          } else {
-            console.error("Failed to convert image to", extension);
+          if (!ctx) {
+            throw new Error("Failed to get canvas context");
           }
-        },
-        mimeType,
-        quality
-      );
-    } catch (error) {
-      console.error("Failed to download image:", error);
-    }
-  };
+
+          ctx.drawImage(img, 0, 0);
+          URL.revokeObjectURL(blobUrl);
+
+          // Determine MIME type and quality based on format
+          const mimeType =
+            extension === "jpg"
+              ? "image/jpeg"
+              : extension === "webp"
+                ? "image/webp"
+                : "image/png";
+          const quality = extension === "png" ? undefined : 0.92;
+
+          // Convert to blob
+          finalBlob = await new Promise<Blob>((resolve, reject) => {
+            canvas.toBlob(
+              (blob) => {
+                if (blob) {
+                  resolve(blob);
+                } else {
+                  reject(new Error("Failed to convert image"));
+                }
+              },
+              mimeType,
+              quality
+            );
+          });
+        }
+
+        // Download the processed blob
+        const downloadUrl = URL.createObjectURL(finalBlob);
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(downloadUrl);
+      } catch (error) {
+        console.error("Failed to download image:", error);
+      }
+    },
+    [exportFormat, selectedBannerSize, resizeIfNeeded]
+  );
 
   const handleOpenInNewTab = (url: string) => {
     window.open(url, "_blank");
