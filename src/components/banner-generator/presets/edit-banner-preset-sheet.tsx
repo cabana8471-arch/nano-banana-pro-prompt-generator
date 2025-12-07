@@ -155,7 +155,7 @@ export function EditBannerPresetSheet({
   return (
     <>
       <Sheet open={open} onOpenChange={handleClose}>
-        <SheetContent side="right" className="w-full sm:max-w-2xl p-0 flex flex-col">
+        <SheetContent side="right" className="w-full sm:max-w-2xl p-0 flex flex-col h-full max-h-screen overflow-hidden">
           <SheetHeader className="px-6 py-4 border-b">
             <SheetTitle>{tPresets("editPreset")}</SheetTitle>
             <SheetDescription>
@@ -163,8 +163,8 @@ export function EditBannerPresetSheet({
             </SheetDescription>
           </SheetHeader>
 
-          <ScrollArea className="flex-1">
-            <div className="px-6 py-4 space-y-6">
+          <ScrollArea className="flex-1 overflow-auto">
+            <div className="px-6 py-4 space-y-6 pb-8">
               {/* Preset Name */}
               <div className="space-y-2">
                 <Label htmlFor="preset-name">{tPresets("presetName")}</Label>

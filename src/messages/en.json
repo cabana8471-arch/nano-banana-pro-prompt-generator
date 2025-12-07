@@ -2245,6 +2245,8 @@
       "editPresetTitle": "Edit Preset",
       "editPresetDescription": "Modify the preset configuration and save changes",
       "unsavedChanges": "Unsaved changes",
+      "unsavedChangesConfirm": "You have unsaved changes. Are you sure you want to discard them?",
+      "discardChanges": "Discard Changes",
       "changesCount": "{count} change(s)",
       "resetChanges": "Reset",
       "saveChanges": "Save Changes",
