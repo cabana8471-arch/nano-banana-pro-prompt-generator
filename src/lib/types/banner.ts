@@ -36,6 +36,11 @@ export type BannerPlatform =
   | "website"
   | "twitter"
   | "linkedin"
+  | "pinterest"
+  | "tiktok"
+  | "youtube"
+  | "email"
+  | "print"
   | "custom";
 
 /**
