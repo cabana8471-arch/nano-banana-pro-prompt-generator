@@ -168,6 +168,19 @@ export function usePlatformGeneration(): UsePlatformGenerationReturn {
             }),
           });
 
+          // Handle timeout or non-JSON responses
+          const contentType = response.headers.get("content-type");
+          if (!contentType || !contentType.includes("application/json")) {
+            const text = await response.text();
+            // Check for Vercel timeout
+            if (text.includes("timed out") || response.status === 504) {
+              throw new Error(
+                "Generation timed out. Try a simpler prompt or reduce image complexity."
+              );
+            }
+            throw new Error(text || "Server returned an invalid response");
+          }
+
           const data = await response.json();
 
           if (!response.ok) {
