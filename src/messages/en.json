@@ -2553,6 +2553,8 @@
       "size-ultrawide-2560x1080": { "name": "Ultrawide (2560x1080)", "description": "Ultrawide Display (21:9)" },
       "size-a4-portrait-2480x3508": { "name": "A4 Portrait (2480x3508)", "description": "A4 Print Ready Portrait" },
       "size-a4-landscape-3508x2480": { "name": "A4 Landscape (3508x2480)", "description": "A4 Print Ready Landscape" },
+      "size-nano-hero-1440x400": { "name": "Nano Hero Wide (1440x400)", "description": "Wide hero banner for main pages" },
+      "size-nano-sidebar-560x685": { "name": "Nano Sidebar (560x685)", "description": "Vertical sidebar banner for page sections" },
       "size-custom": { "name": "Custom Size", "description": "Enter your own custom dimensions" }
     },
     "industry": {

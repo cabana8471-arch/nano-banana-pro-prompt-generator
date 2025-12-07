@@ -2547,6 +2547,8 @@
       "size-ultrawide-2560x1080": { "name": "Ultrawide (2560x1080)", "description": "Ecran ultrawide (21:9)" },
       "size-a4-portrait-2480x3508": { "name": "A4 Portret (2480x3508)", "description": "A4 gata de print portret" },
       "size-a4-landscape-3508x2480": { "name": "A4 Peisaj (3508x2480)", "description": "A4 gata de print peisaj" },
+      "size-nano-hero-1440x400": { "name": "Nano Hero Lat (1440x400)", "description": "Banner hero lat pentru pagini principale" },
+      "size-nano-sidebar-560x685": { "name": "Nano Sidebar (560x685)", "description": "Banner vertical pentru sectiuni laterale" },
       "size-custom": { "name": "Dimensiune Personalizata", "description": "Introdu dimensiunile tale personalizate" }
     },
     "industry": {

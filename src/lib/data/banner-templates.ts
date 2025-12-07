@@ -891,6 +891,27 @@ export const bannerSizeTemplates: BannerSizeTemplate[] = [
     platform: "print",
     category: "custom",
   },
+  // Nanosystems Custom Sizes
+  {
+    id: "size-nano-hero-1440x400",
+    name: "Nano Hero Wide (1440x400)",
+    description: "Nanosystems wide hero banner for main pages",
+    promptFragment: "wide hero banner format, panoramic header design, full-width promotional section",
+    width: 1440,
+    height: 400,
+    platform: "website",
+    category: "hero",
+  },
+  {
+    id: "size-nano-sidebar-560x685",
+    name: "Nano Sidebar (560x685)",
+    description: "Nanosystems sidebar/vertical banner for page sections",
+    promptFragment: "vertical sidebar banner format, portrait promotional design, side column layout",
+    width: 560,
+    height: 685,
+    platform: "website",
+    category: "sidebar",
+  },
   // Custom Size
   {
     id: "size-custom",
