@@ -2505,6 +2505,15 @@
       "banner-type-giveaway": { "name": "Giveaway", "description": "Contests and giveaways" }
     },
     "bannerSize": {
+      "platform-google-ads-all": { "name": "Google Ads - All Sizes", "description": "Generate all Google Display Ads sizes natively" },
+      "platform-facebook-all": { "name": "Facebook - All Sizes", "description": "Generate all Facebook ad sizes natively" },
+      "platform-instagram-all": { "name": "Instagram - All Sizes", "description": "Generate all Instagram sizes natively" },
+      "platform-twitter-all": { "name": "Twitter/X - All Sizes", "description": "Generate all Twitter/X sizes natively" },
+      "platform-linkedin-all": { "name": "LinkedIn - All Sizes", "description": "Generate all LinkedIn sizes natively" },
+      "platform-youtube-all": { "name": "YouTube - All Sizes", "description": "Generate all YouTube sizes natively" },
+      "platform-website-all": { "name": "Website - All Sizes", "description": "Generate all website banner sizes natively" },
+      "platform-pinterest-all": { "name": "Pinterest - All Sizes", "description": "Generate all Pinterest sizes natively" },
+      "platform-tiktok-all": { "name": "TikTok - All Sizes", "description": "Generate all TikTok sizes natively" },
       "size-leaderboard-728x90": { "name": "Leaderboard (728x90)", "description": "Standard horizontal banner for website headers" },
       "size-large-leaderboard-970x90": { "name": "Large Leaderboard (970x90)", "description": "Extended horizontal banner for wide headers" },
       "size-medium-rectangle-300x250": { "name": "Medium Rectangle (300x250)", "description": "Most versatile ad size, fits most placements" },

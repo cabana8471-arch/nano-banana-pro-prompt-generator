@@ -2499,6 +2499,15 @@
       "banner-type-giveaway": { "name": "Tombola", "description": "Concursuri si tombole" }
     },
     "bannerSize": {
+      "platform-google-ads-all": { "name": "Google Ads - Toate Dimensiunile", "description": "Genereaza toate dimensiunile Google Display Ads nativ" },
+      "platform-facebook-all": { "name": "Facebook - Toate Dimensiunile", "description": "Genereaza toate dimensiunile Facebook nativ" },
+      "platform-instagram-all": { "name": "Instagram - Toate Dimensiunile", "description": "Genereaza toate dimensiunile Instagram nativ" },
+      "platform-twitter-all": { "name": "Twitter/X - Toate Dimensiunile", "description": "Genereaza toate dimensiunile Twitter/X nativ" },
+      "platform-linkedin-all": { "name": "LinkedIn - Toate Dimensiunile", "description": "Genereaza toate dimensiunile LinkedIn nativ" },
+      "platform-youtube-all": { "name": "YouTube - Toate Dimensiunile", "description": "Genereaza toate dimensiunile YouTube nativ" },
+      "platform-website-all": { "name": "Website - Toate Dimensiunile", "description": "Genereaza toate dimensiunile banner website nativ" },
+      "platform-pinterest-all": { "name": "Pinterest - Toate Dimensiunile", "description": "Genereaza toate dimensiunile Pinterest nativ" },
+      "platform-tiktok-all": { "name": "TikTok - Toate Dimensiunile", "description": "Genereaza toate dimensiunile TikTok nativ" },
       "size-leaderboard-728x90": { "name": "Leaderboard (728x90)", "description": "Banner orizontal standard pentru header-e site" },
       "size-large-leaderboard-970x90": { "name": "Leaderboard Mare (970x90)", "description": "Banner orizontal extins pentru header-e late" },
       "size-medium-rectangle-300x250": { "name": "Dreptunghi Mediu (300x250)", "description": "Cea mai versatila dimensiune, se potriveste peste tot" },
