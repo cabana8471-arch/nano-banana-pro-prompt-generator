@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { prompt, settings, generationType, referenceImages } = parseResult.data;
+    const { prompt, settings, generationType, referenceImages, projectId } = parseResult.data;
 
     // Get avatar details for reference images
     let avatarDetails: ReferenceImage[] = [];
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
         settings: settings,
         status: "processing",
         generationType: generationType,
+        projectId: projectId ?? null,
       })
       .returning();
 
