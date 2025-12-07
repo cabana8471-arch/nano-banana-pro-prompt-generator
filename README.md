@@ -28,10 +28,10 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **3 Reference Types**: Style (visual aesthetics), Composition (layout structure), Color (palette inspiration)
   - **Multi-Reference Support**: Use up to 4 reference images per generation
   - **Reference Library**: Store up to 50 references per user with easy management
-- **15 Template Categories**: 410+ presets organized in 4 sections:
-  - **Basic Configuration**: Banner Type (~38), Banner Size (~27 + Custom), Industry/Niche (~52)
-  - **Visual Style**: Design Style (~35), Color Scheme (~30), Mood/Emotion (~20), Seasonal/Holiday (~25)
-  - **Visual Elements**: Background Style (~35), Visual Effects (~30), Icons/Graphics (~20), Promotional Elements (~15)
+- **15 Template Categories**: 520+ presets organized in 4 sections:
+  - **Basic Configuration**: Banner Type (~50), Banner Size (~39 + Custom), Industry/Niche (~64)
+  - **Visual Style**: Design Style (~47), Color Scheme (~42), Mood/Emotion (~30), Seasonal/Holiday (~37)
+  - **Visual Elements**: Background Style (~47), Visual Effects (~42), Icons/Graphics (~20), Promotional Elements (~15)
   - **Layout & Typography**: Layout Style (~25), Text Language, Text Placement (~15), Typography Style (~25 including Inter & Roboto fonts), CTA Button Style (~20)
 - **Per-Element Typography Control**: Set different fonts for each text element:
   - **Headline Font**: Typography style specifically for headline text
@@ -39,13 +39,24 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **CTA Font**: Typography style for call-to-action button text
   - **Fallback Support**: General Typography Style applies when specific fonts not set
 - **Visual Typography Previews**: Each typography option shows a live preview of how the text style looks
-- **Platform Support**: Google Ads (IAB Standard), Facebook, Instagram, Twitter, LinkedIn, and website banners
+- **Platform Support**: Google Ads (IAB Standard), Facebook, Instagram, Twitter, LinkedIn, YouTube, TikTok, Pinterest, Email, and website banners
 - **Banner Sizes**:
   - Google Display Ads: Leaderboard (728x90, 970x90), Rectangle (300x250, 336x280, 300x600), Skyscraper (160x600, 120x600), Billboard (970x250), Mobile (320x50, 320x100)
-  - Social Media: Facebook Feed (1200x628, 1080x1080), Instagram Feed (1080x1080, 1080x1350), Instagram Story (1080x1920)
-  - Website: Hero Banner (1920x600, 1920x800), Sidebar (300x250, 300x600), Full Width (1920x400)
+  - Social Media: Facebook Feed (1200x628, 1080x1080), Instagram Feed (1080x1080, 1080x1350), Instagram Story (1080x1920), Pinterest Pin (1000x1500), TikTok/Reels (1080x1920)
+  - Twitter/X: Post (1200x675), Profile Header (1500x500)
+  - LinkedIn: Feed Post (1200x627), Company Cover (1584x396)
+  - YouTube: Video Thumbnail (1280x720), Channel Banner (2560x1440)
+  - Email: Header Standard (600x200)
+  - Website: Hero Banner (1920x600, 1920x800), Sidebar (300x250, 300x600), Full Width (1920x400), Ultrawide (2560x1080)
+  - Print: A4 Portrait (2480x3508), A4 Landscape (3508x2480)
   - **Custom Size**: Define your own dimensions (50-4096px width/height)
-- **Quick Start Templates**: 6 pre-configured templates (E-commerce Sale, Tech Product, Food/Restaurant, Fashion Lifestyle, Service Business, Event Promotion)
+- **Quick Start Templates**: 46 pre-configured templates:
+  - **Core**: E-commerce Sale, SaaS Launch, Restaurant Promo, Fashion Brand, Tech Startup, Holiday Special
+  - **Extended**: Luxury Brand, Gaming Promo, Wellness & Spa, Black Friday, Podcast Launch, Fitness Challenge, Eco Friendly, Wedding Elegant, Crypto Launch, Food Delivery
+  - **Industry**: Healthcare Clinic, Real Estate, Education Course, Finance & Banking, Travel & Vacation, Automotive Dealer, Beauty & Cosmetics, Legal Services, Music Event, Pet Services, Photography Studio, Charity & Donation
+  - **Seasonal**: Valentine's Day, Halloween, Cyber Monday, Mother's Day, New Year, Summer Sale, Chinese New Year, Back to School
+  - **Design Styles**: Retro 80s, Glassmorphism, Memphis Playful, Mid-Century Modern, Vaporwave Aesthetic
+  - **Special Purpose**: Webinar Event, Free Trial, Newsletter Signup, Testimonials, Coming Soon
 - **Text Content Manager**: Separate fields for Headline, Subheadline, CTA Text, and Tagline with character limits per banner size
 - **Brand Assets Integration**: Logo and Product Image upload via avatar system, Brand Colors (Primary, Secondary, Accent)
 - **Advanced Color Picker**: EyeDropper API integration, 5 predefined palettes, WCAG contrast ratio checker, saved colors (max 8)
@@ -292,13 +303,13 @@ src/
     │   ├── generation.ts     # Image generation types
     │   └── project.ts        # Project types (Project, CreateProjectInput, etc.)
     └── data/
-        └── banner-templates.ts # 410+ banner presets organized in 15 categories:
+        └── banner-templates.ts # 520+ banner presets organized in 15 categories:
                               # bannerTypeTemplates, bannerSizeTemplates, industryTemplates,
                               # designStyleTemplates, colorSchemeTemplates, moodTemplates,
                               # seasonalTemplates, backgroundTemplates, visualEffectsTemplates,
                               # iconGraphicsTemplates, promotionalTemplates, layoutTemplates,
                               # textPlacementTemplates, typographyTemplates, ctaButtonTemplates,
-                              # + 6 quickStartTemplates
+                              # + 46 quickStartTemplates
 ```
 
 ## Environment Variables

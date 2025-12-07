@@ -2260,6 +2260,166 @@
     "holiday-special": {
       "name": "Special Sarbatori",
       "description": "Festiv pentru promotii sezoniere"
+    },
+    "luxury-brand": {
+      "name": "Brand de Lux",
+      "description": "Design elegant pentru branduri premium si produse de lux"
+    },
+    "gaming-promo": {
+      "name": "Promo Gaming",
+      "description": "Design energic pentru gaming si esports"
+    },
+    "wellness-spa": {
+      "name": "Wellness & Spa",
+      "description": "Calm si linistit pentru afaceri de wellness"
+    },
+    "black-friday": {
+      "name": "Black Friday",
+      "description": "Design puternic pentru vanzarile de Black Friday"
+    },
+    "podcast-cover": {
+      "name": "Lansare Podcast",
+      "description": "Coperta moderna pentru episoade de podcast"
+    },
+    "fitness-challenge": {
+      "name": "Provocare Fitness",
+      "description": "Design energic pentru promotii fitness"
+    },
+    "eco-friendly": {
+      "name": "Eco Friendly",
+      "description": "Mesaje sustenabile si naturale pentru branduri"
+    },
+    "wedding-elegant": {
+      "name": "Nunta Eleganta",
+      "description": "Design romantic pentru servicii de nunta"
+    },
+    "crypto-launch": {
+      "name": "Lansare Crypto",
+      "description": "Design futurist pentru crypto si blockchain"
+    },
+    "food-delivery": {
+      "name": "Livrare Mancare",
+      "description": "Design apetisant pentru servicii de livrare mancare"
+    },
+    "healthcare-clinic": {
+      "name": "Clinica Medicala",
+      "description": "Design profesional pentru clinici medicale si sanatate"
+    },
+    "real-estate": {
+      "name": "Imobiliare",
+      "description": "Listari de proprietati si promotii imobiliare"
+    },
+    "education-course": {
+      "name": "Curs Educatie",
+      "description": "Cursuri online si platforme e-learning"
+    },
+    "finance-banking": {
+      "name": "Finante & Banking",
+      "description": "Servicii financiare si promotii bancare"
+    },
+    "travel-vacation": {
+      "name": "Calatorii & Vacante",
+      "description": "Pachete de calatorie si promotii vacanta"
+    },
+    "automotive-dealer": {
+      "name": "Dealer Auto",
+      "description": "Dealeri auto si servicii automotive"
+    },
+    "beauty-cosmetics": {
+      "name": "Beauty & Cosmetice",
+      "description": "Promotii pentru ingrijirea pielii si produse cosmetice"
+    },
+    "legal-services": {
+      "name": "Servicii Juridice",
+      "description": "Firme de avocatura si consultanta legala"
+    },
+    "music-event": {
+      "name": "Eveniment Muzical",
+      "description": "Concerte si festivaluri de muzica"
+    },
+    "pet-services": {
+      "name": "Servicii Animale",
+      "description": "Pet shop-uri si servicii veterinare"
+    },
+    "photography-studio": {
+      "name": "Studio Foto",
+      "description": "Servicii de fotografie profesionala"
+    },
+    "charity-donation": {
+      "name": "Caritate & Donatii",
+      "description": "Campanii non-profit si caritabile"
+    },
+    "valentines-day": {
+      "name": "Ziua Indragostitilor",
+      "description": "Promotii romantice de Valentine's Day"
+    },
+    "halloween": {
+      "name": "Halloween",
+      "description": "Campanii de Halloween infricosatoare"
+    },
+    "cyber-monday": {
+      "name": "Cyber Monday",
+      "description": "Oferte digitale de Cyber Monday"
+    },
+    "mothers-day": {
+      "name": "Ziua Mamei",
+      "description": "Promotii pentru cadouri de Ziua Mamei"
+    },
+    "new-year": {
+      "name": "Revelion",
+      "description": "Sarbatori de Anul Nou"
+    },
+    "summer-sale": {
+      "name": "Reduceri de Vara",
+      "description": "Oferte fierbinti de vara si reduceri"
+    },
+    "chinese-new-year": {
+      "name": "Anul Nou Chinezesc",
+      "description": "Sarbatori de Anul Nou Lunar"
+    },
+    "back-to-school": {
+      "name": "Inapoi la Scoala",
+      "description": "Promotii pentru inceputul scolii"
+    },
+    "retro-80s": {
+      "name": "Retro 80s",
+      "description": "Estetica nostalgica synthwave din anii 80"
+    },
+    "glassmorphism": {
+      "name": "Stil Glassmorphism",
+      "description": "Estetica moderna UI cu sticla mata"
+    },
+    "memphis-playful": {
+      "name": "Memphis Jucaus",
+      "description": "Design Memphis colorat din anii 80"
+    },
+    "mid-century": {
+      "name": "Mid-Century Modern",
+      "description": "Stil retro modern din anii 1950-60"
+    },
+    "vaporwave-aesthetic": {
+      "name": "Estetica Vaporwave",
+      "description": "Stil retro nostalgic vaporwave"
+    },
+    "webinar-event": {
+      "name": "Eveniment Webinar",
+      "description": "Promovare webinar online si evenimente virtuale"
+    },
+    "free-trial": {
+      "name": "Oferta Free Trial",
+      "description": "Promotii pentru incercari gratuite si demo"
+    },
+    "newsletter-signup": {
+      "name": "Abonare Newsletter",
+      "description": "Promotie pentru abonare email si newsletter"
+    },
+    "testimonials": {
+      "name": "Testimoniale",
+      "description": "Review-uri de la clienti si dovezi sociale"
+    },
+    "coming-soon": {
+      "name": "Coming Soon",
+      "description": "Teaser pre-lansare si creare de anticipatie"
     }
   },
   "bannerTemplates": {
@@ -2288,7 +2448,32 @@
       "banner-type-free-trial": { "name": "Perioada Gratuita", "description": "Promotie oferta de test gratuit" },
       "banner-type-contact": { "name": "Contacteaza-ne", "description": "Promotie contact/intrebare" },
       "banner-type-lead-gen": { "name": "Generare Leaduri", "description": "Campanie capturare leaduri" },
-      "banner-type-social-ad": { "name": "Reclama Social Media", "description": "Publicitate pe platforme sociale" }
+      "banner-type-social-ad": { "name": "Reclama Social Media", "description": "Publicitate pe platforme sociale" },
+      "banner-type-about-us": { "name": "Despre Noi", "description": "Povestea companiei si prezentare echipa" },
+      "banner-type-our-services": { "name": "Serviciile Noastre", "description": "Banner prezentare servicii" },
+      "banner-type-our-team": { "name": "Echipa Noastra", "description": "Prezentare membri echipa" },
+      "banner-type-company-values": { "name": "Valorile Companiei", "description": "Banner valori fundamentale si misiune" },
+      "banner-type-case-study": { "name": "Studiu de Caz", "description": "Poveste de succes sau piesa de portofoliu" },
+      "banner-type-testimonials": { "name": "Testimoniale", "description": "Recenzii si testimoniale clienti" },
+      "banner-type-blog-post": { "name": "Promotie Articol Blog", "description": "Banner articol sau caracteristica blog" },
+      "banner-type-portfolio": { "name": "Prezentare Portofoliu", "description": "Banner afisare exemple lucrari" },
+      "banner-type-faq-help": { "name": "FAQ / Ajutor", "description": "Banner sectiune ajutor sau FAQ" },
+      "banner-type-coming-soon": { "name": "In Curand", "description": "Banner teaser pre-lansare" },
+      "banner-type-awards": { "name": "Premii si Recunoastere", "description": "Banner certificari si premii" },
+      "banner-type-partnership": { "name": "Parteneriat", "description": "Banner logo-uri parteneri sau clienti" },
+      "banner-type-press-media": { "name": "Presa / Media", "description": "Banner mentiuni media si presa" },
+      "banner-type-carousel": { "name": "Reclama Carusel", "description": "Pentru slideshow-uri/carusele social media" },
+      "banner-type-email-header": { "name": "Header Email", "description": "Header pentru newslettere/campanii email" },
+      "banner-type-app-screenshot": { "name": "Screenshot App Store", "description": "Screenshot promotional pentru app store-uri" },
+      "banner-type-podcast-cover": { "name": "Coperta Podcast", "description": "Arta de coperta pentru podcasturi" },
+      "banner-type-event-ticket": { "name": "Bilet Eveniment", "description": "Bilete digitale pentru evenimente" },
+      "banner-type-menu-board": { "name": "Panou Meniu", "description": "Signalistica digitala pentru restaurante/cafenele" },
+      "banner-type-job-posting": { "name": "Anunt Angajare", "description": "Anunturi de recrutare" },
+      "banner-type-countdown": { "name": "Banner Numaratoare Inversa", "description": "Cu timer pentru lansari" },
+      "banner-type-video-thumbnail": { "name": "Thumbnail Video", "description": "Thumbnail pentru YouTube/video" },
+      "banner-type-infographic": { "name": "Infografic", "description": "Mini infografice promotionale" },
+      "banner-type-coupon": { "name": "Cupon/Voucher", "description": "Cupoane digitale de reducere" },
+      "banner-type-giveaway": { "name": "Tombola", "description": "Concursuri si tombole" }
     },
     "bannerSize": {
       "size-leaderboard-728x90": { "name": "Leaderboard (728x90)", "description": "Banner orizontal standard pentru header-e site" },
@@ -2317,7 +2502,20 @@
       "size-full-width-1920x400": { "name": "Full Width (1920x400)", "description": "Banner promotional full-width" },
       "size-medium-width-1440x400": { "name": "Latime Medie (1440x400)", "description": "Banner full-width mediu" },
       "size-cta-800x200": { "name": "Banner CTA (800x200)", "description": "Banner call-to-action" },
-      "size-cta-1200x300": { "name": "CTA Mare (1200x300)", "description": "Banner call-to-action mare" }
+      "size-cta-1200x300": { "name": "CTA Mare (1200x300)", "description": "Banner call-to-action mare" },
+      "size-pinterest-1000x1500": { "name": "Pinterest Pin (1000x1500)", "description": "Pinterest Pin (raport 2:3)" },
+      "size-tiktok-1080x1920": { "name": "TikTok/Reels (1080x1920)", "description": "Format vertical TikTok/Reels" },
+      "size-twitter-header-1500x500": { "name": "Header Twitter/X (1500x500)", "description": "Header profil Twitter/X" },
+      "size-twitter-post-1200x675": { "name": "Postare Twitter/X (1200x675)", "description": "Postare Twitter/X (16:9)" },
+      "size-linkedin-cover-1584x396": { "name": "Cover LinkedIn (1584x396)", "description": "Cover pagina companie LinkedIn" },
+      "size-linkedin-post-1200x627": { "name": "Postare LinkedIn (1200x627)", "description": "Postare feed LinkedIn" },
+      "size-youtube-thumbnail-1280x720": { "name": "Thumbnail YouTube (1280x720)", "description": "Thumbnail video YouTube" },
+      "size-youtube-banner-2560x1440": { "name": "Banner YouTube (2560x1440)", "description": "Banner canal YouTube" },
+      "size-email-600x200": { "name": "Header Email (600x200)", "description": "Header email standard" },
+      "size-ultrawide-2560x1080": { "name": "Ultrawide (2560x1080)", "description": "Ecran ultrawide (21:9)" },
+      "size-a4-portrait-2480x3508": { "name": "A4 Portret (2480x3508)", "description": "A4 gata de print portret" },
+      "size-a4-landscape-3508x2480": { "name": "A4 Peisaj (3508x2480)", "description": "A4 gata de print peisaj" },
+      "size-custom": { "name": "Dimensiune Personalizata", "description": "Introdu dimensiunile tale personalizate" }
     },
     "industry": {
       "industry-fashion": { "name": "Moda si Imbracaminte", "description": "Imbracaminte, accesorii si retail fashion" },
@@ -2359,7 +2557,31 @@
       "industry-crypto": { "name": "Crypto si Blockchain", "description": "Criptomonede si blockchain" },
       "industry-ai-ml": { "name": "AI si Machine Learning", "description": "Servicii de inteligenta artificiala" },
       "industry-cybersecurity": { "name": "Securitate Cibernetica", "description": "Servicii de securitate si protectie" },
-      "industry-pharma": { "name": "Farmaceutice", "description": "Produse farmaceutice si medicale" }
+      "industry-pharma": { "name": "Farmaceutice", "description": "Produse farmaceutice si medicale" },
+      "industry-phone-repair": { "name": "Reparatii Telefoane", "description": "Servicii de reparare dispozitive mobile" },
+      "industry-laptop-repair": { "name": "Reparatii Laptopuri", "description": "Servicii de reparare calculatoare si laptopuri" },
+      "industry-it-outsourcing": { "name": "Outsourcing IT", "description": "Servicii de outsourcing si personal IT" },
+      "industry-nanotechnology": { "name": "Nanotehnologie", "description": "Cercetare si produse nanotech" },
+      "industry-data-center": { "name": "Data Center", "description": "Servicii de data center si hosting" },
+      "industry-cloud-services": { "name": "Servicii Cloud", "description": "Cloud computing si gazduire SaaS" },
+      "industry-3d-printing": { "name": "Printare 3D", "description": "Servicii de manufacturare aditiva" },
+      "industry-drone-services": { "name": "Servicii Drone", "description": "Operatiuni comerciale cu drone" },
+      "industry-ev-electric": { "name": "EV si Electric", "description": "Vehicule electrice si incarcare" },
+      "industry-solar-renewable": { "name": "Solar si Regenerabil", "description": "Panouri solare si energie verde" },
+      "industry-smart-home": { "name": "Casa Inteligenta", "description": "IoT si automatizare casa" },
+      "industry-telecom": { "name": "Telecomunicatii", "description": "Servicii de telecomunicatii" },
+      "industry-coworking": { "name": "Spatiu Coworking", "description": "Birouri partajate si spatii de coworking" },
+      "industry-dentistry": { "name": "Stomatologie", "description": "Cabinete stomatologice si sanatate orala" },
+      "industry-veterinary": { "name": "Veterinar", "description": "Clinici veterinare si spitale pentru animale" },
+      "industry-photography": { "name": "Fotografie", "description": "Servicii foto profesionale" },
+      "industry-wedding": { "name": "Servicii Nunti", "description": "Servicii pentru nunti si mirese" },
+      "industry-moving": { "name": "Servicii Mutare", "description": "Servicii de mutare si relocare" },
+      "industry-cleaning": { "name": "Servicii Curatenie", "description": "Servicii profesionale de curatenie" },
+      "industry-daycare": { "name": "Gradinita/Cresa", "description": "Gradinite si servicii de ingrijire copii" },
+      "industry-tutoring": { "name": "Meditatii/Educatie", "description": "Meditatii private si servicii educationale" },
+      "industry-escape-room": { "name": "Escape Room", "description": "Escape room-uri si divertisment imersiv" },
+      "industry-brewery": { "name": "Berarie/Crama", "description": "Berarii, crame si bauturi artizanale" },
+      "industry-marketplace": { "name": "Marketplace", "description": "Platforme marketplace multi-vendor" }
     },
     "designStyle": {
       "design-minimalist": { "name": "Minimalist", "description": "Design curat, simplu cu mult spatiu alb" },
@@ -2397,7 +2619,19 @@
       "design-eco-friendly": { "name": "Eco-Friendly", "description": "Design verde sustenabil" },
       "design-botanical": { "name": "Botanic", "description": "Tema cu plante si flori" },
       "design-earthy": { "name": "Pamantiu", "description": "Tonuri de pamant si simt natural" },
-      "design-sustainable": { "name": "Sustenabil", "description": "Design sustenabil constient" }
+      "design-sustainable": { "name": "Sustenabil", "description": "Design sustenabil constient" },
+      "design-neobrutalist": { "name": "Neobrutalism", "description": "Culori indraznete, margini dure, estetica bruta" },
+      "design-vaporwave": { "name": "Vaporwave", "description": "Retro anii 80/90, neon, grid-uri, nostalgic" },
+      "design-bauhaus": { "name": "Bauhaus", "description": "Geometric, culori primare, modernist" },
+      "design-memphis": { "name": "Design Memphis", "description": "Colorat, jucaus, pattern-uri geometrice" },
+      "design-swiss": { "name": "Swiss/International", "description": "Grid curat, tipografie puternica" },
+      "design-japandi": { "name": "Japandi", "description": "Minimalism japonez-scandinav" },
+      "design-retrowave": { "name": "Retrowave/Synthwave", "description": "Estetica synth anii 80" },
+      "design-y2k": { "name": "Estetica Y2K", "description": "Stil digital de la inceputul anilor 2000" },
+      "design-brutalist-web": { "name": "Brutalist Web", "description": "Brut, neslefuit, structura expusa" },
+      "design-skeuomorphic": { "name": "Skeuomorfic", "description": "Texturi si umbre realiste" },
+      "design-kawaii": { "name": "Kawaii", "description": "Stil dragut inspirat din Japonia" },
+      "design-dark-mode": { "name": "Dark Mode", "description": "Design optimizat pentru interfata intunecata" }
     },
     "colorScheme": {
       "color-black-white": { "name": "Alb-Negru", "description": "Paleta monocroma clasica" },
@@ -2429,7 +2663,19 @@
       "color-spring-pastels": { "name": "Pasteluri Primavara", "description": "Culori primavaratice delicate" },
       "color-summer-brights": { "name": "Vara Stralucitor", "description": "Paleta vibranta de vara" },
       "color-autumn-warm": { "name": "Toamna Calda", "description": "Culori de recolta de toamna" },
-      "color-winter-cool": { "name": "Iarna Rece", "description": "Paleta rece de iarna" }
+      "color-winter-cool": { "name": "Iarna Rece", "description": "Paleta rece de iarna" },
+      "color-sunset-gradient": { "name": "Gradient Apus", "description": "Gradient portocaliu spre roz spre mov" },
+      "color-berry-mix": { "name": "Mix de Fructe", "description": "Tonuri violet, burgundy si trandafir" },
+      "color-fire-ice": { "name": "Foc si Gheata", "description": "Contrast rosu spre mov spre albastru" },
+      "color-cotton-candy": { "name": "Vata de Zahar", "description": "Roz pastel si albastru pastel" },
+      "color-tropical": { "name": "Tropical", "description": "Paleta turcoaz, coral si lime" },
+      "color-mocha": { "name": "Cafea Mocha", "description": "Tonuri maro, crem si caramel" },
+      "color-midnight": { "name": "Albastru Miezul Noptii", "description": "Gradient navy inchis spre negru" },
+      "color-peachy": { "name": "Piersica Dulce", "description": "Tonuri piersica, coral si crem" },
+      "color-sage-green": { "name": "Verde Salvie", "description": "Verde estompat si alb murdar" },
+      "color-dusty-rose": { "name": "Roz Praful", "description": "Tonuri roz estompat si mov pal" },
+      "color-electric-lime": { "name": "Lime Electric", "description": "Contrast verde neon si negru" },
+      "color-bronze-copper": { "name": "Bronz si Cupru", "description": "Tonuri metalice calde" }
     },
     "mood": {
       "mood-exciting": { "name": "Entuziasmat", "description": "Energie ridicata si captivant" },
@@ -2450,8 +2696,18 @@
       "mood-exclusive": { "name": "Exclusiv", "description": "Special si selectat" },
       "mood-last-chance": { "name": "Ultima Sansa", "description": "Oportunitate finala" },
       "mood-peaceful": { "name": "Pasnic", "description": "Calm si linistit" },
-      "mood-relaxing": { "name": "Relaxant", "description": "Calmant si odihnitpr" },
-      "mood-zen": { "name": "Zen", "description": "Constient si echilibrat" }
+      "mood-relaxing": { "name": "Relaxant", "description": "Calmant si odihnitor" },
+      "mood-zen": { "name": "Zen", "description": "Constient si echilibrat" },
+      "mood-nostalgic": { "name": "Nostalgic", "description": "Cald, familiar, retrospectiv" },
+      "mood-bold": { "name": "Indraznet", "description": "Curajos, atrage atentia" },
+      "mood-mysterious": { "name": "Misterios", "description": "Intrigant, enigmatic" },
+      "mood-eco-conscious": { "name": "Eco-Constient", "description": "Verde, sustenabil, natural" },
+      "mood-rebellious": { "name": "Rebel", "description": "Nonconformist, neconventional" },
+      "mood-whimsical": { "name": "Fantastic", "description": "Fantasie, oniric" },
+      "mood-empowering": { "name": "Imputernicitor", "description": "Motivational, putere" },
+      "mood-cozy": { "name": "Confortabil", "description": "Comfortabil, casnic" },
+      "mood-fresh": { "name": "Proaspat", "description": "Nou, crocant, modern" },
+      "mood-adventurous": { "name": "Aventuros", "description": "Entuziasmat, explorare" }
     },
     "seasonal": {
       "seasonal-spring": { "name": "Primavara Proaspata", "description": "Tema proaspata de reinnoire primavaratica" },
@@ -2478,7 +2734,19 @@
       "special-labor-day": { "name": "Ziua Muncii", "description": "Weekend-ul Zilei Muncii" },
       "special-memorial-day": { "name": "Memorial Day", "description": "Comemorare Memorial Day" },
       "special-earth-day": { "name": "Ziua Pamantului", "description": "Constientizare de mediu" },
-      "special-singles-day": { "name": "Ziua Celibatarilor", "description": "Festival de cumparaturi 11.11" }
+      "special-singles-day": { "name": "Ziua Celibatarilor", "description": "Festival de cumparaturi 11.11" },
+      "holiday-diwali": { "name": "Diwali", "description": "Festivalul luminilor" },
+      "holiday-chinese-new-year": { "name": "Anul Nou Chinezesc", "description": "Celebrarea anului nou lunar" },
+      "holiday-ramadan": { "name": "Ramadan/Eid", "description": "Sarbatori islamice" },
+      "holiday-hanukkah": { "name": "Hanukkah", "description": "Sarbatoare evreiasca" },
+      "special-winter-sale": { "name": "Reduceri de Iarna", "description": "Oferte de sezon rece" },
+      "special-mid-year-sale": { "name": "Reduceri la Mijlocul Anului", "description": "Oferte la jumatatea anului" },
+      "special-anniversary-sale": { "name": "Reduceri Aniversare", "description": "Aniversare magazin/brand" },
+      "special-grand-opening": { "name": "Inaugurare", "description": "Celebrare lansare noua" },
+      "special-pre-order": { "name": "Pre-comanda", "description": "Promotii de pre-comanda" },
+      "special-vip-exclusive": { "name": "Exclusiv VIP", "description": "Oferte exclusive VIP" },
+      "event-prime-day": { "name": "Stil Prime Day", "description": "Eveniment major de cumparaturi" },
+      "special-weekend-deal": { "name": "Oferta de Weekend", "description": "Oferte speciale de weekend" }
     },
     "backgroundStyle": {
       "bg-solid-color": { "name": "Culoare Solida", "description": "Fundal o singura culoare" },
@@ -2515,7 +2783,19 @@
       "bg-urban": { "name": "Scena Urbana", "description": "Fundal mediu de oras" },
       "bg-technology": { "name": "Tehnologie", "description": "Fundal cu tema tech" },
       "bg-space": { "name": "Spatiu", "description": "Fundal spatiu cosmic" },
-      "bg-bokeh": { "name": "Lumini Bokeh", "description": "Cercuri de lumina blurate" }
+      "bg-bokeh": { "name": "Lumini Bokeh", "description": "Cercuri de lumina blurate" },
+      "bg-topographic": { "name": "Topografic", "description": "Linii de contur stil harta" },
+      "bg-isometric-grid": { "name": "Grila Izometrica", "description": "Grila 3D izometrica" },
+      "bg-halftone": { "name": "Halftone", "description": "Pattern puncte stil comic" },
+      "bg-watercolor": { "name": "Acuarela", "description": "Textura acuarela" },
+      "bg-terrazzo": { "name": "Terrazzo", "description": "Pattern terrazzo modern" },
+      "bg-brush-strokes": { "name": "Tuse de Pensulă", "description": "Textura tuse de pensula" },
+      "bg-pixel-art": { "name": "Pixel Art", "description": "Fundal retro pixelat" },
+      "bg-circuit-board": { "name": "Circuit Electronic", "description": "Pattern circuit electronic" },
+      "bg-neon-lights": { "name": "Lumini Neon", "description": "Lumini neon urbane" },
+      "bg-liquid-metal": { "name": "Metal Lichid", "description": "Chrome/metal lichid" },
+      "bg-smoke-fog": { "name": "Fum/Ceata", "description": "Efect de fum sau ceata" },
+      "bg-aurora": { "name": "Aurora Boreala", "description": "Gradient stil aurora" }
     },
     "visualEffects": {
       "effect-drop-shadow": { "name": "Umbra Clasica", "description": "Umbra clasica sub elemente" },
@@ -2547,7 +2827,19 @@
       "effect-wave": { "name": "Efecte Val", "description": "Miscare de val curgator" },
       "effect-glitch": { "name": "Efect Glitch", "description": "Estetica de glitch digital" },
       "effect-neon-glow": { "name": "Stralucire Neon", "description": "Luminozitate neon stralucitoare" },
-      "effect-holographic": { "name": "Holografic", "description": "Efect curcubeu irizat" }
+      "effect-holographic": { "name": "Holografic", "description": "Efect curcubeu irizat" },
+      "effect-chromatic-aberration": { "name": "Aberatie Cromatica", "description": "Efect de separare RGB" },
+      "effect-double-exposure": { "name": "Expunere Dubla", "description": "Suprapunere imagini combinate" },
+      "effect-reflection": { "name": "Reflexie Oglinda", "description": "Efect de suprafata oglindita" },
+      "effect-scanlines": { "name": "Linii Scanare", "description": "Linii retro monitor CRT" },
+      "effect-halftone-dots": { "name": "Puncte Halftone", "description": "Pattern puncte tipar" },
+      "effect-frosted-glass": { "name": "Sticla Mata", "description": "Suprafata blur translucida" },
+      "effect-smoke": { "name": "Efect Fum", "description": "Urme de fum artistice" },
+      "effect-liquid": { "name": "Efect Lichid", "description": "Forme fluide in miscare" },
+      "effect-prism": { "name": "Prisma/Curcubeu", "description": "Refractie spectru de lumina" },
+      "effect-emboss": { "name": "Relief", "description": "Textura in relief ridicat" },
+      "effect-pixelate": { "name": "Pixelat", "description": "Mozaic artistic blocuri" },
+      "effect-distortion": { "name": "Distorsiune", "description": "Perspectiva vizuala deformata" }
     },
     "iconGraphics": {
       "icon-outlined": { "name": "Iconite Contur", "description": "Iconite bazate pe linii" },
