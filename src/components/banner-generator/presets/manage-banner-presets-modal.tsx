@@ -133,7 +133,7 @@ export function ManageBannerPresetsModal({
             {t("managePresets")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
+        <DialogContent className="sm:max-w-3xl">
           <DialogHeader>
             <DialogTitle>{t("managePresets")}</DialogTitle>
             <DialogDescription>{t("managePresetsDescription")}</DialogDescription>
@@ -149,7 +149,7 @@ export function ManageBannerPresetsModal({
               <p className="text-sm">{t("noPresetsSavedHint")}</p>
             </div>
           ) : (
-            <ScrollArea className="flex-1 min-h-0 pr-4">
+            <ScrollArea className="max-h-[60vh] pr-4">
               <div className="space-y-4 pb-4">
                 {presets.map((preset) => {
                   const totalFields = getTotalConfiguredFields(preset.config);
