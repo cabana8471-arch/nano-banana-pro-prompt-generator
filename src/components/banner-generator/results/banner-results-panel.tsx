@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import { Download, ExternalLink, FileImage, FolderPlus } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -23,6 +23,7 @@ import type { BannerSizeTemplate, BannerExportFormat } from "@/lib/types/banner"
 import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { BannerRefineInput } from "./banner-refine-input";
 import { AddToProjectModal } from "../projects/add-to-project-modal";
+import { useBannerResize } from "@/hooks/use-banner-resize";
 
 interface BannerResultsPanelProps {
   images: string[];
@@ -62,6 +63,7 @@ export function BannerResultsPanel({
   const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
   const hasImages = images.length > 0;
   const fullscreenImage = fullscreenIndex !== null ? images[fullscreenIndex] : null;
+  const { resizeIfNeeded } = useBannerResize();
 
   const handleRefine = async (instruction: string) => {
     if (onRefine) {
@@ -71,20 +73,70 @@ export function BannerResultsPanel({
 
   const handleDownload = async (url: string, index: number, format?: BannerExportFormat) => {
     try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = downloadUrl;
       const extension = format || exportFormat || "png";
       const sizeSuffix = selectedBannerSize
         ? `_${selectedBannerSize.width}x${selectedBannerSize.height}`
         : "";
-      link.download = `banner${sizeSuffix}_${index + 1}.${extension}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(downloadUrl);
+      const filename = `banner${sizeSuffix}_${index + 1}.${extension}`;
+
+      // Fetch the original image
+      const response = await fetch(url);
+      const blob = await response.blob();
+
+      // Create an image element to load the blob
+      const img = new window.Image();
+      const blobUrl = URL.createObjectURL(blob);
+
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("Failed to load image"));
+        img.src = blobUrl;
+      });
+
+      // Create canvas and draw the image
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) {
+        throw new Error("Failed to get canvas context");
+      }
+
+      ctx.drawImage(img, 0, 0);
+
+      // Clean up the blob URL
+      URL.revokeObjectURL(blobUrl);
+
+      // Determine MIME type and quality based on format
+      const mimeType =
+        extension === "jpg"
+          ? "image/jpeg"
+          : extension === "webp"
+            ? "image/webp"
+            : "image/png";
+      // PNG doesn't use quality parameter, JPG and WebP use 0.92 for high quality
+      const quality = extension === "png" ? undefined : 0.92;
+
+      // Convert to the requested format using canvas.toBlob
+      canvas.toBlob(
+        (convertedBlob) => {
+          if (convertedBlob) {
+            const downloadUrl = URL.createObjectURL(convertedBlob);
+            const link = document.createElement("a");
+            link.href = downloadUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(downloadUrl);
+          } else {
+            console.error("Failed to convert image to", extension);
+          }
+        },
+        mimeType,
+        quality
+      );
     } catch (error) {
       console.error("Failed to download image:", error);
     }
