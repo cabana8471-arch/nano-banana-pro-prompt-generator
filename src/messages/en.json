@@ -114,6 +114,8 @@
       "notSet": "Not Set",
       "twoFactor": "Two-Factor Authentication",
       "twoFactorDescription": "Add an extra layer of security",
+      "twoFactorGoogleManaged": "Your account security is managed by Google. Enable 2FA in your Google account for extra protection.",
+      "manageInGoogle": "Google Security",
       "activeSessions": "Active Sessions",
       "activeSessionsDescription": "Manage devices logged into your account",
       "oneActive": "1 Active"

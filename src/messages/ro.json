@@ -114,6 +114,8 @@
       "notSet": "Nesetat",
       "twoFactor": "Autentificare in doi pasi",
       "twoFactorDescription": "Adauga un nivel suplimentar de securitate",
+      "twoFactorGoogleManaged": "Securitatea contului tau este gestionata de Google. Activeaza 2FA in contul Google pentru protectie suplimentara.",
+      "manageInGoogle": "Securitate Google",
       "activeSessions": "Sesiuni active",
       "activeSessionsDescription": "Gestioneaza dispozitivele conectate la cont",
       "oneActive": "1 Activ"

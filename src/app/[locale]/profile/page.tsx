@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone } from "lucide-react";
+import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone, ExternalLink } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -348,18 +348,26 @@ export default function ProfilePage() {
               </Badge>
             </div>
 
-            <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/30">
               <div className="flex items-center gap-3">
                 <Smartphone className="h-5 w-5 text-muted-foreground" />
                 <div>
                   <p className="font-medium">{t("profile.security.twoFactor")}</p>
                   <p className="text-sm text-muted-foreground">
-                    {t("profile.security.twoFactorDescription")}
+                    {t("profile.security.twoFactorGoogleManaged")}
                   </p>
                 </div>
               </div>
-              <Button variant="outline" size="sm" disabled>
-                {t("common.comingSoon")}
+              <Button variant="outline" size="sm" asChild>
+                <a
+                  href="https://myaccount.google.com/security"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1"
+                >
+                  {t("profile.security.manageInGoogle")}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
               </Button>
             </div>
 

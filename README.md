@@ -121,6 +121,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 
 ### Infrastructure
 - **BYOK (Bring Your Own Key)**: Users provide their own Google AI API key, stored securely with AES-256-GCM encryption
+- **Google OAuth Security**: Account security managed by Google with direct link to Google Security settings for 2FA configuration
 - **Internationalization (i18n)**: Full support for English and Romanian languages with locale-based URL routing (`/en/`, `/ro/`)
 - **Intuitive Error Messages**: Client-side validation for file uploads with specific error messages (file size limits, invalid file types) displayed instantly before server requests
 
