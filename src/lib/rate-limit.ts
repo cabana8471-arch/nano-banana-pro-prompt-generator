@@ -151,3 +151,9 @@ export const bannerReferenceUploadLimiter = createRateLimiter("banner-reference-
   limit: 15,
   windowMs: 60 * 60 * 1000, // 1 hour
 });
+
+/** Rate limiter for logo reference uploads: 15 uploads per hour per user */
+export const logoReferenceUploadLimiter = createRateLimiter("logo-reference-upload", {
+  limit: 15,
+  windowMs: 60 * 60 * 1000, // 1 hour
+});
