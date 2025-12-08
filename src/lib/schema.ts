@@ -302,3 +302,47 @@ export const bannerPresets = pgTable(
   },
   (table) => [index("banner_presets_user_id_idx").on(table.userId)]
 );
+
+// ==========================================
+// Logo Generator Tables
+// ==========================================
+
+// Logo Presets - Saved logo configuration presets
+export const logoPresets = pgTable(
+  "logo_presets",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    config: jsonb("config").notNull(), // Full logo builder configuration (LogoPresetConfig)
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index("logo_presets_user_id_idx").on(table.userId)]
+);
+
+// Logo References - Reference/inspiration images for logo generation
+export const logoReferences = pgTable(
+  "logo_references",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    description: text("description"),
+    imageUrl: text("image_url").notNull(),
+    referenceType: text("reference_type").notNull().default("style"), // "style" | "composition" | "color"
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index("logo_references_user_id_idx").on(table.userId)]
+);

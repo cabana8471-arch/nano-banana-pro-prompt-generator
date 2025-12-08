@@ -81,9 +81,23 @@ export const RESOURCE_LIMITS = {
 
   /** Maximum banner references per generation */
   MAX_BANNER_REFERENCES_PER_GENERATION: 4,
+
+  /** Maximum logo presets a user can create */
+  MAX_LOGO_PRESETS_PER_USER: 50,
+
+  /** Maximum logo references a user can create */
+  MAX_LOGO_REFERENCES_PER_USER: 50,
+
+  /** Maximum logo references per generation */
+  MAX_LOGO_REFERENCES_PER_GENERATION: 4,
 } as const;
 
 export const BANNER_REFERENCE_LIMITS = {
   /** Maximum banner reference uploads per hour per user */
+  UPLOADS_PER_HOUR: 15,
+} as const;
+
+export const LOGO_REFERENCE_LIMITS = {
+  /** Maximum logo reference uploads per hour per user */
   UPLOADS_PER_HOUR: 15,
 } as const;

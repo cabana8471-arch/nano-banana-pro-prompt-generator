@@ -6,7 +6,7 @@
 export type AvatarType = "human" | "object" | "logo" | "product" | "reference";
 
 // Generation Types
-export type GenerationType = "photo" | "banner";
+export type GenerationType = "photo" | "banner" | "logo";
 
 export interface Avatar {
   id: string;

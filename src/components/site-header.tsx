@@ -1,6 +1,6 @@
 "use client";
 
-import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette } from "lucide-react";
+import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette, Hexagon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { UserProfile } from "@/components/auth/user-profile";
 import { Link, usePathname } from "@/i18n/routing";
@@ -26,6 +26,7 @@ export function SiteHeader() {
   const simpleNavItems = [
     { href: "/photo-generator" as const, labelKey: "photos" as const, icon: Wand2 },
     { href: "/banner-generator" as const, labelKey: "bannerGenerator" as const, icon: LayoutPanelTop },
+    { href: "/logo-generator" as const, labelKey: "logoGenerator" as const, icon: Hexagon },
     { href: "/gallery" as const, labelKey: "gallery" as const, icon: ImageIcon },
   ];
 

@@ -84,6 +84,36 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **Duplicate Presets**: Clone presets with custom names from multiple locations
   - **Field Count Badges**: Visual indicators showing how many fields each preset configures
 
+### Logo Generator
+- **Professional Logo Creation**: Dedicated AI-powered logo generator for brand identity design
+- **Multi-Logo Generation**: Generate 1-4 logo variations simultaneously
+- **Project Organization**: Organize logos into projects, same workflow as banners
+- **12 Template Categories**: Comprehensive logo design options:
+  - **Basic Configuration**: Logo Type (Wordmark, Lettermark, Symbol, Combination, Emblem, Mascot, Abstract), Industry/Niche (19 industries including Tech, Finance, Healthcare, etc.), Logo Format (Horizontal, Vertical, Icon Only, Text Only, Square, Circular)
+  - **Visual Style**: Design Style (13 styles: Modern Minimalist, Vintage, Bold, Elegant, Playful, Corporate, Tech, Hand-drawn, Geometric, Flat, 3D, Line Art, Gradient), Color Scheme Type (9 types: Monochrome, Two-Color, Multicolor, B&W, Gradient, Pastel, Bold, Earth Tones, Metallic), Mood/Tone (10 moods: Professional, Friendly, Innovative, Traditional, Energetic, Calm, Bold, Sophisticated, Playful, Authoritative)
+  - **Icon/Symbol Design**: Icon Style (8 styles: Abstract Geometric, Organic, Technical, Pictorial, Negative Space, Interconnected, Simplified, Detailed), Symbol Elements (10 types: Letters, Shapes, Nature, Tech, Human, Animals, Buildings, Tools, Arrow, Globe)
+  - **Typography**: Font Category (10 categories: Sans-Serif, Serif, Slab Serif, Script, Display, Geometric Sans, Rounded, Condensed, Bold, Light), Typography Treatment (7 treatments: Uppercase, Lowercase, Title Case, Mixed Case, Spaced Letters, Stacked Words, Integrated)
+  - **Additional Options**: Special Effects (None, Drop Shadow, Outline, Embossed, Glow, Texture), Background Style (Transparent, White, Dark, Colored)
+- **Text Content Manager**: Company Name (30 chars), Tagline (50 chars), Abbreviation (5 chars) with character limits and validation
+- **Brand Colors**: Primary, Secondary, and Accent color pickers with:
+  - **EyeDropper API**: Pick colors from anywhere on screen
+  - **5 Color Palettes**: Brand, Neutral, Professional, Vibrant, Nature
+  - **WCAG Contrast Checker**: Real-time accessibility compliance checking
+  - **Color Swap**: Quick swap between primary and secondary colors
+- **Logo Reference Images**: Upload existing logos as references for style guidance
+  - **Reference Library**: Store references per user with easy management
+  - **Multi-Reference Support**: Use multiple reference images per generation
+- **Quick Start Templates**: 13 pre-configured logo templates:
+  - Tech Startup, Law Firm, Organic Food, Fashion Brand, Sports Team, Creative Agency, Healthcare, Restaurant, Finance, Kids Brand, Outsourcing Company, Nanotechnology, Fire Protection
+- **Preset Management**: Save, load, duplicate, and manage logo configuration presets
+- **SVG Export**: Client-side vectorization for scalable logo output
+  - **Color Quantization**: Intelligent color palette extraction
+  - **Path Tracing**: Contour detection with Ramer-Douglas-Peucker simplification
+  - **Clean SVG Output**: Optimized vector paths for professional use
+- **Export Options**: Download in PNG, JPG, WebP, or SVG format
+- **Refinement System**: Iterative logo refinement with AI suggestions (simpler, bolder, more modern, different colors, larger icon, better typography, more minimal, more unique)
+- **History & Undo**: Full state history tracking for logo configurations
+
 ### Social Features
 - **Gallery**: Browse and share generated images with the community
 - **Gallery Filtering**: Filter gallery by generation type (All, Photos, Banners) and by project

@@ -154,6 +154,62 @@ export const updateBannerPresetSchema = z
   });
 
 // ============================================================================
+// Logo Reference Schemas
+// ============================================================================
+
+/** Validates logo reference type - must be "style", "composition", or "color" */
+export const logoReferenceTypeSchema = z.enum(["style", "composition", "color"], {
+  message: "Reference type must be 'style', 'composition', or 'color'",
+});
+
+/** Schema for creating a new logo reference (form data fields) */
+export const createLogoReferenceSchema = z.object({
+  name: nameSchema,
+  description: descriptionSchema,
+  referenceType: logoReferenceTypeSchema,
+});
+
+/** Schema for updating a logo reference - all fields optional but at least one required */
+export const updateLogoReferenceSchema = z
+  .object({
+    name: nameSchema.optional(),
+    description: descriptionSchema,
+    referenceType: logoReferenceTypeSchema.optional(),
+  })
+  .refine((data) => Object.values(data).some((v) => v !== undefined), {
+    message: "No valid fields to update",
+  });
+
+// ============================================================================
+// Logo Preset Schemas
+// ============================================================================
+
+/** Schema for logo preset configuration - flexible object */
+export const logoPresetConfigSchema = z
+  .object({})
+  .passthrough()
+  .refine(
+    (config) => JSON.stringify(config).length <= INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE,
+    `Preset config too large. Maximum ${INPUT_LIMITS.MAX_PRESET_CONFIG_SIZE} characters allowed`
+  );
+
+/** Schema for creating a new logo preset */
+export const createLogoPresetSchema = z.object({
+  name: nameSchema,
+  config: logoPresetConfigSchema,
+});
+
+/** Schema for updating a logo preset - all fields optional but at least one required */
+export const updateLogoPresetSchema = z
+  .object({
+    name: nameSchema.optional(),
+    config: logoPresetConfigSchema.optional(),
+  })
+  .refine((data) => data.name !== undefined || data.config !== undefined, {
+    message: "No valid fields to update",
+  });
+
+// ============================================================================
 // Project Schemas
 // ============================================================================
 
