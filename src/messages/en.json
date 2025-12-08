@@ -2243,6 +2243,7 @@
       "compareSummary": "{identical} identical, {different} different, {onlyIn1} only in first, {onlyIn2} only in second",
       "loadPreset1": "Load First",
       "loadPreset2": "Load Second",
+      "editPreset": "Edit Preset",
       "editPresetTitle": "Edit Preset",
       "editPresetDescription": "Modify the preset configuration and save changes",
       "unsavedChanges": "Unsaved changes",

@@ -2237,6 +2237,7 @@
       "compareSummary": "{identical} identice, {different} diferite, {onlyIn1} doar in primul, {onlyIn2} doar in al doilea",
       "loadPreset1": "Incarca Primul",
       "loadPreset2": "Incarca Al Doilea",
+      "editPreset": "Editează Preset",
       "editPresetTitle": "Editeaza Preset",
       "editPresetDescription": "Modifica configuratia preset-ului si salveaza modificarile",
       "unsavedChanges": "Modificări nesalvate",
