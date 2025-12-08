@@ -3400,16 +3400,18 @@
       "icon-detailed": { "name": "Detaliat/Intricate", "description": "Elemente fine" }
     },
     "symbolElements": {
-      "sym-letters": { "name": "Litere/Initiale", "description": "Initialele companiei" },
-      "sym-shapes": { "name": "Forme de Baza", "description": "Cerc, patrat, triunghi" },
-      "sym-nature": { "name": "Elemente Natura", "description": "Frunze, copaci, apa" },
-      "sym-tech": { "name": "Elemente Tech", "description": "Circuite, noduri" },
-      "sym-human": { "name": "Oameni", "description": "Figuri sau siluete" },
-      "sym-animals": { "name": "Animale", "description": "Simbolism animal" },
-      "sym-buildings": { "name": "Cladiri", "description": "Arhitectura" },
-      "sym-tools": { "name": "Unelte/Obiecte", "description": "Obiecte relevante" },
-      "sym-arrow": { "name": "Sageata/Directie", "description": "Simboluri de miscare" },
-      "sym-globe": { "name": "Glob/Lume", "description": "Simbolism global" }
+      "symbol-letters": { "name": "Litere / Initiale", "description": "Initialele companiei" },
+      "symbol-circle": { "name": "Forma Cerc", "description": "Element circular" },
+      "symbol-square": { "name": "Forma Patrat", "description": "Element patrat" },
+      "symbol-triangle": { "name": "Forma Triunghi", "description": "Element triunghiular" },
+      "symbol-nature": { "name": "Elemente Natura", "description": "Frunze, copaci sau apa" },
+      "symbol-tech": { "name": "Elemente Tech", "description": "Circuite, noduri, conexiuni" },
+      "symbol-human": { "name": "Oameni / Persoane", "description": "Figuri umane sau siluete" },
+      "symbol-animals": { "name": "Animale", "description": "Simbolism animal" },
+      "symbol-buildings": { "name": "Cladiri / Arhitectura", "description": "Elemente arhitecturale" },
+      "symbol-arrow": { "name": "Sageata / Directie", "description": "Sugestie de miscare" },
+      "symbol-globe": { "name": "Glob / Lume", "description": "Simbolism global" },
+      "symbol-tools": { "name": "Unelte / Obiecte", "description": "Unelte sau obiecte relevante" }
     },
     "fontCategory": {
       "font-sans-modern": { "name": "Sans-Serif Modern", "description": "Fonturi moderne curate" },

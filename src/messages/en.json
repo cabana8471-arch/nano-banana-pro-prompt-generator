@@ -3406,16 +3406,18 @@
       "icon-detailed": { "name": "Detailed/Intricate", "description": "Fine elements" }
     },
     "symbolElements": {
-      "sym-letters": { "name": "Letters/Initials", "description": "Company initials" },
-      "sym-shapes": { "name": "Basic Shapes", "description": "Circle, square, triangle" },
-      "sym-nature": { "name": "Nature Elements", "description": "Leaves, trees, water" },
-      "sym-tech": { "name": "Tech Elements", "description": "Circuits, nodes" },
-      "sym-human": { "name": "Human/People", "description": "Figures or silhouettes" },
-      "sym-animals": { "name": "Animals", "description": "Animal symbolism" },
-      "sym-buildings": { "name": "Buildings", "description": "Architecture" },
-      "sym-tools": { "name": "Tools/Objects", "description": "Relevant objects" },
-      "sym-arrow": { "name": "Arrow/Direction", "description": "Movement symbols" },
-      "sym-globe": { "name": "Globe/World", "description": "Global symbolism" }
+      "symbol-letters": { "name": "Letters / Initials", "description": "Company initials" },
+      "symbol-circle": { "name": "Circle Shape", "description": "Circular element" },
+      "symbol-square": { "name": "Square Shape", "description": "Square element" },
+      "symbol-triangle": { "name": "Triangle Shape", "description": "Triangular element" },
+      "symbol-nature": { "name": "Nature Elements", "description": "Leaves, trees, or water" },
+      "symbol-tech": { "name": "Tech Elements", "description": "Circuits, nodes, connections" },
+      "symbol-human": { "name": "Human / People", "description": "Human figures or silhouettes" },
+      "symbol-animals": { "name": "Animals", "description": "Animal symbolism" },
+      "symbol-buildings": { "name": "Buildings / Architecture", "description": "Architectural elements" },
+      "symbol-arrow": { "name": "Arrow / Direction", "description": "Movement suggestion" },
+      "symbol-globe": { "name": "Globe / World", "description": "Global symbolism" },
+      "symbol-tools": { "name": "Tools / Objects", "description": "Relevant tools or objects" }
     },
     "fontCategory": {
       "font-sans-modern": { "name": "Sans-Serif Modern", "description": "Clean modern fonts" },
