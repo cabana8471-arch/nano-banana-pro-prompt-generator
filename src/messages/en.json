@@ -3114,7 +3114,9 @@
       "visualStyle": "Visual Style",
       "iconSymbol": "Icon & Symbol",
       "typography": "Typography",
-      "additionalOptions": "Additional Options"
+      "additionalOptions": "Additional Options",
+      "textContent": "Text Content",
+      "brandColors": "Brand Colors"
     },
     "categories": {
       "logoType": "Logo Type",
@@ -3142,23 +3144,23 @@
       "fontCategory": "Select font category...",
       "typographyTreatment": "Select typography treatment...",
       "specialEffects": "Select effects...",
-      "backgroundStyle": "Select background..."
+      "backgroundStyle": "Select background...",
+      "companyName": "Enter company name...",
+      "tagline": "Enter tagline...",
+      "abbreviation": "ABC"
     },
     "symbolElements": {
       "hint": "Select up to {max} elements",
       "selected": "{count} element(s) selected"
     },
     "textContent": {
-      "title": "Text Content",
       "companyName": "Company Name",
-      "companyNamePlaceholder": "Enter company name...",
-      "companyNameHint": "The main name for your logo",
       "tagline": "Tagline",
-      "taglinePlaceholder": "Enter tagline...",
-      "taglineHint": "Optional slogan or subtitle",
       "abbreviation": "Abbreviation",
-      "abbreviationPlaceholder": "ABC",
-      "abbreviationHint": "Initials for lettermark logos"
+      "hint": "Text that will appear in your logo design"
+    },
+    "validation": {
+      "characterLimit": "Maximum {limit} characters allowed"
     },
     "brandColors": {
       "title": "Brand Colors",
@@ -3303,17 +3305,23 @@
       "addToProject": "Add to Project"
     },
     "colorPicker": {
+      "primaryColor": "Primary Color",
+      "secondaryColor": "Secondary Color",
+      "accentColor": "Accent Color",
+      "swapColors": "Swap",
+      "swapColorsHint": "Swap primary and secondary colors",
       "eyedropper": "Pick color from screen",
       "palette": "Color palette",
       "selectFromPalette": "Select from palette",
       "saveColor": "Save",
       "savedColors": "Saved colors",
       "contrastRatio": "Contrast",
+      "hint": "Define your brand colors for the logo",
       "palettes": {
         "brand": "Brand",
         "neutral": "Neutral",
-        "warm": "Warm",
-        "cool": "Cool",
+        "professional": "Professional",
+        "vibrant": "Vibrant",
         "nature": "Nature"
       }
     }

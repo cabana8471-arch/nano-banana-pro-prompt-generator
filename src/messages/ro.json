@@ -3108,7 +3108,9 @@
       "visualStyle": "Stil Vizual",
       "iconSymbol": "Pictograma si Simbol",
       "typography": "Tipografie",
-      "additionalOptions": "Optiuni Suplimentare"
+      "additionalOptions": "Optiuni Suplimentare",
+      "textContent": "Continut Text",
+      "brandColors": "Culori Brand"
     },
     "categories": {
       "logoType": "Tip Logo",
@@ -3136,23 +3138,23 @@
       "fontCategory": "Selecteaza categorie font...",
       "typographyTreatment": "Selecteaza tratament tipografic...",
       "specialEffects": "Selecteaza efecte...",
-      "backgroundStyle": "Selecteaza fundal..."
+      "backgroundStyle": "Selecteaza fundal...",
+      "companyName": "Introdu numele companiei...",
+      "tagline": "Introdu slogan...",
+      "abbreviation": "ABC"
     },
     "symbolElements": {
       "hint": "Selecteaza pana la {max} elemente",
       "selected": "{count} element(e) selectat(e)"
     },
     "textContent": {
-      "title": "Continut Text",
       "companyName": "Nume Companie",
-      "companyNamePlaceholder": "Introdu numele companiei...",
-      "companyNameHint": "Numele principal pentru logo",
       "tagline": "Slogan",
-      "taglinePlaceholder": "Introdu slogan...",
-      "taglineHint": "Slogan sau subtitlu optional",
       "abbreviation": "Abreviere",
-      "abbreviationPlaceholder": "ABC",
-      "abbreviationHint": "Initiale pentru logo-uri lettermark"
+      "hint": "Text care va aparea in designul logo-ului"
+    },
+    "validation": {
+      "characterLimit": "Maxim {limit} caractere permise"
     },
     "brandColors": {
       "title": "Culori Brand",
@@ -3297,17 +3299,23 @@
       "addToProject": "Adauga la Proiect"
     },
     "colorPicker": {
+      "primaryColor": "Culoare Primara",
+      "secondaryColor": "Culoare Secundara",
+      "accentColor": "Culoare Accent",
+      "swapColors": "Schimba",
+      "swapColorsHint": "Schimba culorile primara si secundara",
       "eyedropper": "Alege culoare de pe ecran",
       "palette": "Paleta de culori",
       "selectFromPalette": "Selecteaza din paleta",
       "saveColor": "Salveaza",
       "savedColors": "Culori salvate",
       "contrastRatio": "Contrast",
+      "hint": "Defineste culorile brand-ului pentru logo",
       "palettes": {
         "brand": "Brand",
         "neutral": "Neutru",
-        "warm": "Cald",
-        "cool": "Rece",
+        "professional": "Profesional",
+        "vibrant": "Vibrant",
         "nature": "Natura"
       }
     }
