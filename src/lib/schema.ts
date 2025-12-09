@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, index, uuid, jsonb, unique } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, uuid, jsonb, unique, integer } from "drizzle-orm/pg-core";
 
 export const user = pgTable(
   "user",
@@ -173,8 +173,14 @@ export const generations = pgTable(
     prompt: text("prompt").notNull(),
     settings: jsonb("settings").notNull(), // Resolution, aspect ratio, etc.
     status: text("status").notNull().default("pending"), // "pending" | "processing" | "completed" | "failed"
-    generationType: text("generation_type").notNull().default("photo"), // "photo" | "banner"
+    generationType: text("generation_type").notNull().default("photo"), // "photo" | "banner" | "logo"
     errorMessage: text("error_message"),
+    // Cost Control - Token usage tracking
+    promptTokenCount: integer("prompt_token_count"),
+    candidatesTokenCount: integer("candidates_token_count"),
+    totalTokenCount: integer("total_token_count"),
+    usageMetadata: jsonb("usage_metadata"), // Detailed token breakdown by modality
+    estimatedCostMicros: integer("estimated_cost_micros"), // Cost in microdollars (1/1,000,000 USD)
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
@@ -186,6 +192,7 @@ export const generations = pgTable(
     index("generations_status_idx").on(table.status),
     index("generations_type_idx").on(table.generationType),
     index("generations_project_id_idx").on(table.projectId),
+    index("generations_created_at_idx").on(table.createdAt), // For cost control date range queries
   ]
 );
 
@@ -345,4 +352,51 @@ export const logoReferences = pgTable(
       .notNull(),
   },
   (table) => [index("logo_references_user_id_idx").on(table.userId)]
+);
+
+// ==========================================
+// Cost Control Tables
+// ==========================================
+
+// User Budgets - Monthly budget limits and alert settings
+export const userBudgets = pgTable(
+  "user_budgets",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .unique()
+      .references(() => user.id, { onDelete: "cascade" }),
+    monthlyBudgetMicros: integer("monthly_budget_micros").notNull().default(0), // 0 = no limit, stored in microdollars
+    alertThreshold: integer("alert_threshold").notNull().default(80), // Percentage (0-100)
+    alertEnabled: boolean("alert_enabled").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index("user_budgets_user_id_idx").on(table.userId)]
+);
+
+// User Pricing Settings - Configurable token pricing per user
+export const userPricingSettings = pgTable(
+  "user_pricing_settings",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .unique()
+      .references(() => user.id, { onDelete: "cascade" }),
+    // Prices stored in microdollars per 1000 tokens
+    inputTokenPriceMicros: integer("input_token_price_micros").notNull().default(1250), // $0.00125 per 1K tokens
+    outputTextPriceMicros: integer("output_text_price_micros").notNull().default(5000), // $0.005 per 1K tokens
+    outputImagePriceMicros: integer("output_image_price_micros").notNull().default(40000), // $0.04 per 1K tokens
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index("user_pricing_settings_user_id_idx").on(table.userId)]
 );

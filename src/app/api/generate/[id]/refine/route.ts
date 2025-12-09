@@ -5,8 +5,10 @@ import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
-import { generations, generatedImages, generationHistory } from "@/lib/schema";
+import { calculateCostMicros, DEFAULT_PRICING, serializeUsageMetadata } from "@/lib/pricing";
+import { generations, generatedImages, generationHistory, userPricingSettings } from "@/lib/schema";
 import { upload } from "@/lib/storage";
+import type { PricingSettings } from "@/lib/types/cost-control";
 import type {
   GenerationSettings,
   GenerationWithImages,
@@ -194,13 +196,42 @@ export async function POST(request: Request, { params }: RouteParams) {
       imageUrls: savedImages.map((img) => img.imageUrl),
     });
 
-    // Update generation status back to completed and update the prompt
+    // Get user's custom pricing settings (or use defaults)
+    let pricing: PricingSettings = DEFAULT_PRICING;
+    const [userPricing] = await db
+      .select()
+      .from(userPricingSettings)
+      .where(eq(userPricingSettings.userId, session.user.id));
+
+    if (userPricing) {
+      pricing = {
+        inputTokenPriceMicros: userPricing.inputTokenPriceMicros,
+        outputTextPriceMicros: userPricing.outputTextPriceMicros,
+        outputImagePriceMicros: userPricing.outputImagePriceMicros,
+      };
+    }
+
+    // Calculate cost from usage data
+    const costMicros = result.usage ? calculateCostMicros(result.usage, pricing) : null;
+
+    // Aggregate token counts with existing values (refinements add to total)
+    const newPromptTokens = (generation.promptTokenCount || 0) + (result.usage?.promptTokenCount || 0);
+    const newCandidatesTokens = (generation.candidatesTokenCount || 0) + (result.usage?.candidatesTokenCount || 0);
+    const newTotalTokens = (generation.totalTokenCount || 0) + (result.usage?.totalTokenCount || 0);
+    const newCostMicros = (generation.estimatedCostMicros || 0) + (costMicros || 0);
+
+    // Update generation status back to completed and update the prompt with usage data
     const newPrompt = `${generation.prompt} | Refinement: ${instruction.trim()}`;
     await db
       .update(generations)
       .set({
         status: "completed",
         prompt: newPrompt,
+        promptTokenCount: newPromptTokens,
+        candidatesTokenCount: newCandidatesTokens,
+        totalTokenCount: newTotalTokens,
+        usageMetadata: result.usage?.usageMetadata ? serializeUsageMetadata(result.usage.usageMetadata) : generation.usageMetadata,
+        estimatedCostMicros: newCostMicros,
       })
       .where(eq(generations.id, id));
 

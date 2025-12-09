@@ -5,8 +5,10 @@ import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
-import { generations, generatedImages, generationHistory, avatars } from "@/lib/schema";
+import { calculateCostMicros, DEFAULT_PRICING, serializeUsageMetadata } from "@/lib/pricing";
+import { generations, generatedImages, generationHistory, avatars, userPricingSettings } from "@/lib/schema";
 import { upload } from "@/lib/storage";
+import type { PricingSettings } from "@/lib/types/cost-control";
 import type {
   GenerationSettings,
   AvatarType,
@@ -192,10 +194,35 @@ export async function POST(request: Request) {
         imageUrls: images.map((img) => img.imageUrl),
       });
 
-      // Update generation status to completed
+      // Get user's custom pricing settings (or use defaults)
+      let pricing: PricingSettings = DEFAULT_PRICING;
+      const [userPricing] = await tx
+        .select()
+        .from(userPricingSettings)
+        .where(eq(userPricingSettings.userId, session.user.id));
+
+      if (userPricing) {
+        pricing = {
+          inputTokenPriceMicros: userPricing.inputTokenPriceMicros,
+          outputTextPriceMicros: userPricing.outputTextPriceMicros,
+          outputImagePriceMicros: userPricing.outputImagePriceMicros,
+        };
+      }
+
+      // Calculate cost from usage data
+      const costMicros = result.usage ? calculateCostMicros(result.usage, pricing) : null;
+
+      // Update generation status to completed with usage data
       await tx
         .update(generations)
-        .set({ status: "completed" })
+        .set({
+          status: "completed",
+          promptTokenCount: result.usage?.promptTokenCount ?? null,
+          candidatesTokenCount: result.usage?.candidatesTokenCount ?? null,
+          totalTokenCount: result.usage?.totalTokenCount ?? null,
+          usageMetadata: result.usage?.usageMetadata ? serializeUsageMetadata(result.usage.usageMetadata) : null,
+          estimatedCostMicros: costMicros,
+        })
         .where(eq(generations.id, generation.id));
 
       return images;

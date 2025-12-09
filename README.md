@@ -119,6 +119,18 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 - **Gallery Filtering**: Filter gallery by generation type (All, Photos, Banners) and by project
 - **Like System**: Like and discover popular images from other users
 
+### Cost Control
+- **Usage Monitoring**: Track API costs for all generation types (Photo, Banner, Logo)
+- **Dashboard Overview**: View current month's total cost, token usage, and generation count
+- **Month-over-Month Comparison**: Compare costs with previous month with percentage change indicators
+- **Daily Trend Chart**: Visualize cost trends over the last 30 days with interactive recharts graph
+- **Generator Breakdown**: Pie chart showing cost distribution by generation type
+- **Generation History**: Paginated table of all generations with cost details and filtering by type
+- **Budget Management**: Set monthly budget limits with customizable alert thresholds
+- **Custom Pricing**: Configure your own pricing per 1K tokens (input, output text, output image)
+- **CSV Export**: Download detailed cost reports for accounting and analysis
+- **Legacy Migration**: One-click cost estimation for existing generations without usage data
+
 ### Infrastructure
 - **BYOK (Bring Your Own Key)**: Users provide their own Google AI API key, stored securely with AES-256-GCM encryption
 - **Google OAuth Security**: Account security managed by Google with direct link to Google Security settings for 2FA configuration
@@ -248,6 +260,8 @@ The application supports multiple languages with locale-based URL routing:
 /ro/banner-generator → Banner generator (Romanian)
 /en/gallery          → Gallery with filtering (English)
 /ro/gallery          → Gallery with filtering (Romanian)
+/en/cost-control     → Cost Control dashboard (English)
+/ro/cost-control     → Cost Control dashboard (Romanian)
 
 Media Library:
 /en/avatars          → Avatar management (English)
@@ -286,7 +300,9 @@ src/
 │   └── [locale]/             # Locale-based pages (en, ro)
 │       ├── photo-generator/  # Photo generation page
 │       ├── banner-generator/ # Banner generation page
+│       ├── logo-generator/   # Logo generation page
 │       ├── gallery/          # Gallery pages with filtering
+│       ├── cost-control/     # Cost monitoring dashboard
 │       ├── profile/          # User profile & settings
 │       ├── avatars/          # Avatar management
 │       ├── logos/            # Logo management
@@ -334,6 +350,12 @@ src/
 │   │   ├── save-preset-modal.tsx
 │   │   ├── load-preset-dropdown.tsx
 │   │   └── manage-presets-modal.tsx # Edit/delete presets
+│   ├── cost-control/         # Cost monitoring components
+│   │   ├── cost-overview-cards.tsx    # Summary cards with trends
+│   │   ├── generator-breakdown.tsx    # Pie chart by type
+│   │   ├── daily-trend-chart.tsx      # Line chart with recharts
+│   │   ├── cost-history-table.tsx     # Paginated history table
+│   │   └── budget-settings-dialog.tsx # Budget & pricing config
 │   ├── auth/                 # Authentication components
 │   ├── gallery/              # Gallery components
 │   ├── avatars/              # Avatar components
@@ -348,7 +370,8 @@ src/
 │   ├── use-preset-editor.ts  # Preset editor state management
 │   ├── use-banner-references.ts # Banner reference images CRUD operations
 │   ├── use-banner-validation.ts # Character limits, contrast checking, warnings
-│   └── use-projects.ts       # Project CRUD operations
+│   ├── use-projects.ts       # Project CRUD operations
+│   └── use-cost-control.ts   # Cost monitoring state & API calls
 ├── i18n/                     # Internationalization
 │   ├── config.ts             # Locale configuration (en, ro)
 │   ├── request.ts            # Server-side i18n setup
@@ -364,7 +387,9 @@ src/
     ├── types/
     │   ├── banner.ts         # Banner generator types (BannerBuilderState, BannerTextContent, PLATFORM_PRESETS, etc.)
     │   ├── generation.ts     # Image generation types
-    │   └── project.ts        # Project types (Project, CreateProjectInput, etc.)
+    │   ├── project.ts        # Project types (Project, CreateProjectInput, etc.)
+    │   └── cost-control.ts   # Cost monitoring types (CostSummary, UserBudget, PricingSettings, etc.)
+    ├── pricing.ts            # Cost calculation utilities
     └── data/
         └── banner-templates.ts # 520+ banner presets organized in 15 categories:
                               # bannerTypeTemplates, bannerSizeTemplates, industryTemplates,

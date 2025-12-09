@@ -17,6 +17,7 @@
     "bannerGenerator": "Bannere",
     "logoGenerator": "Logo-uri",
     "gallery": "Galerie",
+    "costControl": "Costuri",
     "media": "Media",
     "avatars": "Avatare",
     "logos": "Logo-uri",
@@ -3458,6 +3459,88 @@
       "bg-white": { "name": "Alb", "description": "Alb curat" },
       "bg-dark": { "name": "Inchis/Negru", "description": "Fundal inchis" },
       "bg-colored": { "name": "Colorat", "description": "Fundal colorat" }
+    }
+  },
+  "costControl": {
+    "title": "Control Costuri",
+    "subtitle": "Monitorizează utilizarea API și costurile estimate",
+    "currentMonth": "Luna Curentă",
+    "previousMonth": "Luna Anterioară",
+    "totalCost": "Cost Total",
+    "totalTokens": "Total Tokeni",
+    "generations": "generări",
+    "vsLastMonth": "vs luna trecută",
+    "increase": "creștere",
+    "decrease": "scădere",
+    "noData": "Nu există date",
+    "budget": {
+      "title": "Buget",
+      "remaining": "rămas",
+      "exceeded": "Depășit",
+      "nearLimit": "Aproape de Limită",
+      "noBudget": "Nicio limită de buget setată"
+    },
+    "breakdown": {
+      "title": "Utilizare pe Generator",
+      "description": "Defalcare costuri pe tip de generare",
+      "photo": "Foto",
+      "banner": "Banner",
+      "logo": "Logo",
+      "tokens": "tokeni",
+      "cost": "Cost",
+      "count": "gen."
+    },
+    "trend": {
+      "title": "Trend Zilnic",
+      "description": "Tendința costurilor în ultimele 30 de zile",
+      "cost": "Cost",
+      "date": "Dată"
+    },
+    "history": {
+      "title": "Istoric Generări",
+      "description": "Istoricul detaliat al generărilor și costurilor tale",
+      "date": "Dată",
+      "type": "Tip",
+      "prompt": "Prompt",
+      "tokens": "Tokeni",
+      "cost": "Cost",
+      "previous": "Anterior",
+      "next": "Următor",
+      "page": "Pagina",
+      "of": "din",
+      "all": "Toate Tipurile",
+      "filterByType": "Filtrează după tip"
+    },
+    "export": {
+      "button": "Exportă CSV",
+      "downloading": "Se descarcă..."
+    },
+    "settings": {
+      "title": "Setări",
+      "description": "Configurează limitele de buget și prețurile",
+      "budgetTab": "Buget",
+      "pricingTab": "Prețuri",
+      "monthlyBudget": "Buget Lunar",
+      "monthlyBudgetDesc": "Setează o limită de cheltuieli lunară (lasă gol pentru fără limită)",
+      "alertThreshold": "Prag de Alertă",
+      "alertThresholdDesc": "Afișează avertisment când utilizarea atinge acest procent",
+      "enableAlerts": "Activează Alertele",
+      "enableAlertsDesc": "Afișează alerte vizuale când te apropii de limita de buget",
+      "inputTokenPrice": "Preț Tokeni Input",
+      "outputTextPrice": "Preț Tokeni Text Output",
+      "outputImagePrice": "Preț Tokeni Imagine Output",
+      "per1kTokens": "Preț per 1.000 de tokeni",
+      "resetToDefaults": "Resetează la Valori Implicite",
+      "save": "Salvează",
+      "saving": "Se salvează...",
+      "cancel": "Anulează",
+      "noLimit": "Fără limită"
+    },
+    "migration": {
+      "title": "Migrare Date Costuri",
+      "description": "{count} generări necesită estimări de cost. Click pentru a estima costurile generărilor mai vechi.",
+      "button": "Estimează Costurile",
+      "running": "Se estimează..."
     }
   }
 }

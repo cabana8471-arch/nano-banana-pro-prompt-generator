@@ -17,6 +17,7 @@
     "bannerGenerator": "Banners",
     "logoGenerator": "Logos",
     "gallery": "Gallery",
+    "costControl": "Costs",
     "media": "Media",
     "avatars": "Avatars",
     "logos": "Logos",
@@ -3464,6 +3465,88 @@
       "bg-white": { "name": "White", "description": "Clean white" },
       "bg-dark": { "name": "Dark/Black", "description": "Dark background" },
       "bg-colored": { "name": "Colored", "description": "Colored background" }
+    }
+  },
+  "costControl": {
+    "title": "Cost Control",
+    "subtitle": "Monitor your API usage and estimated costs",
+    "currentMonth": "Current Month",
+    "previousMonth": "Previous Month",
+    "totalCost": "Total Cost",
+    "totalTokens": "Total Tokens",
+    "generations": "generations",
+    "vsLastMonth": "vs last month",
+    "increase": "increase",
+    "decrease": "decrease",
+    "noData": "No data available",
+    "budget": {
+      "title": "Budget",
+      "remaining": "remaining",
+      "exceeded": "Exceeded",
+      "nearLimit": "Near Limit",
+      "noBudget": "No budget limit set"
+    },
+    "breakdown": {
+      "title": "Usage by Generator",
+      "description": "Cost breakdown by generation type",
+      "photo": "Photo",
+      "banner": "Banner",
+      "logo": "Logo",
+      "tokens": "tokens",
+      "cost": "Cost",
+      "count": "gens"
+    },
+    "trend": {
+      "title": "Daily Trend",
+      "description": "Cost trend over the last 30 days",
+      "cost": "Cost",
+      "date": "Date"
+    },
+    "history": {
+      "title": "Generation History",
+      "description": "Detailed history of your generations and costs",
+      "date": "Date",
+      "type": "Type",
+      "prompt": "Prompt",
+      "tokens": "Tokens",
+      "cost": "Cost",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of",
+      "all": "All Types",
+      "filterByType": "Filter by type"
+    },
+    "export": {
+      "button": "Export CSV",
+      "downloading": "Downloading..."
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Configure budget limits and pricing",
+      "budgetTab": "Budget",
+      "pricingTab": "Pricing",
+      "monthlyBudget": "Monthly Budget",
+      "monthlyBudgetDesc": "Set a monthly spending limit (leave empty for no limit)",
+      "alertThreshold": "Alert Threshold",
+      "alertThresholdDesc": "Show warning when usage reaches this percentage",
+      "enableAlerts": "Enable Alerts",
+      "enableAlertsDesc": "Show visual alerts when approaching budget limit",
+      "inputTokenPrice": "Input Token Price",
+      "outputTextPrice": "Output Text Token Price",
+      "outputImagePrice": "Output Image Token Price",
+      "per1kTokens": "Price per 1,000 tokens",
+      "resetToDefaults": "Reset to Defaults",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "noLimit": "No limit"
+    },
+    "migration": {
+      "title": "Cost Data Migration",
+      "description": "{count} generations need cost estimates. Click to estimate costs for older generations.",
+      "button": "Estimate Costs",
+      "running": "Estimating..."
     }
   }
 }

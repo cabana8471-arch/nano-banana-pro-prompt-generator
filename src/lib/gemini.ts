@@ -4,6 +4,7 @@ import { FILE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { decrypt } from "@/lib/encryption";
 import { userApiKeys } from "@/lib/schema";
+import type { GenerationUsage, UsageMetadata } from "@/lib/types/cost-control";
 import type {
   ImageResolution,
   AspectRatio,
@@ -159,6 +160,8 @@ export interface GenerationResult {
   }[];
   text?: string;
   error?: string;
+  /** Usage metadata from API for cost tracking */
+  usage?: GenerationUsage | undefined;
 }
 
 /**
@@ -195,22 +198,99 @@ function buildPromptWithReferences(
 }
 
 /**
+ * Extract usage metadata from Gemini response
+ */
+function extractUsageMetadata(
+  response: Awaited<ReturnType<GoogleGenAI["models"]["generateContent"]>>
+): GenerationUsage | undefined {
+  const usageMetadata = response.usageMetadata;
+  if (!usageMetadata) {
+    return undefined;
+  }
+
+  // Extract detailed token counts by modality if available
+  const promptTokensDetails: UsageMetadata["promptTokensDetails"] = {};
+  const candidatesTokensDetails: UsageMetadata["candidatesTokensDetails"] = {};
+
+  // Process prompt tokens details
+  if (usageMetadata.promptTokensDetails) {
+    for (const detail of usageMetadata.promptTokensDetails) {
+      if (detail.modality === "TEXT") {
+        promptTokensDetails.text = detail.tokenCount || 0;
+      } else if (detail.modality === "IMAGE") {
+        promptTokensDetails.image = detail.tokenCount || 0;
+      } else if (detail.modality === "AUDIO") {
+        promptTokensDetails.audio = detail.tokenCount || 0;
+      }
+    }
+  }
+
+  // Process candidates tokens details
+  if (usageMetadata.candidatesTokensDetails) {
+    for (const detail of usageMetadata.candidatesTokensDetails) {
+      if (detail.modality === "TEXT") {
+        candidatesTokensDetails.text = detail.tokenCount || 0;
+      } else if (detail.modality === "IMAGE") {
+        candidatesTokensDetails.image = detail.tokenCount || 0;
+      } else if (detail.modality === "AUDIO") {
+        candidatesTokensDetails.audio = detail.tokenCount || 0;
+      }
+    }
+  }
+
+  return {
+    promptTokenCount: usageMetadata.promptTokenCount || 0,
+    candidatesTokenCount: usageMetadata.candidatesTokenCount || 0,
+    totalTokenCount: usageMetadata.totalTokenCount || 0,
+    usageMetadata:
+      Object.keys(promptTokensDetails).length > 0 ||
+      Object.keys(candidatesTokensDetails).length > 0
+        ? {
+            promptTokensDetails:
+              Object.keys(promptTokensDetails).length > 0
+                ? promptTokensDetails
+                : undefined,
+            candidatesTokensDetails:
+              Object.keys(candidatesTokensDetails).length > 0
+                ? candidatesTokensDetails
+                : undefined,
+          }
+        : null,
+  };
+}
+
+/**
+ * Aggregate usage from multiple responses
+ */
+function aggregateUsage(usages: (GenerationUsage | undefined)[]): GenerationUsage | undefined {
+  const validUsages = usages.filter((u): u is GenerationUsage => u !== undefined);
+  if (validUsages.length === 0) return undefined;
+
+  return validUsages.reduce((acc, usage) => ({
+    promptTokenCount: acc.promptTokenCount + usage.promptTokenCount,
+    candidatesTokenCount: acc.candidatesTokenCount + usage.candidatesTokenCount,
+    totalTokenCount: acc.totalTokenCount + usage.totalTokenCount,
+    usageMetadata: null, // Aggregated usage doesn't have detailed breakdown
+  }));
+}
+
+/**
  * Extract images and text from Gemini response
  */
 function extractFromResponse(
   response: Awaited<ReturnType<GoogleGenAI["models"]["generateContent"]>>
-): { images: { base64: string; mimeType: string }[]; textContent: string } {
+): { images: { base64: string; mimeType: string }[]; textContent: string; usage: GenerationUsage | undefined } {
   const images: { base64: string; mimeType: string }[] = [];
   let textContent = "";
 
   const candidates = response.candidates;
   if (!candidates || candidates.length === 0) {
-    return { images, textContent };
+    return { images, textContent, usage: extractUsageMetadata(response) };
   }
 
   const candidate = candidates[0];
   if (!candidate?.content?.parts) {
-    return { images, textContent };
+    return { images, textContent, usage: extractUsageMetadata(response) };
   }
 
   for (const part of candidate.content.parts) {
@@ -224,7 +304,7 @@ function extractFromResponse(
     }
   }
 
-  return { images, textContent };
+  return { images, textContent, usage: extractUsageMetadata(response) };
 }
 
 /**
@@ -323,8 +403,9 @@ export async function generateWithUserKey(
       },
     });
 
-    // Extract images and text from the response
-    const { images, textContent } = extractFromResponse(response);
+    // Extract images, text, and usage from the response
+    const { images, textContent, usage } = extractFromResponse(response);
+    const allUsages: (GenerationUsage | undefined)[] = [usage];
 
     if (images.length === 0) {
       return {
@@ -332,6 +413,7 @@ export async function generateWithUserKey(
         images: [],
         text: textContent,
         error: textContent || "No images were generated. Please try a different prompt.",
+        usage,
       };
     }
 
@@ -360,8 +442,9 @@ export async function generateWithUserKey(
       try {
         const additionalResponses = await Promise.all(additionalPromises);
         for (const additionalResponse of additionalResponses) {
-          const { images: additionalImages } = extractFromResponse(additionalResponse);
+          const { images: additionalImages, usage: additionalUsage } = extractFromResponse(additionalResponse);
           images.push(...additionalImages);
+          allUsages.push(additionalUsage);
         }
       } catch (additionalError) {
         console.warn("Some additional image generations failed:", additionalError);
@@ -369,10 +452,14 @@ export async function generateWithUserKey(
       }
     }
 
+    // Aggregate usage from all API calls
+    const aggregatedUsage = aggregateUsage(allUsages);
+
     return {
       success: true,
       images,
       text: textContent,
+      usage: aggregatedUsage,
     };
   } catch (error) {
     console.error("Gemini API error:", error);
@@ -484,8 +571,8 @@ export async function refineGeneration(
       },
     });
 
-    // Extract images and text from the response
-    const { images, textContent } = extractFromResponse(response);
+    // Extract images, text, and usage from the response
+    const { images, textContent, usage } = extractFromResponse(response);
 
     if (images.length === 0) {
       return {
@@ -493,6 +580,7 @@ export async function refineGeneration(
         images: [],
         text: textContent,
         error: textContent || "No images were generated. Please try different instructions.",
+        usage,
       };
     }
 
@@ -500,6 +588,7 @@ export async function refineGeneration(
       success: true,
       images,
       text: textContent,
+      usage,
     };
   } catch (error) {
     console.error("Gemini API refinement error:", error);
