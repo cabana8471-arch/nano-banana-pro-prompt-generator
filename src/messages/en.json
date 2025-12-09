@@ -2577,7 +2577,8 @@
       "banner-type-video-thumbnail": { "name": "Video Thumbnail", "description": "Thumbnail for YouTube/video" },
       "banner-type-infographic": { "name": "Infographic", "description": "Mini promotional infographics" },
       "banner-type-coupon": { "name": "Coupon/Voucher", "description": "Digital discount coupons" },
-      "banner-type-giveaway": { "name": "Giveaway", "description": "Contests and giveaways" }
+      "banner-type-giveaway": { "name": "Giveaway", "description": "Contests and giveaways" },
+      "banner-type-cta": { "name": "Call to Action", "description": "Action-focused conversion banner" }
     },
     "bannerSize": {
       "platform-google-ads-all": { "name": "Google Ads - All Sizes", "description": "Generate all Google Display Ads sizes natively" },
@@ -2705,6 +2706,7 @@
       "design-material": { "name": "Material Design", "description": "Google Material Design principles" },
       "design-neumorphism": { "name": "Neumorphism", "description": "Soft UI with subtle shadows" },
       "design-glassmorphism": { "name": "Glassmorphism", "description": "Frosted glass effect with transparency" },
+      "design-bold": { "name": "Bold", "description": "Strong, impactful design with heavy visual elements" },
       "design-vibrant": { "name": "Vibrant", "description": "Bold, eye-catching colors" },
       "design-high-contrast": { "name": "High Contrast", "description": "Strong contrast between elements" },
       "design-neon": { "name": "Neon Glow", "description": "Glowing neon aesthetic" },
@@ -2784,6 +2786,7 @@
       "color-fire-ice": { "name": "Fire & Ice", "description": "Red to purple to blue contrast" },
       "color-cotton-candy": { "name": "Cotton Candy", "description": "Pastel pink and pastel blue" },
       "color-tropical": { "name": "Tropical", "description": "Teal, coral and lime palette" },
+      "color-teal-aqua": { "name": "Teal Aqua", "description": "Fresh teal and aqua blue tones" },
       "color-mocha": { "name": "Mocha Coffee", "description": "Brown, cream and caramel tones" },
       "color-midnight": { "name": "Midnight Blue", "description": "Deep navy to black gradient" },
       "color-peachy": { "name": "Peachy Keen", "description": "Peach, coral and cream tones" },
@@ -2954,7 +2957,9 @@
       "effect-prism": { "name": "Prism/Rainbow", "description": "Light spectrum refraction" },
       "effect-emboss": { "name": "Embossed", "description": "Raised relief texture" },
       "effect-pixelate": { "name": "Pixelate", "description": "Artistic blocky mosaic" },
-      "effect-distortion": { "name": "Distortion", "description": "Warped visual perspective" }
+      "effect-distortion": { "name": "Distortion", "description": "Warped visual perspective" },
+      "effect-glow": { "name": "Glow", "description": "Bright luminous glow effect" },
+      "effect-subtle-glow": { "name": "Subtle Glow", "description": "Soft, delicate glow effect" }
     },
     "iconGraphics": {
       "icon-outlined": { "name": "Outlined Icons", "description": "Line-based icons" },

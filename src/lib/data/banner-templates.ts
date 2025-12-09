@@ -318,6 +318,14 @@ export const bannerTypeTemplates: BannerTemplate[] = [
     description: "Contests and giveaways",
     promptFragment: "giveaway banner, contest announcement, prize promotion design",
   },
+  // Call to Action
+  {
+    id: "banner-type-cta",
+    name: "Call to Action",
+    description: "Action-focused conversion banner",
+    promptFragment:
+      "call to action banner, conversion-focused design, action-driven layout, compelling CTA promotion",
+  },
 ];
 
 // ==========================================
@@ -1372,6 +1380,12 @@ export const designStyleTemplates: BannerTemplate[] = [
   },
   // Bold
   {
+    id: "design-bold",
+    name: "Bold",
+    description: "Strong, impactful design with heavy visual elements",
+    promptFragment: "bold design, strong impactful aesthetic, heavy visual elements, commanding presence",
+  },
+  {
     id: "design-vibrant",
     name: "Vibrant",
     description: "Bold, eye-catching colors",
@@ -1852,6 +1866,12 @@ export const colorSchemeTemplates: BannerTemplate[] = [
     name: "Tropical",
     description: "Teal, coral and lime palette",
     promptFragment: "tropical color scheme, teal coral lime palette, exotic vibrant tones",
+  },
+  {
+    id: "color-teal-aqua",
+    name: "Teal Aqua",
+    description: "Fresh teal and aqua blue tones",
+    promptFragment: "teal aqua color scheme, fresh turquoise palette, cool refreshing tones, ocean-inspired colors",
   },
   {
     id: "color-mocha",
@@ -2885,6 +2905,19 @@ export const visualEffectsTemplates: BannerTemplate[] = [
     name: "Distortion",
     description: "Warped visual perspective",
     promptFragment: "distortion effect, warped visual, twisted perspective",
+  },
+  // Glow Effects
+  {
+    id: "effect-glow",
+    name: "Glow",
+    description: "Bright luminous glow effect",
+    promptFragment: "glow effect, bright luminous lighting, radiant illumination, glowing elements",
+  },
+  {
+    id: "effect-subtle-glow",
+    name: "Subtle Glow",
+    description: "Soft, delicate glow effect",
+    promptFragment: "subtle glow effect, soft delicate illumination, gentle luminous accent, understated glow",
   },
 ];
 

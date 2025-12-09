@@ -2571,7 +2571,8 @@
       "banner-type-video-thumbnail": { "name": "Thumbnail Video", "description": "Thumbnail pentru YouTube/video" },
       "banner-type-infographic": { "name": "Infografic", "description": "Mini infografice promotionale" },
       "banner-type-coupon": { "name": "Cupon/Voucher", "description": "Cupoane digitale de reducere" },
-      "banner-type-giveaway": { "name": "Tombola", "description": "Concursuri si tombole" }
+      "banner-type-giveaway": { "name": "Tombola", "description": "Concursuri si tombole" },
+      "banner-type-cta": { "name": "Apel la Actiune", "description": "Banner focusat pe conversie si actiune" }
     },
     "bannerSize": {
       "platform-google-ads-all": { "name": "Google Ads - Toate Dimensiunile", "description": "Genereaza toate dimensiunile Google Display Ads nativ" },
@@ -2699,6 +2700,7 @@
       "design-material": { "name": "Material Design", "description": "Principii Google Material Design" },
       "design-neumorphism": { "name": "Neumorfism", "description": "UI soft cu umbre subtile" },
       "design-glassmorphism": { "name": "Glassmorfism", "description": "Efect de sticla matasoasa cu transparenta" },
+      "design-bold": { "name": "Indraznet", "description": "Design puternic, cu impact si elemente vizuale grele" },
       "design-vibrant": { "name": "Vibrant", "description": "Culori indraznete, atragatoare" },
       "design-high-contrast": { "name": "Contrast Ridicat", "description": "Contrast puternic intre elemente" },
       "design-neon": { "name": "Neon Luminos", "description": "Estetica neon stralucitoare" },
@@ -2778,6 +2780,7 @@
       "color-fire-ice": { "name": "Foc si Gheata", "description": "Contrast rosu spre mov spre albastru" },
       "color-cotton-candy": { "name": "Vata de Zahar", "description": "Roz pastel si albastru pastel" },
       "color-tropical": { "name": "Tropical", "description": "Paleta turcoaz, coral si lime" },
+      "color-teal-aqua": { "name": "Turcoaz Aqua", "description": "Tonuri proaspete turcoaz si albastru aqua" },
       "color-mocha": { "name": "Cafea Mocha", "description": "Tonuri maro, crem si caramel" },
       "color-midnight": { "name": "Albastru Miezul Noptii", "description": "Gradient navy inchis spre negru" },
       "color-peachy": { "name": "Piersica Dulce", "description": "Tonuri piersica, coral si crem" },
@@ -2948,7 +2951,9 @@
       "effect-prism": { "name": "Prisma/Curcubeu", "description": "Refractie spectru de lumina" },
       "effect-emboss": { "name": "Relief", "description": "Textura in relief ridicat" },
       "effect-pixelate": { "name": "Pixelat", "description": "Mozaic artistic blocuri" },
-      "effect-distortion": { "name": "Distorsiune", "description": "Perspectiva vizuala deformata" }
+      "effect-distortion": { "name": "Distorsiune", "description": "Perspectiva vizuala deformata" },
+      "effect-glow": { "name": "Stralucire", "description": "Efect de stralucire luminoasa" },
+      "effect-subtle-glow": { "name": "Stralucire Subtila", "description": "Efect de stralucire delicata, soft" }
     },
     "iconGraphics": {
       "icon-outlined": { "name": "Iconite Contur", "description": "Iconite bazate pe linii" },
