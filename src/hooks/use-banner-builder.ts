@@ -330,13 +330,25 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
   const assembledPrompt = useMemo(() => {
     const parts: string[] = [];
 
-    // Start with a base banner prompt
-    parts.push("Professional web banner design");
+    // Get dimensions for intro
+    const sizeTemplate = state.bannerSize ? getBannerSizeById(state.bannerSize) : undefined;
+    let dimensions = "";
+    if (state.bannerSize === "size-custom" && state.customWidth && state.customHeight) {
+      dimensions = `${state.customWidth}x${state.customHeight}`;
+    } else if (sizeTemplate && sizeTemplate.width > 0 && sizeTemplate.height > 0) {
+      dimensions = `${sizeTemplate.width}x${sizeTemplate.height}`;
+    }
 
-    // Add banner type/purpose
+    // Start with a contextual intro including dimensions
     const bannerTypePrompt = getPromptValue(state.bannerType);
-    if (bannerTypePrompt) {
-      parts.push(bannerTypePrompt);
+    if (dimensions && bannerTypePrompt) {
+      parts.push(`A professional ${dimensions} ${bannerTypePrompt}`);
+    } else if (dimensions) {
+      parts.push(`A professional ${dimensions} web banner`);
+    } else if (bannerTypePrompt) {
+      parts.push(`A professional ${bannerTypePrompt}`);
+    } else {
+      parts.push("A professional web banner design");
     }
 
     // Add industry/niche context
@@ -424,7 +436,6 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     }
 
     // Add banner size context with explicit size instruction
-    const sizeTemplate = state.bannerSize ? getBannerSizeById(state.bannerSize) : undefined;
     if (sizeTemplate) {
       // Handle custom size
       if (state.bannerSize === "size-custom" && state.customWidth && state.customHeight) {
@@ -490,7 +501,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     }
 
     // Final quality instructions
-    parts.push("High quality, professional advertising design, clean and impactful");
+    parts.push("High quality advertising design with clean composition and professional finish");
 
     return parts.filter(Boolean).join(". ");
   }, [state, brandAssets, getPromptValue]);

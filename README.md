@@ -114,6 +114,34 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
 - **Refinement System**: Iterative logo refinement with AI suggestions (simpler, bolder, more modern, different colors, larger icon, better typography, more minimal, more unique)
 - **History & Undo**: Full state history tracking for logo configurations
 
+### Professional Prompt System (Banner Generator)
+
+The Banner Generator uses a **contextual prompt architecture** that generates professional, narrative prompts instead of simple keyword lists:
+
+- **Contextual Fragments**: Each template contributes a meaningful phrase with a category-specific prefix:
+  - Banner Type: starts the sentence (e.g., "About Us hero banner")
+  - Industry: "for" (e.g., "for the nanotechnology sector")
+  - Design Style: "using" (e.g., "using clean modern aesthetics")
+  - Color Scheme: "featuring" (e.g., "featuring an electric blue palette")
+  - Mood: "creating" (e.g., "creating a trustworthy atmosphere")
+  - Background/Seasonal/Text Placement: "with" (e.g., "with a smooth gradient background")
+  - Visual Effects: "enhanced by" (e.g., "enhanced by subtle lens flare")
+  - Icons/Graphics: "incorporating" (e.g., "incorporating tech circuit patterns")
+  - Promotional: "highlighting" (e.g., "highlighting a 30% discount badge")
+  - Layout: "arranged in" (e.g., "arranged in asymmetric dynamic layout")
+  - Typography: "styled in" (e.g., "styled in bold slab serif")
+  - CTA Button: "featuring" (e.g., "featuring a rounded gradient button")
+
+- **Coherent Prompt Assembly**: Fragments are combined into fluid, professional descriptions:
+  ```
+  A professional 1440x400 About Us hero banner. for the nanotechnology sector.
+  featuring an electric blue color palette. with a smooth gradient background.
+  creating a trustworthy atmosphere. using clean modern aesthetics.
+  High quality advertising design with clean composition and professional finish.
+  ```
+
+- **Automatic Preset Updates**: Since presets store template IDs (not text), all existing presets automatically benefit from the improved prompt fragments
+
 ### Social Features
 - **Gallery**: Browse and share generated images with the community
 - **Gallery Filtering**: Filter gallery by generation type (All, Photos, Banners) and by project
