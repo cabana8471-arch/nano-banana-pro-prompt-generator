@@ -144,26 +144,32 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
   const assembledPrompt = useMemo(() => {
     const parts: string[] = [];
 
-    // Add style first (overall aesthetic)
+    // Start with a professional intro based on style
     const stylePrompt = getPromptValue(state.style);
     if (stylePrompt) {
-      parts.push(stylePrompt);
+      // Style templates now include "rendered in..." prefix
+      parts.push(`A professional photograph ${stylePrompt}`);
+    } else {
+      parts.push("A professional photograph");
     }
 
-    // Add subjects
+    // Add subjects with their attributes
     state.subjects.forEach((subject, index) => {
       const subjectParts: string[] = [];
 
+      // Start with "of" for first subject, "with" for additional
+      const subjectPrefix = index === 0 ? "of" : "alongside";
+
       // If has avatar, use description for better prompt context (fallback to name)
       if (subject.avatarDescription) {
-        subjectParts.push(subject.avatarDescription);
+        subjectParts.push(`${subjectPrefix} ${subject.avatarDescription}`);
       } else if (subject.avatarName) {
-        subjectParts.push(subject.avatarName);
+        subjectParts.push(`${subjectPrefix} ${subject.avatarName}`);
       } else {
-        subjectParts.push(`Subject ${index + 1}`);
+        subjectParts.push(`${subjectPrefix} a subject`);
       }
 
-      // Add subject attributes
+      // Add subject attributes - these now have contextual prefixes
       const pose = getPromptValue(subject.pose || "");
       const action = getPromptValue(subject.action || "");
       const clothing = getPromptValue(subject.clothing || "");
@@ -173,8 +179,8 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
       if (action) subjectParts.push(action);
       if (clothing) subjectParts.push(clothing);
       if (expression) subjectParts.push(expression);
-      if (subject.hair) subjectParts.push(subject.hair);
-      if (subject.makeup) subjectParts.push(subject.makeup);
+      if (subject.hair) subjectParts.push(`with ${subject.hair}`);
+      if (subject.makeup) subjectParts.push(`with ${subject.makeup}`);
       if (subject.customDescription) subjectParts.push(subject.customDescription);
 
       if (subjectParts.length > 0) {
@@ -182,28 +188,31 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
       }
     });
 
-    // Add location
+    // Add location - templates now include "set in..." prefix
     const locationPrompt = getPromptValue(state.location);
     if (locationPrompt) {
-      parts.push(`in ${locationPrompt}`);
+      parts.push(locationPrompt);
     }
 
-    // Add lighting
+    // Add lighting - templates now include "illuminated by..." prefix
     const lightingPrompt = getPromptValue(state.lighting);
     if (lightingPrompt) {
       parts.push(lightingPrompt);
     }
 
-    // Add camera/composition
+    // Add camera/composition - templates now include "shot as/from/with..." prefix
     const cameraPrompt = getPromptValue(state.camera);
     if (cameraPrompt) {
       parts.push(cameraPrompt);
     }
 
-    // Add custom prompt at the end
+    // Add custom prompt if provided
     if (state.customPrompt) {
       parts.push(state.customPrompt);
     }
+
+    // Add professional quality closing
+    parts.push("High resolution, professionally composed");
 
     return parts.filter(Boolean).join(". ");
   }, [state, getPromptValue]);
