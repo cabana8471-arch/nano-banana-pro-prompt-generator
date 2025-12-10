@@ -21,7 +21,7 @@ Copiaza prompturile in campul "Custom Prompt" din Banner Generator.
 - Banner Size: `Nano Hero Wide (1440x400)`
 - Industry: `Nanotechnology`
 - Design Style: `Futuristic`
-- Color Scheme: `Electric Blue`
+- Color Scheme: `Electric Blue`/Silver-Navy
 - Mood: `Professional`
 - Background: `Technology`
 - Visual Effects: `Particles`
@@ -145,6 +145,96 @@ NO TEXT ON BANNER. Contact page hero background for nanotechnology company. Clea
 **Custom Prompt:**
 ```
 NO TEXT ON BANNER. Contact sidebar background for nanotechnology instrumentation company. Clean welcoming design with teal-blue gradient. Subtle network or connection pattern. Vertical format for sidebar. Approachable professional aesthetic.
+```
+
+---
+
+## CTA Banners
+
+### Homepage CTA (1440x400)
+**Setari recomandate:**
+- Banner Size: `Nano Hero Wide (1440x400)`
+- Banner Type: `Call to Action`
+- Design Style: `Bold`
+- Color Scheme: `Electric Blue`
+- Mood: `Energetic`
+- Visual Effects: `Glow`
+
+**Custom Prompt:**
+```
+NO TEXT ON BANNER. Call-to-action banner for nanotechnology company homepage. Dynamic, energetic composition with flowing blue energy lines and particle effects. Abstract visualization of cutting-edge technology and innovation. Gradient from deep navy to electric blue with bright cyan accents. Creates urgency and excitement. Professional yet dynamic feel. Large clear space in center for CTA text like "Request a Quote" or "Contact Us".
+```
+
+### Homepage CTA Sidebar (560x685)
+**Setari recomandate:**
+- Banner Size: `Nano Sidebar (560x685)`
+- Banner Type: `Call to Action`
+- Design Style: `Bold`
+- Color Scheme: `Electric Blue`
+- Mood: `Energetic`
+- Visual Effects: `Glow`
+
+**Custom Prompt:**
+```
+NO TEXT ON BANNER. Vertical CTA sidebar banner for nanotechnology company. Dynamic blue energy flow design with glowing particle effects. Creates sense of action and urgency. Deep blue to cyan gradient with electric highlights. Large clear central area for CTA button and text. Professional scientific aesthetic with energetic feel.
+```
+
+---
+
+### About Us CTA (1440x400)
+**Setari recomandate:**
+- Banner Size: `Nano Hero Wide (1440x400)`
+- Banner Type: `Call to Action`
+- Design Style: `Clean`
+- Color Scheme: `Teal Aqua`
+- Mood: `Trustworthy`
+- Visual Effects: `Subtle Glow`
+
+**Custom Prompt:**
+```
+NO TEXT ON BANNER. Call-to-action banner for About Us page of nanotechnology company. Clean, trustworthy design emphasizing partnership and collaboration. Abstract handshake or connection visualization with molecular elements. Teal to blue gradient conveying reliability and expertise. Soft glow effects. Clear central space for "Partner With Us" or "Join Our Team" CTA text.
+```
+
+### About Us CTA Sidebar (560x685)
+**Setari recomandate:**
+- Banner Size: `Nano Sidebar (560x685)`
+- Banner Type: `Call to Action`
+- Design Style: `Clean`
+- Color Scheme: `Teal Aqua`
+- Mood: `Trustworthy`
+
+**Custom Prompt:**
+```
+NO TEXT ON BANNER. Vertical CTA sidebar for About Us page of nanotechnology company. Trust-building design with abstract connection patterns. Teal-blue gradient with subtle molecular structures. Clean professional aesthetic. Large clear area for partnership or career CTA. Conveys reliability and opportunity.
+```
+
+---
+
+### Products CTA (1440x400)
+**Setari recomandate:**
+- Banner Size: `Nano Hero Wide (1440x400)`
+- Banner Type: `Call to Action`
+- Design Style: `High Contrast`
+- Color Scheme: `Midnight`
+- Mood: `Sophisticated`
+- Visual Effects: `Glow`
+
+**Custom Prompt:**
+```
+NO TEXT ON BANNER. Call-to-action banner for nanotechnology products page. Premium, sophisticated dark design with subtle blue accent lighting. Abstract visualization of precision scientific equipment with spotlight effect. Dark gradient background with electric blue highlights creating focus area. Luxury product showcase feel. Large clear space in center for "Request Demo" or "Download Catalog" CTA.
+```
+
+### Products CTA Sidebar (560x685)
+**Setari recomandate:**
+- Banner Size: `Nano Sidebar (560x685)`
+- Banner Type: `Call to Action`
+- Design Style: `High Contrast`
+- Color Scheme: `Midnight`
+- Mood: `Sophisticated`
+
+**Custom Prompt:**
+```
+NO TEXT ON BANNER. Vertical CTA sidebar for nanotechnology products catalog. Premium dark design with blue accent lighting and subtle equipment silhouettes. Sophisticated gradient from black to deep blue. Spotlight effect creating focal point. Large clear area for product inquiry or demo request CTA. Luxury scientific equipment aesthetic.
 ```
 
 ---

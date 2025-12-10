@@ -185,31 +185,16 @@ function buildPromptWithReferences(
 
   let enhancedPrompt = prompt;
 
-  // Product Swap Mode: reference image is the strict design template
+  // Product Swap Mode: keep it simple - the prompt already contains clear instructions
+  // Don't add extra context that might confuse the AI
   if (referenceRefs.length > 0) {
-    // Add explicit image indexing context for the AI
-    const templateContext =
-      "[IMAGE 1 - DESIGN TEMPLATE]: This is the banner design you must EXACTLY replicate. " +
-      "Study every detail: layout, colors, fonts, element positions, backgrounds, and effects. " +
-      "Your output must be visually IDENTICAL to this template.";
-
-    // Check if we also have a product reference
-    if (productRefs.length > 0) {
-      const productName = productRefs[0]?.name || "the new product";
-      const productContext =
-        `\n\n[IMAGE 2 - PRODUCT TO INSERT]: This shows ${productName}. ` +
-        "Extract this product and place it in the EXACT same position and scale as the product in Image 1. " +
-        "The product is the ONLY element that should differ from the template.";
-
-      enhancedPrompt = `${templateContext}${productContext}\n\n${enhancedPrompt}`;
-    } else {
-      enhancedPrompt = `${templateContext}\n\n${enhancedPrompt}`;
-    }
+    // The prompt from use-banner-builder.ts already says "first image" and "second image"
+    // No need to add more instructions - keep it clean
   } else {
     // Normal mode (non-Product Swap): handle product refs as regular object refs
     if (productRefs.length > 0) {
       const productName = productRefs[0]?.name || "the product";
-      enhancedPrompt += ` Feature ${productName} from the product reference image prominently in the design.`;
+      enhancedPrompt += ` Feature ${productName} prominently in the design.`;
     }
   }
 

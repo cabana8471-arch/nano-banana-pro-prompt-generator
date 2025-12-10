@@ -350,73 +350,37 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       dimensions = `${sizeTemplate.width}x${sizeTemplate.height}`;
     }
 
-    // Product Swap Mode - advanced prompt engineering for preserving design and swapping product/text
+    // Product Swap Mode - concise prompt (similar to what works in AI Studio)
     if (state.productSwapMode && selectedBannerReferenceIds.length > 0) {
-      // Critical instruction block - be extremely explicit about template replication
-      parts.push(
-        "CRITICAL INSTRUCTION: The first reference image is a STRICT DESIGN TEMPLATE that you MUST replicate exactly."
-      );
+      // Build a simple, direct prompt
+      let swapPrompt = `Generate an image of ${dimensions || "the same size"}`;
+      swapPrompt += `, with the exact background, layout, and style from the first image`;
+      swapPrompt += `, but replace the product/object with the one from the second image, in the same position`;
 
-      parts.push(
-        "MANDATORY REQUIREMENTS - Follow these precisely:\n" +
-          "1. LAYOUT: Replicate the EXACT same layout structure, element positions, and spatial arrangement\n" +
-          "2. COLORS: Use the IDENTICAL color scheme, gradients, and color distribution\n" +
-          "3. TYPOGRAPHY: Match the EXACT font styles, sizes, weights, and text positioning\n" +
-          "4. BACKGROUND: Reproduce the SAME background treatment, patterns, and effects\n" +
-          "5. COMPOSITION: Maintain the EXACT visual hierarchy and balance\n" +
-          "6. STYLE: Preserve ALL decorative elements, shadows, borders, and visual effects"
-      );
-
-      // Product swap instruction
-      parts.push(
-        "PRODUCT REPLACEMENT: The ONLY change you should make is replacing the product/main subject " +
-          "with the product shown in the second reference image. Place this new product in the EXACT same " +
-          "position and scale as the original product in the template."
-      );
-
-      // Dimension requirement
-      if (dimensions) {
-        parts.push(`OUTPUT SIZE: Generate the banner at exactly ${dimensions} pixels`);
-      }
-
-      // Text replacement instructions - more explicit
-      const textInstructions: string[] = [];
+      // Text replacements - keep it simple
+      const textChanges: string[] = [];
       if (state.textContent.headline) {
-        textInstructions.push(
-          `HEADLINE: Replace with "${state.textContent.headline}" using the SAME font style, size, color, and position`
-        );
+        textChanges.push(`headline "${state.textContent.headline}"`);
       }
       if (state.textContent.subheadline) {
-        textInstructions.push(
-          `SUBHEADLINE: Replace with "${state.textContent.subheadline}" using the SAME font style, size, color, and position`
-        );
+        textChanges.push(`subheadline "${state.textContent.subheadline}"`);
       }
       if (state.textContent.ctaText) {
-        textInstructions.push(
-          `CTA BUTTON: Replace text with "${state.textContent.ctaText}" keeping the SAME button style, shape, color, and position`
-        );
+        textChanges.push(`button text "${state.textContent.ctaText}"`);
       }
       if (state.textContent.tagline) {
-        textInstructions.push(
-          `TAGLINE: Replace with "${state.textContent.tagline}" using the SAME font style, size, color, and position`
-        );
+        textChanges.push(`tagline "${state.textContent.tagline}"`);
       }
-      if (textInstructions.length > 0) {
-        parts.push("TEXT REPLACEMENTS:\n" + textInstructions.join("\n"));
+      if (textChanges.length > 0) {
+        swapPrompt += `. Use this text: ${textChanges.join(", ")}`;
       }
-
-      // Final emphasis
-      parts.push(
-        "IMPORTANT: DO NOT redesign, reinterpret, or add creative variations. " +
-          "The output must look like an EXACT COPY of the template with only the product and specified text changed."
-      );
 
       // Add custom prompt if specified
       if (state.customPrompt) {
-        parts.push(`ADDITIONAL INSTRUCTIONS: ${state.customPrompt}`);
+        swapPrompt += `. ${state.customPrompt}`;
       }
 
-      return parts.filter(Boolean).join("\n\n");
+      return swapPrompt;
     }
 
     // Normal mode - standard prompt assembly
