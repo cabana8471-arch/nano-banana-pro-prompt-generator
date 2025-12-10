@@ -35,16 +35,16 @@ export default function BannerGeneratorPage() {
   const router = useRouter();
   const { hasKey, isLoading: apiKeyLoading } = useApiKey();
 
-  // Avatars state (for logo and product images)
-  const { avatars, isLoading: avatarsLoading, getAvatarById } = useAvatars();
+  // Avatars state (for logo and product images) - auto-refresh when window gains focus
+  const { avatars, isLoading: avatarsLoading, getAvatarById } = useAvatars({ autoRefresh: true });
 
-  // Banner references state
+  // Banner references state - auto-refresh when window gains focus
   const {
     bannerReferences,
     isLoading: bannerReferencesLoading,
     createBannerReference,
     deleteBannerReference,
-  } = useBannerReferences();
+  } = useBannerReferences({ autoRefresh: true });
 
   // Banner builder state
   const {

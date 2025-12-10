@@ -1,11 +1,18 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import type {
   BannerReference,
   CreateBannerReferenceInput,
   UpdateBannerReferenceInput,
 } from "@/lib/types/banner";
+
+interface UseBannerReferencesOptions {
+  /** Enable auto-refresh when window gains focus or becomes visible (default: false) */
+  autoRefresh?: boolean;
+  /** Minimum time between auto-refreshes in milliseconds (default: 5000) */
+  refreshDebounce?: number;
+}
 
 interface UseBannerReferencesReturn {
   bannerReferences: BannerReference[];
@@ -18,10 +25,13 @@ interface UseBannerReferencesReturn {
   getBannerReferenceById: (id: string) => BannerReference | undefined;
 }
 
-export function useBannerReferences(): UseBannerReferencesReturn {
+export function useBannerReferences(options: UseBannerReferencesOptions = {}): UseBannerReferencesReturn {
+  const { autoRefresh = false, refreshDebounce = 5000 } = options;
+
   const [bannerReferences, setBannerReferences] = useState<BannerReference[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const lastFetchRef = useRef<number>(0);
 
   const fetchBannerReferences = useCallback(async () => {
     try {
@@ -146,7 +156,40 @@ export function useBannerReferences(): UseBannerReferencesReturn {
   // Fetch banner references on mount
   useEffect(() => {
     fetchBannerReferences();
+    lastFetchRef.current = Date.now();
   }, [fetchBannerReferences]);
+
+  // Auto-refresh when window gains focus or becomes visible
+  useEffect(() => {
+    if (!autoRefresh) return;
+
+    const handleRefresh = () => {
+      const now = Date.now();
+      // Only refresh if enough time has passed since last fetch
+      if (now - lastFetchRef.current >= refreshDebounce) {
+        lastFetchRef.current = now;
+        fetchBannerReferences();
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        handleRefresh();
+      }
+    };
+
+    const handleFocus = () => {
+      handleRefresh();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [autoRefresh, refreshDebounce, fetchBannerReferences]);
 
   return {
     bannerReferences,

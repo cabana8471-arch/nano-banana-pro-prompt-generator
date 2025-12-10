@@ -59,6 +59,7 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **Special Purpose**: Webinar Event, Free Trial, Newsletter Signup, Testimonials, Coming Soon
 - **Text Content Manager**: Separate fields for Headline, Subheadline, CTA Text, and Tagline with character limits per banner size
 - **Brand Assets Integration**: Logo and Product Image upload via avatar system, Brand Colors (Primary, Secondary, Accent)
+- **Auto-Refresh Media Lists**: Logo, Product Image, and Reference Image selectors automatically refresh when returning from Media pages (no page reload needed)
 - **Advanced Color Picker**: EyeDropper API integration, 5 predefined palettes, WCAG contrast ratio checker, saved colors (max 8)
 - **History & Undo**: Full undo/redo support with history viewer (up to 50 states)
 - **Responsive Preview**: 4 preview tabs (Comparison, Desktop, Mobile, Social) with scaled visual cards
@@ -389,14 +390,14 @@ src/
 │   ├── avatars/              # Avatar components
 │   └── ui/                   # shadcn/ui components
 ├── hooks/                    # Custom React hooks
-│   ├── use-avatars.ts        # Avatar management
+│   ├── use-avatars.ts        # Avatar management with auto-refresh on window focus
 │   ├── use-generation.ts     # Image generation logic
 │   ├── use-prompt-builder.ts # Prompt builder state
 │   ├── use-banner-builder.ts # Banner builder state (15 categories + text + brand assets)
 │   ├── use-banner-history.ts # Undo/redo history (max 50 entries)
 │   ├── use-banner-presets.ts # Banner preset CRUD with compare & duplicate
 │   ├── use-preset-editor.ts  # Preset editor state management
-│   ├── use-banner-references.ts # Banner reference images CRUD operations
+│   ├── use-banner-references.ts # Banner reference images CRUD with auto-refresh
 │   ├── use-banner-validation.ts # Character limits, contrast checking, warnings
 │   ├── use-projects.ts       # Project CRUD operations
 │   └── use-cost-control.ts   # Cost monitoring state & API calls
