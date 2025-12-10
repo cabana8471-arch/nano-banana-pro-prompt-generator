@@ -15,9 +15,11 @@ interface GenerateInput {
   settings: GenerationSettings;
   generationType?: GenerationType;
   referenceImages?: {
-    avatarId: string;
+    avatarId?: string;
+    imageUrl?: string;
     type: AvatarType;
   }[];
+  projectId?: string;
 }
 
 interface RefineInput {

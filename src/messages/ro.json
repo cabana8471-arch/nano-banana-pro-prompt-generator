@@ -2032,12 +2032,16 @@
       "logoDescription": "Incarca sau selecteaza logo-ul brandului",
       "productImage": "Imagine Produs",
       "productImageDescription": "Incarca sau selecteaza o imagine de produs",
+      "productImageDescriptionSwapMode": "Acest produs va inlocui produsul din bannerul de referinta",
       "selectImage": "Selecteaza Imagine",
       "change": "Schimba",
       "brandColors": "Culori Brand",
       "primaryColor": "Culoare Principala",
       "secondaryColor": "Culoare Secundara",
-      "accentColor": "Culoare Accent"
+      "accentColor": "Culoare Accent",
+      "productSwapMode": "Mod Schimbare Produs",
+      "productSwapModeDescription": "Pastreaza designul bannerului, schimba doar produsul si textul",
+      "productSwapModeHint": "Selecteaza o Referinta Banner mai jos pentru a o folosi ca sablon de design"
     },
     "referenceImages": {
       "title": "Imagini de Referinta",

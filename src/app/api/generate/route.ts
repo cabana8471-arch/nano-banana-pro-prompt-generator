@@ -43,26 +43,45 @@ export async function POST(request: Request) {
     const { prompt, settings, generationType, referenceImages, projectId } = parseResult.data;
 
     // Get avatar details for reference images
-    let avatarDetails: ReferenceImage[] = [];
+    // Supports both avatarId (for avatars) and imageUrl (for banner references)
+    const avatarDetails: ReferenceImage[] = [];
     if (referenceImages.length > 0) {
-      const avatarIds = referenceImages.map((r) => r.avatarId);
-      const avatarRecords = await db
-        .select()
-        .from(avatars)
-        .where(inArray(avatars.id, avatarIds));
+      // Separate references that have avatarId vs those with direct imageUrl
+      const refsWithAvatarId = referenceImages.filter((r) => r.avatarId);
+      const refsWithImageUrl = referenceImages.filter((r) => r.imageUrl && !r.avatarId);
 
-      // Map avatar records to reference images
-      avatarDetails = referenceImages
-        .map((ref) => {
-          const avatar = avatarRecords.find((a) => a.id === ref.avatarId);
-          if (!avatar) return null;
-          return {
-            imageUrl: avatar.imageUrl,
-            type: avatar.avatarType as AvatarType,
-            name: avatar.name,
-          } as ReferenceImage;
-        })
-        .filter((a): a is ReferenceImage => a !== null);
+      // Fetch avatar records for refs that use avatarId
+      if (refsWithAvatarId.length > 0) {
+        const avatarIds = refsWithAvatarId.map((r) => r.avatarId!);
+        const avatarRecords = await db
+          .select()
+          .from(avatars)
+          .where(inArray(avatars.id, avatarIds));
+
+        // Map avatar records to reference images
+        const avatarRefs = refsWithAvatarId
+          .map((ref) => {
+            const avatar = avatarRecords.find((a) => a.id === ref.avatarId);
+            if (!avatar) return null;
+            return {
+              imageUrl: avatar.imageUrl,
+              type: ref.type as AvatarType, // Use the type from the request, not the avatar
+              name: avatar.name,
+            } as ReferenceImage;
+          })
+          .filter((a): a is ReferenceImage => a !== null);
+
+        avatarDetails.push(...avatarRefs);
+      }
+
+      // Add direct imageUrl references (banner references)
+      for (const ref of refsWithImageUrl) {
+        avatarDetails.push({
+          imageUrl: ref.imageUrl!,
+          type: ref.type as AvatarType,
+          // Banner references don't have names in this context
+        });
+      }
     }
 
     // Create the generation record with 'processing' status

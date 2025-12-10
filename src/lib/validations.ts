@@ -238,6 +238,16 @@ export const addToProjectSchema = z.object({
 // Generation Schemas
 // ============================================================================
 
+/** Schema for reference image in generation - supports both avatarId (for avatars) and imageUrl (for banner references) */
+export const referenceImageSchema = z.object({
+  avatarId: z.string().uuid({ message: "Invalid avatar ID format" }).optional(),
+  imageUrl: z.string().url({ message: "Invalid image URL format" }).optional(),
+  type: avatarTypeSchema,
+}).refine(
+  (data) => data.avatarId || data.imageUrl,
+  { message: "Either avatarId or imageUrl must be provided" }
+);
+
 /** Schema for image generation request */
 export const generateRequestSchema = z.object({
   prompt: z
@@ -259,12 +269,7 @@ export const generateRequestSchema = z.object({
   generationType: generationTypeSchema.optional().default("photo"),
   projectId: z.string().uuid({ message: "Invalid project ID" }).optional().nullable(),
   referenceImages: z
-    .array(
-      z.object({
-        avatarId: z.string().uuid({ message: "Invalid avatar ID format" }),
-        type: avatarTypeSchema,
-      })
-    )
+    .array(referenceImageSchema)
     .optional()
     .default([]),
 });

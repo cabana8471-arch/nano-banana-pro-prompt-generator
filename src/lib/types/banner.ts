@@ -151,6 +151,9 @@ export interface BannerBuilderState {
 
   // Custom prompt additions
   customPrompt: string;
+
+  // Product Swap Mode - preserves banner reference design, only swaps product and text
+  productSwapMode: boolean;
 }
 
 /**
@@ -185,6 +188,7 @@ export const DEFAULT_BANNER_BUILDER_STATE: BannerBuilderState = {
     tagline: "",
   },
   customPrompt: "",
+  productSwapMode: false,
 };
 
 // ==========================================

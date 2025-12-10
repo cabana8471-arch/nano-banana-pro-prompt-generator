@@ -67,6 +67,10 @@ interface BannerBuilderPanelProps {
   onSecondaryColorChange: (color: string | undefined) => void;
   onAccentColorChange: (color: string | undefined) => void;
 
+  // Product Swap Mode
+  productSwapMode: boolean;
+  onProductSwapModeChange: (enabled: boolean) => void;
+
   // Avatar data
   avatars: Avatar[];
   isLoadingAvatars: boolean;
@@ -115,6 +119,8 @@ export function BannerBuilderPanel({
   onPrimaryColorChange,
   onSecondaryColorChange,
   onAccentColorChange,
+  productSwapMode,
+  onProductSwapModeChange,
   avatars,
   isLoadingAvatars,
   getAvatarById,
@@ -231,11 +237,14 @@ export function BannerBuilderPanel({
             brandAssets={brandAssets}
             avatars={avatars}
             isLoadingAvatars={isLoadingAvatars}
+            productSwapMode={productSwapMode}
+            hasSelectedBannerReference={selectedBannerReferenceIds.length > 0}
             onLogoChange={onLogoChange}
             onProductImageChange={onProductImageChange}
             onPrimaryColorChange={onPrimaryColorChange}
             onSecondaryColorChange={onSecondaryColorChange}
             onAccentColorChange={onAccentColorChange}
+            onProductSwapModeChange={onProductSwapModeChange}
             getAvatarById={getAvatarById}
           />
 

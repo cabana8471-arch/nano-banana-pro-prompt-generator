@@ -2038,12 +2038,16 @@
       "logoDescription": "Upload or select your brand logo",
       "productImage": "Product Image",
       "productImageDescription": "Upload or select a product image",
+      "productImageDescriptionSwapMode": "This product will replace the product in the reference banner",
       "selectImage": "Select Image",
       "change": "Change",
       "brandColors": "Brand Colors",
       "primaryColor": "Primary Color",
       "secondaryColor": "Secondary Color",
-      "accentColor": "Accent Color"
+      "accentColor": "Accent Color",
+      "productSwapMode": "Product Swap Mode",
+      "productSwapModeDescription": "Keep banner design, only swap product and text",
+      "productSwapModeHint": "Select a Banner Reference below to use as design template"
     },
     "referenceImages": {
       "title": "Reference Images",

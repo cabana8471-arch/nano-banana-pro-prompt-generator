@@ -77,6 +77,7 @@ export default function BannerGeneratorPage() {
     setCtaText,
     setTagline,
     setCustomPrompt,
+    setProductSwapMode,
     setSettings,
     setLogoAvatarId,
     setProductImageAvatarId,
@@ -388,13 +389,38 @@ export default function BannerGeneratorPage() {
       return;
     }
 
-    // Get reference images from brand assets (logo and product)
-    const referenceImages: { avatarId: string; type: "human" | "object" }[] = [];
+    // Build reference images for generation
+    // Type can include avatarId (for avatars) or imageUrl (for banner references)
+    const referenceImages: {
+      avatarId?: string;
+      imageUrl?: string;
+      type: "human" | "object" | "reference" | "product";
+    }[] = [];
+
+    // In Product Swap Mode, add banner reference first (as design template)
+    if (state.productSwapMode && selectedBannerReferenceIds.length > 0) {
+      const selectedBannerRef = bannerReferences.find((r) =>
+        selectedBannerReferenceIds.includes(r.id)
+      );
+      if (selectedBannerRef) {
+        referenceImages.push({
+          imageUrl: selectedBannerRef.imageUrl,
+          type: "reference",
+        });
+      }
+    }
+
+    // Add product image (as "product" type in Product Swap mode, "object" otherwise)
+    if (brandAssets.productImageAvatarId) {
+      referenceImages.push({
+        avatarId: brandAssets.productImageAvatarId,
+        type: state.productSwapMode ? "product" : "object",
+      });
+    }
+
+    // Add logo
     if (brandAssets.logoAvatarId) {
       referenceImages.push({ avatarId: brandAssets.logoAvatarId, type: "object" });
-    }
-    if (brandAssets.productImageAvatarId) {
-      referenceImages.push({ avatarId: brandAssets.productImageAvatarId, type: "object" });
     }
 
     // Check if this is a platform bundle generation
@@ -715,6 +741,8 @@ export default function BannerGeneratorPage() {
                 setBrandAssets({ accentColor: color });
               }
             }}
+            productSwapMode={state.productSwapMode}
+            onProductSwapModeChange={setProductSwapMode}
             avatars={avatars}
             isLoadingAvatars={avatarsLoading}
             getAvatarById={getAvatarById}

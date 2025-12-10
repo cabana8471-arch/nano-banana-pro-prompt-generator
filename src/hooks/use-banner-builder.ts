@@ -71,6 +71,9 @@ interface UseBannerBuilderReturn {
   // Custom prompt
   setCustomPrompt: (value: string) => void;
 
+  // Product Swap Mode
+  setProductSwapMode: (value: boolean) => void;
+
   // Settings
   setSettings: (settings: Partial<BannerGenerationSettings>) => void;
 
@@ -278,6 +281,14 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
   }, []);
 
   // ==========================================
+  // Product Swap Mode
+  // ==========================================
+
+  const setProductSwapMode = useCallback((value: boolean) => {
+    setState((prev) => ({ ...prev, productSwapMode: value }));
+  }, []);
+
+  // ==========================================
   // Settings
   // ==========================================
 
@@ -339,6 +350,46 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       dimensions = `${sizeTemplate.width}x${sizeTemplate.height}`;
     }
 
+    // Product Swap Mode - special prompt for preserving design and swapping product/text
+    if (state.productSwapMode && selectedBannerReferenceIds.length > 0) {
+      parts.push(
+        "IMPORTANT: Use the provided banner reference image as the exact design template. " +
+          "Preserve the layout, colors, typography, composition, and all visual elements exactly. " +
+          "Only replace the product with the new product image provided"
+      );
+
+      // Add dimension requirement if specified
+      if (dimensions) {
+        parts.push(`Generate the banner at exactly ${dimensions} pixels`);
+      }
+
+      // Text replacement instructions - only if text is provided
+      const textInstructions: string[] = [];
+      if (state.textContent.headline) {
+        textInstructions.push(`Replace the headline text with: "${state.textContent.headline}"`);
+      }
+      if (state.textContent.subheadline) {
+        textInstructions.push(`Replace the subheadline text with: "${state.textContent.subheadline}"`);
+      }
+      if (state.textContent.ctaText) {
+        textInstructions.push(`Replace the CTA button text with: "${state.textContent.ctaText}"`);
+      }
+      if (state.textContent.tagline) {
+        textInstructions.push(`Replace the tagline text with: "${state.textContent.tagline}"`);
+      }
+      if (textInstructions.length > 0) {
+        parts.push(textInstructions.join(". "));
+      }
+
+      // Add custom prompt if specified
+      if (state.customPrompt) {
+        parts.push(state.customPrompt);
+      }
+
+      return parts.filter(Boolean).join(". ");
+    }
+
+    // Normal mode - standard prompt assembly
     // Start with a contextual intro including dimensions
     const bannerTypePrompt = getPromptValue(state.bannerType);
     if (dimensions && bannerTypePrompt) {
@@ -504,7 +555,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     parts.push("High quality advertising design with clean composition and professional finish");
 
     return parts.filter(Boolean).join(". ");
-  }, [state, brandAssets, getPromptValue]);
+  }, [state, brandAssets, getPromptValue, selectedBannerReferenceIds]);
 
   // ==========================================
   // Selected Banner Size
@@ -832,6 +883,9 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
 
     // Custom prompt
     setCustomPrompt,
+
+    // Product Swap Mode
+    setProductSwapMode,
 
     // Settings
     setSettings,

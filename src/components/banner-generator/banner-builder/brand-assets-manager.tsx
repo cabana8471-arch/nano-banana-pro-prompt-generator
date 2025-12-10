@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ImageIcon, Palette, X } from "lucide-react";
+import { ImageIcon, Palette, X, RefreshCcw, AlertCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AvatarSelectorModal } from "@/components/avatars/avatar-selector-modal";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import type { BannerBrandAssets } from "@/lib/types/banner";
 import type { Avatar, AvatarType } from "@/lib/types/generation";
 
@@ -15,11 +17,14 @@ interface BrandAssetsManagerProps {
   brandAssets: BannerBrandAssets;
   avatars: Avatar[];
   isLoadingAvatars: boolean;
+  productSwapMode: boolean;
+  hasSelectedBannerReference: boolean;
   onLogoChange: (avatarId: string | undefined) => void;
   onProductImageChange: (avatarId: string | undefined) => void;
   onPrimaryColorChange: (color: string | undefined) => void;
   onSecondaryColorChange: (color: string | undefined) => void;
   onAccentColorChange: (color: string | undefined) => void;
+  onProductSwapModeChange: (enabled: boolean) => void;
   getAvatarById: (id: string) => Avatar | undefined;
 }
 
@@ -179,11 +184,14 @@ export function BrandAssetsManager({
   brandAssets,
   avatars,
   isLoadingAvatars,
+  productSwapMode,
+  hasSelectedBannerReference,
   onLogoChange,
   onProductImageChange,
   onPrimaryColorChange,
   onSecondaryColorChange,
   onAccentColorChange,
+  onProductSwapModeChange,
   getAvatarById,
 }: BrandAssetsManagerProps) {
   const t = useTranslations("bannerGenerator");
@@ -193,6 +201,37 @@ export function BrandAssetsManager({
       <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
         {t("sections.brandAssets")}
       </h3>
+
+      {/* Product Swap Mode Toggle */}
+      <div className="space-y-3 p-3 border rounded-lg bg-muted/30">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <RefreshCcw className="h-4 w-4 text-muted-foreground" />
+            <div>
+              <Label htmlFor="product-swap-mode" className="text-sm font-medium cursor-pointer">
+                {t("brandAssets.productSwapMode")}
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                {t("brandAssets.productSwapModeDescription")}
+              </p>
+            </div>
+          </div>
+          <Switch
+            id="product-swap-mode"
+            checked={productSwapMode}
+            onCheckedChange={onProductSwapModeChange}
+          />
+        </div>
+
+        {productSwapMode && !hasSelectedBannerReference && (
+          <Alert variant="default" className="py-2">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription className="text-xs">
+              {t("brandAssets.productSwapModeHint")}
+            </AlertDescription>
+          </Alert>
+        )}
+      </div>
 
       {/* Logo Selector */}
       <AssetSelector
@@ -210,7 +249,9 @@ export function BrandAssetsManager({
       {/* Product Image Selector */}
       <AssetSelector
         label={t("brandAssets.productImage")}
-        description={t("brandAssets.productImageDescription")}
+        description={productSwapMode
+          ? t("brandAssets.productImageDescriptionSwapMode")
+          : t("brandAssets.productImageDescription")}
         selectedAvatarId={brandAssets.productImageAvatarId}
         onSelect={onProductImageChange}
         avatars={avatars}

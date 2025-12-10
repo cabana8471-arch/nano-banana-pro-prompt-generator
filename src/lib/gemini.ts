@@ -166,6 +166,9 @@ export interface GenerationResult {
 
 /**
  * Build the prompt with reference image context
+ * Supports types: human, object, logo, product, reference
+ * - reference: Design template to preserve (Product Swap Mode)
+ * - product: Product image to insert into the design (Product Swap Mode)
  */
 function buildPromptWithReferences(
   prompt: string,
@@ -176,9 +179,24 @@ function buildPromptWithReferences(
   }
 
   const humanRefs = referenceImages.filter((r) => r.type === "human");
-  const objectRefs = referenceImages.filter((r) => r.type === "object");
+  const objectRefs = referenceImages.filter((r) => r.type === "object" || r.type === "logo");
+  const referenceRefs = referenceImages.filter((r) => r.type === "reference");
+  const productRefs = referenceImages.filter((r) => r.type === "product");
 
   let enhancedPrompt = prompt;
+
+  // Product Swap Mode: reference image is the design template
+  if (referenceRefs.length > 0) {
+    // The prompt from Product Swap Mode already contains the instructions
+    // We just add context about the first reference being the template
+    enhancedPrompt = `The first reference image is the design template - preserve its exact layout, colors, typography, and composition. ${enhancedPrompt}`;
+  }
+
+  // Product Swap Mode: product image to replace in the design
+  if (productRefs.length > 0) {
+    const productName = productRefs[0]?.name || "the product";
+    enhancedPrompt += ` Use ${productName} from the product reference image as the product in the design.`;
+  }
 
   if (humanRefs.length > 0) {
     const humanNames = humanRefs
