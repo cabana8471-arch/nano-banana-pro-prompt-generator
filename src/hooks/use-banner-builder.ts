@@ -350,43 +350,73 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
       dimensions = `${sizeTemplate.width}x${sizeTemplate.height}`;
     }
 
-    // Product Swap Mode - special prompt for preserving design and swapping product/text
+    // Product Swap Mode - advanced prompt engineering for preserving design and swapping product/text
     if (state.productSwapMode && selectedBannerReferenceIds.length > 0) {
+      // Critical instruction block - be extremely explicit about template replication
       parts.push(
-        "IMPORTANT: Use the provided banner reference image as the exact design template. " +
-          "Preserve the layout, colors, typography, composition, and all visual elements exactly. " +
-          "Only replace the product with the new product image provided"
+        "CRITICAL INSTRUCTION: The first reference image is a STRICT DESIGN TEMPLATE that you MUST replicate exactly."
       );
 
-      // Add dimension requirement if specified
+      parts.push(
+        "MANDATORY REQUIREMENTS - Follow these precisely:\n" +
+          "1. LAYOUT: Replicate the EXACT same layout structure, element positions, and spatial arrangement\n" +
+          "2. COLORS: Use the IDENTICAL color scheme, gradients, and color distribution\n" +
+          "3. TYPOGRAPHY: Match the EXACT font styles, sizes, weights, and text positioning\n" +
+          "4. BACKGROUND: Reproduce the SAME background treatment, patterns, and effects\n" +
+          "5. COMPOSITION: Maintain the EXACT visual hierarchy and balance\n" +
+          "6. STYLE: Preserve ALL decorative elements, shadows, borders, and visual effects"
+      );
+
+      // Product swap instruction
+      parts.push(
+        "PRODUCT REPLACEMENT: The ONLY change you should make is replacing the product/main subject " +
+          "with the product shown in the second reference image. Place this new product in the EXACT same " +
+          "position and scale as the original product in the template."
+      );
+
+      // Dimension requirement
       if (dimensions) {
-        parts.push(`Generate the banner at exactly ${dimensions} pixels`);
+        parts.push(`OUTPUT SIZE: Generate the banner at exactly ${dimensions} pixels`);
       }
 
-      // Text replacement instructions - only if text is provided
+      // Text replacement instructions - more explicit
       const textInstructions: string[] = [];
       if (state.textContent.headline) {
-        textInstructions.push(`Replace the headline text with: "${state.textContent.headline}"`);
+        textInstructions.push(
+          `HEADLINE: Replace with "${state.textContent.headline}" using the SAME font style, size, color, and position`
+        );
       }
       if (state.textContent.subheadline) {
-        textInstructions.push(`Replace the subheadline text with: "${state.textContent.subheadline}"`);
+        textInstructions.push(
+          `SUBHEADLINE: Replace with "${state.textContent.subheadline}" using the SAME font style, size, color, and position`
+        );
       }
       if (state.textContent.ctaText) {
-        textInstructions.push(`Replace the CTA button text with: "${state.textContent.ctaText}"`);
+        textInstructions.push(
+          `CTA BUTTON: Replace text with "${state.textContent.ctaText}" keeping the SAME button style, shape, color, and position`
+        );
       }
       if (state.textContent.tagline) {
-        textInstructions.push(`Replace the tagline text with: "${state.textContent.tagline}"`);
+        textInstructions.push(
+          `TAGLINE: Replace with "${state.textContent.tagline}" using the SAME font style, size, color, and position`
+        );
       }
       if (textInstructions.length > 0) {
-        parts.push(textInstructions.join(". "));
+        parts.push("TEXT REPLACEMENTS:\n" + textInstructions.join("\n"));
       }
+
+      // Final emphasis
+      parts.push(
+        "IMPORTANT: DO NOT redesign, reinterpret, or add creative variations. " +
+          "The output must look like an EXACT COPY of the template with only the product and specified text changed."
+      );
 
       // Add custom prompt if specified
       if (state.customPrompt) {
-        parts.push(state.customPrompt);
+        parts.push(`ADDITIONAL INSTRUCTIONS: ${state.customPrompt}`);
       }
 
-      return parts.filter(Boolean).join(". ");
+      return parts.filter(Boolean).join("\n\n");
     }
 
     // Normal mode - standard prompt assembly

@@ -185,17 +185,32 @@ function buildPromptWithReferences(
 
   let enhancedPrompt = prompt;
 
-  // Product Swap Mode: reference image is the design template
+  // Product Swap Mode: reference image is the strict design template
   if (referenceRefs.length > 0) {
-    // The prompt from Product Swap Mode already contains the instructions
-    // We just add context about the first reference being the template
-    enhancedPrompt = `The first reference image is the design template - preserve its exact layout, colors, typography, and composition. ${enhancedPrompt}`;
-  }
+    // Add explicit image indexing context for the AI
+    const templateContext =
+      "[IMAGE 1 - DESIGN TEMPLATE]: This is the banner design you must EXACTLY replicate. " +
+      "Study every detail: layout, colors, fonts, element positions, backgrounds, and effects. " +
+      "Your output must be visually IDENTICAL to this template.";
 
-  // Product Swap Mode: product image to replace in the design
-  if (productRefs.length > 0) {
-    const productName = productRefs[0]?.name || "the product";
-    enhancedPrompt += ` Use ${productName} from the product reference image as the product in the design.`;
+    // Check if we also have a product reference
+    if (productRefs.length > 0) {
+      const productName = productRefs[0]?.name || "the new product";
+      const productContext =
+        `\n\n[IMAGE 2 - PRODUCT TO INSERT]: This shows ${productName}. ` +
+        "Extract this product and place it in the EXACT same position and scale as the product in Image 1. " +
+        "The product is the ONLY element that should differ from the template.";
+
+      enhancedPrompt = `${templateContext}${productContext}\n\n${enhancedPrompt}`;
+    } else {
+      enhancedPrompt = `${templateContext}\n\n${enhancedPrompt}`;
+    }
+  } else {
+    // Normal mode (non-Product Swap): handle product refs as regular object refs
+    if (productRefs.length > 0) {
+      const productName = productRefs[0]?.name || "the product";
+      enhancedPrompt += ` Feature ${productName} from the product reference image prominently in the design.`;
+    }
   }
 
   if (humanRefs.length > 0) {
