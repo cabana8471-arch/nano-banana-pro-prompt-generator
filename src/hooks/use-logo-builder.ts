@@ -276,8 +276,8 @@ export function useLogoBuilder(): UseLogoBuilderReturn {
   const assembledPrompt = useMemo(() => {
     const parts: string[] = [];
 
-    // Start with a base logo prompt
-    parts.push("Professional company logo design");
+    // Start with a professional logo prompt
+    parts.push("A professional company logo design");
 
     // Add logo type
     const logoTypePrompt = getPromptValue(state.logoType);
@@ -388,7 +388,7 @@ export function useLogoBuilder(): UseLogoBuilderReturn {
 
     // Final quality instructions
     parts.push(
-      "The logo should be scalable, memorable, and work well at all sizes from favicon to billboard. Professional quality, vector-ready design"
+      "Vector-ready, scalable design that works from favicon to billboard size"
     );
 
     return parts.filter(Boolean).join(". ");
