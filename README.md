@@ -28,6 +28,12 @@ An AI-powered image generator application that uses Google's Gemini 3 Pro Image 
   - **3 Reference Types**: Style (visual aesthetics), Composition (layout structure), Color (palette inspiration)
   - **Multi-Reference Support**: Use up to 4 reference images per generation
   - **Reference Library**: Store up to 50 references per user with easy management
+- **Product Swap Mode**: Preserve banner design while swapping only the product and text
+  - **Design Preservation**: Use a previously generated banner as design template
+  - **Product Replacement**: Only swap the product image in the design
+  - **Optional Text Replacement**: Replace headline/subheadline only when text fields are filled
+  - **Toggle Control**: Enable/disable via switch in Brand Assets section
+  - **Smart Validation**: Warning alert when mode is enabled but no reference is selected
 - **15 Template Categories**: 520+ presets organized in 4 sections:
   - **Basic Configuration**: Banner Type (~50), Banner Size (~39 + Custom), Industry/Niche (~64)
   - **Visual Style**: Design Style (~47), Color Scheme (~42), Mood/Emotion (~30), Seasonal/Holiday (~37)
@@ -262,6 +268,15 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
 11. **Download** in PNG, JPG, or WebP format
 12. **Export Multi-Size**: Use "Export for Platforms" to batch-export the same banner in multiple dimensions for different platforms (ZIP download)
 13. **Native Platform Generation**: When a platform bundle is selected, AI generates each size with optimized layout
+
+### Product Swap Mode (Banner Generator)
+Use this mode to create variations of an existing banner design with different products:
+1. **Generate a banner** you like and save it as a Banner Reference
+2. In **Brand Assets**, enable the **"Product Swap Mode"** toggle
+3. **Select the banner reference** as your design template (in Reference Images section)
+4. **Upload your new product image** in the Product Image field
+5. **Optionally fill in text fields** (headline/subheadline) to replace text in the design
+6. **Generate** - the AI preserves the design and only swaps the product and specified text
 
 ## Internationalization
 
