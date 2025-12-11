@@ -180,10 +180,12 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
   - **Branded UI**: Password form with Nano Banana Pro branding and i18n support
 - **Layer 2 - Google OAuth**: User authentication via Google OAuth (existing Better Auth integration)
 - **Layer 3 - Authorization System**: Email allowlist and invitation code system for user authorization
-  - **Email Allowlist**: Pre-approved email addresses that are automatically authorized
+  - **Email Allowlist**: Pre-approved email addresses that are automatically authorized on login
   - **Invitation Codes**: 8-character redeemable codes with configurable max uses and expiration
-  - **Admin Bypass**: Admin emails (configured via environment variable) bypass authorization checks
-  - **User Access Tracking**: Database tracking of authorization status and method
+  - **Admin Bypass**: Admin emails (configured via `ADMIN_EMAILS` env var) bypass all authorization checks
+  - **User Access Tracking**: Database tracking of authorization status and method (allowlist vs invitation code)
+  - **Server-Side Authorization**: `requireAuthorization()` helper for protected routes with automatic allowlist checking
+  - **Authorization Flow**: Session check → Admin bypass → Allowlist auto-authorization → Existing authorization check → Redirect to unauthorized
 
 ## Tech Stack
 

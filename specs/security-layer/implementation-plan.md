@@ -90,7 +90,7 @@
 ## Phase 4: Authorization System (Layer 3)
 
 ### Tasks
-- [ ] Create `src/lib/authorization.ts`:
+- [x] Create `src/lib/authorization.ts`:
   - `isAdminEmail(email)` - check against ADMIN_EMAILS
   - `isEmailAllowed(email)` - check allowlist table
   - `isUserAuthorized(userId)` - check access status
@@ -98,7 +98,7 @@
   - `redeemInvitationCode(userId, code)` - redeem code
   - `generateInvitationCode(createdBy, options)` - create new code
 
-- [ ] Create `src/lib/require-authorization.ts`:
+- [x] Create `src/lib/require-authorization.ts`:
   - `requireAuthorization()` - server-side helper
   - Check session existence
   - Check admin status (bypass)
