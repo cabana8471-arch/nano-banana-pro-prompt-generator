@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FolderOpen, Loader2, ChevronDown, ListFilter } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +16,6 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
 import type { BannerPreset, BannerPresetConfig } from "@/lib/types/banner";
 import { PartialLoadModal } from "./partial-load-modal";
 import { PresetSectionSummary, getTotalConfiguredFields } from "./shared/preset-section-summary";

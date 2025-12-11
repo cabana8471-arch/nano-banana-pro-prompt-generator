@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MoreVertical, ChevronDown, ChevronUp, Pencil, Copy, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,7 +24,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import type { BannerPreset, BannerSection } from "@/lib/types/banner";
 import { PresetSectionSummary, getTotalConfiguredFields } from "./shared/preset-section-summary";

@@ -2,8 +2,8 @@
 
 import { Plus, Minus, RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
 import type { BannerPresetConfig, BannerSection } from "@/lib/types/banner";
+import { cn } from "@/lib/utils";
 import { SECTION_FIELD_MAP } from "./preset-section-summary";
 
 // Typography categories that share the same templates

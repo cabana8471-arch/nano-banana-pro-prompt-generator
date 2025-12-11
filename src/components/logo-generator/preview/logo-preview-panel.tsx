@@ -2,6 +2,7 @@
 
 import { Wand2, FileText, Settings2, FolderOpen, Square, RectangleHorizontal, RectangleVertical, Hexagon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ProjectSelector } from "@/components/banner-generator/projects/project-selector";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -19,7 +20,6 @@ import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { LoadLogoPresetDropdown } from "../presets/load-logo-preset-dropdown";
 import { ManageLogoPresetsModal } from "../presets/manage-logo-presets-modal";
 import { SaveLogoPresetModal } from "../presets/save-logo-preset-modal";
-import { ProjectSelector } from "@/components/banner-generator/projects/project-selector";
 
 interface LogoPreviewPanelProps {
   assembledPrompt: string;

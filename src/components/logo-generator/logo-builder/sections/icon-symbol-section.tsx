@@ -1,9 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { Check } from "lucide-react";
-import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   iconStyleTemplates,
   symbolElementsTemplates,

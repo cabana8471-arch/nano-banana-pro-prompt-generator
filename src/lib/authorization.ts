@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { getServerEnv } from "@/lib/env";
 import {
@@ -6,7 +7,6 @@ import {
   userAccessStatus,
   user,
 } from "@/lib/schema";
-import { eq } from "drizzle-orm";
 
 /**
  * Get the list of admin emails from environment variable

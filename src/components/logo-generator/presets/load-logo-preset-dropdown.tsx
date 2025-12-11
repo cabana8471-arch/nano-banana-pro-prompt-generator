@@ -2,6 +2,7 @@
 
 import { FolderOpen, Loader2, ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
 import type { LogoPreset, LogoPresetConfig } from "@/lib/types/logo";
 
 interface LoadLogoPresetDropdownProps {

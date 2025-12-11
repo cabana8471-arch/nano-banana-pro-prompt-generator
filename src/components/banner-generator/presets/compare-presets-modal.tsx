@@ -3,6 +3,8 @@
 import { useState, useMemo, useCallback } from "react";
 import { Equal, ArrowLeftRight, Minus, Download } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,9 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
@@ -30,8 +30,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import type { BannerPreset, BannerPresetConfig } from "@/lib/types/banner";
+import { cn } from "@/lib/utils";
 
 interface ComparePresetsModalProps {
   presets: BannerPreset[];

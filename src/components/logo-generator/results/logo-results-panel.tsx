@@ -5,8 +5,8 @@ import Image from "next/image";
 import { Download, ExternalLink, FileImage, FolderPlus, FileType, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { AddToProjectModal } from "@/components/banner-generator/projects/add-to-project-modal";
 import { Button } from "@/components/ui/button";
-import { exportAsSvg } from "@/lib/svg-export";
 import {
   Dialog,
   DialogContent,
@@ -21,10 +21,10 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { exportAsSvg } from "@/lib/svg-export";
 import type { LogoExportFormat } from "@/lib/types/logo";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
 import { LogoRefineInput } from "./logo-refine-input";
-import { AddToProjectModal } from "@/components/banner-generator/projects/add-to-project-modal";
 
 interface LogoResultsPanelProps {
   images: string[];

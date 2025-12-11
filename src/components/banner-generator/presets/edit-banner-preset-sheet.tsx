@@ -4,13 +4,11 @@ import { useState, useEffect } from "react";
 import { Loader2, Save, Copy, RotateCcw, AlertTriangle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,20 +19,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { BannerTemplateSelector } from "../banner-builder/banner-template-selector";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
+import { usePresetEditor } from "@/hooks/use-preset-editor";
 import {
   bannerTypeTemplates,
   bannerSizeTemplates,
@@ -54,7 +54,7 @@ import {
   ctaButtonStyleTemplates,
 } from "@/lib/data/banner-templates";
 import type { BannerPreset, UpdateBannerPresetInput } from "@/lib/types/banner";
-import { usePresetEditor } from "@/hooks/use-preset-editor";
+import { BannerTemplateSelector } from "../banner-builder/banner-template-selector";
 import { PresetConfigDiff } from "./shared/preset-config-diff";
 
 interface EditBannerPresetSheetProps {

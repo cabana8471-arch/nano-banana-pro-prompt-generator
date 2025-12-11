@@ -218,8 +218,8 @@
 ## Phase 11: Final Validation
 
 ### Tasks
-- [ ] Run `pnpm lint` - fix any linting errors
-- [ ] Run `pnpm typecheck` - fix any type errors
+- [x] Run `pnpm lint` - fix any linting errors
+- [x] Run `pnpm typecheck` - fix any type errors
 - [ ] Manual testing:
   - [ ] Test site password gate
   - [ ] Test unauthorized flow with new user
