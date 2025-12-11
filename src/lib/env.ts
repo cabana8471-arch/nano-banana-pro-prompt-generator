@@ -31,6 +31,13 @@ const serverEnvSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
+
+  // Security Layer
+  SITE_PASSWORD: z
+    .string()
+    .min(8, "SITE_PASSWORD must be at least 8 characters")
+    .optional(),
+  ADMIN_EMAILS: z.string().optional(), // Comma-separated list of admin emails
 });
 
 /**
@@ -109,6 +116,19 @@ export function checkEnv(): void {
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     warnings.push("BLOB_READ_WRITE_TOKEN is not set. Using local storage for file uploads.");
+  }
+
+  // Security Layer warnings
+  if (!process.env.SITE_PASSWORD) {
+    warnings.push(
+      "SITE_PASSWORD is not set. Layer 1 (site password gate) is disabled."
+    );
+  }
+
+  if (!process.env.ADMIN_EMAILS) {
+    warnings.push(
+      "ADMIN_EMAILS is not set. No admin bypass for authorization layer."
+    );
   }
 
   // Log warnings in development

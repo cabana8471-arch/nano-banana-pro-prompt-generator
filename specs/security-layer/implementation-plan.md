@@ -51,11 +51,11 @@
 ## Phase 2: Environment Variables
 
 ### Tasks
-- [ ] Update `src/lib/env.ts` - add to `serverEnvSchema`:
+- [x] Update `src/lib/env.ts` - add to `serverEnvSchema`:
   - `SITE_PASSWORD` (string, min 8 chars, optional)
   - `ADMIN_EMAILS` (string, optional, comma-separated)
 
-- [ ] Update `checkEnv()` function with warnings for missing security vars
+- [x] Update `checkEnv()` function with warnings for missing security vars
 
 ---
 
