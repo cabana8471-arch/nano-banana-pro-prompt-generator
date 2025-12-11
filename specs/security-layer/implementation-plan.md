@@ -203,12 +203,12 @@
 ## Phase 10: Admin API Routes
 
 ### Tasks
-- [ ] Create `src/app/api/admin/allowlist/route.ts`:
+- [x] Create `src/app/api/admin/allowlist/route.ts`:
   - GET: List all allowed emails (admin only)
   - POST: Add email to allowlist (admin only)
   - DELETE: Remove email from allowlist (admin only)
 
-- [ ] Create `src/app/api/admin/invitation-codes/route.ts`:
+- [x] Create `src/app/api/admin/invitation-codes/route.ts`:
   - GET: List all invitation codes (admin only)
   - POST: Generate new code (admin only)
   - PATCH: Activate/deactivate code (admin only)

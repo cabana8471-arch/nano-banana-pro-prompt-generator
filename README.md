@@ -218,6 +218,17 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
   - **Top Contributors** (`GET /api/gallery/top-contributors`): Returns 401 for unauthenticated, 403 for unauthorized users
   - **Public Gallery Page** (`/gallery/public`): Requires authorization via `requireAuthorization()` check
   - **No Public Caching**: API responses are not publicly cached since they require authentication
+- **Admin API Routes**: RESTful endpoints for managing authorization system (admin only)
+  - **Email Allowlist Management** (`/api/admin/allowlist`):
+    - **GET**: List all allowed emails with details (added by, note, creation date)
+    - **POST**: Add email to allowlist with optional note
+    - **DELETE**: Remove email from allowlist by ID
+  - **Invitation Codes Management** (`/api/admin/invitation-codes`):
+    - **GET**: List all invitation codes with usage statistics and creator info
+    - **POST**: Generate new invitation code with configurable max uses (1-1000) and expiration date
+    - **PATCH**: Activate or deactivate an existing invitation code
+  - **Admin Verification**: All admin endpoints require authenticated user with email in `ADMIN_EMAILS` env var
+  - **Error Responses**: Returns 401 for unauthenticated, 403 for non-admin users
 
 ## Tech Stack
 
