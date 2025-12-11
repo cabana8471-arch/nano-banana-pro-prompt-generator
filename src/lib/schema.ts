@@ -400,3 +400,57 @@ export const userPricingSettings = pgTable(
   },
   (table) => [index("user_pricing_settings_user_id_idx").on(table.userId)]
 );
+
+// ==========================================
+// Security Layer Tables
+// ==========================================
+
+// Allowed Emails - Email allowlist for authorization (Layer 3)
+export const allowedEmails = pgTable(
+  "allowed_emails",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    email: text("email").notNull().unique(),
+    addedBy: text("added_by").references(() => user.id, { onDelete: "set null" }),
+    note: text("note"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [index("allowed_emails_email_idx").on(table.email)]
+);
+
+// Invitation Codes - Invitation code system for authorization (Layer 3)
+export const invitationCodes = pgTable(
+  "invitation_codes",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    code: text("code").notNull().unique(), // 8 character code
+    createdBy: text("created_by")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    redeemedBy: text("redeemed_by").references(() => user.id, { onDelete: "set null" }),
+    redeemedAt: timestamp("redeemed_at"),
+    expiresAt: timestamp("expires_at"),
+    maxUses: integer("max_uses").notNull().default(1),
+    currentUses: integer("current_uses").notNull().default(0),
+    isActive: boolean("is_active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [index("invitation_codes_code_idx").on(table.code)]
+);
+
+// User Access Status - Tracks user authorization status (Layer 3)
+export const userAccessStatus = pgTable(
+  "user_access_status",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .unique()
+      .references(() => user.id, { onDelete: "cascade" }),
+    isAuthorized: boolean("is_authorized").notNull().default(false),
+    authorizedVia: text("authorized_via"), // "allowlist" | "invitation_code"
+    invitationCodeId: uuid("invitation_code_id").references(() => invitationCodes.id, { onDelete: "set null" }),
+    authorizedAt: timestamp("authorized_at"),
+  },
+  (table) => [index("user_access_status_user_id_idx").on(table.userId)]
+);

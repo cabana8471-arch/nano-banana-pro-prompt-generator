@@ -172,6 +172,15 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
 - **Internationalization (i18n)**: Full support for English and Romanian languages with locale-based URL routing (`/en/`, `/ro/`)
 - **Intuitive Error Messages**: Client-side validation for file uploads with specific error messages (file size limits, invalid file types) displayed instantly before server requests
 
+### Security Layer (3-Layer Access Control)
+- **Layer 1 - Site Password Gate**: Optional site-wide password protection with cookie-based verification
+- **Layer 2 - Google OAuth**: User authentication via Google OAuth (existing Better Auth integration)
+- **Layer 3 - Authorization System**: Email allowlist and invitation code system for user authorization
+  - **Email Allowlist**: Pre-approved email addresses that are automatically authorized
+  - **Invitation Codes**: 8-character redeemable codes with configurable max uses and expiration
+  - **Admin Bypass**: Admin emails (configured via environment variable) bypass authorization checks
+  - **User Access Tracking**: Database tracking of authorization status and method
+
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router) with React 19
@@ -425,7 +434,7 @@ src/
 │   └── ro.json               # Romanian translations (~2500 keys)
 └── lib/
     ├── gemini.ts             # Gemini API integration
-    ├── schema.ts             # Database schema (includes projects table)
+    ├── schema.ts             # Database schema (includes projects, security layer tables)
     ├── storage.ts            # File storage abstraction
     ├── auth.ts               # Authentication config
     ├── types/
@@ -454,6 +463,8 @@ src/
 | `GOOGLE_CLIENT_SECRET` | Yes | Google OAuth client secret |
 | `NEXT_PUBLIC_APP_URL` | Yes | Application URL |
 | `BLOB_READ_WRITE_TOKEN` | No | Vercel Blob token (uses local storage if not set) |
+| `SITE_PASSWORD` | No | Site-wide password for Layer 1 protection (min 8 chars) |
+| `ADMIN_EMAILS` | No | Comma-separated admin emails for Layer 3 bypass |
 
 ## Deployment
 
