@@ -174,6 +174,10 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
 
 ### Security Layer (3-Layer Access Control)
 - **Layer 1 - Site Password Gate**: Optional site-wide password protection with cookie-based verification
+  - **Password Protection**: Configure via `SITE_PASSWORD` environment variable (min 8 characters)
+  - **Secure Cookie Storage**: SHA-256 hashed password stored in HTTPOnly, secure cookie
+  - **30-Day Persistence**: Cookie remains valid for 30 days after verification
+  - **Branded UI**: Password form with Nano Banana Pro branding and i18n support
 - **Layer 2 - Google OAuth**: User authentication via Google OAuth (existing Better Auth integration)
 - **Layer 3 - Authorization System**: Email allowlist and invitation code system for user authorization
   - **Email Allowlist**: Pre-approved email addresses that are automatically authorized

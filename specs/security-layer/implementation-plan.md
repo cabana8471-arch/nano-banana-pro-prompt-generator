@@ -62,7 +62,7 @@
 ## Phase 3: Site Password (Layer 1)
 
 ### Tasks
-- [ ] Create `src/lib/site-password.ts` utility:
+- [x] Create `src/lib/site-password.ts` utility:
   - `getSitePassword()` - get password from env
   - `isSitePasswordEnabled()` - check if enabled
   - `hashPassword(password)` - SHA-256 hash
@@ -70,17 +70,17 @@
   - `setSitePasswordCookie()` - set cookie after verification
   - Cookie config: `site_password_verified`, HTTPOnly, secure, 30 days
 
-- [ ] Create `src/app/api/site-password/route.ts`:
+- [x] Create `src/app/api/site-password/route.ts`:
   - POST handler to verify password and set cookie
   - Return success/error response
 
-- [ ] Create `src/components/auth/site-password-form.tsx`:
+- [x] Create `src/components/auth/site-password-form.tsx`:
   - Password input form
   - Error display
   - Loading state
   - Nano Banana Pro branding
 
-- [ ] Create `src/app/[locale]/site-password/page.tsx`:
+- [x] Create `src/app/[locale]/site-password/page.tsx`:
   - Centered layout
   - Render SitePasswordForm component
   - Metadata for page title

@@ -3557,5 +3557,17 @@
       "button": "Estimate Costs",
       "running": "Estimating..."
     }
+  },
+  "sitePassword": {
+    "pageTitle": "Site Access",
+    "description": "This site is password protected. Please enter the password to continue.",
+    "passwordLabel": "Site Password",
+    "passwordPlaceholder": "Enter the site password",
+    "submit": "Continue",
+    "verifying": "Verifying...",
+    "error": {
+      "generic": "An error occurred. Please try again.",
+      "invalid": "Invalid password"
+    }
   }
 }

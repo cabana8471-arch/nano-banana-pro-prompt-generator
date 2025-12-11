@@ -3551,5 +3551,17 @@
       "button": "Estimează Costurile",
       "running": "Se estimează..."
     }
+  },
+  "sitePassword": {
+    "pageTitle": "Acces Site",
+    "description": "Acest site este protejat cu parolă. Te rugăm să introduci parola pentru a continua.",
+    "passwordLabel": "Parola Site-ului",
+    "passwordPlaceholder": "Introdu parola site-ului",
+    "submit": "Continuă",
+    "verifying": "Se verifică...",
+    "error": {
+      "generic": "A apărut o eroare. Te rugăm să încerci din nou.",
+      "invalid": "Parolă invalidă"
+    }
   }
 }
