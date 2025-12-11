@@ -211,6 +211,13 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
   - **Media Library**: All media pages (Avatars, Logos, Products, References) require authorization
   - **Cost Control** (`/cost-control`): Requires authorization to view usage and budget settings
   - **Automatic Redirect**: Unauthorized users are redirected to `/unauthorized` page
+- **Public Gallery API Protection**: All public gallery API routes require authentication and authorization
+  - **Public Gallery** (`GET /api/gallery/public`): Returns 401 for unauthenticated, 403 for unauthorized users
+  - **User Gallery** (`GET /api/gallery/user/[userId]`): Returns 401 for unauthenticated, 403 for unauthorized users
+  - **Most Liked** (`GET /api/gallery/most-liked`): Returns 401 for unauthenticated, 403 for unauthorized users
+  - **Top Contributors** (`GET /api/gallery/top-contributors`): Returns 401 for unauthenticated, 403 for unauthorized users
+  - **Public Gallery Page** (`/gallery/public`): Requires authorization via `requireAuthorization()` check
+  - **No Public Caching**: API responses are not publicly cached since they require authentication
 
 ## Tech Stack
 

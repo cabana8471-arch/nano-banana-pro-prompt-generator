@@ -1,24 +1,40 @@
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc, count, sql, and } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
-import { auth } from "@/lib/auth";
 import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
+import { checkAuthorization } from "@/lib/require-authorization";
 import { generations, generatedImages, user } from "@/lib/schema";
 import type { GalleryImage, GenerationSettings, PaginatedResponse, PublicUserProfile } from "@/lib/types/generation";
 
 /**
  * GET /api/gallery/user/[userId]
  * Get a user's public images and profile
+ * Requires authentication and authorization
  */
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    const currentUserId = session?.user?.id;
+    // Check authentication and authorization
+    const authResult = await checkAuthorization();
+
+    if (!authResult) {
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    if (!authResult.isAuthorized) {
+      return NextResponse.json(
+        { error: "Authorization required" },
+        { status: 403 }
+      );
+    }
+
+    const currentUserId = authResult.userId;
     const { userId } = await params;
 
     const { searchParams } = new URL(request.url);

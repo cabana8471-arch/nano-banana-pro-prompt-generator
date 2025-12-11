@@ -2,15 +2,34 @@ import { NextResponse } from "next/server";
 import { eq, sql, desc, count, countDistinct } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { db } from "@/lib/db";
+import { checkAuthorization } from "@/lib/require-authorization";
 import { user, generations, generatedImages, imageLikes } from "@/lib/schema";
 import type { TopContributor } from "@/lib/types/generation";
 
 /**
  * GET /api/gallery/top-contributors
  * Get top contributors ranked by total likes received on public images
+ * Requires authentication and authorization
  */
 export async function GET(request: Request) {
   try {
+    // Check authentication and authorization
+    const authResult = await checkAuthorization();
+
+    if (!authResult) {
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    if (!authResult.isAuthorized) {
+      return NextResponse.json(
+        { error: "Authorization required" },
+        { status: 403 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const limit = Math.min(20, Math.max(1, parseInt(searchParams.get("limit") || "10", 10)));
 

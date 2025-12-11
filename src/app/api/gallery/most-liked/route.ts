@@ -1,20 +1,36 @@
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc, sql, count } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
-import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { checkAuthorization } from "@/lib/require-authorization";
 import { generations, generatedImages, user, imageLikes } from "@/lib/schema";
 import type { GalleryImage, GenerationSettings } from "@/lib/types/generation";
 
 /**
  * GET /api/gallery/most-liked
  * Get the most liked public images
+ * Requires authentication and authorization
  */
 export async function GET(request: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    const currentUserId = session?.user?.id;
+    // Check authentication and authorization
+    const authResult = await checkAuthorization();
+
+    if (!authResult) {
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    if (!authResult.isAuthorized) {
+      return NextResponse.json(
+        { error: "Authorization required" },
+        { status: 403 }
+      );
+    }
+
+    const currentUserId = authResult.userId;
 
     const { searchParams } = new URL(request.url);
     const limit = Math.min(20, Math.max(1, parseInt(searchParams.get("limit") || "10", 10)));
@@ -66,16 +82,8 @@ export async function GET(request: Request) {
       isLikedByUser: row.isLikedByUser || false,
     }));
 
-    const jsonResponse = NextResponse.json({ images: galleryImages });
-
-    // Add cache headers for most-liked gallery (short cache, revalidate frequently)
-    // Cache for 60 seconds on CDN, allow stale content while revalidating
-    jsonResponse.headers.set(
-      "Cache-Control",
-      "public, s-maxage=60, stale-while-revalidate=30"
-    );
-
-    return jsonResponse;
+    // No public caching since route requires authentication
+    return NextResponse.json({ images: galleryImages });
   } catch (error) {
     return handleApiError(error, "fetching most liked images");
   }

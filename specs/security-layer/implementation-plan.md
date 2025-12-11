@@ -180,22 +180,22 @@
 ## Phase 9: Protect Public Gallery
 
 ### Tasks
-- [ ] Update `src/app/api/gallery/public/route.ts`:
+- [x] Update `src/app/api/gallery/public/route.ts`:
   - Add session check (require authentication)
   - Add authorization check (require authorization)
   - Return 401 for unauthenticated
   - Return 403 for unauthorized
 
-- [ ] Update `src/app/[locale]/gallery/public/page.tsx`:
+- [x] Update `src/app/[locale]/gallery/public/page.tsx`:
   - Add `requireAuthorization()` check
 
-- [ ] Update `src/app/api/gallery/user/[userId]/route.ts`:
+- [x] Update `src/app/api/gallery/user/[userId]/route.ts`:
   - Add authorization check
 
-- [ ] Update `src/app/api/gallery/most-liked/route.ts`:
+- [x] Update `src/app/api/gallery/most-liked/route.ts`:
   - Add authorization check
 
-- [ ] Update `src/app/api/gallery/top-contributors/route.ts`:
+- [x] Update `src/app/api/gallery/top-contributors/route.ts`:
   - Add authorization check
 
 ---

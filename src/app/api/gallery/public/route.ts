@@ -1,21 +1,37 @@
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { eq, desc, count, ilike, and, sql } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
-import { auth } from "@/lib/auth";
 import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
+import { checkAuthorization } from "@/lib/require-authorization";
 import { generations, generatedImages, user } from "@/lib/schema";
 import type { GalleryImage, GenerationSettings, PaginatedResponse } from "@/lib/types/generation";
 
 /**
  * GET /api/gallery/public
  * List public images from all users with pagination and search
+ * Requires authentication and authorization
  */
 export async function GET(request: Request) {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    const currentUserId = session?.user?.id;
+    // Check authentication and authorization
+    const authResult = await checkAuthorization();
+
+    if (!authResult) {
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    if (!authResult.isAuthorized) {
+      return NextResponse.json(
+        { error: "Authorization required" },
+        { status: 403 }
+      );
+    }
+
+    const currentUserId = authResult.userId;
 
     const { searchParams } = new URL(request.url);
     const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
@@ -100,16 +116,8 @@ export async function GET(request: Request) {
       hasMore: offset + publicImages.length < total,
     };
 
-    const jsonResponse = NextResponse.json(response);
-
-    // Add cache headers for public gallery (short cache, revalidate frequently)
-    // Cache for 60 seconds on CDN, allow stale content while revalidating
-    jsonResponse.headers.set(
-      "Cache-Control",
-      "public, s-maxage=60, stale-while-revalidate=30"
-    );
-
-    return jsonResponse;
+    // No public caching since route requires authentication
+    return NextResponse.json(response);
   } catch (error) {
     return handleApiError(error, "fetching public gallery");
   }
