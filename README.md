@@ -192,6 +192,9 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
     - **Sign Out Option**: Allows users to sign out and try a different account
     - **Contact Admin Guidance**: Instructions on how to request access from administrators
     - **Branded UI**: Consistent Nano Banana Pro branding with i18n support (EN/RO)
+  - **Authorization API Routes**: RESTful endpoints for authorization management
+    - **Check Authorization** (`GET /api/authorization/check`): Returns current user's authorization status, admin flag, and authorization method
+    - **Redeem Invitation Code** (`POST /api/authorization/redeem-code`): Validates and redeems 8-character invitation codes with automatic format cleaning
 
 ## Tech Stack
 

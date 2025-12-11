@@ -128,11 +128,11 @@
 ## Phase 6: Authorization API Routes
 
 ### Tasks
-- [ ] Create `src/app/api/authorization/check/route.ts`:
+- [x] Create `src/app/api/authorization/check/route.ts`:
   - GET handler to check authorization status
   - Return authorized, isAdmin, authorizedVia
 
-- [ ] Create `src/app/api/authorization/redeem-code/route.ts`:
+- [x] Create `src/app/api/authorization/redeem-code/route.ts`:
   - POST handler to redeem invitation code
   - Validate code format
   - Call redeemInvitationCode utility
