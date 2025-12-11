@@ -73,6 +73,7 @@
   "auth": {
     "signIn": "Autentificare",
     "logOut": "Deconectare",
+    "loggingOut": "Se deconectează...",
     "yourProfile": "Profilul tau"
   },
   "profile": {
@@ -3562,6 +3563,29 @@
     "error": {
       "generic": "A apărut o eroare. Te rugăm să încerci din nou.",
       "invalid": "Parolă invalidă"
+    }
+  },
+  "unauthorized": {
+    "pageTitle": "Acces Necesar",
+    "description": "Ai nevoie de autorizare pentru a accesa această aplicație.",
+    "signedInAs": "Autentificat ca",
+    "accessDenied": "Contul tău nu este autorizat să acceseze această aplicație. Te rugăm să introduci un cod de invitație sau să contactezi un administrator.",
+    "invitationCodeLabel": "Cod de Invitație",
+    "invitationCodePlaceholder": "XXXXXXXX",
+    "invitationCodeHelp": "Introdu codul de 8 caractere primit de la un administrator.",
+    "redeemCode": "Folosește Codul",
+    "redeeming": "Se procesează...",
+    "signOutAndTryAnother": "Deconectează-te și încearcă alt cont",
+    "contactAdmin": "Nu ai un cod de invitație? Contactează un administrator pentru a solicita acces.",
+    "error": {
+      "generic": "A apărut o eroare. Te rugăm să încerci din nou.",
+      "invalidCode": "Cod de invitație invalid",
+      "codeExpired": "Acest cod de invitație a expirat",
+      "codeUsed": "Acest cod de invitație a atins numărul maxim de utilizări",
+      "codeInactive": "Acest cod de invitație a fost dezactivat"
+    },
+    "success": {
+      "codeRedeemed": "Acces acordat! Redirecționare..."
     }
   }
 }

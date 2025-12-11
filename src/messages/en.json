@@ -73,6 +73,7 @@
   "auth": {
     "signIn": "Sign in",
     "logOut": "Log out",
+    "loggingOut": "Signing out...",
     "yourProfile": "Your Profile"
   },
   "profile": {
@@ -3568,6 +3569,29 @@
     "error": {
       "generic": "An error occurred. Please try again.",
       "invalid": "Invalid password"
+    }
+  },
+  "unauthorized": {
+    "pageTitle": "Access Required",
+    "description": "You need authorization to access this application.",
+    "signedInAs": "Signed in as",
+    "accessDenied": "Your account is not authorized to access this application. Please enter an invitation code or contact an administrator.",
+    "invitationCodeLabel": "Invitation Code",
+    "invitationCodePlaceholder": "XXXXXXXX",
+    "invitationCodeHelp": "Enter the 8-character code you received from an administrator.",
+    "redeemCode": "Redeem Code",
+    "redeeming": "Redeeming...",
+    "signOutAndTryAnother": "Sign out and try another account",
+    "contactAdmin": "Don't have an invitation code? Contact an administrator to request access.",
+    "error": {
+      "generic": "An error occurred. Please try again.",
+      "invalidCode": "Invalid invitation code",
+      "codeExpired": "This invitation code has expired",
+      "codeUsed": "This invitation code has reached its maximum uses",
+      "codeInactive": "This invitation code has been deactivated"
+    },
+    "success": {
+      "codeRedeemed": "Access granted! Redirecting..."
     }
   }
 }

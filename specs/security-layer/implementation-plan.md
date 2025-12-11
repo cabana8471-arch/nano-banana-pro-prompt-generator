@@ -111,7 +111,7 @@
 ## Phase 5: Unauthorized Page
 
 ### Tasks
-- [ ] Create `src/components/auth/unauthorized-client.tsx`:
+- [x] Create `src/components/auth/unauthorized-client.tsx`:
   - Display user's current email
   - Invitation code input form
   - Redeem code functionality
@@ -119,7 +119,7 @@
   - Sign out button
   - Nano Banana Pro branding
 
-- [ ] Create `src/app/[locale]/unauthorized/page.tsx`:
+- [x] Create `src/app/[locale]/unauthorized/page.tsx`:
   - Render UnauthorizedClient component
   - Page metadata
 

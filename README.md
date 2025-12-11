@@ -186,6 +186,12 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
   - **User Access Tracking**: Database tracking of authorization status and method (allowlist vs invitation code)
   - **Server-Side Authorization**: `requireAuthorization()` helper for protected routes with automatic allowlist checking
   - **Authorization Flow**: Session check → Admin bypass → Allowlist auto-authorization → Existing authorization check → Redirect to unauthorized
+  - **Unauthorized Page**: Dedicated page for users who need authorization
+    - **User Info Display**: Shows current user's email and name
+    - **Invitation Code Redemption**: 8-character code input with real-time formatting and validation
+    - **Sign Out Option**: Allows users to sign out and try a different account
+    - **Contact Admin Guidance**: Instructions on how to request access from administrators
+    - **Branded UI**: Consistent Nano Banana Pro branding with i18n support (EN/RO)
 
 ## Tech Stack
 
