@@ -195,6 +195,13 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
   - **Authorization API Routes**: RESTful endpoints for authorization management
     - **Check Authorization** (`GET /api/authorization/check`): Returns current user's authorization status, admin flag, and authorization method
     - **Redeem Invitation Code** (`POST /api/authorization/redeem-code`): Validates and redeems 8-character invitation codes with automatic format cleaning
+- **Middleware Integration**: Edge-compatible security checks in Next.js middleware (`src/proxy.ts`)
+  - **Layer 1 Processing**: Site password cookie check with automatic redirect to `/site-password` page
+  - **Layer 2 Processing**: Session cookie check for protected routes with redirect to home page
+  - **Public Routes**: `/site-password` and `/unauthorized` bypass site password check
+  - **Protected Routes**: All generator pages, gallery, media library, profile, and cost-control
+  - **Locale Preservation**: All security redirects preserve the user's current locale (`/en/`, `/ro/`)
+  - **Layer 3 Note**: Authorization checks require database access and are handled server-side via `requireAuthorization()`
 
 ## Tech Stack
 

@@ -143,7 +143,7 @@
 ## Phase 7: Middleware Updates
 
 ### Tasks
-- [ ] Update `src/proxy.ts`:
+- [x] Update `src/proxy.ts`:
   - Define public routes: `/site-password`, `/unauthorized`, `/api/site-password`, `/api/auth`
   - Add site password cookie check (Layer 1)
   - Keep existing session cookie check (Layer 2)
