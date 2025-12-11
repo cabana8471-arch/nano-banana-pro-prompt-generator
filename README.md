@@ -202,6 +202,15 @@ The Banner Generator uses a **contextual prompt architecture** that generates pr
   - **Protected Routes**: All generator pages, gallery, media library, profile, and cost-control
   - **Locale Preservation**: All security redirects preserve the user's current locale (`/en/`, `/ro/`)
   - **Layer 3 Note**: Authorization checks require database access and are handled server-side via `requireAuthorization()`
+- **Protected Route Layouts**: Server-side authorization enforcement via layout components
+  - **Photo Generator** (`/photo-generator`): Requires authorization to access AI image generation
+  - **Banner Generator** (`/banner-generator`): Requires authorization to create web banners
+  - **Logo Generator** (`/logo-generator`): Requires authorization to generate brand logos
+  - **Gallery** (`/gallery`): Requires authorization to browse and share images
+  - **Profile** (`/profile`): Requires authorization to access account settings
+  - **Media Library**: All media pages (Avatars, Logos, Products, References) require authorization
+  - **Cost Control** (`/cost-control`): Requires authorization to view usage and budget settings
+  - **Automatic Redirect**: Unauthorized users are redirected to `/unauthorized` page
 
 ## Tech Stack
 

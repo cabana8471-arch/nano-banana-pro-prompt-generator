@@ -1,3 +1,4 @@
+import { requireAuthorization } from "@/lib/require-authorization";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,10 +6,11 @@ export const metadata: Metadata = {
   description: "Manage your product images for AI banner generation.",
 };
 
-export default function ProductsLayout({
+export default async function ProductsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await requireAuthorization();
   return children;
 }

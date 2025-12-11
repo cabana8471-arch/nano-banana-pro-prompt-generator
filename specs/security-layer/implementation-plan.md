@@ -155,25 +155,25 @@
 ## Phase 8: Protect Existing Routes
 
 ### Tasks
-- [ ] Update `src/app/[locale]/photo-generator/layout.tsx`:
+- [x] Update `src/app/[locale]/photo-generator/layout.tsx`:
   - Replace `requireAuth()` with `requireAuthorization()`
 
-- [ ] Update `src/app/[locale]/banner-generator/layout.tsx`:
+- [x] Update `src/app/[locale]/banner-generator/layout.tsx`:
   - Replace `requireAuth()` with `requireAuthorization()`
 
-- [ ] Update `src/app/[locale]/logo-generator/layout.tsx`:
+- [x] Update `src/app/[locale]/logo-generator/layout.tsx`:
   - Replace `requireAuth()` with `requireAuthorization()`
 
-- [ ] Update `src/app/[locale]/gallery/layout.tsx`:
+- [x] Update `src/app/[locale]/gallery/layout.tsx`:
   - Add `requireAuthorization()` check
 
-- [ ] Update `src/app/[locale]/profile/layout.tsx`:
+- [x] Update `src/app/[locale]/profile/layout.tsx`:
   - Add `requireAuthorization()` check
 
-- [ ] Update `src/app/[locale]/avatars/layout.tsx`:
+- [x] Update `src/app/[locale]/avatars/layout.tsx`:
   - Add `requireAuthorization()` check
 
-- [ ] Update other protected layouts (logos, products, references, cost-control)
+- [x] Update other protected layouts (logos, products, references, cost-control)
 
 ---
 

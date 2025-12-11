@@ -2,12 +2,12 @@ import { requireAuthorization } from "@/lib/require-authorization";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Avatars",
+  title: "Cost Control",
   description:
-    "Manage your reference images for AI generation. Create and organize avatars for consistent character generation.",
+    "Monitor API costs, track usage, and manage budget settings for your AI generations.",
 };
 
-export default async function AvatarsLayout({
+export default async function CostControlLayout({
   children,
 }: {
   children: React.ReactNode;

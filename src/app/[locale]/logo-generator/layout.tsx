@@ -2,12 +2,12 @@ import { requireAuthorization } from "@/lib/require-authorization";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Avatars",
+  title: "Logo Generator",
   description:
-    "Manage your reference images for AI generation. Create and organize avatars for consistent character generation.",
+    "Create professional AI-powered logos for your brand identity with customizable styles and typography.",
 };
 
-export default async function AvatarsLayout({
+export default async function LogoGeneratorLayout({
   children,
 }: {
   children: React.ReactNode;

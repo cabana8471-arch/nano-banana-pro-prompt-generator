@@ -2,12 +2,12 @@ import { requireAuthorization } from "@/lib/require-authorization";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Avatars",
+  title: "Gallery",
   description:
-    "Manage your reference images for AI generation. Create and organize avatars for consistent character generation.",
+    "Browse and share AI-generated images with the community. Discover popular creations and get inspired.",
 };
 
-export default async function AvatarsLayout({
+export default async function GalleryLayout({
   children,
 }: {
   children: React.ReactNode;
