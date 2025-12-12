@@ -268,7 +268,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **8.1** Update `src/components/site-header.tsx`:
+- [x] **8.1** Update `src/components/site-header.tsx`:
   - Add state for admin check
   - Fetch admin status from `/api/admin/check`
   - Add Admin link (Shield icon) visible only to admins

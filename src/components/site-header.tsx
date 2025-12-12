@@ -1,6 +1,7 @@
 "use client";
 
-import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette, Hexagon, DollarSign } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette, Hexagon, DollarSign, Shield } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { UserProfile } from "@/components/auth/user-profile";
 import { Link, usePathname } from "@/i18n/routing";
@@ -21,6 +22,31 @@ export function SiteHeader() {
   const { data: session } = useSession();
   const t = useTranslations("navigation");
   const tBrand = useTranslations("brand");
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Check if user is admin
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!session) {
+        setIsAdmin(false);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/admin/check");
+        if (response.ok) {
+          const data = await response.json();
+          setIsAdmin(data.isAdmin);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch {
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdmin();
+  }, [session]);
 
   // Simple navigation items (direct links)
   const simpleNavItems = [
@@ -150,6 +176,22 @@ export function SiteHeader() {
                 <Settings className="h-4 w-4" />
                 {t("settings")}
               </Link>
+
+              {/* Admin - only visible to admins */}
+              {isAdmin && (
+                <Link
+                  href="/settings"
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/settings"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  )}
+                >
+                  <Shield className="h-4 w-4" />
+                  {t("admin")}
+                </Link>
+              )}
             </div>
           )}
 
@@ -233,6 +275,22 @@ export function SiteHeader() {
                       <Settings className="h-5 w-5" />
                       {t("settings")}
                     </Link>
+
+                    {/* Admin - only visible to admins */}
+                    {isAdmin && (
+                      <Link
+                        href="/settings"
+                        className={cn(
+                          "flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors",
+                          pathname === "/settings"
+                            ? "bg-primary/10 text-primary"
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                        )}
+                      >
+                        <Shield className="h-5 w-5" />
+                        {t("admin")}
+                      </Link>
+                    )}
                   </nav>
                 </SheetContent>
               </Sheet>
