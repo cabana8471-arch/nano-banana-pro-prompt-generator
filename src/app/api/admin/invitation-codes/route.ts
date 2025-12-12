@@ -6,6 +6,7 @@ import {
   getAllInvitationCodes,
   generateInvitationCode,
   setInvitationCodeActive,
+  deleteInvitationCode,
 } from "@/lib/authorization";
 
 /**
@@ -165,6 +166,48 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Admin invitation-codes PATCH error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE /api/admin/invitation-codes
+ * Delete an invitation code (admin only)
+ *
+ * Body: { id: string }
+ */
+export async function DELETE(request: NextRequest) {
+  try {
+    const { error, status } = await requireAdmin();
+    if (error) {
+      return NextResponse.json({ error }, { status: status! });
+    }
+
+    const body = await request.json();
+    const { id } = body;
+
+    if (!id || typeof id !== "string") {
+      return NextResponse.json(
+        { error: "Code ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const result = await deleteInvitationCode(id);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Admin invitation-codes DELETE error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
