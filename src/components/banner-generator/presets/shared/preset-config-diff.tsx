@@ -170,9 +170,9 @@ export function PresetConfigDiff({
           key={`${change.field}-${index}`}
           className={cn(
             "flex items-start gap-2 text-sm px-2 py-1 rounded",
-            change.type === "added" && "bg-green-500/10 text-green-700 dark:text-green-400",
-            change.type === "removed" && "bg-red-500/10 text-red-700 dark:text-red-400",
-            change.type === "modified" && "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400"
+            change.type === "added" && "bg-success/10 text-success",
+            change.type === "removed" && "bg-destructive/10 text-destructive",
+            change.type === "modified" && "bg-warning/10 text-warning"
           )}
         >
           {change.type === "added" && <Plus className="h-4 w-4 shrink-0 mt-0.5" />}

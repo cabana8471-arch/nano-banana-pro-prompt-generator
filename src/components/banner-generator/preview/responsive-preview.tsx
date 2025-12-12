@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { bannerSizeTemplates } from "@/lib/data/banner-templates";
 import type { BannerSizeTemplate } from "@/lib/types/banner";
+import { cn } from "@/lib/utils";
 
 interface ResponsivePreviewProps {
   selectedBannerSize: BannerSizeTemplate | undefined;
@@ -93,11 +94,13 @@ function SizePreviewCard({
       {/* Fixed height container for preview to ensure alignment */}
       <div className="flex-1 flex items-center justify-center w-full" style={{ minHeight: maxPreviewHeight }}>
         <div
-          className="border-2 border-dashed rounded flex items-center justify-center text-[10px] text-muted-foreground bg-muted/30"
+          className={cn(
+            "border-2 border-dashed rounded flex items-center justify-center text-[10px] text-muted-foreground bg-muted/30",
+            isSelected ? "border-primary" : "border-muted-foreground/30"
+          )}
           style={{
             width: displayWidth,
             height: displayHeight,
-            borderColor: isSelected ? "var(--primary)" : undefined,
           }}
         >
           {size.width}×{size.height}

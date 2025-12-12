@@ -51,28 +51,28 @@ Replace hard-coded Tailwind color classes with semantic tokens across all affect
 
 ### Advanced Color Picker
 
-- [ ] Fix WCAG contrast level colors - `src/components/banner-generator/banner-builder/advanced-color-picker.tsx`
+- [x] Fix WCAG contrast level colors - `src/components/banner-generator/banner-builder/advanced-color-picker.tsx`
   - Lines 86-89: Replace `text-green-600`, `text-green-500`, `text-yellow-600`, `text-red-500` with `text-success`, `text-warning`, `text-destructive`
   - Line 344: Replace `text-yellow-600` with `text-warning`
   - Line 346: Replace `text-green-600` with `text-success`
-- [ ] Add JSDoc comment for color palettes - `src/components/banner-generator/banner-builder/advanced-color-picker.tsx`
+- [x] Add JSDoc comment for color palettes - `src/components/banner-generator/banner-builder/advanced-color-picker.tsx`
   - Lines 23-44: Document that hex values are intentional (user-facing brand options)
 
 ### Preset Config Diff
 
-- [ ] Fix diff status colors - `src/components/banner-generator/presets/shared/preset-config-diff.tsx`
+- [x] Fix diff status colors - `src/components/banner-generator/presets/shared/preset-config-diff.tsx`
   - Lines 173-175: Replace hard-coded colors with semantic tokens
   - Remove manual `dark:` variants
 
 ### Platform Generation Progress
 
-- [ ] Fix success icon colors - `src/components/banner-generator/results/platform-generation-progress.tsx`
+- [x] Fix success icon colors - `src/components/banner-generator/results/platform-generation-progress.tsx`
   - Line 187: Replace `text-green-500` with `text-success`
   - Line 270: Replace `text-green-500` with `text-success`
 
 ### Banner Reference Manager
 
-- [ ] Fix reference type colors - `src/components/banner-generator/banner-builder/banner-reference-manager.tsx`
+- [x] Fix reference type colors - `src/components/banner-generator/banner-builder/banner-reference-manager.tsx`
   - Lines 55-59: Replace purple/blue/orange with chart-1/chart-3/chart-5 tokens
   - Line 363: Replace `text-purple-500` with `text-chart-1`
   - Line 374: Replace `text-blue-500` with `text-chart-3`
@@ -80,7 +80,7 @@ Replace hard-coded Tailwind color classes with semantic tokens across all affect
 
 ### Responsive Preview
 
-- [ ] Fix inline borderColor style - `src/components/banner-generator/preview/responsive-preview.tsx`
+- [x] Fix inline borderColor style - `src/components/banner-generator/preview/responsive-preview.tsx`
   - Lines 96-101: Move `borderColor` from inline style to className using `cn()` utility
 
 ### Technical Details
