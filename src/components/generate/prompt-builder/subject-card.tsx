@@ -136,8 +136,9 @@ export function SubjectCard({
 
         {/* Hair */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium">{t("hair")}</Label>
+          <Label htmlFor={`hair-${index}`} className="text-sm font-medium">{t("hair")}</Label>
           <Input
+            id={`hair-${index}`}
             value={subject.hair || ""}
             onChange={(e) => onUpdate({ hair: e.target.value })}
             placeholder={t("hairPlaceholder")}
@@ -146,8 +147,9 @@ export function SubjectCard({
 
         {/* Makeup */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium">{t("makeup")}</Label>
+          <Label htmlFor={`makeup-${index}`} className="text-sm font-medium">{t("makeup")}</Label>
           <Input
+            id={`makeup-${index}`}
             value={subject.makeup || ""}
             onChange={(e) => onUpdate({ makeup: e.target.value })}
             placeholder={t("makeupPlaceholder")}
@@ -156,8 +158,9 @@ export function SubjectCard({
 
         {/* Custom Description */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium">{t("customDescription")}</Label>
+          <Label htmlFor={`custom-description-${index}`} className="text-sm font-medium">{t("customDescription")}</Label>
           <Input
+            id={`custom-description-${index}`}
             value={subject.customDescription || ""}
             onChange={(e) => onUpdate({ customDescription: e.target.value })}
             placeholder={t("customDescriptionPlaceholder")}

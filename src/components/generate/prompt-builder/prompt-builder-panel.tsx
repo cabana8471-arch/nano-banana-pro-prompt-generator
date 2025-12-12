@@ -130,10 +130,11 @@ export function PromptBuilderPanel({
 
           {/* Custom Prompt */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">
+            <Label htmlFor="custom-prompt" className="text-sm font-medium">
               {t("additionalInstructions")}
             </Label>
             <Textarea
+              id="custom-prompt"
               value={customPrompt}
               onChange={(e) => onCustomPromptChange(e.target.value)}
               placeholder={t("additionalPlaceholder")}

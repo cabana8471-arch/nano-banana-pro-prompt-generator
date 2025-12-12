@@ -131,14 +131,14 @@ export function PreviewPanel({
 
             {/* Resolution */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">{t("resolution")}</Label>
+              <Label htmlFor="resolution-select" className="text-sm font-medium">{t("resolution")}</Label>
               <Select
                 value={settings.resolution}
                 onValueChange={(value) =>
                   onSettingsChange({ resolution: value as GenerationSettings["resolution"] })
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger id="resolution-select">
                   <SelectValue placeholder={t("selectResolution")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -151,14 +151,14 @@ export function PreviewPanel({
 
             {/* Aspect Ratio */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">{t("aspectRatio")}</Label>
+              <Label htmlFor="aspect-ratio-select" className="text-sm font-medium">{t("aspectRatio")}</Label>
               <Select
                 value={settings.aspectRatio}
                 onValueChange={(value) =>
                   onSettingsChange({ aspectRatio: value as GenerationSettings["aspectRatio"] })
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger id="aspect-ratio-select">
                   <SelectValue placeholder={t("selectAspectRatio")} />
                 </SelectTrigger>
                 <SelectContent>

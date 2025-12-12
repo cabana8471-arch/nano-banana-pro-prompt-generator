@@ -64,17 +64,17 @@ Associate all form labels with their inputs using `htmlFor` and `id` attributes.
 
 ### Components
 
-- [ ] Fix label associations in SubjectCard - `src/components/generate/prompt-builder/subject-card.tsx`
-  - Line 138-139: Hair input - add `htmlFor="hair-{subject.id}"` and `id="hair-{subject.id}"`
-  - Line 148-149: Makeup input - add `htmlFor="makeup-{subject.id}"` and `id="makeup-{subject.id}"`
-  - Line 158-159: Custom description - add `htmlFor="custom-{subject.id}"` and `id="custom-{subject.id}"`
+- [x] Fix label associations in SubjectCard - `src/components/generate/prompt-builder/subject-card.tsx`
+  - Hair input: `htmlFor="hair-{index}"` and `id="hair-{index}"`
+  - Makeup input: `htmlFor="makeup-{index}"` and `id="makeup-{index}"`
+  - Custom description: `htmlFor="custom-description-{index}"` and `id="custom-description-{index}"`
 
-- [ ] Fix label association in PromptBuilderPanel - `src/components/generate/prompt-builder/prompt-builder-panel.tsx`
-  - Line 133-136: Custom prompt textarea - add `htmlFor="custom-prompt"` and `id="custom-prompt"`
+- [x] Fix label association in PromptBuilderPanel - `src/components/generate/prompt-builder/prompt-builder-panel.tsx`
+  - Custom prompt textarea: `htmlFor="custom-prompt"` and `id="custom-prompt"`
 
-- [ ] Fix label associations in PreviewPanel - `src/components/generate/preview/preview-panel.tsx`
-  - Line 135: Resolution select - add `htmlFor="resolution-select"` and `id` on SelectTrigger
-  - Line 155: Aspect ratio select - add `htmlFor="aspect-ratio-select"` and `id` on SelectTrigger
+- [x] Fix label associations in PreviewPanel - `src/components/generate/preview/preview-panel.tsx`
+  - Resolution select: `htmlFor="resolution-select"` and `id="resolution-select"` on SelectTrigger
+  - Aspect ratio select: `htmlFor="aspect-ratio-select"` and `id="aspect-ratio-select"` on SelectTrigger
 
 ### Technical Details
 
