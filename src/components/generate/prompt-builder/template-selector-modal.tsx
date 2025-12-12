@@ -240,7 +240,7 @@ export function TemplateSelectorModal({
                         <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
                           {translated.description}
                         </p>
-                        <div className="text-[10px] text-muted-foreground/70 line-clamp-1 font-mono bg-muted/50 rounded px-2 py-1">
+                        <div className="text-xs text-muted-foreground/70 line-clamp-1 font-mono bg-muted/50 rounded px-2 py-1">
                           {template.promptFragment}
                         </div>
                       </div>
