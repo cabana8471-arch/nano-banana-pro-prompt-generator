@@ -2145,7 +2145,8 @@
         "addGradient": "Adauga efect de gradient",
         "minimalistStyle": "Stil mai minimalist"
       },
-      "exportMultiSize": "Export pentru Platforme"
+      "exportMultiSize": "Export pentru Platforme",
+      "viewImage": "Vizualizează bannerul generat {index} pe ecran complet"
     },
     "multiSizeExport": {
       "title": "Export pentru Multiple Platforme",

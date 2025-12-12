@@ -2151,7 +2151,8 @@
         "addGradient": "Add gradient effect",
         "minimalistStyle": "More minimalist style"
       },
-      "exportMultiSize": "Export for Platforms"
+      "exportMultiSize": "Export for Platforms",
+      "viewImage": "View generated banner {index} in fullscreen"
     },
     "multiSizeExport": {
       "title": "Export for Multiple Platforms",

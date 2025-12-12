@@ -21,7 +21,7 @@ Fix keyboard navigation for interactive elements that currently block keyboard-o
 
 ### Results Panel - Image Grid
 
-- [ ] Add keyboard accessibility to image grid items - `src/components/banner-generator/results/banner-results-panel.tsx`
+- [x] Add keyboard accessibility to image grid items - `src/components/banner-generator/results/banner-results-panel.tsx`
   - Lines 256-327: Add `role="button"`, `tabIndex={0}`, `onKeyDown` handler
   - Add focus styling with `focus-visible:ring-2 focus-visible:ring-ring`
   - Add `aria-label` for screen readers

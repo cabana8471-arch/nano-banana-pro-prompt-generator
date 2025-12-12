@@ -256,9 +256,18 @@ export function BannerResultsPanel({
                   images.map((url, i) => (
                     <div
                       key={i}
-                      className="rounded-lg overflow-hidden border bg-muted relative cursor-pointer transition-all group hover:ring-2 hover:ring-primary"
+                      role="button"
+                      tabIndex={0}
+                      className="rounded-lg overflow-hidden border bg-muted relative cursor-pointer transition-all group hover:ring-2 hover:ring-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none"
                       style={{ aspectRatio: aspectRatio }}
                       onClick={() => setFullscreenIndex(i)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setFullscreenIndex(i);
+                        }
+                      }}
+                      aria-label={t("viewImage", { index: i + 1 })}
                     >
                       <Image
                         src={url}
