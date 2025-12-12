@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette, Hexagon, DollarSign, User } from "lucide-react";
+import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette, Hexagon, DollarSign } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { UserProfile } from "@/components/auth/user-profile";
 import { Link, usePathname } from "@/i18n/routing";
@@ -163,20 +163,6 @@ export function SiteHeader() {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Profile */}
-              <Link
-                href="/profile"
-                className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                  pathname === "/profile"
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}
-              >
-                <User className="h-4 w-4" />
-                {t("profile")}
-              </Link>
-
               {/* Settings - only visible to admins */}
               {isAdmin && (
                 <Link
@@ -262,26 +248,12 @@ export function SiteHeader() {
                       );
                     })}
 
-                    {/* Profile */}
-                    <Link
-                      href="/profile"
-                      className={cn(
-                        "flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors mt-2",
-                        pathname === "/profile"
-                          ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                      )}
-                    >
-                      <User className="h-5 w-5" />
-                      {t("profile")}
-                    </Link>
-
                     {/* Settings - only visible to admins */}
                     {isAdmin && (
                       <Link
                         href="/settings"
                         className={cn(
-                          "flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors",
+                          "flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors mt-2",
                           pathname === "/settings"
                             ? "bg-primary/10 text-primary"
                             : "text-muted-foreground hover:text-foreground hover:bg-muted"
