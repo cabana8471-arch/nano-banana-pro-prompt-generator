@@ -103,7 +103,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - `GET` - List users with pagination, search, role filter
   - `PATCH` - Update user role or blocked status
 
-- [ ] **4.2** Create `src/app/api/admin/blocked-ips/route.ts`:
+- [x] **4.2** Create `src/app/api/admin/blocked-ips/route.ts`:
   - `GET` - List all blocked IPs
   - `POST` - Block an IP address
   - `PATCH` - Activate/deactivate IP block
