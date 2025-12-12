@@ -102,6 +102,7 @@ export function TemplateSelector({
             size="icon"
             onClick={handleClear}
             className="shrink-0"
+            aria-label={t("clearSelection")}
           >
             <X className="h-4 w-4" />
           </Button>

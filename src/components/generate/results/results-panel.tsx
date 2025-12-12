@@ -178,6 +178,7 @@ export function ResultsPanel({
                     size="icon"
                     className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white"
                     onClick={() => setFullscreenIndex((fullscreenIndex - 1 + images.length) % images.length)}
+                    aria-label={t("previousImage")}
                   >
                     <span className="text-2xl">&lt;</span>
                   </Button>
@@ -186,6 +187,7 @@ export function ResultsPanel({
                     size="icon"
                     className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white"
                     onClick={() => setFullscreenIndex((fullscreenIndex + 1) % images.length)}
+                    aria-label={t("nextImage")}
                   >
                     <span className="text-2xl">&gt;</span>
                   </Button>

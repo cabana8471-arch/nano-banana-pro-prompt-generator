@@ -206,7 +206,8 @@
     "selected": "Selectat: {name}",
     "custom": "Personalizat: {value}",
     "noSelection": "Nicio selectie",
-    "customLabel": "Personalizat: {value}"
+    "customLabel": "Personalizat: {value}",
+    "clearSelection": "Sterge selectia"
   },
   "promptBuilder": {
     "title": "Constructor de prompturi",
@@ -229,7 +230,8 @@
     "noSubjects": "Niciun subiect adaugat inca",
     "builderTab": "Constructor",
     "previewTab": "Previzualizare",
-    "resultsTab": "Rezultate"
+    "resultsTab": "Rezultate",
+    "collapsePanel": "Restrange panoul"
   },
   "presets": {
     "loadPreset": "Incarca preset",
@@ -289,7 +291,9 @@
       "warmTone": "Adauga un ton cald de culoare"
     },
     "generatedImage": "Imagine generata",
-    "imageCounter": "{current} / {total}"
+    "imageCounter": "{current} / {total}",
+    "previousImage": "Imaginea anterioara",
+    "nextImage": "Imaginea urmatoare"
   },
   "gallery": {
     "myGallery": "Galeria mea",
@@ -474,7 +478,8 @@
     "makeup": "Machiaj (optional)",
     "makeupPlaceholder": "ex: machiaj natural, ruj rosu",
     "customDescription": "Descriere personalizata (optional)",
-    "customDescriptionPlaceholder": "Orice detalii suplimentare..."
+    "customDescriptionPlaceholder": "Orice detalii suplimentare...",
+    "deleteSubject": "Sterge subiectul"
   },
   "templates": {
     "style": {

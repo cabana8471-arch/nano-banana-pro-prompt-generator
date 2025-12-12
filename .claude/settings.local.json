@@ -64,7 +64,8 @@
       "Bash(psql:*)",
       "Bash(POSTGRES_URL=\"postgresql://neondb_owner:npg_NGKwTFepia25@ep-nameless-lab-ahcqyr1g-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require\" pnpm db:migrate:*)",
       "Bash(node:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nfeat(ui): Add semantic success and warning color tokens\n\nAdd --success, --success-foreground, --warning, and --warning-foreground\ntokens to globals.css for both light and dark modes. These tokens enable\nconsistent color usage across the banner-generator page without hard-coded\nTailwind color classes.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat(ui): Add semantic success and warning color tokens\n\nAdd --success, --success-foreground, --warning, and --warning-foreground\ntokens to globals.css for both light and dark modes. These tokens enable\nconsistent color usage across the banner-generator page without hard-coded\nTailwind color classes.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat(a11y): Add aria-labels to icon-only buttons in photo-generator\n\nPhase 1 of photo-generator accessibility improvements:\n- Add aria-label to delete subject button in SubjectCard\n- Add aria-labels to previous/next carousel navigation buttons\n- Add aria-label to clear selection button in TemplateSelector\n- Add aria-label to clear search button in TemplateSelectorModal\n- Add aria-labels to collapse panel buttons in ThreeColumnLayout\n- Add translations for all new aria-labels (en/ro)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

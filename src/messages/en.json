@@ -206,7 +206,8 @@
     "selected": "Selected: {name}",
     "custom": "Custom: {value}",
     "noSelection": "No selection",
-    "customLabel": "Custom: {value}"
+    "customLabel": "Custom: {value}",
+    "clearSelection": "Clear selection"
   },
   "promptBuilder": {
     "title": "Prompt Builder",
@@ -229,7 +230,8 @@
     "noSubjects": "No subjects added yet",
     "builderTab": "Builder",
     "previewTab": "Preview",
-    "resultsTab": "Results"
+    "resultsTab": "Results",
+    "collapsePanel": "Collapse panel"
   },
   "presets": {
     "loadPreset": "Load Preset",
@@ -289,7 +291,9 @@
       "warmTone": "Add a warm color tone"
     },
     "generatedImage": "Generated Image",
-    "imageCounter": "{current} / {total}"
+    "imageCounter": "{current} / {total}",
+    "previousImage": "Previous image",
+    "nextImage": "Next image"
   },
   "gallery": {
     "myGallery": "My Gallery",
@@ -474,7 +478,8 @@
     "makeup": "Makeup (optional)",
     "makeupPlaceholder": "e.g., natural makeup, red lipstick",
     "customDescription": "Custom Description (optional)",
-    "customDescriptionPlaceholder": "Any additional details..."
+    "customDescriptionPlaceholder": "Any additional details...",
+    "deleteSubject": "Delete subject"
   },
   "templates": {
     "style": {

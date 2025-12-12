@@ -78,6 +78,7 @@ export function ThreeColumnLayout({
               onClick={() => setLeftCollapsed(true)}
               className="absolute -right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full border bg-background shadow-sm hover:bg-muted z-10"
               title="Collapse panel"
+              aria-label={t("collapsePanel")}
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -114,6 +115,7 @@ export function ThreeColumnLayout({
               onClick={() => setRightCollapsed(true)}
               className="absolute -left-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full border bg-background shadow-sm hover:bg-muted z-10"
               title="Collapse panel"
+              aria-label={t("collapsePanel")}
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
