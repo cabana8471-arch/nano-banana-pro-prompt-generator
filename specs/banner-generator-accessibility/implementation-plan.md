@@ -28,7 +28,7 @@ Fix keyboard navigation for interactive elements that currently block keyboard-o
 
 ### Reference Manager - Selection Cards
 
-- [ ] Add keyboard accessibility to reference cards - `src/components/banner-generator/banner-builder/banner-reference-manager.tsx`
+- [x] Add keyboard accessibility to reference cards - `src/components/banner-generator/banner-builder/banner-reference-manager.tsx`
   - Lines 228-281: Add `role="button"`, `tabIndex={0}`, `onKeyDown` handler
   - Add focus styling consistent with other interactive elements
 

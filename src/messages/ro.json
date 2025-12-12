@@ -2064,6 +2064,7 @@
       "selectReferences": "Selecteaza referintele de folosit",
       "selectedCount": "{count} selectate",
       "maxSelected": "Maximum {max} referinte per generare",
+      "selectReference": "Selectează imaginea de referință: {name}",
       "types": {
         "style": "Stil",
         "styleDescription": "Foloseste ca referinta de stil vizual",

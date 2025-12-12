@@ -2070,6 +2070,7 @@
       "selectReferences": "Select references to use",
       "selectedCount": "{count} selected",
       "maxSelected": "Maximum {max} references per generation",
+      "selectReference": "Select reference image: {name}",
       "types": {
         "style": "Style",
         "styleDescription": "Use as visual style reference",

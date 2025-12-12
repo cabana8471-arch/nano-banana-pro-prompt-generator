@@ -228,7 +228,9 @@ export function BannerReferenceManager({
             return (
               <div
                 key={ref.id}
-                className={`relative group border rounded-lg overflow-hidden cursor-pointer transition-all ${
+                role="button"
+                tabIndex={canSelect ? 0 : -1}
+                className={`relative group border rounded-lg overflow-hidden cursor-pointer transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                   isSelected
                     ? "ring-2 ring-primary border-primary"
                     : canSelect
@@ -236,6 +238,14 @@ export function BannerReferenceManager({
                       : "opacity-50 cursor-not-allowed"
                 }`}
                 onClick={() => canSelect && toggleSelection(ref.id)}
+                onKeyDown={(e) => {
+                  if ((e.key === "Enter" || e.key === " ") && canSelect) {
+                    e.preventDefault();
+                    toggleSelection(ref.id);
+                  }
+                }}
+                aria-label={t("selectReference", { name: ref.name })}
+                aria-pressed={isSelected}
               >
                 <div className="aspect-video relative">
                   <Image
