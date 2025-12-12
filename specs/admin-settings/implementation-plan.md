@@ -99,7 +99,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **4.1** Create `src/app/api/admin/users/route.ts`:
+- [x] **4.1** Create `src/app/api/admin/users/route.ts`:
   - `GET` - List users with pagination, search, role filter
   - `PATCH` - Update user role or blocked status
 
