@@ -303,14 +303,14 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **10.1** Update `src/proxy.ts`:
+- [x] **10.1** Update `src/proxy.ts`:
   - Add Layer 0 IP check at the beginning of `proxy()` function
   - Extract client IP from headers (x-forwarded-for, x-real-ip)
   - Call `/api/security/check-ip` endpoint
   - Exclude check-ip endpoint from blocking check (avoid loop)
   - Redirect blocked IPs to `/${locale}/blocked`
 
-- [ ] **10.2** Add `/blocked` to `sitePasswordPublicRoutes` in proxy.ts
+- [x] **10.2** Add `/blocked` to `sitePasswordPublicRoutes` in proxy.ts
   - Blocked users should see the blocked page without site password
 
 ---

@@ -10,10 +10,16 @@ const intlMiddleware = createIntlMiddleware(routing);
 const SITE_PASSWORD_COOKIE = "site_password_verified";
 
 /**
+ * Routes that bypass IP blocking check (Layer 0)
+ * These must be accessible even for blocked IPs
+ */
+const ipBlockingExcludedRoutes = ["/blocked"];
+
+/**
  * Routes that bypass site password check (Layer 1)
  * These are accessible without verifying the site password
  */
-const sitePasswordPublicRoutes = ["/site-password", "/unauthorized"];
+const sitePasswordPublicRoutes = ["/site-password", "/unauthorized", "/blocked"];
 
 /**
  * Routes that require authentication (Layer 2)
@@ -62,9 +68,30 @@ function isSitePasswordEnabled(): boolean {
 }
 
 /**
+ * Extract client IP from request headers
+ * Tries x-forwarded-for first, then x-real-ip, then falls back to null
+ */
+function getClientIp(request: NextRequest): string | null {
+  // x-forwarded-for can contain multiple IPs, the first one is the client
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0]?.trim() || null;
+  }
+
+  // Try x-real-ip header
+  const realIp = request.headers.get("x-real-ip");
+  if (realIp) {
+    return realIp;
+  }
+
+  return null;
+}
+
+/**
  * Next.js 16 Proxy combining:
  *
  * Security Layers:
+ * 0. Layer 0 - IP Blocking: Block requests from blocked IP addresses
  * 1. Layer 1 - Site Password Gate: Cookie-based site-wide password protection
  * 2. Layer 2 - Google OAuth: Session cookie check for authentication
  * 3. Layer 3 - Authorization: Server-side check via requireAuthorization() in page layouts
@@ -77,6 +104,45 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const pathWithoutLocale = getPathWithoutLocale(pathname);
   const locale = getLocaleFromPath(pathname);
+
+  // ============================================
+  // LAYER 0: IP Blocking
+  // ============================================
+  // Check if this is an excluded route (blocked page itself)
+  const isIpBlockingExcluded = ipBlockingExcludedRoutes.some(
+    (route) => pathWithoutLocale === route || pathWithoutLocale.startsWith(`${route}/`)
+  );
+
+  if (!isIpBlockingExcluded) {
+    const clientIp = getClientIp(request);
+
+    if (clientIp) {
+      try {
+        // Call the security API to check if IP is blocked
+        const checkUrl = new URL("/api/security/check-ip", request.url);
+        checkUrl.searchParams.set("ip", clientIp);
+
+        const response = await fetch(checkUrl.toString(), {
+          headers: {
+            // Forward cookies for any auth context if needed
+            cookie: request.headers.get("cookie") || "",
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.isBlocked) {
+            // Redirect blocked IPs to the blocked page
+            return NextResponse.redirect(new URL(`/${locale}/blocked`, request.url));
+          }
+        }
+        // On error, allow access to prevent blocking legitimate users
+      } catch {
+        // On error, allow access to prevent blocking legitimate users
+        console.error("IP blocking check failed, allowing access");
+      }
+    }
+  }
 
   // ============================================
   // LAYER 1: Site Password Gate
