@@ -330,8 +330,8 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **12.1** Run `pnpm lint` and fix any issues
-- [ ] **12.2** Run `pnpm typecheck` and fix any type errors
+- [x] **12.1** Run `pnpm lint` and fix any issues
+- [x] **12.2** Run `pnpm typecheck` and fix any type errors
 - [ ] **12.3** Manually test all admin features:
   - User list, search, filter, pagination
   - User role display (synced with ADMIN_EMAILS)
