@@ -8,6 +8,8 @@ export const user = pgTable(
     email: text("email").notNull().unique(),
     emailVerified: boolean("email_verified").default(false).notNull(),
     image: text("image"),
+    role: text("role").notNull().default("user"), // "admin" | "user"
+    isBlocked: boolean("is_blocked").notNull().default(false),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
@@ -404,6 +406,37 @@ export const userPricingSettings = pgTable(
 // ==========================================
 // Security Layer Tables
 // ==========================================
+
+// User Login History - Track user login events
+export const userLoginHistory = pgTable(
+  "user_login_history",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    ipAddress: text("ip_address"),
+    userAgent: text("user_agent"),
+    loginAt: timestamp("login_at").defaultNow().notNull(),
+  },
+  (table) => [index("user_login_history_user_id_idx").on(table.userId)]
+);
+
+// Blocked IPs - IP address blocklist
+export const blockedIps = pgTable(
+  "blocked_ips",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    ipAddress: text("ip_address").notNull(),
+    ipType: text("ip_type").notNull().default("single"), // "single" | "range"
+    reason: text("reason"),
+    blockedBy: text("blocked_by").references(() => user.id, { onDelete: "set null" }),
+    isActive: boolean("is_active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    expiresAt: timestamp("expires_at"),
+  },
+  (table) => [index("blocked_ips_ip_address_idx").on(table.ipAddress)]
+);
 
 // Allowed Emails - Email allowlist for authorization (Layer 3)
 export const allowedEmails = pgTable(
