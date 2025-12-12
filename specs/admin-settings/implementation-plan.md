@@ -244,11 +244,11 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **7.1** Create `src/app/[locale]/settings/layout.tsx`
+- [x] **7.1** Create `src/app/[locale]/settings/layout.tsx`
   - Use `requireAdmin()` for protection
   - Basic layout wrapper
 
-- [ ] **7.2** Create `src/app/[locale]/settings/page.tsx`
+- [x] **7.2** Create `src/app/[locale]/settings/page.tsx`
   - Page title
   - Tabs component with 4 tabs:
     - Users (UsersTab)
@@ -256,7 +256,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
     - Allowlist (AllowlistTab)
     - Security (SecurityTab)
 
-- [ ] **7.3** Create `src/app/[locale]/blocked/page.tsx`
+- [x] **7.3** Create `src/app/[locale]/blocked/page.tsx`
   - "Access Blocked" message
   - Display user's IP address
   - Contact admin suggestion
