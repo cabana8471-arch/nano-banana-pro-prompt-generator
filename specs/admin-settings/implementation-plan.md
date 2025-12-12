@@ -71,18 +71,18 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **3.1** Add user management functions to `src/lib/authorization.ts`:
+- [x] **3.1** Add user management functions to `src/lib/authorization.ts`:
   - `getAllUsers(params)` - list users with pagination, search, filter
   - `updateUserRole(userId, role)` - update user role
   - `setUserBlocked(userId, isBlocked)` - block/unblock user
   - `syncUserRoleWithAdminEmails(userId, email)` - sync role on login
 
-- [ ] **3.2** Add login tracking functions to `src/lib/authorization.ts`:
+- [x] **3.2** Add login tracking functions to `src/lib/authorization.ts`:
   - `recordLoginEvent(userId, ipAddress, userAgent)` - record login
   - `getLastLogin(userId)` - get last login info
   - `getUserLoginHistory(userId, params)` - get login history with pagination
 
-- [ ] **3.3** Add IP blocking functions to `src/lib/authorization.ts`:
+- [x] **3.3** Add IP blocking functions to `src/lib/authorization.ts`:
   - `isIpBlocked(ipAddress)` - check if IP is blocked
   - `isIpInRange(ip, cidr)` - helper for CIDR matching
   - `blockIp(ipAddress, ipType, blockedBy, reason?, expiresAt?)` - block IP
@@ -90,7 +90,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - `setIpBlockActive(id, isActive)` - activate/deactivate
   - `getAllBlockedIps()` - list all blocked IPs
 
-- [ ] **3.4** Add invitation code delete function to `src/lib/authorization.ts`:
+- [x] **3.4** Add invitation code delete function to `src/lib/authorization.ts`:
   - `deleteInvitationCode(codeId)` - delete invitation code
 
 ---
