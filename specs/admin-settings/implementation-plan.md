@@ -128,28 +128,28 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **5.1** Create `src/hooks/use-admin.ts` with:
+- [x] **5.1** Create `src/hooks/use-admin.ts` with:
   - State: users, invitations, allowlist, blockedIps
   - State: loading, error states for each section
   - State: pagination for users
 
-- [ ] **5.2** Add user management actions:
+- [x] **5.2** Add user management actions:
   - `loadUsers(params)` - fetch users
   - `updateUserRole(userId, role)` - change role
   - `setUserBlocked(userId, isBlocked)` - block/unblock
 
-- [ ] **5.3** Add invitation management actions:
+- [x] **5.3** Add invitation management actions:
   - `loadInvitations()` - fetch all invitations
   - `createInvitation(options)` - create new code
   - `toggleInvitationActive(id, isActive)` - activate/deactivate
   - `deleteInvitation(id)` - delete code
 
-- [ ] **5.4** Add allowlist management actions:
+- [x] **5.4** Add allowlist management actions:
   - `loadAllowlist()` - fetch allowlist
   - `addToAllowlist(email, note)` - add email
   - `removeFromAllowlist(id)` - remove email
 
-- [ ] **5.5** Add IP blocking actions:
+- [x] **5.5** Add IP blocking actions:
   - `loadBlockedIps()` - fetch blocked IPs
   - `blockIp(options)` - block IP
   - `toggleIpBlockActive(id, isActive)` - activate/deactivate
