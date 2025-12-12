@@ -122,7 +122,7 @@ Implement skip links, fix touch targets, and add proper ARIA attributes.
 
 ### Color Input Labels
 
-- [ ] Add accessible labels to color picker inputs - `src/components/banner-generator/banner-builder/brand-assets-manager.tsx`
+- [x] Add accessible labels to color picker inputs - `src/components/banner-generator/banner-builder/brand-assets-manager.tsx`
   - Lines 153-159: Add `aria-label` to color input
   - Add `id` for programmatic association
 

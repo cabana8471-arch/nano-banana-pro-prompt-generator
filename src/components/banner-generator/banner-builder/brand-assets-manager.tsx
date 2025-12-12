@@ -153,9 +153,10 @@ function ColorInput({ label, value, onChange, placeholder }: ColorInputProps) {
         <div className="relative">
           <input
             type="color"
+            aria-label={label}
             value={value || "#000000"}
             onChange={handleColorPickerChange}
-            className="w-10 h-10 rounded border cursor-pointer"
+            className="w-10 h-10 rounded border cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           />
         </div>
         <Input
