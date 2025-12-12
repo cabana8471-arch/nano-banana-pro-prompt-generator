@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette, Hexagon, DollarSign, Shield } from "lucide-react";
+import { Banana, Menu, Wand2, Image as ImageIcon, Users, Settings, LayoutPanelTop, Folder, ChevronDown, ShoppingBag, Palette, Hexagon, DollarSign, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { UserProfile } from "@/components/auth/user-profile";
 import { Link, usePathname } from "@/i18n/routing";
@@ -163,7 +163,7 @@ export function SiteHeader() {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Settings */}
+              {/* Profile */}
               <Link
                 href="/profile"
                 className={cn(
@@ -173,11 +173,11 @@ export function SiteHeader() {
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 )}
               >
-                <Settings className="h-4 w-4" />
-                {t("settings")}
+                <User className="h-4 w-4" />
+                {t("profile")}
               </Link>
 
-              {/* Admin - only visible to admins */}
+              {/* Settings - only visible to admins */}
               {isAdmin && (
                 <Link
                   href="/settings"
@@ -188,8 +188,8 @@ export function SiteHeader() {
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
-                  <Shield className="h-4 w-4" />
-                  {t("admin")}
+                  <Settings className="h-4 w-4" />
+                  {t("settings")}
                 </Link>
               )}
             </div>
@@ -262,7 +262,7 @@ export function SiteHeader() {
                       );
                     })}
 
-                    {/* Settings */}
+                    {/* Profile */}
                     <Link
                       href="/profile"
                       className={cn(
@@ -272,11 +272,11 @@ export function SiteHeader() {
                           : "text-muted-foreground hover:text-foreground hover:bg-muted"
                       )}
                     >
-                      <Settings className="h-5 w-5" />
-                      {t("settings")}
+                      <User className="h-5 w-5" />
+                      {t("profile")}
                     </Link>
 
-                    {/* Admin - only visible to admins */}
+                    {/* Settings - only visible to admins */}
                     {isAdmin && (
                       <Link
                         href="/settings"
@@ -287,8 +287,8 @@ export function SiteHeader() {
                             : "text-muted-foreground hover:text-foreground hover:bg-muted"
                         )}
                       >
-                        <Shield className="h-5 w-5" />
-                        {t("admin")}
+                        <Settings className="h-5 w-5" />
+                        {t("settings")}
                       </Link>
                     )}
                   </nav>
