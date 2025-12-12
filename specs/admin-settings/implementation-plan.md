@@ -54,7 +54,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **2.1** Create `src/lib/types/admin.ts` with interfaces:
+- [x] **2.1** Create `src/lib/types/admin.ts` with interfaces:
   - `AdminUser` - user with role, isBlocked, lastLogin info
   - `UserPagination` - pagination metadata
   - `UsersResponse` - paginated users response
