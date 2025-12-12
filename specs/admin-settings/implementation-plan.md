@@ -109,7 +109,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - `PATCH` - Activate/deactivate IP block
   - `DELETE` - Remove IP block
 
-- [ ] **4.3** Create `src/app/api/admin/login-history/route.ts`:
+- [x] **4.3** Create `src/app/api/admin/login-history/route.ts`:
   - `GET` - Get login history for a user (query param: userId)
 
 - [ ] **4.4** Update `src/app/api/admin/invitation-codes/route.ts`:
