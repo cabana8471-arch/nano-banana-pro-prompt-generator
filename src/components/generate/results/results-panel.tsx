@@ -84,7 +84,11 @@ export function ResultsPanel({
           ) : (
             <>
               {/* Image Grid */}
-              <div className="grid grid-cols-2 gap-4">
+              <div
+                className="grid grid-cols-2 gap-4"
+                role="group"
+                aria-label={t("generatedImages")}
+              >
                 {isGenerating ? (
                   // Show skeletons while generating
                   Array.from({ length: expectedCount }).map((_, i) => (
@@ -97,8 +101,17 @@ export function ResultsPanel({
                   images.map((url, i) => (
                     <div
                       key={i}
-                      className="aspect-square rounded-lg overflow-hidden border bg-muted relative cursor-pointer transition-all group hover:ring-2 hover:ring-primary"
+                      role="button"
+                      tabIndex={0}
+                      aria-label={t("viewImage", { number: i + 1 })}
+                      className="aspect-square rounded-lg overflow-hidden border bg-muted relative cursor-pointer transition-all group hover:ring-2 hover:ring-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none"
                       onClick={() => setFullscreenIndex(i)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setFullscreenIndex(i);
+                        }
+                      }}
                     >
                       <Image
                         src={url}

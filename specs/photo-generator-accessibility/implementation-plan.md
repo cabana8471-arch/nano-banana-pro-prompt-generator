@@ -172,13 +172,12 @@ Make the generated images grid fully keyboard accessible.
 
 ### Components
 
-- [ ] Add keyboard accessibility to image grid items - `src/components/generate/results/results-panel.tsx`
-  - Lines 87-117: Transform div into keyboard-accessible element
-  - Add `role="button"`, `tabIndex={0}`
-  - Add `onKeyDown` handler for Enter/Space
-  - Add `aria-label` for each image
-  - Add focus-visible styles
-  - Add `role="group"` and `aria-label` to grid container
+- [x] Add keyboard accessibility to image grid items - `src/components/generate/results/results-panel.tsx`
+  - Added `role="group"` and `aria-label` to grid container
+  - Added `role="button"`, `tabIndex={0}` to image items
+  - Added `onKeyDown` handler for Enter/Space activation
+  - Added `aria-label` with translated "View image {number}"
+  - Added focus-visible ring styles for keyboard focus indication
 
 ### Technical Details
 

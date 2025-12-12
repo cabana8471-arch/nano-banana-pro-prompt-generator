@@ -293,7 +293,9 @@
     "generatedImage": "Imagine generata",
     "imageCounter": "{current} / {total}",
     "previousImage": "Imaginea anterioara",
-    "nextImage": "Imaginea urmatoare"
+    "nextImage": "Imaginea urmatoare",
+    "generatedImages": "Imagini generate",
+    "viewImage": "Vezi imaginea {number}"
   },
   "gallery": {
     "myGallery": "Galeria mea",
