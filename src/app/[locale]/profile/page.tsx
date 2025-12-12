@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone, ExternalLink } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
@@ -37,6 +37,21 @@ export default function ProfilePage() {
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [securityOpen, setSecurityOpen] = useState(false);
   const [emailPrefsOpen, setEmailPrefsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const response = await fetch("/api/admin/check");
+        const data = await response.json();
+        setIsAdmin(data.isAdmin);
+      } catch {
+        // Default to non-admin on error
+        setIsAdmin(false);
+      }
+    };
+    checkAdminStatus();
+  }, []);
 
   if (isPending) {
     return (
@@ -180,7 +195,9 @@ export default function ProfilePage() {
                       {t("profile.accountTypeDescription")}
                     </p>
                   </div>
-                  <Badge variant="outline">{t("profile.standard")}</Badge>
+                  <Badge variant={isAdmin ? "default" : "outline"}>
+                    {isAdmin ? t("common.admin") : t("profile.standard")}
+                  </Badge>
                 </div>
               </div>
             </div>
