@@ -119,7 +119,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - `GET` - Check if IP is blocked (Edge-compatible)
   - Used by middleware for IP blocking
 
-- [ ] **4.6** Create `src/app/api/admin/check/route.ts`:
+- [x] **4.6** Create `src/app/api/admin/check/route.ts`:
   - `GET` - Check if current user is admin (for client-side nav)
 
 ---
