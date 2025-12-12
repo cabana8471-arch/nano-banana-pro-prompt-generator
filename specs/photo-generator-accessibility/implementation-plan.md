@@ -228,8 +228,8 @@ Add keyboard navigation support for the fullscreen image carousel.
 
 ### Components
 
-- [ ] Add keyboard event handler for carousel navigation - `src/components/generate/results/results-panel.tsx`
-  - Add `useEffect` to listen for arrow keys and Escape
+- [x] Add keyboard event handler for carousel navigation - `src/components/generate/results/results-panel.tsx`
+  - Added `useEffect` to listen for arrow keys and Escape
   - Left arrow: previous image
   - Right arrow: next image
   - Escape: close carousel (redundant but explicit)

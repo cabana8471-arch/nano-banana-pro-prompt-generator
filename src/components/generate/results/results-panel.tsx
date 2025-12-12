@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Download, ExternalLink, ImageIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -36,6 +36,34 @@ export function ResultsPanel({
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
   const hasImages = images.length > 0;
   const fullscreenImage = fullscreenIndex !== null ? images[fullscreenIndex] : null;
+
+  // Keyboard navigation for fullscreen carousel
+  useEffect(() => {
+    if (fullscreenIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "ArrowLeft":
+          e.preventDefault();
+          setFullscreenIndex((prev) =>
+            prev !== null ? (prev - 1 + images.length) % images.length : null
+          );
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          setFullscreenIndex((prev) =>
+            prev !== null ? (prev + 1) % images.length : null
+          );
+          break;
+        case "Escape":
+          setFullscreenIndex(null);
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [fullscreenIndex, images.length]);
 
   const handleRefine = async (instruction: string) => {
     if (onRefine) {
