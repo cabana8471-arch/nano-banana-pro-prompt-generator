@@ -319,7 +319,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **11.1** Update Better Auth hooks in `src/lib/auth.ts`:
+- [x] **11.1** Update Better Auth hooks in `src/lib/auth.ts`:
   - Add `after.signIn` hook
   - Call `syncUserRoleWithAdminEmails()` on login
   - Call `recordLoginEvent()` on login
