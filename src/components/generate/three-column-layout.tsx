@@ -26,6 +26,28 @@ export function ThreeColumnLayout({
 
   return (
     <>
+      {/* Skip Links for accessibility - Desktop only (mobile has tab navigation) */}
+      <div className="hidden lg:block sr-only focus-within:not-sr-only focus-within:absolute focus-within:top-16 focus-within:left-4 focus-within:z-50 focus-within:flex focus-within:flex-col focus-within:gap-2 focus-within:p-2 focus-within:bg-background focus-within:border focus-within:rounded-lg focus-within:shadow-lg">
+        <a
+          href="#builder-panel"
+          className="px-3 py-2 text-sm font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded"
+        >
+          {t("skipToBuilder")}
+        </a>
+        <a
+          href="#preview-panel"
+          className="px-3 py-2 text-sm font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded"
+        >
+          {t("skipToPreview")}
+        </a>
+        <a
+          href="#results-panel"
+          className="px-3 py-2 text-sm font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded"
+        >
+          {t("skipToResults")}
+        </a>
+      </div>
+
       {/* Mobile Layout - Tabbed Interface */}
       <div className={cn("lg:hidden", className)}>
         <Tabs defaultValue="builder" className="w-full">
@@ -68,7 +90,7 @@ export function ThreeColumnLayout({
       >
         {/* Left Panel - Prompt Builder */}
         {!leftCollapsed && (
-          <div className="h-[calc(100vh-8rem)] overflow-hidden relative min-w-0">
+          <div id="builder-panel" className="h-[calc(100vh-8rem)] overflow-hidden relative min-w-0">
             <div className="h-full overflow-y-auto rounded-lg border bg-card overflow-x-hidden">
               {leftPanel}
             </div>
@@ -100,7 +122,7 @@ export function ThreeColumnLayout({
         )}
 
         {/* Middle Panel - Preview & Generate */}
-        <div className="h-[calc(100vh-8rem)] overflow-hidden min-w-0">
+        <div id="preview-panel" className="h-[calc(100vh-8rem)] overflow-hidden min-w-0">
           <div className="h-full overflow-y-auto rounded-lg border bg-card overflow-x-hidden">
             {middlePanel}
           </div>
@@ -108,7 +130,7 @@ export function ThreeColumnLayout({
 
         {/* Right Panel - Results */}
         {!rightCollapsed && (
-          <div className="h-[calc(100vh-8rem)] overflow-hidden relative min-w-0">
+          <div id="results-panel" className="h-[calc(100vh-8rem)] overflow-hidden relative min-w-0">
             <Button
               variant="ghost"
               size="icon"

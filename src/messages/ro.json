@@ -231,7 +231,10 @@
     "builderTab": "Constructor",
     "previewTab": "Previzualizare",
     "resultsTab": "Rezultate",
-    "collapsePanel": "Restrange panoul"
+    "collapsePanel": "Restrange panoul",
+    "skipToBuilder": "Salt la panoul constructor",
+    "skipToPreview": "Salt la panoul de previzualizare",
+    "skipToResults": "Salt la panoul de rezultate"
   },
   "presets": {
     "loadPreset": "Incarca preset",

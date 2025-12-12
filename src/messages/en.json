@@ -231,7 +231,10 @@
     "builderTab": "Builder",
     "previewTab": "Preview",
     "resultsTab": "Results",
-    "collapsePanel": "Collapse panel"
+    "collapsePanel": "Collapse panel",
+    "skipToBuilder": "Skip to builder panel",
+    "skipToPreview": "Skip to preview panel",
+    "skipToResults": "Skip to results panel"
   },
   "presets": {
     "loadPreset": "Load Preset",

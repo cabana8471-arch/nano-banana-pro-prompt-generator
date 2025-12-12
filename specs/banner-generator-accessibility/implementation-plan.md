@@ -115,7 +115,7 @@ Implement skip links, fix touch targets, and add proper ARIA attributes.
 
 ### Skip Links
 
-- [ ] Add skip links to three-column layout - `src/components/generate/three-column-layout.tsx`
+- [x] Add skip links to three-column layout - `src/components/generate/three-column-layout.tsx`
   - Add skip link group at top of layout component
   - Add `id` attributes to each panel for anchor targets
   - Use existing pattern from `site-header.tsx:73-79`
