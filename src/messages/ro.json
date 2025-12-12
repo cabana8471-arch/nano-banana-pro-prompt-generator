@@ -479,7 +479,9 @@
     "makeupPlaceholder": "ex: machiaj natural, ruj rosu",
     "customDescription": "Descriere personalizata (optional)",
     "customDescriptionPlaceholder": "Orice detalii suplimentare...",
-    "deleteSubject": "Sterge subiectul"
+    "deleteSubject": "Sterge subiectul",
+    "deleteSubjectTitle": "Sterge Subiectul",
+    "deleteSubjectDescription": "Esti sigur ca vrei sa stergi acest subiect? Aceasta actiune nu poate fi anulata."
   },
   "templates": {
     "style": {

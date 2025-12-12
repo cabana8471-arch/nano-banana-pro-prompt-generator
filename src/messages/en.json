@@ -479,7 +479,9 @@
     "makeupPlaceholder": "e.g., natural makeup, red lipstick",
     "customDescription": "Custom Description (optional)",
     "customDescriptionPlaceholder": "Any additional details...",
-    "deleteSubject": "Delete subject"
+    "deleteSubject": "Delete subject",
+    "deleteSubjectTitle": "Delete Subject",
+    "deleteSubjectDescription": "Are you sure you want to delete this subject? This action cannot be undone."
   },
   "templates": {
     "style": {

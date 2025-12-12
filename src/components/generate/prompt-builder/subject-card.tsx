@@ -3,6 +3,17 @@
 import Image from "next/image";
 import { Trash2, ImagePlus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,6 +48,7 @@ export function SubjectCard({
   onSelectAvatar,
 }: SubjectCardProps) {
   const t = useTranslations("subjectCard");
+  const tCommon = useTranslations("common");
 
   return (
     <Card>
@@ -45,15 +57,35 @@ export function SubjectCard({
           <CardTitle className="text-sm font-medium">
             {t("subjectNumber", { number: index + 1 })}
           </CardTitle>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 text-muted-foreground hover:text-destructive"
-            onClick={onRemove}
-            aria-label={t("deleteSubject")}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                aria-label={t("deleteSubject")}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{t("deleteSubjectTitle")}</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {t("deleteSubjectDescription")}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={onRemove}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                >
+                  {tCommon("delete")}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </CardHeader>
       <CardContent className="p-4 pt-0 space-y-4">

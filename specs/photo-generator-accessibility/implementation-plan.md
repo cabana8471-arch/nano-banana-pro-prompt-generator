@@ -107,10 +107,10 @@ Add AlertDialog confirmation when deleting subjects to prevent accidental data l
 
 ### Components
 
-- [ ] Wrap delete button in AlertDialog - `src/components/generate/prompt-builder/subject-card.tsx`
-  - Import AlertDialog components from `@/components/ui/alert-dialog`
-  - Wrap existing delete button with AlertDialogTrigger
-  - Add AlertDialogContent with confirmation message
+- [x] Wrap delete button in AlertDialog - `src/components/generate/prompt-builder/subject-card.tsx`
+  - Imported AlertDialog components from `@/components/ui/alert-dialog`
+  - Wrapped delete button with AlertDialogTrigger
+  - Added AlertDialogContent with confirmation message and translations
 
 ### Technical Details
 
