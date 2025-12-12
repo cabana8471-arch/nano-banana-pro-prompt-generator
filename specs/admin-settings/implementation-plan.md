@@ -280,7 +280,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
 
 ### Tasks
 
-- [ ] **9.1** Add admin translations to `src/messages/en.json`:
+- [x] **9.1** Add admin translations to `src/messages/en.json`:
   - `admin.title` - "Admin Settings"
   - `admin.tabs.*` - Tab labels
   - `admin.users.*` - User management strings
@@ -289,10 +289,10 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - `admin.security.*` - Security/IP blocking strings
   - `admin.common.*` - Common action buttons
 
-- [ ] **9.2** Add admin translations to `src/messages/ro.json`:
+- [x] **9.2** Add admin translations to `src/messages/ro.json`:
   - Same structure as English
 
-- [ ] **9.3** Add blocked page translations:
+- [x] **9.3** Add blocked page translations:
   - `blocked.title` - "Access Blocked"
   - `blocked.message` - Explanation message
   - `blocked.contact` - Contact suggestion
