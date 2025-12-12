@@ -281,8 +281,10 @@ Add all new translation keys for English and Romanian.
 
 ### Files
 
-- [ ] Add English translations - `messages/en.json`
-- [ ] Add Romanian translations - `messages/ro.json`
+- [x] Add English translations - `src/messages/en.json`
+- [x] Add Romanian translations - `src/messages/ro.json`
+
+**Note:** All translations were added incrementally during Phases 1-4 implementation.
 
 ### Technical Details
 
@@ -341,13 +343,13 @@ Execute phases sequentially:
 ## Verification Checklist
 
 After implementation, verify:
-- [ ] All icon buttons announce their purpose in screen readers
-- [ ] Tab key navigates through all interactive elements in logical order
-- [ ] Enter/Space activates image grid items
-- [ ] Arrow keys navigate carousel when open
-- [ ] Delete subject shows confirmation dialog
-- [ ] All form inputs have visible, associated labels
-- [ ] `pnpm lint && pnpm typecheck` passes without errors
+- [x] All icon buttons announce their purpose in screen readers
+- [x] Tab key navigates through all interactive elements in logical order
+- [x] Enter/Space activates image grid items
+- [x] Arrow keys navigate carousel when open
+- [x] Delete subject shows confirmation dialog
+- [x] All form inputs have visible, associated labels
+- [x] `pnpm lint && pnpm typecheck` passes without errors
 
 ## Environment Variables
 
