@@ -162,13 +162,13 @@ This document outlines the implementation plan for the Admin Settings feature, b
 ### Tasks
 
 #### Users Tab
-- [ ] **6.1** Create `src/components/admin/users-tab.tsx`
+- [x] **6.1** Create `src/components/admin/users-tab.tsx`
   - Search input
   - Role filter dropdown
   - User table
   - Pagination controls
 
-- [ ] **6.2** Create `src/components/admin/user-table.tsx`
+- [x] **6.2** Create `src/components/admin/user-table.tsx`
   - Avatar, name, email columns
   - Role badge column
   - Created date column
@@ -176,18 +176,18 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - Status badge column
   - Actions column (edit button)
 
-- [ ] **6.3** Create `src/components/admin/user-edit-dialog.tsx`
+- [x] **6.3** Create `src/components/admin/user-edit-dialog.tsx`
   - Display user info
   - Role selector (disabled for admin emails)
   - Block toggle switch
   - Save/cancel buttons
 
 #### Invitations Tab
-- [ ] **6.4** Create `src/components/admin/invitations-tab.tsx`
+- [x] **6.4** Create `src/components/admin/invitations-tab.tsx`
   - Create code button
   - Invitations table
 
-- [ ] **6.5** Create `src/components/admin/invitation-table.tsx`
+- [x] **6.5** Create `src/components/admin/invitation-table.tsx`
   - Code column with copy button
   - Creator column
   - Uses column (current/max)
@@ -195,34 +195,34 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - Expires column
   - Actions column (toggle, delete)
 
-- [ ] **6.6** Create `src/components/admin/invitation-create-dialog.tsx`
+- [x] **6.6** Create `src/components/admin/invitation-create-dialog.tsx`
   - Max uses input (1-1000)
   - Expiration date picker (optional)
   - Create/cancel buttons
 
 #### Allowlist Tab
-- [ ] **6.7** Create `src/components/admin/allowlist-tab.tsx`
+- [x] **6.7** Create `src/components/admin/allowlist-tab.tsx`
   - Add email button
   - Allowlist table
 
-- [ ] **6.8** Create `src/components/admin/allowlist-table.tsx`
+- [x] **6.8** Create `src/components/admin/allowlist-table.tsx`
   - Email column
   - Added by column
   - Note column
   - Created column
   - Actions column (delete)
 
-- [ ] **6.9** Create `src/components/admin/allowlist-add-dialog.tsx`
+- [x] **6.9** Create `src/components/admin/allowlist-add-dialog.tsx`
   - Email input
   - Note textarea (optional)
   - Add/cancel buttons
 
 #### Security Tab
-- [ ] **6.10** Create `src/components/admin/security-tab.tsx`
+- [x] **6.10** Create `src/components/admin/security-tab.tsx`
   - Block IP button
   - Blocked IPs table
 
-- [ ] **6.11** Create `src/components/admin/ip-blocklist-table.tsx`
+- [x] **6.11** Create `src/components/admin/ip-blocklist-table.tsx`
   - IP address column
   - Type badge column (single/range)
   - Reason column
@@ -231,7 +231,7 @@ This document outlines the implementation plan for the Admin Settings feature, b
   - Expires column
   - Actions column (toggle, delete)
 
-- [ ] **6.12** Create `src/components/admin/ip-block-dialog.tsx`
+- [x] **6.12** Create `src/components/admin/ip-block-dialog.tsx`
   - IP address input
   - Type selector (single/range)
   - Reason textarea (optional)
