@@ -120,10 +120,10 @@ Mărirea țintelor tactile la minimum 44x44px pentru conformitate WCAG.
 
 ### Component Updates
 
-- [ ] Increase color picker size - `src/components/logo-generator/logo-builder/logo-color-manager.tsx`
+- [x] Increase color picker size - `src/components/logo-generator/logo-builder/logo-color-manager.tsx`
   - Line ~163: Change `w-9 h-9` (36px) to `w-11 h-11` (44px)
 
-- [ ] Increase symbol checkbox touch area - `src/components/logo-generator/logo-builder/sections/icon-symbol-section.tsx`
+- [x] Increase symbol checkbox touch area - `src/components/logo-generator/logo-builder/sections/icon-symbol-section.tsx`
   - Lines ~85-113: Increase overall button size or add padding for 44px minimum
 
 ### Technical Details

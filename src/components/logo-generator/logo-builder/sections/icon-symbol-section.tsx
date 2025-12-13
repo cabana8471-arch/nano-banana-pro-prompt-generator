@@ -89,8 +89,9 @@ export function IconSymbolSection({
                 size="sm"
                 onClick={() => toggleSymbolElement(template.id)}
                 disabled={isDisabled}
+                aria-pressed={isSelected}
                 className={cn(
-                  "justify-start h-auto py-2 px-3",
+                  "justify-start min-h-11 py-2 px-3",
                   isSelected && "border-primary bg-primary/5"
                 )}
               >

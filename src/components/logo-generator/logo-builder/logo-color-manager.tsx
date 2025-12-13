@@ -161,7 +161,7 @@ function ColorInput({ label, value, onChange, contrastAgainst }: ColorInputProps
             type="color"
             value={value || "#000000"}
             onChange={handleColorPickerChange}
-            className="w-9 h-9 rounded border cursor-pointer"
+            className="w-11 h-11 rounded border cursor-pointer"
             aria-label={label}
           />
         </div>
@@ -172,7 +172,7 @@ function ColorInput({ label, value, onChange, contrastAgainst }: ColorInputProps
           value={displayValue}
           onChange={handleInputChange}
           placeholder="#000000"
-          className="flex-1 font-mono text-xs h-9"
+          className="flex-1 font-mono text-xs h-11"
         />
 
         {/* Eyedropper */}
@@ -184,9 +184,9 @@ function ColorInput({ label, value, onChange, contrastAgainst }: ColorInputProps
                   variant="outline"
                   size="icon"
                   onClick={handleEyedropper}
-                  className="shrink-0 h-9 w-9"
+                  className="shrink-0 h-11 w-11"
                 >
-                  <Pipette className="h-3.5 w-3.5" />
+                  <Pipette className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -202,8 +202,8 @@ function ColorInput({ label, value, onChange, contrastAgainst }: ColorInputProps
             <Tooltip>
               <TooltipTrigger asChild>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="icon" className="shrink-0 h-9 w-9">
-                    <Palette className="h-3.5 w-3.5" />
+                  <Button variant="outline" size="icon" className="shrink-0 h-11 w-11">
+                    <Palette className="h-4 w-4" />
                   </Button>
                 </PopoverTrigger>
               </TooltipTrigger>
@@ -259,9 +259,9 @@ function ColorInput({ label, value, onChange, contrastAgainst }: ColorInputProps
             variant="ghost"
             size="icon"
             onClick={handleClear}
-            className="shrink-0 h-9 w-9"
+            className="shrink-0 h-11 w-11"
           >
-            <X className="h-3.5 w-3.5" />
+            <X className="h-4 w-4" />
           </Button>
         )}
       </div>
