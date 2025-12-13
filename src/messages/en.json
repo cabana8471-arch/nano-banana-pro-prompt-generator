@@ -2157,7 +2157,9 @@
         "minimalistStyle": "More minimalist style"
       },
       "exportMultiSize": "Export for Platforms",
-      "viewImage": "View generated banner {index} in fullscreen"
+      "viewImage": "View generated banner {index} in fullscreen",
+      "previousImage": "Previous image",
+      "nextImage": "Next image"
     },
     "multiSizeExport": {
       "title": "Export for Multiple Platforms",

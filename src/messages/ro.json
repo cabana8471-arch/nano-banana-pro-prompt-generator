@@ -2151,7 +2151,9 @@
         "minimalistStyle": "Stil mai minimalist"
       },
       "exportMultiSize": "Export pentru Platforme",
-      "viewImage": "Vizualizează bannerul generat {index} pe ecran complet"
+      "viewImage": "Vizualizează bannerul generat {index} pe ecran complet",
+      "previousImage": "Imaginea anterioară",
+      "nextImage": "Imaginea următoare"
     },
     "multiSizeExport": {
       "title": "Export pentru Multiple Platforme",

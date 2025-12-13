@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import { Download, ExternalLink, FileImage, FolderPlus, Layers } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, ExternalLink, FileImage, FolderPlus, Layers } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -427,16 +427,18 @@ export function BannerResultsPanel({
                     onClick={() =>
                       setFullscreenIndex((fullscreenIndex - 1 + images.length) % images.length)
                     }
+                    aria-label={t("previousImage")}
                   >
-                    <span className="text-2xl">&lt;</span>
+                    <ChevronLeft className="h-6 w-6" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white"
                     onClick={() => setFullscreenIndex((fullscreenIndex + 1) % images.length)}
+                    aria-label={t("nextImage")}
                   >
-                    <span className="text-2xl">&gt;</span>
+                    <ChevronRight className="h-6 w-6" />
                   </Button>
 
                   {/* Image counter */}

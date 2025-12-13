@@ -142,7 +142,7 @@ Implement skip links, fix touch targets, and add proper ARIA attributes.
 
 ### Focus Management
 
-- [ ] Verify focus trap in fullscreen modal - `src/components/banner-generator/results/banner-results-panel.tsx`
+- [x] Verify focus trap in fullscreen modal - `src/components/banner-generator/results/banner-results-panel.tsx`
   - Radix Dialog handles this automatically
   - Add `onOpenAutoFocus` if first button should receive focus
 
@@ -256,7 +256,7 @@ Improve navigation buttons, add character counts, and implement error boundary.
 
 ### Navigation Buttons
 
-- [ ] Replace text symbols with proper icons - `src/components/banner-generator/results/banner-results-panel.tsx`
+- [x] Replace text symbols with proper icons - `src/components/banner-generator/results/banner-results-panel.tsx`
   - Lines 414-431: Use ChevronLeft/ChevronRight with aria-labels
   - Add sr-only text for screen readers
 
