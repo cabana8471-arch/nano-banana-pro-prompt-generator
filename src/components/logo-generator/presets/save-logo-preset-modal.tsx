@@ -148,10 +148,10 @@ export function SaveLogoPresetModal({
 
             {/* Existing Preset Warning & Options */}
             {existingPreset && (
-              <div className="space-y-3 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+              <div className="space-y-3 p-3 bg-warning/10 border border-warning/30 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
-                  <span className="text-sm font-medium text-yellow-700 dark:text-yellow-300">
+                  <AlertCircle className="h-4 w-4 text-warning" />
+                  <span className="text-sm font-medium text-warning-foreground">
                     {t("presetExists")}
                   </span>
                 </div>

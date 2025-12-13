@@ -53,9 +53,9 @@ const referenceTypeIcons: Record<LogoReferenceType, React.ReactNode> = {
 };
 
 const referenceTypeColors: Record<LogoReferenceType, string> = {
-  style: "bg-purple-500/10 text-purple-500 border-purple-500/20",
-  composition: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-  color: "bg-orange-500/10 text-orange-500 border-orange-500/20",
+  style: "bg-chart-5/10 text-chart-5 border-chart-5/20",
+  composition: "bg-primary/10 text-primary border-primary/20",
+  color: "bg-warning/10 text-warning border-warning/20",
 };
 
 export function LogoReferenceManager({
@@ -360,7 +360,7 @@ export function LogoReferenceManager({
                 <SelectContent>
                   <SelectItem value="style">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="h-4 w-4 text-purple-500" />
+                      <Sparkles className="h-4 w-4 text-chart-5" />
                       <div>
                         <span>{t("types.style")}</span>
                         <span className="text-xs text-muted-foreground ml-2">
@@ -371,7 +371,7 @@ export function LogoReferenceManager({
                   </SelectItem>
                   <SelectItem value="composition">
                     <div className="flex items-center gap-2">
-                      <Layout className="h-4 w-4 text-blue-500" />
+                      <Layout className="h-4 w-4 text-primary" />
                       <div>
                         <span>{t("types.composition")}</span>
                         <span className="text-xs text-muted-foreground ml-2">
@@ -382,7 +382,7 @@ export function LogoReferenceManager({
                   </SelectItem>
                   <SelectItem value="color">
                     <div className="flex items-center gap-2">
-                      <Palette className="h-4 w-4 text-orange-500" />
+                      <Palette className="h-4 w-4 text-warning" />
                       <div>
                         <span>{t("types.color")}</span>
                         <span className="text-xs text-muted-foreground ml-2">

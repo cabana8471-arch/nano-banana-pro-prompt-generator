@@ -19,13 +19,13 @@
 
 ### Component Updates
 
-- [ ] Update `getContrastLevel` function colors - `src/components/logo-generator/logo-builder/logo-color-manager.tsx`
+- [x] Update `getContrastLevel` function colors - `src/components/logo-generator/logo-builder/logo-color-manager.tsx`
   - Line 86: `text-green-600` → `text-success`
   - Line 87: `text-green-500` → `text-success`
   - Line 88: `text-yellow-600` → `text-warning`
   - Line 89: `text-red-500` → `text-destructive`
 
-- [ ] Update contrast indicator icons - `src/components/logo-generator/logo-builder/logo-color-manager.tsx`
+- [x] Update contrast indicator icons - `src/components/logo-generator/logo-builder/logo-color-manager.tsx`
   - Line 272: `text-yellow-600` → `text-warning`
   - Line 274: `text-green-600` → `text-success`
 
@@ -66,12 +66,12 @@ function getContrastLevel(ratio: number) {
 
 ### Component Updates
 
-- [ ] Update `referenceTypeColors` object - `src/components/logo-generator/logo-builder/logo-reference-manager.tsx`
+- [x] Update `referenceTypeColors` object - `src/components/logo-generator/logo-builder/logo-reference-manager.tsx`
   - Line 56: `bg-purple-500/10 text-purple-500 border-purple-500/20` → `bg-chart-5/10 text-chart-5 border-chart-5/20`
   - Line 57: `bg-blue-500/10 text-blue-500 border-blue-500/20` → `bg-primary/10 text-primary border-primary/20`
   - Line 58: `bg-orange-500/10 text-orange-500 border-orange-500/20` → `bg-warning/10 text-warning border-warning/20`
 
-- [ ] Update SelectItem icons - `src/components/logo-generator/logo-builder/logo-reference-manager.tsx`
+- [x] Update SelectItem icons - `src/components/logo-generator/logo-builder/logo-reference-manager.tsx`
   - Line 363: `text-purple-500` → `text-chart-5`
   - Line 374: `text-blue-500` → `text-primary`
   - Line 385: `text-orange-500` → `text-warning`
@@ -106,7 +106,7 @@ const referenceTypeColors: Record<LogoReferenceType, string> = {
 
 ### Component Updates
 
-- [ ] Update warning alert container and content - `src/components/logo-generator/presets/save-logo-preset-modal.tsx`
+- [x] Update warning alert container and content - `src/components/logo-generator/presets/save-logo-preset-modal.tsx`
   - Line 151: `bg-yellow-500/10 border-yellow-500/30` → `bg-warning/10 border-warning/30`
   - Line 153: `text-yellow-600 dark:text-yellow-400` → `text-warning`
   - Line 154: `text-yellow-700 dark:text-yellow-300` → `text-warning-foreground`
@@ -143,7 +143,7 @@ const referenceTypeColors: Record<LogoReferenceType, string> = {
 
 ### Component Updates
 
-- [ ] Replace inline styles with Tailwind classes - `src/components/logo-generator/preview/logo-preview-panel.tsx`
+- [x] Replace inline styles with Tailwind classes - `src/components/logo-generator/preview/logo-preview-panel.tsx`
   - Import `cn` from `@/lib/utils` (dacă nu este deja importat)
   - Lines 147-159: Înlocuire inline styles cu clase condiționale
 

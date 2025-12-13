@@ -83,10 +83,10 @@ function getContrastLevel(ratio: number): {
   label: string;
   color: string;
 } {
-  if (ratio >= 7) return { level: "aaa", label: "AAA", color: "text-green-600" };
-  if (ratio >= 4.5) return { level: "aa", label: "AA", color: "text-green-500" };
-  if (ratio >= 3) return { level: "aa-large", label: "AA Large", color: "text-yellow-600" };
-  return { level: "fail", label: "Fail", color: "text-red-500" };
+  if (ratio >= 7) return { level: "aaa", label: "AAA", color: "text-success" };
+  if (ratio >= 4.5) return { level: "aa", label: "AA", color: "text-success" };
+  if (ratio >= 3) return { level: "aa-large", label: "AA Large", color: "text-warning" };
+  return { level: "fail", label: "Fail", color: "text-destructive" };
 }
 
 interface ColorInputProps {
@@ -269,9 +269,9 @@ function ColorInput({ label, value, onChange, contrastAgainst }: ColorInputProps
       {contrastRatio !== null && contrastLevel && (
         <div className="flex items-center gap-2 text-[10px] mt-1">
           {contrastLevel.level === "fail" ? (
-            <AlertTriangle className="h-3 w-3 text-yellow-600" />
+            <AlertTriangle className="h-3 w-3 text-warning" />
           ) : (
-            <Check className="h-3 w-3 text-green-600" />
+            <Check className="h-3 w-3 text-success" />
           )}
           <span className="text-muted-foreground">
             {contrastRatio.toFixed(2)}:1

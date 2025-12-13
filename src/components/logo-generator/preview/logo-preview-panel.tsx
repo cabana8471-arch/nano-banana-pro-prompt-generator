@@ -17,6 +17,7 @@ import type {
   LogoResolution,
 } from "@/lib/types/logo";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
+import { cn } from "@/lib/utils";
 import { LoadLogoPresetDropdown } from "../presets/load-logo-preset-dropdown";
 import { ManageLogoPresetsModal } from "../presets/manage-logo-presets-modal";
 import { SaveLogoPresetModal } from "../presets/save-logo-preset-modal";
@@ -145,14 +146,13 @@ export function LogoPreviewPanel({
                 {/* Visual format preview */}
                 <div className="mt-3 flex justify-center">
                   <div
-                    className="border-2 border-dashed border-muted-foreground/30 bg-muted/30 rounded flex items-center justify-center text-xs text-muted-foreground"
-                    style={{
-                      width: selectedLogoFormat === "format-horizontal" ? 160 :
-                             selectedLogoFormat === "format-vertical" ? 80 : 100,
-                      height: selectedLogoFormat === "format-vertical" ? 120 :
-                              selectedLogoFormat === "format-horizontal" ? 60 : 100,
-                      borderRadius: selectedLogoFormat === "format-circular" ? "50%" : "0.375rem",
-                    }}
+                    className={cn(
+                      "border-2 border-dashed border-muted-foreground/30 bg-muted/30 flex items-center justify-center text-xs text-muted-foreground",
+                      selectedLogoFormat === "format-horizontal" && "w-40 h-[60px] rounded-md",
+                      selectedLogoFormat === "format-vertical" && "w-20 h-[120px] rounded-md",
+                      selectedLogoFormat === "format-circular" && "size-[100px] rounded-full",
+                      !["format-horizontal", "format-vertical", "format-circular"].includes(selectedLogoFormat || "") && "size-[100px] rounded-md"
+                    )}
                   >
                     {t("preview.logoPreview")}
                   </div>
