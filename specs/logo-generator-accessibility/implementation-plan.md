@@ -283,7 +283,7 @@ useEffect(() => {
 
 ### Component Updates
 
-- [ ] Add download error toast and replace navigation arrows - `src/components/logo-generator/results/logo-results-panel.tsx`
+- [x] Add download error toast and replace navigation arrows - `src/components/logo-generator/results/logo-results-panel.tsx`
   - Lines ~156-158: Add toast.error for download failure
   - Lines ~395, 402: Replace `<` and `>` spans with ChevronLeft/ChevronRight icons
 

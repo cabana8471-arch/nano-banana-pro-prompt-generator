@@ -3292,6 +3292,9 @@
       "refinePlaceholder": "e.g., Make the icon simpler, use bolder typography...",
       "refineButton": "Refine Logo",
       "refining": "Refining...",
+      "downloadError": "Failed to download image. Please try again.",
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
       "suggestions": {
         "simpler": "Make it simpler",
         "bolder": "Make it bolder",

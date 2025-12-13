@@ -3286,6 +3286,9 @@
       "refinePlaceholder": "ex., Fa pictograma mai simpla, foloseste tipografie mai grasa...",
       "refineButton": "Rafineaza Logo",
       "refining": "Se rafineaza...",
+      "downloadError": "Descarcarea imaginii a esuat. Te rugam sa incerci din nou.",
+      "previousImage": "Imaginea anterioara",
+      "nextImage": "Imaginea urmatoare",
       "suggestions": {
         "simpler": "Fa-l mai simplu",
         "bolder": "Fa-l mai bold",
