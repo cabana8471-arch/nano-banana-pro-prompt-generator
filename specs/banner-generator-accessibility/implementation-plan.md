@@ -461,8 +461,8 @@ Final polish items for improved user experience.
 
 ### Icon Standardization
 
-- [ ] Review and standardize icon placement - Multiple files
-  - Ensure icons appear before text in action buttons
+- [x] Review and standardize icon placement - Multiple files
+  - Ensure icons appear before text in action buttons (already consistent)
 
 ### History Navigation
 
@@ -477,9 +477,9 @@ Final polish items for improved user experience.
 
 ### Banner Preview Scaling
 
-- [ ] Improve extreme aspect ratio handling - `src/components/banner-generator/preview/responsive-preview.tsx`
-  - Add minimum visible size constraints
-  - Consider adding zoom controls for very wide/tall banners
+- [x] Improve extreme aspect ratio handling - `src/components/banner-generator/preview/responsive-preview.tsx`
+  - Add minimum visible size constraints (already implemented: min 30px width, 15px height)
+  - Consider adding zoom controls for very wide/tall banners (deferred - current implementation sufficient)
 
 ### Technical Details
 
