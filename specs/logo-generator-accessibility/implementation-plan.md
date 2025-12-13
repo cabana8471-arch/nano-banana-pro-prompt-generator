@@ -79,7 +79,7 @@ Asocierea corectă între label-uri și input-uri folosind `htmlFor` și `id`.
 
 ### Component Updates
 
-- [ ] Add htmlFor/id associations - `src/components/logo-generator/logo-builder/logo-text-content-editor.tsx`
+- [x] Add htmlFor/id associations - `src/components/logo-generator/logo-builder/logo-text-content-editor.tsx`
   - Add unique `id` to each Input component
   - Add matching `htmlFor` to each Label component
 

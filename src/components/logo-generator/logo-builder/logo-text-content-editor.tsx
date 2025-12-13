@@ -74,11 +74,12 @@ export function LogoTextContentEditor({
         const overLimit = isOverLimit(field.key, field.value);
         const percentUsed = getPercentageUsed(field.key, field.value);
         const charCount = field.value.length;
+        const fieldId = `logo-${field.key}`;
 
         return (
           <div key={field.key} className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-sm font-medium">
+              <Label htmlFor={fieldId} className="text-sm font-medium">
                 {field.label}
                 {field.required && (
                   <span className="text-destructive ml-1">*</span>
@@ -96,6 +97,7 @@ export function LogoTextContentEditor({
               </span>
             </div>
             <Input
+              id={fieldId}
               value={field.value}
               onChange={(e) => field.onChange(e.target.value)}
               placeholder={field.placeholder}
