@@ -133,6 +133,32 @@ export default function LogoGeneratorPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.logoType, state.industry, state.logoFormat, state.designStyle, state.colorSchemeType]);
 
+  // Keyboard shortcuts for accessibility
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger shortcuts when typing in inputs
+      const target = e.target as HTMLElement;
+      const isInput = target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
+
+      const isMod = e.metaKey || e.ctrlKey;
+
+      // Undo: Cmd/Ctrl + Z (without Shift)
+      if (isMod && e.key === "z" && !e.shiftKey && !isInput) {
+        e.preventDefault();
+        if (canUndo) undo();
+      }
+
+      // Redo: Cmd/Ctrl + Shift + Z or Cmd/Ctrl + Y
+      if (isMod && ((e.key === "z" && e.shiftKey) || e.key === "y") && !isInput) {
+        e.preventDefault();
+        if (canRedo) redo();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [canUndo, canRedo, undo, redo]);
+
   // Presets state
   const {
     presets,

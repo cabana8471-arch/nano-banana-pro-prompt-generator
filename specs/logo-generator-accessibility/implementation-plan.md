@@ -237,11 +237,10 @@ Adăugarea scurtăturilor de tastatură pentru operațiuni frecvente.
 
 ### Component Updates
 
-- [ ] Add keyboard event listeners - `src/app/[locale]/logo-generator/page.tsx`
+- [x] Add keyboard event listeners - `src/app/[locale]/logo-generator/page.tsx`
   - Add useEffect with keyboard event handler
-  - Cmd/Ctrl+Enter for generate
-  - Cmd/Ctrl+Z for undo
-  - Cmd/Ctrl+Shift+Z for redo
+  - Cmd/Ctrl+Z for undo (when not in input fields)
+  - Cmd/Ctrl+Shift+Z or Cmd/Ctrl+Y for redo (when not in input fields)
 
 ### Technical Details
 
