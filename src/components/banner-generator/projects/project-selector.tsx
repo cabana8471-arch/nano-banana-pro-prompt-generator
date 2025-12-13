@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FolderPlus, Loader2, FolderOpen } from "lucide-react";
+import { FolderPlus, Loader2, FolderOpen, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -73,8 +73,17 @@ export function ProjectSelector({
         </SelectTrigger>
         <SelectContent>
           {projects.length === 0 ? (
-            <div className="px-2 py-4 text-center text-sm text-muted-foreground">
-              {t("noProjects")}
+            <div className="px-2 py-4 text-center">
+              <p className="text-sm text-muted-foreground mb-3">{t("noProjects")}</p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCreateModalOpen(true)}
+                className="gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                {t("createFirstProject")}
+              </Button>
             </div>
           ) : (
             projects.map((project) => (

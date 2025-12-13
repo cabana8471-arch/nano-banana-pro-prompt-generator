@@ -272,7 +272,7 @@ Improve navigation buttons, add character counts, and implement error boundary.
 
 ### Empty State Enhancement
 
-- [ ] Add inline CTA to project selector empty state - `src/components/banner-generator/projects/project-selector.tsx`
+- [x] Add inline CTA to project selector empty state - `src/components/banner-generator/projects/project-selector.tsx`
   - Lines 74-78: Add button to create first project
 
 ### Loading Messages

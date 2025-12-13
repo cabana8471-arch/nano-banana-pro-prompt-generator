@@ -2316,6 +2316,7 @@
       "noProjects": "Niciun proiect",
       "noProjectsSaved": "Niciun proiect salvat inca",
       "noProjectsSavedHint": "Creeaza primul tau proiect pentru a-ti organiza bannerele.",
+      "createFirstProject": "Creează primul tău proiect",
       "required": "Selectia proiectului este obligatorie",
       "loading": "Se incarca proiectele..."
     },

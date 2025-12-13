@@ -2322,6 +2322,7 @@
       "noProjects": "No projects",
       "noProjectsSaved": "No projects saved yet",
       "noProjectsSavedHint": "Create your first project to organize your banners.",
+      "createFirstProject": "Create your first project",
       "required": "Project selection is required",
       "loading": "Loading projects..."
     },
