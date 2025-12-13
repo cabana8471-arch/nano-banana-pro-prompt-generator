@@ -466,13 +466,13 @@ Final polish items for improved user experience.
 
 ### History Navigation
 
-- [ ] Add keyboard navigation to history items - `src/components/banner-generator/banner-builder/history-controls.tsx`
+- [x] Add keyboard navigation to history items - `src/components/banner-generator/banner-builder/history-controls.tsx`
   - Lines 113-134: Add `role="listbox"` to container, `role="option"` to items
   - Implement arrow key navigation
 
 ### Tooltip Delay
 
-- [ ] Add delay to tooltips - Multiple files
+- [x] Add delay to tooltips - Multiple files
   - Add `delayDuration={300}` to Tooltip components
 
 ### Banner Preview Scaling

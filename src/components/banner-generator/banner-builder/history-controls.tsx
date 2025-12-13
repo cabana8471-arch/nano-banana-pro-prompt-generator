@@ -43,7 +43,7 @@ export function HistoryControls({
   const t = useTranslations("bannerGenerator");
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={300}>
       <div className="flex items-center gap-1">
         {/* Undo */}
         <Tooltip>
@@ -109,7 +109,11 @@ export function HistoryControls({
                 </span>
               </div>
               <ScrollArea className="h-48">
-                <div className="space-y-1">
+                <div
+                  role="list"
+                  aria-label={t("history.historyList")}
+                  className="space-y-1"
+                >
                   {recentHistory
                     .slice()
                     .reverse()
@@ -119,10 +123,13 @@ export function HistoryControls({
                       return (
                         <div
                           key={entry.timestamp}
-                          className={`flex items-center justify-between p-2 rounded text-xs ${
+                          role="listitem"
+                          tabIndex={0}
+                          aria-current={isCurrentState ? "step" : undefined}
+                          className={`flex items-center justify-between p-2 rounded text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                             isCurrentState
                               ? "bg-primary/10 text-primary"
-                              : "hover:bg-muted"
+                              : "hover:bg-muted focus-visible:bg-muted"
                           }`}
                         >
                           <span className="truncate flex-1">{entry.action}</span>

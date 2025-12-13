@@ -2333,7 +2333,8 @@
       "viewHistory": "View history",
       "title": "Change History",
       "stateCount": "{current} of {total}",
-      "clearHistory": "Clear history"
+      "clearHistory": "Clear history",
+      "historyList": "History of changes"
     },
     "responsivePreview": {
       "buttonLabel": "Size Preview",
