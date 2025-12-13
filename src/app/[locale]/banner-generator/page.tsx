@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { BannerBuilderPanel } from "@/components/banner-generator/banner-builder/banner-builder-panel";
 import { HistoryControls } from "@/components/banner-generator/banner-builder/history-controls";
 import { QuickActions } from "@/components/banner-generator/banner-builder/quick-actions";
+import { BannerErrorBoundary } from "@/components/banner-generator/banner-error-boundary";
 import { ComparePresetsModal } from "@/components/banner-generator/presets/compare-presets-modal";
 import { EditBannerPresetSheet } from "@/components/banner-generator/presets/edit-banner-preset-sheet";
 import { QuickStartTemplates } from "@/components/banner-generator/presets/quick-start-templates";
@@ -643,8 +644,9 @@ export default function BannerGeneratorPage() {
   };
 
   return (
-    <div className="container mx-auto py-6 px-4">
-      {/* API Key Alert - Show at top if no key */}
+    <BannerErrorBoundary>
+      <div className="container mx-auto py-6 px-4">
+        {/* API Key Alert - Show at top if no key */}
       {!hasKey && (
         <ApiKeyAlert
           title="API Key Required"
@@ -817,15 +819,16 @@ export default function BannerGeneratorPage() {
         onLoad={handleLoadPreset}
       />
 
-      {/* Edit Preset Sheet */}
-      <EditBannerPresetSheet
-        preset={editingPreset}
-        open={!!editingPreset}
-        onOpenChange={(open) => !open && setEditingPreset(null)}
-        onSave={handleSaveEditedPreset}
-        onDuplicate={handleDuplicatePreset}
-      />
-    </div>
+        {/* Edit Preset Sheet */}
+        <EditBannerPresetSheet
+          preset={editingPreset}
+          open={!!editingPreset}
+          onOpenChange={(open) => !open && setEditingPreset(null)}
+          onSave={handleSaveEditedPreset}
+          onDuplicate={handleDuplicatePreset}
+        />
+      </div>
+    </BannerErrorBoundary>
   );
 }
 
