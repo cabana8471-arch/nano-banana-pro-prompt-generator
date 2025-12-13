@@ -1961,6 +1961,7 @@
   "bannerGenerator": {
     "title": "Constructor Bannere",
     "description": "Creeaza bannere web profesionale pentru publicitate si promotii",
+    "loading": "Se încarcă Constructorul de Bannere...",
     "selectOption": "Selecteaza o optiune...",
     "customValue": "Valoare personalizata",
     "customPlaceholder": "Introdu valoarea personalizata...",

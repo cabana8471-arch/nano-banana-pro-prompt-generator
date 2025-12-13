@@ -1961,6 +1961,7 @@
   "bannerGenerator": {
     "title": "Banner Builder",
     "description": "Create professional web banners for advertising and promotions",
+    "loading": "Loading Banner Builder...",
     "selectOption": "Select an option...",
     "customValue": "Custom value",
     "customPlaceholder": "Enter custom value...",

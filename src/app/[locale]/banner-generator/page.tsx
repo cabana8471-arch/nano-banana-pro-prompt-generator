@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { BannerBuilderPanel } from "@/components/banner-generator/banner-builder/banner-builder-panel";
 import { HistoryControls } from "@/components/banner-generator/banner-builder/history-controls";
@@ -33,6 +35,7 @@ import type { CreateProjectInput } from "@/lib/types/project";
 export default function BannerGeneratorPage() {
   const { data: session, isPending: sessionPending } = useSession();
   const router = useRouter();
+  const t = useTranslations("bannerGenerator");
   const { hasKey, isLoading: apiKeyLoading } = useApiKey();
 
   // Avatars state (for logo and product images) - auto-refresh when window gains focus
@@ -613,7 +616,10 @@ export default function BannerGeneratorPage() {
   if (sessionPending || apiKeyLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-pulse text-muted-foreground">Loading...</div>
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <span className="text-muted-foreground">{t("loading")}</span>
+        </div>
       </div>
     );
   }
