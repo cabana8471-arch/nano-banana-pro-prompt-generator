@@ -163,12 +163,12 @@ Expunerea funcționalităților existente în interfața utilizatorului.
 
 ### Component Updates
 
-- [ ] Add undo/redo buttons to LogoBuilderPanel header - `src/components/logo-generator/logo-builder/logo-builder-panel.tsx`
+- [x] Add undo/redo buttons to LogoBuilderPanel header - `src/components/logo-generator/logo-builder/logo-builder-panel.tsx`
   - Import Undo2, Redo2 icons from lucide-react
   - Add props for canUndo, canRedo, onUndo, onRedo
   - Add buttons in panel header
 
-- [ ] Pass history props from page and add reset button - `src/app/[locale]/logo-generator/page.tsx`
+- [x] Pass history props from page and add reset button - `src/app/[locale]/logo-generator/page.tsx`
   - Pass history functions to LogoBuilderPanel
   - Uncomment/expose reset button with confirmation dialog
 

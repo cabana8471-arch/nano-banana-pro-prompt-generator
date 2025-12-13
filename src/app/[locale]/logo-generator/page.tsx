@@ -86,14 +86,9 @@ export default function LogoGeneratorPage() {
     getRecentHistory,
   } = useLogoHistory(DEFAULT_LOGO_BUILDER_STATE);
 
-  // Suppress unused variable warnings for history features (to be used later)
-  void canUndo;
-  void canRedo;
+  // Suppress unused variable warnings for history features not yet exposed in UI
   void historyLength;
   void currentIndex;
-  void undo;
-  void redo;
-  void clearHistory;
   void getRecentHistory;
 
   // Track state changes for history
@@ -349,9 +344,6 @@ export default function LogoGeneratorPage() {
     toast.success("Configuration reset!");
   };
 
-  // Suppress unused variable warning
-  void handleReset;
-
   return (
     <div className="container mx-auto py-6 px-4">
       {/* API Key Alert - Show at top if no key */}
@@ -401,6 +393,11 @@ export default function LogoGeneratorPage() {
             onLogoReferenceSelectionChange={setSelectedLogoReferenceIds}
             onCreateLogoReference={createLogoReference}
             onDeleteLogoReference={deleteLogoReference}
+            canUndo={canUndo}
+            canRedo={canRedo}
+            onUndo={undo}
+            onRedo={redo}
+            onReset={handleReset}
           />
         }
         middlePanel={

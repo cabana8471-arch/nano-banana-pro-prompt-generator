@@ -3360,6 +3360,16 @@
         "vibrant": "Vibrant",
         "nature": "Nature"
       }
+    },
+    "selectTemplate": "Select template",
+    "clear": "Clear",
+    "cancel": "Cancel",
+    "history": {
+      "undo": "Undo",
+      "redo": "Redo",
+      "reset": "Reset",
+      "resetConfirmTitle": "Reset Configuration",
+      "resetConfirmDescription": "This will reset all logo settings to their default values. This action cannot be undone."
     }
   },
   "logoTemplates": {

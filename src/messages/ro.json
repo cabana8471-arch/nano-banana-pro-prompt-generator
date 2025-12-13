@@ -3354,6 +3354,16 @@
         "vibrant": "Vibrant",
         "nature": "Natura"
       }
+    },
+    "selectTemplate": "Selecteaza sablon",
+    "clear": "Sterge",
+    "cancel": "Anuleaza",
+    "history": {
+      "undo": "Anuleaza",
+      "redo": "Refaci",
+      "reset": "Reseteaza",
+      "resetConfirmTitle": "Reseteaza Configuratia",
+      "resetConfirmDescription": "Aceasta actiune va reseta toate setarile logo-ului la valorile implicite. Actiunea nu poate fi anulata."
     }
   },
   "logoTemplates": {
