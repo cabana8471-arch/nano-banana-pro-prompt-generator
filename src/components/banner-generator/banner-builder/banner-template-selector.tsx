@@ -82,6 +82,8 @@ export function BannerTemplateSelector({
           variant="outline"
           className="flex-1 justify-between h-10 px-3 font-normal"
           onClick={() => setOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={open}
         >
           <span className={displayValue ? "text-foreground truncate" : "text-muted-foreground"}>
             {displayValue || placeholder || t("selectOption")}

@@ -262,7 +262,7 @@ Improve navigation buttons, add character counts, and implement error boundary.
 
 ### Modal Triggers
 
-- [ ] Add aria-haspopup to template selector - `src/components/banner-generator/banner-builder/banner-template-selector.tsx`
+- [x] Add aria-haspopup to template selector - `src/components/banner-generator/banner-builder/banner-template-selector.tsx`
   - Lines 81-90: Add `aria-haspopup="dialog"` and `aria-expanded`
 
 ### Character Count
