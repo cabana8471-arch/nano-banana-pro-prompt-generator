@@ -98,7 +98,7 @@ export function ThreeColumnLayout({
               variant="ghost"
               size="icon"
               onClick={() => setLeftCollapsed(true)}
-              className="absolute -right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full border bg-background shadow-sm hover:bg-muted z-10"
+              className="absolute -right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border bg-background shadow-sm hover:bg-muted z-10"
               title="Collapse panel"
               aria-label={t("collapsePanel")}
             >
@@ -135,7 +135,7 @@ export function ThreeColumnLayout({
               variant="ghost"
               size="icon"
               onClick={() => setRightCollapsed(true)}
-              className="absolute -left-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full border bg-background shadow-sm hover:bg-muted z-10"
+              className="absolute -left-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full border bg-background shadow-sm hover:bg-muted z-10"
               title="Collapse panel"
               aria-label={t("collapsePanel")}
             >

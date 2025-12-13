@@ -51,7 +51,7 @@ export function HistoryControls({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-9 w-9"
               onClick={onUndo}
               disabled={disabled || !canUndo}
             >
@@ -69,7 +69,7 @@ export function HistoryControls({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-9 w-9"
               onClick={onRedo}
               disabled={disabled || !canRedo}
             >
@@ -89,7 +89,7 @@ export function HistoryControls({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-9 w-9"
                   disabled={disabled || historyLength <= 1}
                 >
                   <History className="h-4 w-4" />

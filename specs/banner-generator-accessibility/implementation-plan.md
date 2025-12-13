@@ -128,10 +128,10 @@ Implement skip links, fix touch targets, and add proper ARIA attributes.
 
 ### Touch Targets
 
-- [ ] Increase touch target sizes on collapse buttons - `src/components/generate/three-column-layout.tsx`
+- [x] Increase touch target sizes on collapse buttons - `src/components/generate/three-column-layout.tsx`
   - Line 79: Change from `h-6 w-6` to `h-9 w-9`
 
-- [ ] Increase touch target sizes on history controls - `src/components/banner-generator/banner-builder/history-controls.tsx`
+- [x] Increase touch target sizes on history controls - `src/components/banner-generator/banner-builder/history-controls.tsx`
   - Line 54: Change from `h-8 w-8` to `h-9 w-9` for consistency
 
 ### File Upload Accessibility
