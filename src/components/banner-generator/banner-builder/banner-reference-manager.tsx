@@ -304,12 +304,21 @@ export function BannerReferenceManager({
             <div className="space-y-2">
               <Label>{t("form.image")}</Label>
               <div
-                className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors ${
+                role="button"
+                tabIndex={0}
+                className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                   previewUrl ? "border-primary" : ""
                 }`}
                 onClick={() => fileInputRef.current?.click()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    fileInputRef.current?.click();
+                  }
+                }}
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
+                aria-label={t("form.uploadImage")}
               >
                 {previewUrl ? (
                   <div className="relative aspect-video max-h-48 mx-auto">

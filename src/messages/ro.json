@@ -2087,7 +2087,8 @@
         "image": "Imagine",
         "uploading": "Se incarca...",
         "upload": "Incarca",
-        "dropHint": "Trage imaginea aici sau click pentru a selecta"
+        "dropHint": "Trage imaginea aici sau click pentru a selecta",
+        "uploadImage": "Încarcă imagine de referință"
       },
       "delete": {
         "title": "Sterge Referinta",

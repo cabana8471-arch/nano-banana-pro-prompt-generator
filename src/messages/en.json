@@ -2093,7 +2093,8 @@
         "image": "Image",
         "uploading": "Uploading...",
         "upload": "Upload",
-        "dropHint": "Drop image here or click to select"
+        "dropHint": "Drop image here or click to select",
+        "uploadImage": "Upload reference image"
       },
       "delete": {
         "title": "Delete Reference",

@@ -136,7 +136,7 @@ Implement skip links, fix touch targets, and add proper ARIA attributes.
 
 ### File Upload Accessibility
 
-- [ ] Make file upload area keyboard accessible - `src/components/banner-generator/banner-builder/banner-reference-manager.tsx`
+- [x] Make file upload area keyboard accessible - `src/components/banner-generator/banner-builder/banner-reference-manager.tsx`
   - Lines 333-339: Add `role="button"`, `tabIndex={0}`, `onKeyDown`
   - Add focus styling and `aria-label`
 
