@@ -267,12 +267,25 @@ export function BannerBuilderPanel({
             <Label className="text-sm font-medium">
               {t("customPrompt.label")}
             </Label>
-            <Textarea
-              value={state.customPrompt}
-              onChange={(e) => onCustomPromptChange(e.target.value)}
-              placeholder={t("customPrompt.placeholder")}
-              rows={4}
-            />
+            <div className="relative">
+              <Textarea
+                value={state.customPrompt}
+                onChange={(e) => onCustomPromptChange(e.target.value.slice(0, 500))}
+                maxLength={500}
+                placeholder={t("customPrompt.placeholder")}
+                rows={4}
+                className="resize-none pb-6"
+              />
+              <span
+                className={`absolute bottom-2 right-3 text-xs ${
+                  state.customPrompt.length > 450
+                    ? "text-warning"
+                    : "text-muted-foreground"
+                }`}
+              >
+                {state.customPrompt.length}/500
+              </span>
+            </div>
             <p className="text-xs text-muted-foreground">
               {t("customPrompt.hint")}
             </p>

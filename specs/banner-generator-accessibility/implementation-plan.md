@@ -267,7 +267,7 @@ Improve navigation buttons, add character counts, and implement error boundary.
 
 ### Character Count
 
-- [ ] Add character count to custom prompt - `src/components/banner-generator/banner-builder/banner-builder-panel.tsx`
+- [x] Add character count to custom prompt - `src/components/banner-generator/banner-builder/banner-builder-panel.tsx`
   - Lines 266-279: Add character counter like other text inputs
 
 ### Empty State Enhancement
