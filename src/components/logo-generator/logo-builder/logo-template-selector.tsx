@@ -81,6 +81,7 @@ export function LogoTemplateSelector({
           variant="outline"
           className="flex-1 justify-between h-10 px-3 font-normal"
           onClick={() => setOpen(true)}
+          aria-label={`${t("selectTemplate")}: ${label}`}
         >
           <span className={displayValue ? "text-foreground truncate" : "text-muted-foreground"}>
             {displayValue || placeholder || t("selectOption")}
@@ -93,6 +94,7 @@ export function LogoTemplateSelector({
             size="icon"
             onClick={handleClear}
             className="shrink-0"
+            aria-label={t("clear")}
           >
             <X className="h-4 w-4" />
           </Button>

@@ -162,6 +162,7 @@ function ColorInput({ label, value, onChange, contrastAgainst }: ColorInputProps
             value={value || "#000000"}
             onChange={handleColorPickerChange}
             className="w-9 h-9 rounded border cursor-pointer"
+            aria-label={label}
           />
         </div>
 

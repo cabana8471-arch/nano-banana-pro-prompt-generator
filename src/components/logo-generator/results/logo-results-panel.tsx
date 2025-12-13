@@ -212,8 +212,17 @@ export function LogoResultsPanel({
                   images.map((url, i) => (
                     <div
                       key={i}
-                      className="rounded-lg overflow-hidden border bg-muted relative cursor-pointer transition-all group hover:ring-2 hover:ring-primary aspect-square"
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`${t("generatedLogo")} ${i + 1}`}
+                      className="rounded-lg overflow-hidden border bg-muted relative cursor-pointer transition-all group hover:ring-2 hover:ring-primary focus:ring-2 focus:ring-primary focus:outline-none aspect-square"
                       onClick={() => setFullscreenIndex(i)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setFullscreenIndex(i);
+                        }
+                      }}
                     >
                       <Image
                         src={url}
