@@ -4,16 +4,26 @@ import { createAuthMiddleware } from "better-auth/api"
 import { syncUserRoleWithAdminEmails, recordLoginEvent } from "./authorization"
 import { db } from "./db"
 
+const hasGoogleOAuth =
+  Boolean(process.env.GOOGLE_CLIENT_ID) &&
+  Boolean(process.env.GOOGLE_CLIENT_SECRET);
+
+if (!hasGoogleOAuth && (process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_SECRET)) {
+  console.warn("Google OAuth is partially configured; provider disabled.");
+}
+
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+  ...(hasGoogleOAuth && {
+    socialProviders: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID as string,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      },
     },
-  },
+  }),
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
       // Handle sign-in events (including social sign-in)

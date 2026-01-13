@@ -67,6 +67,38 @@ function isSitePasswordEnabled(): boolean {
   return !!password && password.length >= 8;
 }
 
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  if (!a || !b) return false;
+
+  const length = Math.max(a.length, b.length);
+  let diff = a.length ^ b.length;
+
+  for (let i = 0; i < length; i++) {
+    const aChar = a.charCodeAt(i) || 0;
+    const bChar = b.charCodeAt(i) || 0;
+    diff |= aChar ^ bChar;
+  }
+
+  return diff === 0;
+}
+
+async function verifySitePasswordCookieValue(cookieValue?: string): Promise<boolean> {
+  if (!cookieValue) return false;
+  const sitePassword = process.env.SITE_PASSWORD;
+  if (!sitePassword) return false;
+
+  const expectedHash = await hashPassword(sitePassword);
+  return timingSafeEqual(cookieValue, expectedHash);
+}
+
 /**
  * Extract client IP from request headers
  * Tries x-forwarded-for first, then x-real-ip, then falls back to null
@@ -158,9 +190,8 @@ export async function proxy(request: NextRequest) {
       // Check for site password cookie
       const sitePasswordCookie = request.cookies.get(SITE_PASSWORD_COOKIE);
 
-      // Optimistic check - cookie existence only
-      // Full hash validation happens in server components
-      if (!sitePasswordCookie) {
+      const isValidCookie = await verifySitePasswordCookieValue(sitePasswordCookie?.value);
+      if (!isValidCookie) {
         // Redirect to site password page with locale preserved
         return NextResponse.redirect(new URL(`/${locale}/site-password`, request.url));
       }

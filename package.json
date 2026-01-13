@@ -1,9 +1,10 @@
 {
   "name": "agentic-coding-starter-kit",
   "version": "1.1.2",
+  "packageManager": "pnpm@9.12.3",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "pnpm run db:migrate && next build",
+    "build": "next build",
     "build:ci": "next build",
     "start": "next start",
     "lint": "eslint .",

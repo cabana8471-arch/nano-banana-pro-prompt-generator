@@ -1,4 +1,6 @@
 import { GoogleGenAI, Part, Content, ApiError } from "@google/genai";
+import { lookup } from "dns/promises";
+import { isIP } from "net";
 import { eq } from "drizzle-orm";
 import { FILE_LIMITS } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -22,6 +24,182 @@ interface HistoryEntry {
 
 // Model for image generation - configurable via environment variable
 const MODEL_ID = process.env.GEMINI_MODEL_ID || "gemini-3-pro-image-preview";
+const LOCAL_REFERENCE_PATH_PREFIX = "/uploads/";
+const DEFAULT_ALLOWED_REFERENCE_HOST_SUFFIXES = [
+  "blob.vercel-storage.com",
+  "blob.vercel.io",
+];
+const FETCH_TIMEOUT_MS = 10_000;
+const DNS_LOOKUP_TIMEOUT_MS = 2_000;
+
+function getAllowedReferenceHosts(): Set<string> {
+  const allowed = new Set<string>();
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (appUrl) {
+    try {
+      allowed.add(new URL(appUrl).hostname.toLowerCase());
+    } catch {
+      // Ignore invalid app URL
+    }
+  }
+
+  const vercelUrl = process.env.VERCEL_URL;
+  if (vercelUrl) {
+    const withProtocol = vercelUrl.includes("://")
+      ? vercelUrl
+      : `https://${vercelUrl}`;
+    try {
+      allowed.add(new URL(withProtocol).hostname.toLowerCase());
+    } catch {
+      // Ignore invalid Vercel URL
+    }
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    allowed.add("localhost");
+    allowed.add("127.0.0.1");
+    allowed.add("::1");
+  }
+
+  return allowed;
+}
+
+const ALLOWED_REFERENCE_HOSTS = getAllowedReferenceHosts();
+const APP_URL_HOST = (() => {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL;
+  if (!appUrl) return null;
+  const withProtocol = appUrl.includes("://") ? appUrl : `https://${appUrl}`;
+  try {
+    return new URL(withProtocol).hostname.toLowerCase();
+  } catch {
+    return null;
+  }
+})();
+
+function isAllowedReferenceHost(hostname: string): boolean {
+  const normalized = hostname.toLowerCase();
+  if (ALLOWED_REFERENCE_HOSTS.has(normalized)) {
+    return true;
+  }
+
+  return DEFAULT_ALLOWED_REFERENCE_HOST_SUFFIXES.some(
+    (suffix) => normalized === suffix || normalized.endsWith(`.${suffix}`)
+  );
+}
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      reject(new Error(message));
+    }, timeoutMs);
+
+    promise
+      .then((result) => {
+        clearTimeout(timeoutId);
+        resolve(result);
+      })
+      .catch((error) => {
+        clearTimeout(timeoutId);
+        reject(error);
+      });
+  });
+}
+
+async function resolveHostAddresses(hostname: string): Promise<string[]> {
+  try {
+    const results = await withTimeout(
+      lookup(hostname, { all: true }),
+      DNS_LOOKUP_TIMEOUT_MS,
+      "DNS lookup timed out"
+    );
+    if (results.length === 0) {
+      throw new Error("No DNS records found");
+    }
+    return results.map((result) => result.address);
+  } catch (error) {
+    throw new Error(`Unable to resolve image host: ${hostname}`);
+  }
+}
+
+function isPrivateOrLoopbackIp(ip: string): boolean {
+  const ipType = isIP(ip);
+  if (ipType === 4) {
+    const parts = ip.split(".").map((part) => Number(part));
+    const a = parts[0]!;
+    const b = parts[1]!;
+
+    if (a === 10 || a === 127) return true;
+    if (a === 169 && b === 254) return true;
+    if (a === 172 && b >= 16 && b <= 31) return true;
+    if (a === 192 && b === 168) return true;
+    if (a === 0) return true;
+  }
+
+  if (ipType === 6) {
+    const normalized = ip.toLowerCase();
+    if (normalized === "::1") return true;
+    if (normalized.startsWith("fc") || normalized.startsWith("fd")) return true;
+    if (normalized.startsWith("fe80")) return true;
+  }
+
+  return false;
+}
+
+async function assertSafeFetchUrl(fetchUrl: string): Promise<URL> {
+  let url: URL;
+  try {
+    url = new URL(fetchUrl);
+  } catch {
+    throw new Error("Invalid image URL");
+  }
+
+  if (url.username || url.password) {
+    throw new Error("Image URL credentials are not allowed");
+  }
+
+  const hostname = url.hostname.toLowerCase();
+  const isDevLocalhost =
+    process.env.NODE_ENV !== "production" &&
+    url.protocol === "http:" &&
+    (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1");
+
+  if (url.protocol !== "https:" && !isDevLocalhost) {
+    throw new Error("Only HTTPS image URLs are allowed");
+  }
+
+  if (!isAllowedReferenceHost(hostname)) {
+    throw new Error("Image URL host is not allowed");
+  }
+
+  if (APP_URL_HOST && hostname === APP_URL_HOST) {
+    if (!url.pathname.startsWith(LOCAL_REFERENCE_PATH_PREFIX)) {
+      throw new Error("Only uploaded images can be used as references");
+    }
+  }
+
+  if (isIP(hostname)) {
+    if (isPrivateOrLoopbackIp(hostname)) {
+      const isDevLoopback =
+        process.env.NODE_ENV !== "production" &&
+        (hostname === "127.0.0.1" || hostname === "::1");
+      if (!isDevLoopback) {
+        throw new Error("Private or loopback IPs are not allowed");
+      }
+    }
+  } else {
+    const isDevLocalhost =
+      process.env.NODE_ENV !== "production" && hostname === "localhost";
+    if (!isDevLocalhost) {
+      const addresses = await resolveHostAddresses(hostname);
+      if (addresses.some(isPrivateOrLoopbackIp)) {
+        throw new Error("Private or loopback IPs are not allowed");
+      }
+    }
+  }
+
+  return url;
+}
 
 /**
  * Get the user's decrypted API key from the database
@@ -81,17 +259,53 @@ async function createImagePart(
     }
   }
 
-  // If it's a local file path (starts with /), convert to full URL
+  // If it's a local file path (starts with /), only allow uploads and convert to full URL
   let fetchUrl = imageSource;
   if (imageSource.startsWith("/")) {
+    if (!imageSource.startsWith(LOCAL_REFERENCE_PATH_PREFIX)) {
+      throw new Error("Only uploaded images can be used as references");
+    }
+    if (imageSource.includes("..")) {
+      throw new Error("Invalid image path");
+    }
+
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    fetchUrl = `${appUrl}${imageSource}`;
+    try {
+      fetchUrl = new URL(imageSource, appUrl).toString();
+    } catch {
+      throw new Error("Invalid app URL configuration");
+    }
   }
 
   // If it starts with http or is a local path (now converted to full URL), fetch it
   if (fetchUrl.startsWith("http")) {
     try {
-      const response = await fetch(fetchUrl);
+      const safeUrl = await assertSafeFetchUrl(fetchUrl);
+      const fetchOptions: RequestInit = {
+        redirect: "manual",
+      };
+
+      let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
+      if (typeof AbortSignal !== "undefined" && "timeout" in AbortSignal) {
+        fetchOptions.signal = AbortSignal.timeout(FETCH_TIMEOUT_MS);
+      } else {
+        const controller = new AbortController();
+        timeoutHandle = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+        fetchOptions.signal = controller.signal;
+      }
+
+      let response: Response;
+      try {
+        response = await fetch(safeUrl.toString(), fetchOptions);
+      } finally {
+        if (timeoutHandle) {
+          clearTimeout(timeoutHandle);
+        }
+      }
+
+      if (response.status >= 300 && response.status < 400) {
+        throw new Error("Image URL redirects are not allowed");
+      }
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
@@ -117,7 +331,13 @@ async function createImagePart(
       }
 
       const base64 = Buffer.from(arrayBuffer).toString("base64");
-      const contentType = response.headers.get("content-type") || mimeType;
+      const contentTypeHeader = response.headers.get("content-type");
+      const contentType = contentTypeHeader
+        ? contentTypeHeader.split(";")[0]?.trim() || mimeType
+        : mimeType;
+      if (contentType && !contentType.startsWith("image/")) {
+        throw new Error("Unsupported content type for image reference");
+      }
 
       return {
         inlineData: {

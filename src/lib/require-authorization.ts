@@ -1,5 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { defaultLocale } from "@/i18n/config";
 import { auth } from "@/lib/auth";
 import {
   isAdminEmail,
@@ -34,11 +36,13 @@ export interface AuthorizationResult {
  * @throws Redirects to /unauthorized page if not authorized
  */
 export async function requireAuthorization(): Promise<AuthorizationResult> {
+  const locale = await getSafeLocale();
+
   // Step 1: Check session (authentication)
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
-    redirect("/");
+    redirect(`/${locale}`);
   }
 
   const { user } = session;
@@ -84,7 +88,7 @@ export async function requireAuthorization(): Promise<AuthorizationResult> {
   }
 
   // Step 5: Not authorized - redirect
-  redirect("/unauthorized");
+  redirect(`/${locale}/unauthorized`);
 }
 
 /**
@@ -151,10 +155,12 @@ export async function checkAuthorization(): Promise<AuthorizationResult | null> 
  * @throws Redirects to /unauthorized page if not admin
  */
 export async function requireAdmin(): Promise<AuthorizationResult> {
+  const locale = await getSafeLocale();
+
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
-    redirect("/");
+    redirect(`/${locale}`);
   }
 
   const { user } = session;
@@ -162,7 +168,7 @@ export async function requireAdmin(): Promise<AuthorizationResult> {
 
   const isAdmin = isAdminEmail(userEmail);
   if (!isAdmin) {
-    redirect("/unauthorized");
+    redirect(`/${locale}/unauthorized`);
   }
 
   return {
@@ -173,6 +179,15 @@ export async function requireAdmin(): Promise<AuthorizationResult> {
     isAdmin: true,
     isAuthorized: true,
   };
+}
+
+async function getSafeLocale(): Promise<string> {
+  try {
+    const locale = await getLocale();
+    return locale || defaultLocale;
+  } catch {
+    return defaultLocale;
+  }
 }
 
 /**
