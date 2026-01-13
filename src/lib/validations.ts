@@ -238,15 +238,116 @@ export const addToProjectSchema = z.object({
 // Generation Schemas
 // ============================================================================
 
+const LOCAL_REFERENCE_PATH_PREFIX = "/uploads/";
+const DEFAULT_ALLOWED_REFERENCE_HOST_SUFFIXES = [
+  "blob.vercel-storage.com",
+  "blob.vercel.io",
+];
+
+function getAllowedReferenceHosts(): Set<string> {
+  const allowed = new Set<string>();
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (appUrl) {
+    try {
+      allowed.add(new URL(appUrl).hostname.toLowerCase());
+    } catch {
+      // Ignore invalid app URL
+    }
+  }
+
+  const vercelUrl = process.env.VERCEL_URL;
+  if (vercelUrl) {
+    const withProtocol = vercelUrl.includes("://")
+      ? vercelUrl
+      : `https://${vercelUrl}`;
+    try {
+      allowed.add(new URL(withProtocol).hostname.toLowerCase());
+    } catch {
+      // Ignore invalid Vercel URL
+    }
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    allowed.add("localhost");
+    allowed.add("127.0.0.1");
+    allowed.add("::1");
+  }
+
+  return allowed;
+}
+
+const ALLOWED_REFERENCE_HOSTS = getAllowedReferenceHosts();
+const APP_URL_HOST = (() => {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL;
+  if (!appUrl) return null;
+  const withProtocol = appUrl.includes("://") ? appUrl : `https://${appUrl}`;
+  try {
+    return new URL(withProtocol).hostname.toLowerCase();
+  } catch {
+    return null;
+  }
+})();
+
+function isAllowedReferenceImageSource(value: string): boolean {
+  if (!value || typeof value !== "string") return false;
+
+  if (value.startsWith(LOCAL_REFERENCE_PATH_PREFIX)) {
+    return !value.includes("..");
+  }
+
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    return false;
+  }
+
+  const hostname = url.hostname.toLowerCase();
+  const isDevLocalhost =
+    process.env.NODE_ENV !== "production" &&
+    url.protocol === "http:" &&
+    (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1");
+
+  if (url.protocol !== "https:" && !isDevLocalhost) {
+    return false;
+  }
+
+  if (url.username || url.password) {
+    return false;
+  }
+
+  if (ALLOWED_REFERENCE_HOSTS.has(hostname)) {
+    if (APP_URL_HOST && hostname === APP_URL_HOST) {
+      return (
+        url.pathname.startsWith(LOCAL_REFERENCE_PATH_PREFIX) &&
+        !url.pathname.includes("..")
+      );
+    }
+    return true;
+  }
+
+  return DEFAULT_ALLOWED_REFERENCE_HOST_SUFFIXES.some(
+    (suffix) => hostname === suffix || hostname.endsWith(`.${suffix}`)
+  );
+}
+
 /** Schema for reference image in generation - supports both avatarId (for avatars) and imageUrl (for banner references) */
-export const referenceImageSchema = z.object({
-  avatarId: z.string().uuid({ message: "Invalid avatar ID format" }).optional(),
-  imageUrl: z.string().url({ message: "Invalid image URL format" }).optional(),
-  type: avatarTypeSchema,
-}).refine(
-  (data) => data.avatarId || data.imageUrl,
-  { message: "Either avatarId or imageUrl must be provided" }
-);
+export const referenceImageSchema = z
+  .object({
+    avatarId: z.string().uuid({ message: "Invalid avatar ID format" }).optional(),
+    imageUrl: z
+      .string()
+      .trim()
+      .optional()
+      .refine((value) => !value || isAllowedReferenceImageSource(value), {
+        message: "Image URL must be HTTPS and hosted on an approved domain",
+      }),
+    type: avatarTypeSchema,
+  })
+  .refine((data) => data.avatarId || data.imageUrl, {
+    message: "Either avatarId or imageUrl must be provided",
+  });
 
 /** Schema for image generation request */
 export const generateRequestSchema = z.object({

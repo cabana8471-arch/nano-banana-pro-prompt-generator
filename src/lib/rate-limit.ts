@@ -157,3 +157,9 @@ export const logoReferenceUploadLimiter = createRateLimiter("logo-reference-uplo
   limit: 15,
   windowMs: 60 * 60 * 1000, // 1 hour
 });
+
+/** Rate limiter for site password attempts: 20 attempts per minute per IP */
+export const sitePasswordAttemptLimiter = createRateLimiter("site-password-attempt", {
+  limit: 20,
+  windowMs: 60 * 1000, // 1 minute
+});

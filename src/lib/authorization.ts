@@ -1,4 +1,5 @@
-import { eq, and, or, ilike, sql, desc } from "drizzle-orm";
+import { eq, and, or, ilike, sql, desc, lt } from "drizzle-orm";
+import { randomBytes } from "crypto";
 import { db } from "@/lib/db";
 import { getServerEnv } from "@/lib/env";
 import {
@@ -147,9 +148,10 @@ export async function authorizeUserViaAllowlist(userId: string): Promise<boolean
  */
 function generateCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // Excluding I, O, 0, 1 to avoid confusion
+  const bytes = randomBytes(8);
   let code = "";
   for (let i = 0; i < 8; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
+    code += chars[bytes[i] % chars.length];
   }
   return code;
 }
@@ -233,83 +235,95 @@ export async function redeemInvitationCode(
   // Normalize code
   const normalizedCode = code.toUpperCase().trim();
 
-  // Find the invitation code
-  const codeResult = await db
-    .select({
-      id: invitationCodes.id,
-      maxUses: invitationCodes.maxUses,
-      currentUses: invitationCodes.currentUses,
-      isActive: invitationCodes.isActive,
-      expiresAt: invitationCodes.expiresAt,
-    })
-    .from(invitationCodes)
-    .where(eq(invitationCodes.code, normalizedCode))
-    .limit(1);
+  return db.transaction(async (tx) => {
+    // Find the invitation code
+    const codeResult = await tx
+      .select({
+        id: invitationCodes.id,
+        maxUses: invitationCodes.maxUses,
+        currentUses: invitationCodes.currentUses,
+        isActive: invitationCodes.isActive,
+        expiresAt: invitationCodes.expiresAt,
+      })
+      .from(invitationCodes)
+      .where(eq(invitationCodes.code, normalizedCode))
+      .limit(1);
 
-  const invCode = codeResult[0];
-  if (!invCode) {
-    return { success: false, error: "Invalid invitation code" };
-  }
+    const invCode = codeResult[0];
+    if (!invCode) {
+      return { success: false, error: "Invalid invitation code" };
+    }
 
-  // Check if code is active
-  if (!invCode.isActive) {
-    return { success: false, error: "This invitation code has been deactivated" };
-  }
+    // Check if code is active
+    if (!invCode.isActive) {
+      return { success: false, error: "This invitation code has been deactivated" };
+    }
 
-  // Check if code is expired
-  if (invCode.expiresAt && invCode.expiresAt < new Date()) {
-    return { success: false, error: "This invitation code has expired" };
-  }
+    // Check if code is expired
+    if (invCode.expiresAt && invCode.expiresAt < new Date()) {
+      return { success: false, error: "This invitation code has expired" };
+    }
 
-  // Check if code has remaining uses
-  if (invCode.currentUses >= invCode.maxUses) {
-    return { success: false, error: "This invitation code has reached its maximum uses" };
-  }
+    // Check if user is already authorized
+    const existingAuth = await tx
+      .select({ isAuthorized: userAccessStatus.isAuthorized })
+      .from(userAccessStatus)
+      .where(eq(userAccessStatus.userId, userId))
+      .limit(1);
 
-  // Check if user is already authorized
-  const existingAuth = await isUserAuthorized(userId);
-  if (existingAuth) {
-    return { success: false, error: "You are already authorized" };
-  }
+    if (existingAuth[0]?.isAuthorized) {
+      return { success: false, error: "You are already authorized" };
+    }
 
-  // Increment code usage
-  await db
-    .update(invitationCodes)
-    .set({
-      currentUses: invCode.currentUses + 1,
-      redeemedBy: userId,
-      redeemedAt: new Date(),
-    })
-    .where(eq(invitationCodes.id, invCode.id));
-
-  // Create or update user access status
-  const existingStatus = await db
-    .select({ id: userAccessStatus.id })
-    .from(userAccessStatus)
-    .where(eq(userAccessStatus.userId, userId))
-    .limit(1);
-
-  if (existingStatus.length > 0) {
-    await db
-      .update(userAccessStatus)
+    const updated = await tx
+      .update(invitationCodes)
       .set({
+        currentUses: sql`${invitationCodes.currentUses} + 1`,
+        redeemedBy: userId,
+        redeemedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(invitationCodes.id, invCode.id),
+          eq(invitationCodes.isActive, true),
+          lt(invitationCodes.currentUses, invitationCodes.maxUses)
+        )
+      )
+      .returning({ id: invitationCodes.id });
+
+    if (updated.length === 0) {
+      return { success: false, error: "This invitation code has reached its maximum uses" };
+    }
+
+    // Create or update user access status
+    const existingStatus = await tx
+      .select({ id: userAccessStatus.id })
+      .from(userAccessStatus)
+      .where(eq(userAccessStatus.userId, userId))
+      .limit(1);
+
+    if (existingStatus.length > 0) {
+      await tx
+        .update(userAccessStatus)
+        .set({
+          isAuthorized: true,
+          authorizedVia: "invitation_code",
+          invitationCodeId: invCode.id,
+          authorizedAt: new Date(),
+        })
+        .where(eq(userAccessStatus.userId, userId));
+    } else {
+      await tx.insert(userAccessStatus).values({
+        userId,
         isAuthorized: true,
         authorizedVia: "invitation_code",
         invitationCodeId: invCode.id,
         authorizedAt: new Date(),
-      })
-      .where(eq(userAccessStatus.userId, userId));
-  } else {
-    await db.insert(userAccessStatus).values({
-      userId,
-      isAuthorized: true,
-      authorizedVia: "invitation_code",
-      invitationCodeId: invCode.id,
-      authorizedAt: new Date(),
-    });
-  }
+      });
+    }
 
-  return { success: true };
+    return { success: true };
+  });
 }
 
 /**

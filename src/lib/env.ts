@@ -32,6 +32,9 @@ const serverEnvSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
 
+  // Reference image allowlist (comma-separated hostnames)
+  REFERENCE_IMAGE_ALLOWED_HOSTS: z.string().optional(),
+
   // Security Layer
   SITE_PASSWORD: z
     .string()
@@ -46,6 +49,7 @@ const serverEnvSchema = z.object({
  */
 const clientEnvSchema = z.object({
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
+  NEXT_PUBLIC_REFERENCE_IMAGE_HOSTS: z.string().optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -76,6 +80,7 @@ export function getServerEnv(): ServerEnv {
 export function getClientEnv(): ClientEnv {
   const parsed = clientEnvSchema.safeParse({
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_REFERENCE_IMAGE_HOSTS: process.env.NEXT_PUBLIC_REFERENCE_IMAGE_HOSTS,
   });
 
   if (!parsed.success) {

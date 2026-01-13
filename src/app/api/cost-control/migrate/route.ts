@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { isNull } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -31,7 +31,12 @@ export async function POST() {
         settings: generations.settings,
       })
       .from(generations)
-      .where(isNull(generations.estimatedCostMicros));
+      .where(
+        and(
+          eq(generations.userId, session.user.id),
+          isNull(generations.estimatedCostMicros)
+        )
+      );
 
     if (legacyGenerations.length === 0) {
       return NextResponse.json({
@@ -78,7 +83,7 @@ export async function POST() {
 
         const estimatedOutputTokens = outputTokensPerImage * imageCount;
 
-        await db
+        const updated = await db
           .update(generations)
           .set({
             promptTokenCount: estimatedInputTokens,
@@ -86,9 +91,16 @@ export async function POST() {
             totalTokenCount: estimatedInputTokens + estimatedOutputTokens,
             estimatedCostMicros: estimatedCost,
           })
-          .where(isNull(generations.estimatedCostMicros));
+          .where(
+            and(
+              eq(generations.id, gen.id),
+              eq(generations.userId, session.user.id),
+              isNull(generations.estimatedCostMicros)
+            )
+          )
+          .returning({ id: generations.id });
 
-        migratedCount++;
+        migratedCount += updated.length;
       } catch (err) {
         errors.push(`Failed to migrate generation ${gen.id}: ${String(err)}`);
       }
@@ -120,7 +132,13 @@ export async function GET() {
     // Count generations without cost estimates
     const [result] = await db
       .select({
-        count: db.$count(generations, isNull(generations.estimatedCostMicros)),
+        count: db.$count(
+          generations,
+          and(
+            eq(generations.userId, session.user.id),
+            isNull(generations.estimatedCostMicros)
+          )
+        ),
       })
       .from(generations);
 
