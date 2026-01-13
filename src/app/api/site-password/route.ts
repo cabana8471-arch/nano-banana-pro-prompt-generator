@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
     const forwardedFor = request.headers.get("x-forwarded-for");
     const clientIp = forwardedFor
-      ? forwardedFor.split(",")[0]?.trim()
+      ? forwardedFor.split(",")[0]?.trim() || "unknown"
       : request.headers.get("x-real-ip") || "unknown";
 
     const rateLimitResult = sitePasswordAttemptLimiter(clientIp);

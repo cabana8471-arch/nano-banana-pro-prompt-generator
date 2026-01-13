@@ -126,7 +126,8 @@ function isPrivateOrLoopbackIp(ip: string): boolean {
   const ipType = isIP(ip);
   if (ipType === 4) {
     const parts = ip.split(".").map((part) => Number(part));
-    const [a, b] = parts;
+    const a = parts[0]!;
+    const b = parts[1]!;
 
     if (a === 10 || a === 127) return true;
     if (a === 169 && b === 254) return true;
@@ -332,7 +333,7 @@ async function createImagePart(
       const base64 = Buffer.from(arrayBuffer).toString("base64");
       const contentTypeHeader = response.headers.get("content-type");
       const contentType = contentTypeHeader
-        ? contentTypeHeader.split(";")[0]?.trim()
+        ? contentTypeHeader.split(";")[0]?.trim() || mimeType
         : mimeType;
       if (contentType && !contentType.startsWith("image/")) {
         throw new Error("Unsupported content type for image reference");
