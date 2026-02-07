@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { eq, desc, sql, count } from "drizzle-orm";
+import { eq, desc, sql, count, and, isNull } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { db } from "@/lib/db";
 import { checkAuthorization } from "@/lib/require-authorization";
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
       .innerJoin(generations, eq(generatedImages.generationId, generations.id))
       .innerJoin(user, eq(generations.userId, user.id))
       .leftJoin(imageLikes, eq(imageLikes.imageId, generatedImages.id))
-      .where(eq(generatedImages.isPublic, true))
+      .where(and(eq(generatedImages.isPublic, true), isNull(generations.deletedAt)))
       .groupBy(generatedImages.id, generations.id, user.id)
       .orderBy(desc(likeCountExpr), desc(generatedImages.createdAt))
       .limit(limit);

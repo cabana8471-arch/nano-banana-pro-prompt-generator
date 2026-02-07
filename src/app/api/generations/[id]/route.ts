@@ -64,6 +64,8 @@ export async function GET(_request: Request, { params }: RouteParams) {
       status: generation.status as "pending" | "processing" | "completed" | "failed",
       generationType: (generation.generationType as "photo" | "banner") || "photo",
       errorMessage: generation.errorMessage,
+      builderConfig: generation.builderConfig as Record<string, unknown> | null,
+      deletedAt: generation.deletedAt,
       createdAt: generation.createdAt,
       updatedAt: generation.updatedAt,
       images: images.map((img) => ({
@@ -95,9 +97,10 @@ export async function GET(_request: Request, { params }: RouteParams) {
 
 /**
  * DELETE /api/generations/[id]
- * Delete a generation and all its images
+ * Soft-delete a generation (moves to trash).
+ * Use ?permanent=true to permanently delete.
  */
-export async function DELETE(_request: Request, { params }: RouteParams) {
+export async function DELETE(request: Request, { params }: RouteParams) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
@@ -105,6 +108,8 @@ export async function DELETE(_request: Request, { params }: RouteParams) {
     }
 
     const { id } = await params;
+    const { searchParams } = new URL(request.url);
+    const permanent = searchParams.get("permanent") === "true";
 
     // Verify the generation belongs to the user
     const [generation] = await db
@@ -121,24 +126,29 @@ export async function DELETE(_request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: "Generation not found" }, { status: 404 });
     }
 
-    // Get all images to delete from storage
-    const images = await db
-      .select()
-      .from(generatedImages)
-      .where(eq(generatedImages.generationId, id));
+    if (permanent) {
+      // Permanent delete: remove from storage and DB
+      const images = await db
+        .select()
+        .from(generatedImages)
+        .where(eq(generatedImages.generationId, id));
 
-    // Delete images from storage
-    for (const image of images) {
-      try {
-        await deleteFile(image.imageUrl);
-      } catch (err) {
-        console.error(`Failed to delete image from storage: ${image.imageUrl}`, err);
-        // Continue with deletion even if storage deletion fails
+      for (const image of images) {
+        try {
+          await deleteFile(image.imageUrl);
+        } catch (err) {
+          console.error(`Failed to delete image from storage: ${image.imageUrl}`, err);
+        }
       }
-    }
 
-    // Delete the generation (cascades to images and history)
-    await db.delete(generations).where(eq(generations.id, id));
+      await db.delete(generations).where(eq(generations.id, id));
+    } else {
+      // Soft delete: set deletedAt timestamp
+      await db
+        .update(generations)
+        .set({ deletedAt: new Date() })
+        .where(eq(generations.id, id));
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -150,6 +160,7 @@ export async function DELETE(_request: Request, { params }: RouteParams) {
 const updateGenerationSchema = z.object({
   generationType: generationTypeSchema.optional(),
   projectId: z.string().uuid({ message: "Invalid project ID" }).nullable().optional(),
+  restore: z.boolean().optional(),
 });
 
 /**
@@ -176,7 +187,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       );
     }
 
-    const { generationType, projectId } = parseResult.data;
+    const { generationType, projectId, restore } = parseResult.data;
 
     // Verify the generation belongs to the user
     const [generation] = await db
@@ -191,6 +202,16 @@ export async function PATCH(request: Request, { params }: RouteParams) {
 
     if (!generation) {
       return NextResponse.json({ error: "Generation not found" }, { status: 404 });
+    }
+
+    // Handle restore from trash
+    if (restore) {
+      await db
+        .update(generations)
+        .set({ deletedAt: null })
+        .where(eq(generations.id, id));
+
+      return NextResponse.json({ success: true });
     }
 
     // If projectId is provided, verify it belongs to the user
@@ -248,6 +269,8 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       status: updatedGeneration!.status as "pending" | "processing" | "completed" | "failed",
       generationType: (updatedGeneration!.generationType as "photo" | "banner") || "photo",
       errorMessage: updatedGeneration!.errorMessage,
+      builderConfig: updatedGeneration!.builderConfig as Record<string, unknown> | null,
+      deletedAt: updatedGeneration!.deletedAt,
       createdAt: updatedGeneration!.createdAt,
       updatedAt: updatedGeneration!.updatedAt,
       images: images.map((img) => ({

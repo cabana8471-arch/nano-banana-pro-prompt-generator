@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ApiKeyAlert } from "@/components/generate/api-key-alert";
@@ -66,6 +67,23 @@ export default function GeneratePage() {
   // Prompt history
   const { history: promptHistory, addEntry: addHistoryEntry, removeEntry: removeHistoryEntry, clearHistory } = usePromptHistory();
 
+  // Check for config to load from gallery "Use these settings"
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem("nano-banana:load-config");
+      if (stored) {
+        sessionStorage.removeItem("nano-banana:load-config");
+        const { type, config } = JSON.parse(stored);
+        if (type === "photo" && config) {
+          loadFromPreset(config);
+          toast.success("Settings loaded from previous generation");
+        }
+      }
+    } catch {
+      // Ignore errors
+    }
+  }, [loadFromPreset]);
+
   // Handle generation
   const handleGenerate = async () => {
     if (!assembledPrompt) {
@@ -89,6 +107,8 @@ export default function GeneratePage() {
     const generateInput = {
       prompt: assembledPrompt,
       settings,
+      generationType: "photo" as const,
+      builderConfig: state as unknown as Record<string, unknown>,
       ...(referenceImages.length > 0 && { referenceImages }),
     };
     const result = await generate(generateInput);

@@ -177,12 +177,15 @@ export const generations = pgTable(
     status: text("status").notNull().default("pending"), // "pending" | "processing" | "completed" | "failed"
     generationType: text("generation_type").notNull().default("photo"), // "photo" | "banner" | "logo"
     errorMessage: text("error_message"),
+    builderConfig: jsonb("builder_config"), // Original builder state for re-generation
     // Cost Control - Token usage tracking
     promptTokenCount: integer("prompt_token_count"),
     candidatesTokenCount: integer("candidates_token_count"),
     totalTokenCount: integer("total_token_count"),
     usageMetadata: jsonb("usage_metadata"), // Detailed token breakdown by modality
     estimatedCostMicros: integer("estimated_cost_micros"), // Cost in microdollars (1/1,000,000 USD)
+    // Soft delete support
+    deletedAt: timestamp("deleted_at"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
@@ -195,6 +198,7 @@ export const generations = pgTable(
     index("generations_type_idx").on(table.generationType),
     index("generations_project_id_idx").on(table.projectId),
     index("generations_created_at_idx").on(table.createdAt), // For cost control date range queries
+    index("generations_deleted_at_idx").on(table.deletedAt), // For trash queries
   ]
 );
 
@@ -250,6 +254,26 @@ export const imageLikes = pgTable(
     index("image_likes_user_id_idx").on(table.userId),
     // Unique constraint: one like per user per image
     unique("image_likes_unique").on(table.imageId, table.userId),
+  ]
+);
+
+// Image Favorites - Personal favorites (separate from likes)
+export const imageFavorites = pgTable(
+  "image_favorites",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    imageId: uuid("image_id")
+      .notNull()
+      .references(() => generatedImages.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("image_favorites_image_id_idx").on(table.imageId),
+    index("image_favorites_user_id_idx").on(table.userId),
+    unique("image_favorites_unique").on(table.imageId, table.userId),
   ]
 );
 

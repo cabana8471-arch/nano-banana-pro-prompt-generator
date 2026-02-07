@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { prompt, settings, generationType, referenceImages, projectId } = parseResult.data;
+    const { prompt, settings, generationType, referenceImages, projectId, builderConfig } = parseResult.data;
 
     // Get avatar details for reference images
     // Supports both avatarId (for avatars) and imageUrl (for banner references)
@@ -104,6 +104,7 @@ export async function POST(request: Request) {
         status: "processing",
         generationType: generationType,
         projectId: projectId ?? null,
+        builderConfig: builderConfig ?? null,
       })
       .returning();
 
@@ -272,6 +273,8 @@ export async function POST(request: Request) {
       status: "completed",
       generationType: (updatedGeneration!.generationType as "photo" | "banner") || "photo",
       errorMessage: null,
+      builderConfig: updatedGeneration!.builderConfig as Record<string, unknown> | null,
+      deletedAt: updatedGeneration!.deletedAt,
       createdAt: updatedGeneration!.createdAt,
       updatedAt: updatedGeneration!.updatedAt,
       images: savedImages.map((img) => ({

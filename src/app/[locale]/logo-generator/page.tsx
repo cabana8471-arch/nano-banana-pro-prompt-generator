@@ -199,6 +199,23 @@ export default function LogoGeneratorPage() {
   // Prompt history
   const { addEntry: addHistoryEntry } = usePromptHistory();
 
+  // Check for config to load from gallery "Use these settings"
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem("nano-banana:load-config");
+      if (stored) {
+        sessionStorage.removeItem("nano-banana:load-config");
+        const { type, config } = JSON.parse(stored);
+        if (type === "logo" && config) {
+          loadFromPreset(config);
+          toast.success("Settings loaded from previous generation");
+        }
+      }
+    } catch {
+      // Ignore errors
+    }
+  }, [loadFromPreset]);
+
   // Handle generation
   const handleGenerate = async () => {
     if (!assembledPrompt) {
@@ -226,6 +243,7 @@ export default function LogoGeneratorPage() {
       },
       generationType: "logo" as const,
       projectId: selectedProjectId,
+      builderConfig: state as unknown as Record<string, unknown>,
     };
 
     const result = await generate(generateInput);

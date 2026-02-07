@@ -52,6 +52,8 @@ export interface Generation {
   status: GenerationStatus;
   generationType: GenerationType;
   errorMessage: string | null;
+  builderConfig: Record<string, unknown> | null;
+  deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -61,6 +63,7 @@ export interface GeneratedImage {
   generationId: string;
   imageUrl: string;
   isPublic: boolean;
+  isFavorited?: boolean;
   createdAt: Date;
 }
 

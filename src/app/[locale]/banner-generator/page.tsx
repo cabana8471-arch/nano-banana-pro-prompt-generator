@@ -225,6 +225,23 @@ export default function BannerGeneratorPage() {
     allImages: platformImages,
   } = usePlatformGeneration();
 
+  // Check for config to load from gallery "Use these settings"
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem("nano-banana:load-config");
+      if (stored) {
+        sessionStorage.removeItem("nano-banana:load-config");
+        const { type, config } = JSON.parse(stored);
+        if (type === "banner" && config) {
+          loadFromPreset(config);
+          toast.success("Settings loaded from previous generation");
+        }
+      }
+    } catch {
+      // Ignore errors
+    }
+  }, [loadFromPreset]);
+
   // Check if current selection is a platform bundle
   const isPlatformBundleSelected = useMemo(() => {
     return state.bannerSize ? isPlatformBundle(state.bannerSize) : false;
@@ -481,6 +498,7 @@ export default function BannerGeneratorPage() {
       },
       generationType: "banner" as const,
       projectId: selectedProjectId,
+      builderConfig: state as unknown as Record<string, unknown>,
       ...(referenceImages.length > 0 && { referenceImages }),
     };
 

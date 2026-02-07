@@ -258,6 +258,8 @@ export async function POST(request: Request, { params }: RouteParams) {
       status: "completed",
       generationType: (generation.generationType as "photo" | "banner") || "photo",
       errorMessage: null,
+      builderConfig: generation.builderConfig as Record<string, unknown> | null,
+      deletedAt: generation.deletedAt,
       createdAt: generation.createdAt,
       updatedAt: new Date(),
       images: allImages.map((img) => ({

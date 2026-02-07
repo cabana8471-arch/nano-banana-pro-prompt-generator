@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { Heart } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import type { GalleryImage, GeneratedImage, GenerationSettings } from "@/lib/types/generation";
@@ -37,6 +37,7 @@ interface PersonalImageCardProps extends BaseImageCardProps {
   showVisibilityToggle?: boolean;
   showLikes?: false;
   onVisibilityChange?: (imageId: string, isPublic: boolean) => void;
+  onFavoriteToggle?: (imageId: string, isFavorited: boolean) => void;
 }
 
 type ImageCardProps = GalleryImageCardProps | PersonalImageCardProps;
@@ -66,6 +67,7 @@ export function ImageCard({
   ...props
 }: ImageCardProps) {
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
+  const onFavoriteToggle = "onFavoriteToggle" in props ? props.onFavoriteToggle : undefined;
   const showLikes = "showLikes" in props ? props.showLikes : false;
   const onLikeChange = "onLikeChange" in props ? props.onLikeChange : undefined;
 
@@ -149,6 +151,26 @@ export function ImageCard({
           <Heart className="h-3 w-3 fill-current text-red-500" />
           <span>{image.likeCount}</span>
         </div>
+      )}
+      {/* Favorite star (always visible when favorited) */}
+      {onFavoriteToggle && (
+        <button
+          className={`absolute top-2 left-2 p-1.5 rounded-full transition-opacity ${
+            image.isFavorited
+              ? "opacity-100 bg-black/60"
+              : "opacity-0 group-hover:opacity-100 bg-black/60"
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onFavoriteToggle(image.id, !image.isFavorited);
+          }}
+        >
+          <Star
+            className={`h-4 w-4 ${
+              image.isFavorited ? "fill-yellow-400 text-yellow-400" : "text-white"
+            }`}
+          />
+        </button>
       )}
       {showVisibilityToggle && (
         <div

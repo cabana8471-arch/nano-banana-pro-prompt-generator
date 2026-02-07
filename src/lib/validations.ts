@@ -369,6 +369,7 @@ export const generateRequestSchema = z.object({
   }),
   generationType: generationTypeSchema.optional().default("photo"),
   projectId: z.string().uuid({ message: "Invalid project ID" }).optional().nullable(),
+  builderConfig: z.record(z.string(), z.unknown()).optional(),
   referenceImages: z
     .array(referenceImageSchema)
     .optional()

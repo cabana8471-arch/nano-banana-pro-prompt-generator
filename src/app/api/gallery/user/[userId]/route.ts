@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { eq, desc, count, sql, and } from "drizzle-orm";
+import { eq, desc, count, sql, and, isNull } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -64,13 +64,13 @@ export async function GET(
         totalPublicImages: sql<number>`(
           SELECT COUNT(*) FROM generated_images gi
           INNER JOIN generations g ON g.id = gi.generation_id
-          WHERE g.user_id = ${userId} AND gi.is_public = true
+          WHERE g.user_id = ${userId} AND gi.is_public = true AND g.deleted_at IS NULL
         )::int`,
         totalLikesReceived: sql<number>`(
           SELECT COUNT(*) FROM image_likes il
           INNER JOIN generated_images gi ON gi.id = il.image_id
           INNER JOIN generations g ON g.id = gi.generation_id
-          WHERE g.user_id = ${userId} AND gi.is_public = true
+          WHERE g.user_id = ${userId} AND gi.is_public = true AND g.deleted_at IS NULL
         )::int`,
       })
       .from(user)
@@ -88,7 +88,7 @@ export async function GET(
       },
     };
 
-    // Get total count of user's public images
+    // Get total count of user's public images (exclude soft-deleted)
     const [totalResult] = await db
       .select({ count: count() })
       .from(generatedImages)
@@ -96,7 +96,8 @@ export async function GET(
       .where(
         and(
           eq(generatedImages.isPublic, true),
-          eq(generations.userId, userId)
+          eq(generations.userId, userId),
+          isNull(generations.deletedAt)
         )
       );
 
@@ -130,7 +131,8 @@ export async function GET(
       .where(
         and(
           eq(generatedImages.isPublic, true),
-          eq(generations.userId, userId)
+          eq(generations.userId, userId),
+          isNull(generations.deletedAt)
         )
       )
       .orderBy(desc(generatedImages.createdAt))

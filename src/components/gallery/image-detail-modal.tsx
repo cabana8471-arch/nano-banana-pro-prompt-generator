@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import { Download, Copy, Check, ExternalLink, X, FolderPlus, ChevronDown } from "lucide-react";
+import { Download, Copy, Check, ExternalLink, X, FolderPlus, ChevronDown, Star, Settings2, ChevronUp } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createPortal } from "react-dom";
 import { AddToProjectModal } from "@/components/banner-generator/projects/add-to-project-modal";
@@ -39,11 +40,14 @@ interface PersonalImageModalProps extends BaseModalProps {
       settings: GenerationSettings;
       createdAt: Date;
       projectId: string | null;
+      generationType?: string;
+      builderConfig?: Record<string, unknown> | null;
     };
   }) | null;
   showUser?: false;
   showVisibilityToggle?: boolean;
   onVisibilityChange?: (imageId: string, isPublic: boolean) => void;
+  onFavoriteToggle?: (imageId: string, isFavorited: boolean) => void;
   // Project props (optional for personal gallery)
   projects?: Project[];
   projectsLoading?: boolean;
@@ -88,11 +92,14 @@ export function ImageDetailModal({
 }: ImageDetailModalProps) {
   const t = useTranslations("gallery");
   const tProjects = useTranslations("bannerGenerator.projects");
+  const router = useRouter();
   const [copied, setCopied] = useState(false);
   const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
   const [supportsAvif, setSupportsAvif] = useState(false);
+  const [showConfig, setShowConfig] = useState(false);
   const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
+  const onFavoriteToggle = "onFavoriteToggle" in props ? props.onFavoriteToggle : undefined;
   const projects = "projects" in props ? props.projects : undefined;
   const projectsLoading = "projectsLoading" in props ? props.projectsLoading : false;
   const onAddToProject = "onAddToProject" in props ? props.onAddToProject : undefined;
@@ -286,6 +293,17 @@ export function ImageDetailModal({
                   onToggle={onVisibilityChange}
                 />
               )}
+              {/* Favorite button */}
+              {onFavoriteToggle && !isGalleryImage(image) && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onFavoriteToggle(image.id, !image.isFavorited)}
+                  className="h-8 gap-1.5"
+                >
+                  <Star className={`h-4 w-4 ${image.isFavorited ? "fill-yellow-400 text-yellow-400" : ""}`} />
+                </Button>
+              )}
               {/* Add to Project button - only for personal images with project support */}
               {!isGalleryImage(image) && projects && onAddToProject && onCreateProject && (
                 <Button
@@ -298,11 +316,66 @@ export function ImageDetailModal({
                   <span className="hidden sm:inline">{tProjects("addToProject")}</span>
                 </Button>
               )}
+              {/* Use these settings button */}
+              {!isGalleryImage(image) && image.generation.builderConfig && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    const genType = image.generation.generationType || "photo";
+                    const config = image.generation.builderConfig;
+                    // Store config in sessionStorage for the target generator to pick up
+                    sessionStorage.setItem("nano-banana:load-config", JSON.stringify({
+                      type: genType,
+                      config,
+                    }));
+                    onOpenChange(false);
+                    const routes: Record<string, string> = {
+                      photo: "/photo-generator",
+                      banner: "/banner-generator",
+                      logo: "/logo-generator",
+                    };
+                    router.push(routes[genType] || "/photo-generator");
+                  }}
+                  className="h-8 gap-1.5"
+                >
+                  <Settings2 className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t("useTheseSettings")}</span>
+                </Button>
+              )}
             </div>
           </div>
 
           {/* Prompt text */}
           <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{prompt}</p>
+
+          {/* Full config display (#23) */}
+          {!isGalleryImage(image) && image.generation.builderConfig && (
+            <div className="mt-2">
+              <button
+                onClick={() => setShowConfig(!showConfig)}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {showConfig ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                {showConfig ? t("hideConfig") : t("showConfig")}
+              </button>
+              {showConfig && (
+                <div className="mt-2 p-3 rounded-md bg-muted/50 text-xs space-y-1 max-h-48 overflow-y-auto">
+                  {Object.entries(image.generation.builderConfig).map(([key, value]) => {
+                    if (value === null || value === undefined || value === "" || (Array.isArray(value) && value.length === 0)) return null;
+                    const displayKey = key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
+                    const displayValue = typeof value === "object" ? JSON.stringify(value) : String(value);
+                    return (
+                      <div key={key} className="flex gap-2">
+                        <span className="text-muted-foreground shrink-0">{displayKey}:</span>
+                        <span className="break-all">{displayValue}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { eq, desc, count, ilike, and, sql } from "drizzle-orm";
+import { eq, desc, count, ilike, and, sql, isNull } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -40,13 +40,17 @@ export async function GET(request: Request) {
     const search = searchParams.get("search")?.trim() || "";
     const offset = (page - 1) * pageSize;
 
-    // Build where conditions
+    // Build where conditions (exclude soft-deleted generations)
+    const baseConditions = and(
+      eq(generatedImages.isPublic, true),
+      isNull(generations.deletedAt)
+    );
     const whereConditions = search
       ? and(
-          eq(generatedImages.isPublic, true),
+          baseConditions,
           ilike(generations.prompt, `%${escapeLikePattern(search)}%`)
         )
-      : eq(generatedImages.isPublic, true);
+      : baseConditions;
 
     // Get total count of public images (with search filter)
     const totalQuery = db
