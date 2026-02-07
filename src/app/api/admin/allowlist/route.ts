@@ -1,30 +1,11 @@
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { handleApiError } from "@/lib/api-errors";
 import {
-  isAdminEmail,
   getAllAllowedEmails,
   addEmailToAllowlist,
   removeEmailFromAllowlist,
 } from "@/lib/authorization";
-
-/**
- * Helper to check if the current user is an admin
- */
-async function requireAdmin() {
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (!session?.user?.id) {
-    return { error: "Unauthorized", status: 401, session: null };
-  }
-
-  const isAdmin = isAdminEmail(session.user.email);
-  if (!isAdmin) {
-    return { error: "Forbidden: Admin access required", status: 403, session: null };
-  }
-
-  return { error: null, status: null, session };
-}
+import { requireAdmin } from "@/lib/require-admin";
 
 /**
  * GET /api/admin/allowlist
@@ -41,11 +22,7 @@ export async function GET() {
 
     return NextResponse.json({ emails });
   } catch (error) {
-    console.error("Admin allowlist GET error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching allowlist");
   }
 }
 
@@ -96,11 +73,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Admin allowlist POST error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "adding to allowlist");
   }
 }
 
@@ -138,10 +111,6 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Admin allowlist DELETE error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "removing from allowlist");
   }
 }

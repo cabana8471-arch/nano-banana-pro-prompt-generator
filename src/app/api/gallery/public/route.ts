@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { checkAuthorization } from "@/lib/require-authorization";
 import { generations, generatedImages, user } from "@/lib/schema";
 import type { GalleryImage, GenerationSettings, PaginatedResponse } from "@/lib/types/generation";
+import { escapeLikePattern } from "@/lib/utils";
 
 /**
  * GET /api/gallery/public
@@ -43,7 +44,7 @@ export async function GET(request: Request) {
     const whereConditions = search
       ? and(
           eq(generatedImages.isPublic, true),
-          ilike(generations.prompt, `%${search}%`)
+          ilike(generations.prompt, `%${escapeLikePattern(search)}%`)
         )
       : eq(generatedImages.isPublic, true);
 

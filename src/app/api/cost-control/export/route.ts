@@ -9,6 +9,17 @@ import { generations } from "@/lib/schema";
 import type { GenerationType } from "@/lib/types/cost-control";
 
 /**
+ * Sanitize a CSV cell value to prevent CSV injection.
+ * Prefixes cells starting with formula characters with a single quote.
+ */
+function sanitizeCsvCell(value: string): string {
+  if (/^[=+\-@\t\r]/.test(value)) {
+    return `'${value}`;
+  }
+  return value;
+}
+
+/**
  * GET /api/cost-control/export
  * Export cost history as CSV
  */
@@ -86,8 +97,8 @@ export async function GET(request: Request) {
       row.id,
       row.createdAt.toISOString(),
       row.generationType,
-      // Escape quotes and commas in prompt
-      `"${(row.prompt || "").replace(/"/g, '""')}"`,
+      // Escape quotes and commas in prompt, and sanitize against CSV injection
+      `"${sanitizeCsvCell((row.prompt || "").replace(/"/g, '""'))}"`,
       row.promptTokenCount?.toString() || "N/A",
       row.candidatesTokenCount?.toString() || "N/A",
       row.totalTokenCount?.toString() || "N/A",

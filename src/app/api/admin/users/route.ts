@@ -1,31 +1,12 @@
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { handleApiError } from "@/lib/api-errors";
 import {
-  isAdminEmail,
   getAllUsers,
   updateUserRole,
   setUserBlocked,
 } from "@/lib/authorization";
+import { requireAdmin } from "@/lib/require-admin";
 import type { UserRole, UserStatus } from "@/lib/types/admin";
-
-/**
- * Helper to check if the current user is an admin
- */
-async function requireAdmin() {
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (!session?.user?.id) {
-    return { error: "Unauthorized", status: 401, session: null };
-  }
-
-  const isAdmin = isAdminEmail(session.user.email);
-  if (!isAdmin) {
-    return { error: "Forbidden: Admin access required", status: 403, session: null };
-  }
-
-  return { error: null, status: null, session };
-}
 
 /**
  * GET /api/admin/users
@@ -80,11 +61,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Admin users GET error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching admin users");
   }
 }
 
@@ -161,10 +138,6 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Admin users PATCH error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "updating user");
   }
 }

@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
 import { calculateCostMicros, DEFAULT_PRICING, serializeUsageMetadata } from "@/lib/pricing";
+import { imageGenerationLimiter } from "@/lib/rate-limit";
 import { generations, generatedImages, generationHistory, avatars, userPricingSettings } from "@/lib/schema";
 import { upload } from "@/lib/storage";
 import type { PricingSettings } from "@/lib/types/cost-control";
@@ -28,6 +29,15 @@ export async function POST(request: Request) {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate limiting for image generation
+    const rateLimitResult = imageGenerationLimiter(session.user.id);
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: "Too many generation requests. Please try again later." },
+        { status: 429, headers: { "Retry-After": String(Math.ceil(rateLimitResult.resetInMs / 1000)) } }
+      );
     }
 
     // Validate request body using Zod schema

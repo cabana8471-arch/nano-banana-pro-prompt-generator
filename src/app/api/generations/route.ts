@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { eq, desc, count, and } from "drizzle-orm";
+import { eq, desc, count, and, inArray } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { PAGINATION } from "@/lib/constants";
@@ -59,7 +59,6 @@ export async function GET(request: Request) {
     let images: typeof generatedImages.$inferSelect[] = [];
 
     if (generationIds.length > 0) {
-      const { inArray } = await import("drizzle-orm");
       images = await db
         .select()
         .from(generatedImages)

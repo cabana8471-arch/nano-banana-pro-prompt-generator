@@ -1,5 +1,5 @@
-import type { MetadataRoute } from "next";
 import { defaultLocale } from "@/i18n/config";
+import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {

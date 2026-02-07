@@ -1,32 +1,13 @@
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { handleApiError } from "@/lib/api-errors";
 import {
-  isAdminEmail,
   getAllBlockedIps,
   blockIp,
   setIpBlockActive,
   unblockIp,
 } from "@/lib/authorization";
+import { requireAdmin } from "@/lib/require-admin";
 import type { IpType } from "@/lib/types/admin";
-
-/**
- * Helper to check if the current user is an admin
- */
-async function requireAdmin() {
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (!session?.user?.id) {
-    return { error: "Unauthorized", status: 401, session: null };
-  }
-
-  const isAdmin = isAdminEmail(session.user.email);
-  if (!isAdmin) {
-    return { error: "Forbidden: Admin access required", status: 403, session: null };
-  }
-
-  return { error: null, status: null, session };
-}
 
 /**
  * GET /api/admin/blocked-ips
@@ -43,11 +24,7 @@ export async function GET() {
 
     return NextResponse.json({ blockedIps });
   } catch (error) {
-    console.error("Admin blocked-ips GET error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching blocked IPs");
   }
 }
 
@@ -132,11 +109,7 @@ export async function POST(request: NextRequest) {
       id: result.id,
     });
   } catch (error) {
-    console.error("Admin blocked-ips POST error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "blocking IP");
   }
 }
 
@@ -183,11 +156,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Admin blocked-ips PATCH error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "updating IP block");
   }
 }
 
@@ -226,10 +195,6 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Admin blocked-ips DELETE error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "unblocking IP");
   }
 }

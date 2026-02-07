@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import type { BannerSizeTemplate } from "@/lib/types/banner";
 import type {
   GenerationSettings,
@@ -107,7 +107,7 @@ function getAspectRatioForBannerSize(
 
 export function usePlatformGeneration(): UsePlatformGenerationReturn {
   const [progress, setProgress] = useState<PlatformGenerationProgress>(initialProgress);
-  const [cancelled, setCancelled] = useState(false);
+  const cancelledRef = useRef(false);
 
   const generateForPlatform = useCallback(
     async (
@@ -117,7 +117,7 @@ export function usePlatformGeneration(): UsePlatformGenerationReturn {
     ): Promise<void> => {
       if (sizes.length === 0) return;
 
-      setCancelled(false);
+      cancelledRef.current = false;
       setProgress({
         total: sizes.length,
         current: 0,
@@ -133,7 +133,7 @@ export function usePlatformGeneration(): UsePlatformGenerationReturn {
 
       for (let i = 0; i < sizes.length; i++) {
         // Check if cancelled
-        if (cancelled) {
+        if (cancelledRef.current) {
           break;
         }
 
@@ -226,15 +226,15 @@ export function usePlatformGeneration(): UsePlatformGenerationReturn {
         status: failed.length === sizes.length ? "error" : "completed",
       }));
     },
-    [cancelled]
+    []
   );
 
   const cancelGeneration = useCallback(() => {
-    setCancelled(true);
+    cancelledRef.current = true;
   }, []);
 
   const reset = useCallback(() => {
-    setCancelled(false);
+    cancelledRef.current = false;
     setProgress(initialProgress);
   }, []);
 

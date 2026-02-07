@@ -19,9 +19,9 @@ export const avatarTypeSchema = z.enum(["human", "object", "logo", "product", "r
   message: "Avatar type must be 'human', 'object', 'logo', 'product', or 'reference'",
 });
 
-/** Validates generation type - photo or banner */
-export const generationTypeSchema = z.enum(["photo", "banner"], {
-  message: "Generation type must be 'photo' or 'banner'",
+/** Validates generation type - photo, banner, or logo */
+export const generationTypeSchema = z.enum(["photo", "banner", "logo"], {
+  message: "Generation type must be 'photo', 'banner', or 'logo'",
 });
 
 /** Validates banner reference type - must be "style", "composition", or "color" */

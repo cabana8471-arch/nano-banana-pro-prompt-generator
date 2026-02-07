@@ -32,6 +32,9 @@ const serverEnvSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
 
+  // Vercel deployment URL (auto-set by Vercel)
+  VERCEL_URL: z.string().optional(),
+
   // Reference image allowlist (comma-separated hostnames)
   REFERENCE_IMAGE_ALLOWED_HOSTS: z.string().optional(),
 

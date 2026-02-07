@@ -210,7 +210,16 @@ export async function deleteFile(url: string): Promise<void> {
     // Delete from local filesystem
     // Extract pathname from URL (e.g., /uploads/avatars/avatar.png -> avatars/avatar.png)
     const pathname = url.replace(/^\/uploads\//, "");
-    const filepath = join(process.cwd(), "public", "uploads", pathname);
+    const uploadsRoot = join(process.cwd(), "public", "uploads");
+    const filepath = join(uploadsRoot, pathname);
+
+    // Path traversal protection: ensure resolved path is within uploads directory
+    const { resolve } = await import("path");
+    const resolvedPath = resolve(filepath);
+    const resolvedRoot = resolve(uploadsRoot);
+    if (!resolvedPath.startsWith(resolvedRoot + "/") && resolvedPath !== resolvedRoot) {
+      throw new Error("Invalid file path");
+    }
 
     // Only attempt to delete if file exists
     if (existsSync(filepath)) {

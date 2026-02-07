@@ -44,37 +44,37 @@ export function useBannerHistory(
 
   const pushState = useCallback(
     (state: BannerBuilderState, action: string) => {
-      setHistory((prevHistory) => {
-        // If we're not at the end of history, truncate future states
-        const truncatedHistory =
-          currentIndex < prevHistory.length - 1
-            ? prevHistory.slice(0, currentIndex + 1)
-            : prevHistory;
+      setCurrentIndex((prevIndex) => {
+        setHistory((prevHistory) => {
+          // If we're not at the end of history, truncate future states
+          const truncatedHistory =
+            prevIndex < prevHistory.length - 1
+              ? prevHistory.slice(0, prevIndex + 1)
+              : prevHistory;
 
-        // Add new state
-        const newHistory = [
-          ...truncatedHistory,
-          {
-            state: JSON.parse(JSON.stringify(state)), // Deep clone
-            timestamp: Date.now(),
-            action,
-          },
-        ];
+          // Add new state
+          const newHistory = [
+            ...truncatedHistory,
+            {
+              state: JSON.parse(JSON.stringify(state)), // Deep clone
+              timestamp: Date.now(),
+              action,
+            },
+          ];
 
-        // Trim history if too long
-        if (newHistory.length > MAX_HISTORY_SIZE) {
-          return newHistory.slice(-MAX_HISTORY_SIZE);
-        }
+          // Trim history if too long
+          if (newHistory.length > MAX_HISTORY_SIZE) {
+            return newHistory.slice(-MAX_HISTORY_SIZE);
+          }
 
-        return newHistory;
-      });
+          return newHistory;
+        });
 
-      setCurrentIndex((prev) => {
         // Calculate new index based on truncated history
-        return Math.min(prev + 1, MAX_HISTORY_SIZE - 1);
+        return Math.min(prevIndex + 1, MAX_HISTORY_SIZE - 1);
       });
     },
-    [currentIndex]
+    []
   );
 
   const undo = useCallback((): BannerBuilderState | null => {

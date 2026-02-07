@@ -88,9 +88,22 @@ export async function verifyPassword(password: string): Promise<boolean> {
     return false;
   }
 
-  // Use timing-safe comparison via hashing both and comparing hashes
   const providedHash = await hashPassword(password);
   const expectedHash = await hashPassword(sitePassword);
 
-  return providedHash === expectedHash;
+  // Use timing-safe comparison to prevent timing attacks
+  if (providedHash.length !== expectedHash.length) {
+    return false;
+  }
+
+  const encoder = new TextEncoder();
+  const a = encoder.encode(providedHash);
+  const b = encoder.encode(expectedHash);
+
+  // Constant-time comparison
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a[i]! ^ b[i]!;
+  }
+  return diff === 0;
 }

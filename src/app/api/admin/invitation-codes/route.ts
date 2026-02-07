@@ -1,31 +1,12 @@
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { handleApiError } from "@/lib/api-errors";
 import {
-  isAdminEmail,
   getAllInvitationCodes,
   generateInvitationCode,
   setInvitationCodeActive,
   deleteInvitationCode,
 } from "@/lib/authorization";
-
-/**
- * Helper to check if the current user is an admin
- */
-async function requireAdmin() {
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (!session?.user?.id) {
-    return { error: "Unauthorized", status: 401, session: null };
-  }
-
-  const isAdmin = isAdminEmail(session.user.email);
-  if (!isAdmin) {
-    return { error: "Forbidden: Admin access required", status: 403, session: null };
-  }
-
-  return { error: null, status: null, session };
-}
+import { requireAdmin } from "@/lib/require-admin";
 
 /**
  * GET /api/admin/invitation-codes
@@ -42,11 +23,7 @@ export async function GET() {
 
     return NextResponse.json({ codes });
   } catch (error) {
-    console.error("Admin invitation-codes GET error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "fetching invitation codes");
   }
 }
 
@@ -116,11 +93,7 @@ export async function POST(request: NextRequest) {
       expiresAt: result.expiresAt,
     });
   } catch (error) {
-    console.error("Admin invitation-codes POST error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "generating invitation code");
   }
 }
 
@@ -165,11 +138,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Admin invitation-codes PATCH error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "updating invitation code");
   }
 }
 
@@ -207,10 +176,6 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Admin invitation-codes DELETE error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return handleApiError(error, "deleting invitation code");
   }
 }

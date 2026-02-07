@@ -1,5 +1,5 @@
-import { eq, and, or, ilike, sql, desc, lt } from "drizzle-orm";
 import { randomBytes } from "crypto";
+import { eq, and, or, ilike, sql, desc, lt } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { getServerEnv } from "@/lib/env";
 import {
@@ -16,6 +16,7 @@ import type {
   UsersResponse,
   UserRole,
 } from "@/lib/types/admin";
+import { escapeLikePattern } from "@/lib/utils";
 
 /**
  * Get the list of admin emails from environment variable
@@ -478,8 +479,8 @@ export async function getAllUsers(params: GetUsersParams = {}): Promise<UsersRes
   if (search) {
     conditions.push(
       or(
-        ilike(user.name, `%${search}%`),
-        ilike(user.email, `%${search}%`)
+        ilike(user.name, `%${escapeLikePattern(search)}%`),
+        ilike(user.email, `%${escapeLikePattern(search)}%`)
       )
     );
   }

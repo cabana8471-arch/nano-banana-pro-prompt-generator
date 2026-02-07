@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 import createIntlMiddleware from "next-intl/middleware";
+import { isIpBlocked } from "@/lib/authorization";
 import { routing } from "./i18n/routing";
 
 // Create the next-intl middleware
@@ -150,25 +151,10 @@ export async function proxy(request: NextRequest) {
 
     if (clientIp) {
       try {
-        // Call the security API to check if IP is blocked
-        const checkUrl = new URL("/api/security/check-ip", request.url);
-        checkUrl.searchParams.set("ip", clientIp);
-
-        const response = await fetch(checkUrl.toString(), {
-          headers: {
-            // Forward cookies for any auth context if needed
-            cookie: request.headers.get("cookie") || "",
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.isBlocked) {
-            // Redirect blocked IPs to the blocked page
-            return NextResponse.redirect(new URL(`/${locale}/blocked`, request.url));
-          }
+        const { isBlocked } = await isIpBlocked(clientIp);
+        if (isBlocked) {
+          return NextResponse.redirect(new URL(`/${locale}/blocked`, request.url));
         }
-        // On error, allow access to prevent blocking legitimate users
       } catch {
         // On error, allow access to prevent blocking legitimate users
         console.error("IP blocking check failed, allowing access");

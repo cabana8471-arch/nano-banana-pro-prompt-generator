@@ -163,3 +163,9 @@ export const sitePasswordAttemptLimiter = createRateLimiter("site-password-attem
   limit: 20,
   windowMs: 60 * 1000, // 1 minute
 });
+
+/** Rate limiter for image generation: 30 generations per hour per user */
+export const imageGenerationLimiter = createRateLimiter("image-generation", {
+  limit: 30,
+  windowMs: 60 * 60 * 1000, // 1 hour
+});

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
+import { sitePasswordAttemptLimiter } from "@/lib/rate-limit";
 import {
   isSitePasswordEnabled,
   verifyPassword,
   setSitePasswordCookie,
 } from "@/lib/site-password";
-import { sitePasswordAttemptLimiter } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
