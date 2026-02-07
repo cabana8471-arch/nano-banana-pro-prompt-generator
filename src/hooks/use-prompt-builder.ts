@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { nanoid } from "nanoid";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { getTemplateById } from "@/lib/data/templates";
 import type {
   PromptBuilderState,
@@ -65,8 +66,19 @@ const createEmptySubject = (): SubjectConfig => ({
 });
 
 export function usePromptBuilder(): UsePromptBuilderReturn {
-  const [state, setState] = useState<PromptBuilderState>(defaultState);
-  const [settings, setSettingsState] = useState<GenerationSettings>(defaultSettings);
+  // Auto-save / restore from localStorage
+  const [savedState, persistState, clearSavedState] = useLocalStorage<{
+    state: PromptBuilderState;
+    settings: GenerationSettings;
+  }>("nano-banana:photo-builder", { state: defaultState, settings: defaultSettings });
+
+  const [state, setState] = useState<PromptBuilderState>(savedState?.state ?? defaultState);
+  const [settings, setSettingsState] = useState<GenerationSettings>(savedState?.settings ?? defaultSettings);
+
+  // Persist state changes
+  useEffect(() => {
+    persistState({ state, settings });
+  }, [state, settings, persistState]);
 
   // Simple setters
   const setLocation = useCallback((value: string) => {
@@ -232,7 +244,8 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
   const reset = useCallback(() => {
     setState(defaultState);
     setSettingsState(defaultSettings);
-  }, []);
+    clearSavedState();
+  }, [clearSavedState]);
 
   // Load from preset
   const loadFromPreset = useCallback((preset: PromptBuilderState) => {

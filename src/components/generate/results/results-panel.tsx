@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Download, ExternalLink, ImageIcon } from "lucide-react";
+import { Download, ExternalLink, ImageIcon, Copy, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +13,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { downloadImage, copyImageToClipboard } from "@/lib/image-utils";
 import { RefineInput } from "./refine-input";
 
 interface ResultsPanelProps {
@@ -71,20 +72,21 @@ export function ResultsPanel({
     }
   };
 
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
   const handleDownload = async (url: string, index: number) => {
     try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = `generated-image-${index + 1}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(downloadUrl);
+      await downloadImage(url, `generated-image-${index + 1}`);
     } catch (error) {
       console.error("Failed to download image:", error);
+    }
+  };
+
+  const handleCopy = async (url: string, index: number) => {
+    const success = await copyImageToClipboard(url);
+    if (success) {
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
     }
   };
 
@@ -200,6 +202,18 @@ export function ResultsPanel({
                 >
                   <Download className="h-4 w-4 mr-2" />
                   {t("download")}
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleCopy(fullscreenImage, fullscreenIndex)}
+                >
+                  {copiedIndex === fullscreenIndex ? (
+                    <Check className="h-4 w-4 mr-2" />
+                  ) : (
+                    <Copy className="h-4 w-4 mr-2" />
+                  )}
+                  {copiedIndex === fullscreenIndex ? t("copied") : t("copy")}
                 </Button>
                 <Button
                   variant="secondary"

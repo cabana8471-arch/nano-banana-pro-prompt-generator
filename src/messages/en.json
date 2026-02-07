@@ -186,7 +186,11 @@
     "apiKeyRequiredMessage": "Please add your Google API key to generate images.",
     "addApiKeyInSettings": "Add API Key in Settings",
     "searchTemplates": "Search templates...",
-    "noTemplatesFound": "No templates found"
+    "noTemplatesFound": "No templates found",
+    "rateLimitStatus": "{remaining}/{limit} generations remaining",
+    "rateLimitExhausted": "Rate limit reached. Resets in {minutes} min",
+    "recentPrompts": "Recent",
+    "clearHistory": "Clear"
   },
   "templateSelector": {
     "selectStyle": "Select Style",
@@ -277,6 +281,8 @@
     "buildPrompt": "Build your prompt and generate images",
     "clickToView": "Click to view",
     "download": "Download",
+    "copy": "Copy",
+    "copied": "Copied!",
     "openInNewTab": "Open in new tab",
     "refineTitle": "Refine Your Image",
     "refineDescription": "Describe how you would like to modify the generated image",

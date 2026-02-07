@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { getBannerTemplateById, getBannerSizeById } from "@/lib/data/banner-templates";
 import type {
   BannerBuilderState,
@@ -117,12 +118,30 @@ const defaultBrandAssets: BannerBrandAssets = {};
 // ==========================================
 
 export function useBannerBuilder(): UseBannerBuilderReturn {
-  const [state, setState] = useState<BannerBuilderState>(DEFAULT_BANNER_BUILDER_STATE);
+  // Auto-save / restore from localStorage
+  const [savedState, persistState, clearSavedState] = useLocalStorage<{
+    state: BannerBuilderState;
+    settings: BannerGenerationSettings;
+    brandAssets: BannerBrandAssets;
+    referenceIds: string[];
+  }>("nano-banana:banner-builder", {
+    state: DEFAULT_BANNER_BUILDER_STATE,
+    settings: DEFAULT_BANNER_GENERATION_SETTINGS,
+    brandAssets: defaultBrandAssets,
+    referenceIds: [],
+  });
+
+  const [state, setState] = useState<BannerBuilderState>(savedState?.state ?? DEFAULT_BANNER_BUILDER_STATE);
   const [settings, setSettingsState] = useState<BannerGenerationSettings>(
-    DEFAULT_BANNER_GENERATION_SETTINGS
+    savedState?.settings ?? DEFAULT_BANNER_GENERATION_SETTINGS
   );
-  const [brandAssets, setBrandAssetsState] = useState<BannerBrandAssets>(defaultBrandAssets);
-  const [selectedBannerReferenceIds, setSelectedBannerReferenceIds] = useState<string[]>([]);
+  const [brandAssets, setBrandAssetsState] = useState<BannerBrandAssets>(savedState?.brandAssets ?? defaultBrandAssets);
+  const [selectedBannerReferenceIds, setSelectedBannerReferenceIds] = useState<string[]>(savedState?.referenceIds ?? []);
+
+  // Persist state changes
+  useEffect(() => {
+    persistState({ state, settings, brandAssets, referenceIds: selectedBannerReferenceIds });
+  }, [state, settings, brandAssets, selectedBannerReferenceIds, persistState]);
 
   // ==========================================
   // Section A: Basic Configuration Setters
@@ -671,7 +690,8 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     setSettingsState(DEFAULT_BANNER_GENERATION_SETTINGS);
     setBrandAssetsState(defaultBrandAssets);
     setSelectedBannerReferenceIds([]);
-  }, []);
+    clearSavedState();
+  }, [clearSavedState]);
 
   const loadFromPreset = useCallback((config: BannerPresetConfig) => {
     setState((prev) => ({

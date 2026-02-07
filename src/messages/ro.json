@@ -186,7 +186,11 @@
     "apiKeyRequiredMessage": "Adauga cheia ta API Google pentru a genera imagini.",
     "addApiKeyInSettings": "Adauga cheia API in setari",
     "searchTemplates": "Cauta sabloane...",
-    "noTemplatesFound": "Nu s-au gasit sabloane"
+    "noTemplatesFound": "Nu s-au gasit sabloane",
+    "rateLimitStatus": "{remaining}/{limit} generari ramase",
+    "rateLimitExhausted": "Limita atinsa. Se reseteaza in {minutes} min",
+    "recentPrompts": "Recente",
+    "clearHistory": "Sterge"
   },
   "templateSelector": {
     "selectStyle": "Selecteaza stilul",
@@ -277,6 +281,8 @@
     "buildPrompt": "Construieste promptul si genereaza imagini",
     "clickToView": "Click pentru a vizualiza",
     "download": "Descarca",
+    "copy": "Copiaza",
+    "copied": "Copiat!",
     "openInNewTab": "Deschide in tab nou",
     "refineTitle": "Rafineaza imaginea",
     "refineDescription": "Descrie cum doresti sa modifici imaginea generata",

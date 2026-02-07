@@ -27,6 +27,8 @@ import { useBannerReferences } from "@/hooks/use-banner-references";
 import { useGeneration } from "@/hooks/use-generation";
 import { usePlatformGeneration } from "@/hooks/use-platform-generation";
 import { useProjects } from "@/hooks/use-projects";
+import { usePromptHistory } from "@/hooks/use-prompt-history";
+import { useRateLimit } from "@/hooks/use-rate-limit";
 import { useSession } from "@/lib/auth-client";
 import { isPlatformBundle, getPlatformBundleSizes, getBannerTemplateById, getBannerSizeById } from "@/lib/data/banner-templates";
 import type { BannerPreset, BannerPresetConfig, BannerBuilderState, UpdateBannerPresetInput, BannerSizeTemplate } from "@/lib/types/banner";
@@ -207,6 +209,12 @@ export default function BannerGeneratorPage() {
     refine,
     clearError,
   } = useGeneration();
+
+  // Rate limit status
+  const { status: rateLimit, refresh: refreshRateLimit } = useRateLimit();
+
+  // Prompt history
+  const { addEntry: addHistoryEntry } = usePromptHistory();
 
   // Platform generation state (for multi-size native generation)
   const {
@@ -453,7 +461,9 @@ export default function BannerGeneratorPage() {
         buildPromptForSize
       );
 
+      addHistoryEntry(assembledPrompt, "banner");
       toast.success(`Platform generation completed! ${platformBundleSizes.length} banners generated.`);
+      refreshRateLimit();
       return;
     }
 
@@ -475,8 +485,10 @@ export default function BannerGeneratorPage() {
     };
 
     const result = await generate(generateInput);
+    refreshRateLimit();
 
     if (result) {
+      addHistoryEntry(assembledPrompt, "banner");
       toast.success("Banner generated successfully!");
     }
   };
@@ -771,6 +783,7 @@ export default function BannerGeneratorPage() {
             isGenerating={isGenerating}
             hasApiKey={hasKey}
             selectedBannerSize={selectedBannerSize}
+            rateLimit={rateLimit}
             currentConfig={currentConfig}
             presets={presets}
             presetsLoading={presetsLoading}

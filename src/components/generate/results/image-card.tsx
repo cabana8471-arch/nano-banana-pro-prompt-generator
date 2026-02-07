@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Download, ExternalLink, Trash2, Globe, Lock } from "lucide-react";
+import { Download, ExternalLink, Trash2, Globe, Lock, Copy, Check } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +18,7 @@ import {
   Card,
   CardContent,
 } from "@/components/ui/card";
+import { downloadImage, copyImageToClipboard } from "@/lib/image-utils";
 import type { GeneratedImage } from "@/lib/types/generation";
 
 interface ImageCardProps {
@@ -39,21 +40,21 @@ export function ImageCard({
 }: ImageCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isTogglingVisibility, setIsTogglingVisibility] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(image.imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `generated-image-${image.id}.png`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      await downloadImage(image.imageUrl, `generated-image-${image.id}`);
     } catch (error) {
       console.error("Error downloading image:", error);
+    }
+  };
+
+  const handleCopy = async () => {
+    const success = await copyImageToClipboard(image.imageUrl);
+    if (success) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     }
   };
 
@@ -112,6 +113,19 @@ export function ImageCard({
                 className="flex-1"
               >
                 <Download className="h-4 w-4" />
+              </Button>
+
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCopy();
+                }}
+                className="flex-1"
+                title={isCopied ? "Copied!" : "Copy to clipboard"}
+              >
+                {isCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </Button>
 
               <Button

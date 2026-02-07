@@ -3,6 +3,7 @@
 import { Wand2, FileText, Settings2, FolderOpen, Square, RectangleHorizontal, RectangleVertical, Hexagon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ProjectSelector } from "@/components/banner-generator/projects/project-selector";
+import { RateLimitIndicator } from "@/components/generate/rate-limit-indicator";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -30,6 +31,8 @@ interface LogoPreviewPanelProps {
   isGenerating: boolean;
   hasApiKey: boolean;
   selectedLogoFormat?: string;
+  // Rate limit
+  rateLimit?: { current: number; limit: number; remaining: number; resetInMs: number } | null;
   // Preset props
   currentConfig: LogoPresetConfig;
   presets: LogoPreset[];
@@ -68,6 +71,7 @@ export function LogoPreviewPanel({
   isGenerating,
   hasApiKey,
   selectedLogoFormat,
+  rateLimit,
   currentConfig,
   presets,
   presetsLoading,
@@ -248,7 +252,15 @@ export function LogoPreviewPanel({
       </ScrollArea>
 
       {/* Generate Button */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t space-y-2">
+        {rateLimit && (
+          <RateLimitIndicator
+            current={rateLimit.current}
+            limit={rateLimit.limit}
+            remaining={rateLimit.remaining}
+            resetInMs={rateLimit.resetInMs}
+          />
+        )}
         {!hasApiKey ? (
           <div className="text-center py-2">
             <p className="text-sm text-muted-foreground mb-2">
@@ -263,7 +275,7 @@ export function LogoPreviewPanel({
             className="w-full"
             size="lg"
             onClick={onGenerate}
-            disabled={isGenerating || !assembledPrompt || !selectedProjectId}
+            disabled={isGenerating || !assembledPrompt || !selectedProjectId || (rateLimit?.remaining === 0)}
           >
             <Wand2 className="h-5 w-5 mr-2" />
             {isGenerating ? tCommon("loading") : t("preview.generateLogo")}

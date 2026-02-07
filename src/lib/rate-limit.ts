@@ -131,6 +131,47 @@ export function createRateLimiter(
 }
 
 /**
+ * Peek at rate limit status without consuming a request.
+ * Returns the same shape as RateLimitResult but doesn't increment the counter.
+ */
+export function peekRateLimit(
+  namespace: string,
+  config: RateLimitConfig,
+  identifier: string
+): RateLimitResult {
+  const key = `${namespace}:${identifier}`;
+  const now = Date.now();
+  const entry = rateLimitStore.get(key);
+
+  if (!entry || entry.resetAt <= now) {
+    return {
+      success: true,
+      current: 0,
+      limit: config.limit,
+      remaining: config.limit,
+      resetInMs: config.windowMs,
+    };
+  }
+
+  const remaining = Math.max(0, config.limit - entry.count);
+  const resetInMs = entry.resetAt - now;
+
+  return {
+    success: entry.count <= config.limit,
+    current: entry.count,
+    limit: config.limit,
+    remaining,
+    resetInMs,
+  };
+}
+
+/** Config for the image generation rate limiter (exposed for peek) */
+export const IMAGE_GENERATION_RATE_CONFIG: RateLimitConfig = {
+  limit: 30,
+  windowMs: 60 * 60 * 1000, // 1 hour
+};
+
+/**
  * Pre-configured rate limiters for common use cases
  */
 
@@ -165,7 +206,7 @@ export const sitePasswordAttemptLimiter = createRateLimiter("site-password-attem
 });
 
 /** Rate limiter for image generation: 30 generations per hour per user */
-export const imageGenerationLimiter = createRateLimiter("image-generation", {
-  limit: 30,
-  windowMs: 60 * 60 * 1000, // 1 hour
-});
+export const imageGenerationLimiter = createRateLimiter(
+  "image-generation",
+  IMAGE_GENERATION_RATE_CONFIG
+);

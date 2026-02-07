@@ -2,6 +2,7 @@
 
 import { Wand2, FileText, Settings2, Image as ImageIcon, FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { RateLimitIndicator } from "@/components/generate/rate-limit-indicator";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -30,6 +31,8 @@ interface BannerPreviewPanelProps {
   isGenerating: boolean;
   hasApiKey: boolean;
   selectedBannerSize?: BannerSizeTemplate | undefined;
+  // Rate limit
+  rateLimit?: { current: number; limit: number; remaining: number; resetInMs: number } | null;
   // Preset props
   currentConfig: BannerPresetConfig;
   presets: BannerPreset[];
@@ -58,6 +61,7 @@ export function BannerPreviewPanel({
   isGenerating,
   hasApiKey,
   selectedBannerSize,
+  rateLimit,
   currentConfig,
   presets,
   presetsLoading,
@@ -254,7 +258,15 @@ export function BannerPreviewPanel({
       </ScrollArea>
 
       {/* Generate Button */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t space-y-2">
+        {rateLimit && (
+          <RateLimitIndicator
+            current={rateLimit.current}
+            limit={rateLimit.limit}
+            remaining={rateLimit.remaining}
+            resetInMs={rateLimit.resetInMs}
+          />
+        )}
         {!hasApiKey ? (
           <div className="text-center py-2">
             <p className="text-sm text-muted-foreground mb-2">
@@ -269,7 +281,7 @@ export function BannerPreviewPanel({
             className="w-full"
             size="lg"
             onClick={onGenerate}
-            disabled={isGenerating || !assembledPrompt || !selectedProjectId}
+            disabled={isGenerating || !assembledPrompt || !selectedProjectId || (rateLimit?.remaining === 0)}
           >
             <Wand2 className="h-5 w-5 mr-2" />
             {isGenerating ? tCommon("loading") : t("preview.generateBanner")}

@@ -16,6 +16,8 @@ import { useLogoHistory } from "@/hooks/use-logo-history";
 import { useLogoPresets } from "@/hooks/use-logo-presets";
 import { useLogoReferences } from "@/hooks/use-logo-references";
 import { useProjects } from "@/hooks/use-projects";
+import { usePromptHistory } from "@/hooks/use-prompt-history";
+import { useRateLimit } from "@/hooks/use-rate-limit";
 import { useSession } from "@/lib/auth-client";
 import type {
   LogoPreset,
@@ -191,6 +193,12 @@ export default function LogoGeneratorPage() {
     clearError,
   } = useGeneration();
 
+  // Rate limit status
+  const { status: rateLimit, refresh: refreshRateLimit } = useRateLimit();
+
+  // Prompt history
+  const { addEntry: addHistoryEntry } = usePromptHistory();
+
   // Handle generation
   const handleGenerate = async () => {
     if (!assembledPrompt) {
@@ -221,8 +229,10 @@ export default function LogoGeneratorPage() {
     };
 
     const result = await generate(generateInput);
+    refreshRateLimit();
 
     if (result) {
+      addHistoryEntry(assembledPrompt, "logo");
       toast.success("Logo generated successfully!");
     }
   };
@@ -435,6 +445,7 @@ export default function LogoGeneratorPage() {
             isGenerating={isGenerating}
             hasApiKey={hasKey}
             selectedLogoFormat={state.logoFormat}
+            rateLimit={rateLimit}
             currentConfig={currentConfig}
             presets={presets}
             presetsLoading={presetsLoading}

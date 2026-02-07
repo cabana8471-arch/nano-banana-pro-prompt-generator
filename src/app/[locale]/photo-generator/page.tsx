@@ -12,6 +12,8 @@ import { useApiKey } from "@/hooks/use-api-key";
 import { useGeneration } from "@/hooks/use-generation";
 import { usePresets } from "@/hooks/use-presets";
 import { usePromptBuilder } from "@/hooks/use-prompt-builder";
+import { usePromptHistory } from "@/hooks/use-prompt-history";
+import { useRateLimit } from "@/hooks/use-rate-limit";
 import { useSession } from "@/lib/auth-client";
 import type { Preset, PresetConfig, UpdatePresetInput } from "@/lib/types/generation";
 
@@ -58,6 +60,12 @@ export default function GeneratePage() {
     clearError,
   } = useGeneration();
 
+  // Rate limit status
+  const { status: rateLimit, refresh: refreshRateLimit } = useRateLimit();
+
+  // Prompt history
+  const { history: promptHistory, addEntry: addHistoryEntry, removeEntry: removeHistoryEntry, clearHistory } = usePromptHistory();
+
   // Handle generation
   const handleGenerate = async () => {
     if (!assembledPrompt) {
@@ -84,8 +92,10 @@ export default function GeneratePage() {
       ...(referenceImages.length > 0 && { referenceImages }),
     };
     const result = await generate(generateInput);
+    refreshRateLimit();
 
     if (result) {
+      addHistoryEntry(assembledPrompt, "photo");
       toast.success("Images generated successfully!");
     }
   };
@@ -226,6 +236,12 @@ export default function GeneratePage() {
             onGenerate={handleGenerate}
             isGenerating={isGenerating}
             hasApiKey={hasKey}
+            rateLimit={rateLimit}
+            promptHistory={promptHistory}
+            onSelectHistoryPrompt={setCustomPrompt}
+            onRemoveHistoryEntry={removeHistoryEntry}
+            onClearHistory={clearHistory}
+            historyFilterType="photo"
             currentConfig={currentConfig}
             presets={presets}
             presetsLoading={presetsLoading}

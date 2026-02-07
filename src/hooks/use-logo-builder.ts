@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { getLogoTemplateById } from "@/lib/data/logo-templates";
 import type {
   LogoBuilderState,
@@ -93,11 +94,27 @@ interface UseLogoBuilderReturn {
 // ==========================================
 
 export function useLogoBuilder(): UseLogoBuilderReturn {
-  const [state, setState] = useState<LogoBuilderState>(DEFAULT_LOGO_BUILDER_STATE);
+  // Auto-save / restore from localStorage
+  const [savedState, persistState, clearSavedState] = useLocalStorage<{
+    state: LogoBuilderState;
+    settings: LogoGenerationSettings;
+    referenceIds: string[];
+  }>("nano-banana:logo-builder", {
+    state: DEFAULT_LOGO_BUILDER_STATE,
+    settings: DEFAULT_LOGO_GENERATION_SETTINGS,
+    referenceIds: [],
+  });
+
+  const [state, setState] = useState<LogoBuilderState>(savedState?.state ?? DEFAULT_LOGO_BUILDER_STATE);
   const [settings, setSettingsState] = useState<LogoGenerationSettings>(
-    DEFAULT_LOGO_GENERATION_SETTINGS
+    savedState?.settings ?? DEFAULT_LOGO_GENERATION_SETTINGS
   );
-  const [selectedLogoReferenceIds, setSelectedLogoReferenceIds] = useState<string[]>([]);
+  const [selectedLogoReferenceIds, setSelectedLogoReferenceIds] = useState<string[]>(savedState?.referenceIds ?? []);
+
+  // Persist state changes
+  useEffect(() => {
+    persistState({ state, settings, referenceIds: selectedLogoReferenceIds });
+  }, [state, settings, selectedLogoReferenceIds, persistState]);
 
   // ==========================================
   // Section A: Basic Configuration Setters
@@ -458,7 +475,8 @@ export function useLogoBuilder(): UseLogoBuilderReturn {
     setState(DEFAULT_LOGO_BUILDER_STATE);
     setSettingsState(DEFAULT_LOGO_GENERATION_SETTINGS);
     setSelectedLogoReferenceIds([]);
-  }, []);
+    clearSavedState();
+  }, [clearSavedState]);
 
   const loadFromPreset = useCallback((config: LogoPresetConfig) => {
     setState((prev) => ({

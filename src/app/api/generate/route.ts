@@ -283,7 +283,14 @@ export async function POST(request: Request) {
       })),
     };
 
-    return NextResponse.json({ generation: generationWithImages }, { status: 201 });
+    return NextResponse.json({ generation: generationWithImages }, {
+      status: 201,
+      headers: {
+        "X-RateLimit-Limit": String(rateLimitResult.limit),
+        "X-RateLimit-Remaining": String(rateLimitResult.remaining),
+        "X-RateLimit-Reset": String(Math.ceil(rateLimitResult.resetInMs / 1000)),
+      },
+    });
   } catch (error) {
     return handleApiError(error, "generating images");
   }

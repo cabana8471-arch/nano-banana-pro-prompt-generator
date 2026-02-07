@@ -2,6 +2,8 @@
 
 import { Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { PromptHistoryDropdown } from "@/components/generate/prompt-history-dropdown";
+import { RateLimitIndicator } from "@/components/generate/rate-limit-indicator";
 import { LoadPresetDropdown } from "@/components/presets/load-preset-dropdown";
 import { ManagePresetsModal } from "@/components/presets/manage-presets-modal";
 import { SavePresetModal } from "@/components/presets/save-preset-modal";
@@ -16,8 +18,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import type { PromptHistoryEntry } from "@/hooks/use-prompt-history";
 import { Link } from "@/i18n/routing";
-import type { GenerationSettings, Preset, PresetConfig, UpdatePresetInput } from "@/lib/types/generation";
+import type { GenerationSettings, GenerationType, Preset, PresetConfig, UpdatePresetInput } from "@/lib/types/generation";
 
 interface PreviewPanelProps {
   assembledPrompt: string;
@@ -26,6 +29,14 @@ interface PreviewPanelProps {
   onGenerate: () => void;
   isGenerating: boolean;
   hasApiKey: boolean;
+  // Rate limit
+  rateLimit?: { current: number; limit: number; remaining: number; resetInMs: number } | null;
+  // Prompt history
+  promptHistory?: PromptHistoryEntry[];
+  onSelectHistoryPrompt?: (prompt: string) => void;
+  onRemoveHistoryEntry?: (timestamp: number) => void;
+  onClearHistory?: () => void;
+  historyFilterType?: GenerationType;
   // Preset props
   currentConfig: PresetConfig;
   presets: Preset[];
@@ -43,6 +54,12 @@ export function PreviewPanel({
   onGenerate,
   isGenerating,
   hasApiKey,
+  rateLimit,
+  promptHistory,
+  onSelectHistoryPrompt,
+  onRemoveHistoryEntry,
+  onClearHistory,
+  historyFilterType,
   currentConfig,
   presets,
   presetsLoading,
@@ -85,6 +102,16 @@ export function PreviewPanel({
             isLoading={presetsLoading}
             disabled={isGenerating}
           />
+          {promptHistory && onSelectHistoryPrompt && onRemoveHistoryEntry && onClearHistory && (
+            <PromptHistoryDropdown
+              history={promptHistory}
+              onSelect={onSelectHistoryPrompt}
+              onRemove={onRemoveHistoryEntry}
+              onClear={onClearHistory}
+              filterType={historyFilterType}
+              disabled={isGenerating}
+            />
+          )}
         </div>
       </div>
 
@@ -176,7 +203,15 @@ export function PreviewPanel({
       </ScrollArea>
 
       {/* Generate Button */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t space-y-2">
+        {rateLimit && (
+          <RateLimitIndicator
+            current={rateLimit.current}
+            limit={rateLimit.limit}
+            remaining={rateLimit.remaining}
+            resetInMs={rateLimit.resetInMs}
+          />
+        )}
         {!hasApiKey ? (
           <div className="text-center py-2">
             <p className="text-sm text-muted-foreground mb-2">
@@ -191,7 +226,7 @@ export function PreviewPanel({
             className="w-full"
             size="lg"
             onClick={onGenerate}
-            disabled={isGenerating || !assembledPrompt}
+            disabled={isGenerating || !assembledPrompt || (rateLimit?.remaining === 0)}
           >
             <Wand2 className="h-5 w-5 mr-2" />
             {isGenerating ? t("generating") : t("generateImages")}
