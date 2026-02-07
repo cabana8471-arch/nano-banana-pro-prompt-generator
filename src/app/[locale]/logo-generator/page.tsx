@@ -10,11 +10,13 @@ import { LogoBuilderPanel } from "@/components/logo-generator/logo-builder/logo-
 import { LogoPreviewPanel } from "@/components/logo-generator/preview/logo-preview-panel";
 import { LogoResultsPanel } from "@/components/logo-generator/results/logo-results-panel";
 import { useApiKey } from "@/hooks/use-api-key";
+import { useGenerateShortcut } from "@/hooks/use-generate-shortcut";
 import { useGeneration } from "@/hooks/use-generation";
 import { useLogoBuilder } from "@/hooks/use-logo-builder";
 import { useLogoHistory } from "@/hooks/use-logo-history";
 import { useLogoPresets } from "@/hooks/use-logo-presets";
 import { useLogoReferences } from "@/hooks/use-logo-references";
+import { useNotifications } from "@/hooks/use-notifications";
 import { useProjects } from "@/hooks/use-projects";
 import { usePromptHistory } from "@/hooks/use-prompt-history";
 import { useRateLimit } from "@/hooks/use-rate-limit";
@@ -199,6 +201,9 @@ export default function LogoGeneratorPage() {
   // Prompt history
   const { addEntry: addHistoryEntry } = usePromptHistory();
 
+  // Browser notifications
+  const { notify, requestPermission } = useNotifications();
+
   // Check for config to load from gallery "Use these settings"
   useEffect(() => {
     try {
@@ -252,7 +257,17 @@ export default function LogoGeneratorPage() {
     if (result) {
       addHistoryEntry(assembledPrompt, "logo");
       toast.success("Logo generated successfully!");
+      notify("Nano Banana Pro", { body: "Logo generated successfully!" });
     }
+  };
+
+  // Keyboard shortcut: Ctrl/Cmd + Enter to generate
+  useGenerateShortcut(handleGenerate);
+
+  // Request notification permission on first generate attempt
+  const handleGenerateWithPermission = async () => {
+    requestPermission();
+    return handleGenerate();
   };
 
   // Handle refinement
@@ -459,7 +474,7 @@ export default function LogoGeneratorPage() {
             assembledPrompt={assembledPrompt}
             settings={settings}
             onSettingsChange={setSettings}
-            onGenerate={handleGenerate}
+            onGenerate={handleGenerateWithPermission}
             isGenerating={isGenerating}
             hasApiKey={hasKey}
             selectedLogoFormat={state.logoFormat}

@@ -37,13 +37,26 @@ interface UsePromptBuilderReturn {
   // Actions
   reset: () => void;
   loadFromPreset: (preset: PromptBuilderState) => void;
+  saveSettingsAsDefaults: () => void;
 }
 
-const defaultSettings: GenerationSettings = {
+const HARDCODED_DEFAULT_SETTINGS: GenerationSettings = {
   resolution: "2K",
   aspectRatio: "1:1",
   imageCount: 1,
 };
+
+function getUserDefaultSettings(): GenerationSettings {
+  if (typeof window === "undefined") return HARDCODED_DEFAULT_SETTINGS;
+  try {
+    const stored = localStorage.getItem("nano-banana:defaults:photo");
+    return stored ? JSON.parse(stored) : HARDCODED_DEFAULT_SETTINGS;
+  } catch {
+    return HARDCODED_DEFAULT_SETTINGS;
+  }
+}
+
+const defaultSettings = HARDCODED_DEFAULT_SETTINGS;
 
 const defaultState: PromptBuilderState = {
   location: "",
@@ -73,7 +86,9 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
   }>("nano-banana:photo-builder", { state: defaultState, settings: defaultSettings });
 
   const [state, setState] = useState<PromptBuilderState>(savedState?.state ?? defaultState);
-  const [settings, setSettingsState] = useState<GenerationSettings>(savedState?.settings ?? defaultSettings);
+  const [settings, setSettingsState] = useState<GenerationSettings>(
+    savedState?.settings ?? getUserDefaultSettings()
+  );
 
   // Persist state changes
   useEffect(() => {
@@ -240,10 +255,10 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
       }));
   }, [state.subjects]);
 
-  // Reset to default
+  // Reset to default (uses user defaults if saved)
   const reset = useCallback(() => {
     setState(defaultState);
-    setSettingsState(defaultSettings);
+    setSettingsState(getUserDefaultSettings());
     clearSavedState();
   }, [clearSavedState]);
 
@@ -251,6 +266,15 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
   const loadFromPreset = useCallback((preset: PromptBuilderState) => {
     setState(preset);
   }, []);
+
+  // Save current settings as user defaults
+  const saveSettingsAsDefaults = useCallback(() => {
+    try {
+      localStorage.setItem("nano-banana:defaults:photo", JSON.stringify(settings));
+    } catch {
+      // Ignore quota errors
+    }
+  }, [settings]);
 
   return {
     state,
@@ -269,5 +293,6 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
     referenceImages,
     reset,
     loadFromPreset,
+    saveSettingsAsDefaults,
   };
 }

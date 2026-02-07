@@ -105,6 +105,7 @@ interface UseBannerBuilderReturn {
   clearAllCategories: () => void;
   clearTextContent: () => void;
   swapColors: () => void;
+  saveSettingsAsDefaults: () => void;
 }
 
 // ==========================================
@@ -112,6 +113,16 @@ interface UseBannerBuilderReturn {
 // ==========================================
 
 const defaultBrandAssets: BannerBrandAssets = {};
+
+function getUserDefaultBannerSettings(): BannerGenerationSettings {
+  if (typeof window === "undefined") return DEFAULT_BANNER_GENERATION_SETTINGS;
+  try {
+    const stored = localStorage.getItem("nano-banana:defaults:banner");
+    return stored ? JSON.parse(stored) : DEFAULT_BANNER_GENERATION_SETTINGS;
+  } catch {
+    return DEFAULT_BANNER_GENERATION_SETTINGS;
+  }
+}
 
 // ==========================================
 // Hook Implementation
@@ -133,7 +144,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
 
   const [state, setState] = useState<BannerBuilderState>(savedState?.state ?? DEFAULT_BANNER_BUILDER_STATE);
   const [settings, setSettingsState] = useState<BannerGenerationSettings>(
-    savedState?.settings ?? DEFAULT_BANNER_GENERATION_SETTINGS
+    savedState?.settings ?? getUserDefaultBannerSettings()
   );
   const [brandAssets, setBrandAssetsState] = useState<BannerBrandAssets>(savedState?.brandAssets ?? defaultBrandAssets);
   const [selectedBannerReferenceIds, setSelectedBannerReferenceIds] = useState<string[]>(savedState?.referenceIds ?? []);
@@ -687,7 +698,7 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
 
   const reset = useCallback(() => {
     setState(DEFAULT_BANNER_BUILDER_STATE);
-    setSettingsState(DEFAULT_BANNER_GENERATION_SETTINGS);
+    setSettingsState(getUserDefaultBannerSettings());
     setBrandAssetsState(defaultBrandAssets);
     setSelectedBannerReferenceIds([]);
     clearSavedState();
@@ -844,6 +855,15 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     });
   }, []);
 
+  // Save current settings as user defaults
+  const saveSettingsAsDefaults = useCallback(() => {
+    try {
+      localStorage.setItem("nano-banana:defaults:banner", JSON.stringify(settings));
+    } catch {
+      // Ignore quota errors
+    }
+  }, [settings]);
+
   // ==========================================
   // Return
   // ==========================================
@@ -929,5 +949,6 @@ export function useBannerBuilder(): UseBannerBuilderReturn {
     clearAllCategories,
     clearTextContent,
     swapColors,
+    saveSettingsAsDefaults,
   };
 }

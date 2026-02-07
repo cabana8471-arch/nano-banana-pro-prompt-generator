@@ -138,6 +138,12 @@
       "title": "Language",
       "description": "Choose your preferred language",
       "buttonDescription": "Change display language"
+    },
+    "exportData": {
+      "title": "Export My Data",
+      "description": "Download all your data as JSON",
+      "success": "Data exported successfully!",
+      "error": "Failed to export data. Please try again."
     }
   },
   "apiKey": {
@@ -3813,5 +3819,24 @@
     "message": "Your access to this application has been blocked. This may be due to security concerns or policy violations.",
     "yourIp": "Your IP address:",
     "contact": "If you believe this is a mistake, please contact the administrator with your IP address for assistance."
+  },
+  "onboarding": {
+    "title": "Getting Started",
+    "dismiss": "Dismiss",
+    "progress": "{completed} of {total} steps completed",
+    "steps": {
+      "apiKey": {
+        "title": "Add your Google AI API key",
+        "description": "Required for image generation. Get one free from Google AI Studio."
+      },
+      "avatar": {
+        "title": "Create your first reference image",
+        "description": "Upload a reference photo for consistent character generation."
+      },
+      "generate": {
+        "title": "Generate your first image",
+        "description": "Use the photo generator to create your first AI image."
+      }
+    }
   }
 }

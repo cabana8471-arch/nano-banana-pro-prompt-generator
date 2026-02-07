@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone, ExternalLink } from "lucide-react";
+import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone, ExternalLink, Download } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -38,6 +38,7 @@ export default function ProfilePage() {
   const [securityOpen, setSecurityOpen] = useState(false);
   const [emailPrefsOpen, setEmailPrefsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
@@ -74,6 +75,26 @@ export default function ProfilePage() {
         day: "numeric",
       })
     : null;
+
+  const handleExportData = async () => {
+    setIsExporting(true);
+    try {
+      const response = await fetch("/api/user/export");
+      if (!response.ok) throw new Error("Export failed");
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `nano-banana-export-${new Date().toISOString().split("T")[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(t("profile.exportData.success"));
+    } catch {
+      toast.error(t("profile.exportData.error"));
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const handleEditProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -285,6 +306,20 @@ export default function ProfilePage() {
                   <div className="font-medium">{t("profile.email.title")}</div>
                   <div className="text-xs text-muted-foreground">
                     {t("profile.email.buttonDescription")}
+                  </div>
+                </div>
+              </Button>
+              <Button
+                variant="outline"
+                className="justify-start h-auto p-4"
+                onClick={handleExportData}
+                disabled={isExporting}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                <div className="text-left">
+                  <div className="font-medium">{t("profile.exportData.title")}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {t("profile.exportData.description")}
                   </div>
                 </div>
               </Button>

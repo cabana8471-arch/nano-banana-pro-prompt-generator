@@ -87,6 +87,17 @@ interface UseLogoBuilderReturn {
   clearAllCategories: () => void;
   clearTextContent: () => void;
   swapColors: () => void;
+  saveSettingsAsDefaults: () => void;
+}
+
+function getUserDefaultLogoSettings(): LogoGenerationSettings {
+  if (typeof window === "undefined") return DEFAULT_LOGO_GENERATION_SETTINGS;
+  try {
+    const stored = localStorage.getItem("nano-banana:defaults:logo");
+    return stored ? JSON.parse(stored) : DEFAULT_LOGO_GENERATION_SETTINGS;
+  } catch {
+    return DEFAULT_LOGO_GENERATION_SETTINGS;
+  }
 }
 
 // ==========================================
@@ -107,7 +118,7 @@ export function useLogoBuilder(): UseLogoBuilderReturn {
 
   const [state, setState] = useState<LogoBuilderState>(savedState?.state ?? DEFAULT_LOGO_BUILDER_STATE);
   const [settings, setSettingsState] = useState<LogoGenerationSettings>(
-    savedState?.settings ?? DEFAULT_LOGO_GENERATION_SETTINGS
+    savedState?.settings ?? getUserDefaultLogoSettings()
   );
   const [selectedLogoReferenceIds, setSelectedLogoReferenceIds] = useState<string[]>(savedState?.referenceIds ?? []);
 
@@ -473,7 +484,7 @@ export function useLogoBuilder(): UseLogoBuilderReturn {
 
   const reset = useCallback(() => {
     setState(DEFAULT_LOGO_BUILDER_STATE);
-    setSettingsState(DEFAULT_LOGO_GENERATION_SETTINGS);
+    setSettingsState(getUserDefaultLogoSettings());
     setSelectedLogoReferenceIds([]);
     clearSavedState();
   }, [clearSavedState]);
@@ -591,6 +602,15 @@ export function useLogoBuilder(): UseLogoBuilderReturn {
     }));
   }, []);
 
+  // Save current settings as user defaults
+  const saveSettingsAsDefaults = useCallback(() => {
+    try {
+      localStorage.setItem("nano-banana:defaults:logo", JSON.stringify(settings));
+    } catch {
+      // Ignore quota errors
+    }
+  }, [settings]);
+
   // ==========================================
   // Return
   // ==========================================
@@ -662,5 +682,6 @@ export function useLogoBuilder(): UseLogoBuilderReturn {
     clearAllCategories,
     clearTextContent,
     swapColors,
+    saveSettingsAsDefaults,
   };
 }

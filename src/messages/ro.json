@@ -138,6 +138,12 @@
       "title": "Limba",
       "description": "Alege limba preferata",
       "buttonDescription": "Schimba limba de afisare"
+    },
+    "exportData": {
+      "title": "Exporta datele mele",
+      "description": "Descarca toate datele tale ca JSON",
+      "success": "Datele au fost exportate cu succes!",
+      "error": "Exportul a esuat. Te rugam sa incerci din nou."
     }
   },
   "apiKey": {
@@ -3807,5 +3813,24 @@
     "message": "Accesul tău la această aplicație a fost blocat. Aceasta poate fi din cauza unor probleme de securitate sau încălcări ale politicilor.",
     "yourIp": "Adresa ta IP:",
     "contact": "Dacă crezi că este o greșeală, te rugăm să contactezi administratorul cu adresa ta IP pentru asistență."
+  },
+  "onboarding": {
+    "title": "Primii pasi",
+    "dismiss": "Inchide",
+    "progress": "{completed} din {total} pasi completati",
+    "steps": {
+      "apiKey": {
+        "title": "Adauga cheia API Google AI",
+        "description": "Necesara pentru generarea imaginilor. Obtine una gratuita de la Google AI Studio."
+      },
+      "avatar": {
+        "title": "Creeaza prima imagine de referinta",
+        "description": "Incarca o fotografie de referinta pentru generare consistenta de personaje."
+      },
+      "generate": {
+        "title": "Genereaza prima imagine",
+        "description": "Foloseste generatorul foto pentru a crea prima ta imagine AI."
+      }
+    }
   }
 }

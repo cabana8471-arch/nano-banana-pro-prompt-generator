@@ -24,7 +24,9 @@ import { useBannerBuilder } from "@/hooks/use-banner-builder";
 import { useBannerHistory } from "@/hooks/use-banner-history";
 import { useBannerPresets } from "@/hooks/use-banner-presets";
 import { useBannerReferences } from "@/hooks/use-banner-references";
+import { useGenerateShortcut } from "@/hooks/use-generate-shortcut";
 import { useGeneration } from "@/hooks/use-generation";
+import { useNotifications } from "@/hooks/use-notifications";
 import { usePlatformGeneration } from "@/hooks/use-platform-generation";
 import { useProjects } from "@/hooks/use-projects";
 import { usePromptHistory } from "@/hooks/use-prompt-history";
@@ -215,6 +217,9 @@ export default function BannerGeneratorPage() {
 
   // Prompt history
   const { addEntry: addHistoryEntry } = usePromptHistory();
+
+  // Browser notifications
+  const { notify, requestPermission } = useNotifications();
 
   // Platform generation state (for multi-size native generation)
   const {
@@ -480,6 +485,7 @@ export default function BannerGeneratorPage() {
 
       addHistoryEntry(assembledPrompt, "banner");
       toast.success(`Platform generation completed! ${platformBundleSizes.length} banners generated.`);
+      notify("Nano Banana Pro", { body: `${platformBundleSizes.length} banners generated!` });
       refreshRateLimit();
       return;
     }
@@ -508,7 +514,37 @@ export default function BannerGeneratorPage() {
     if (result) {
       addHistoryEntry(assembledPrompt, "banner");
       toast.success("Banner generated successfully!");
+      notify("Nano Banana Pro", { body: "Banner generated successfully!" });
     }
+  };
+
+  // Keyboard shortcut: Ctrl/Cmd + Enter to generate
+  useGenerateShortcut(handleGenerate);
+
+  // Keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isInput = target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
+      const isMod = e.metaKey || e.ctrlKey;
+
+      if (isMod && e.key === "z" && !e.shiftKey && !isInput) {
+        e.preventDefault();
+        if (canUndo) handleUndo();
+      }
+      if (isMod && ((e.key === "z" && e.shiftKey) || e.key === "y") && !isInput) {
+        e.preventDefault();
+        if (canRedo) handleRedo();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [canUndo, canRedo, handleUndo, handleRedo]);
+
+  // Request notification permission on first generate attempt
+  const handleGenerateWithPermission = async () => {
+    requestPermission();
+    return handleGenerate();
   };
 
   // Handle refinement
@@ -797,7 +833,7 @@ export default function BannerGeneratorPage() {
             assembledPrompt={assembledPrompt}
             settings={settings}
             onSettingsChange={setSettings}
-            onGenerate={handleGenerate}
+            onGenerate={handleGenerateWithPermission}
             isGenerating={isGenerating}
             hasApiKey={hasKey}
             selectedBannerSize={selectedBannerSize}

@@ -9,8 +9,12 @@ import { PreviewPanel } from "@/components/generate/preview/preview-panel";
 import { PromptBuilderPanel } from "@/components/generate/prompt-builder/prompt-builder-panel";
 import { ResultsPanel } from "@/components/generate/results/results-panel";
 import { ThreeColumnLayout } from "@/components/generate/three-column-layout";
+import { GettingStarted } from "@/components/onboarding/getting-started";
 import { useApiKey } from "@/hooks/use-api-key";
+import { useGenerateShortcut } from "@/hooks/use-generate-shortcut";
 import { useGeneration } from "@/hooks/use-generation";
+import { useNotifications } from "@/hooks/use-notifications";
+import { useOnboarding } from "@/hooks/use-onboarding";
 import { usePresets } from "@/hooks/use-presets";
 import { usePromptBuilder } from "@/hooks/use-prompt-builder";
 import { usePromptHistory } from "@/hooks/use-prompt-history";
@@ -67,6 +71,12 @@ export default function GeneratePage() {
   // Prompt history
   const { history: promptHistory, addEntry: addHistoryEntry, removeEntry: removeHistoryEntry, clearHistory } = usePromptHistory();
 
+  // Browser notifications
+  const { notify, requestPermission } = useNotifications();
+
+  // Onboarding
+  const { status: onboardingStatus, shouldShow: showOnboarding, dismiss: dismissOnboarding } = useOnboarding(hasKey);
+
   // Check for config to load from gallery "Use these settings"
   useEffect(() => {
     try {
@@ -117,7 +127,17 @@ export default function GeneratePage() {
     if (result) {
       addHistoryEntry(assembledPrompt, "photo");
       toast.success("Images generated successfully!");
+      notify("Nano Banana Pro", { body: "Images generated successfully!" });
     }
+  };
+
+  // Keyboard shortcut: Ctrl/Cmd + Enter to generate
+  useGenerateShortcut(handleGenerate);
+
+  // Request notification permission on first generate attempt
+  const handleGenerateWithPermission = async () => {
+    requestPermission();
+    return handleGenerate();
   };
 
   // Handle refinement
@@ -211,6 +231,11 @@ export default function GeneratePage() {
 
   return (
     <div className="container mx-auto py-6 px-4">
+      {/* Onboarding Checklist */}
+      {showOnboarding && (
+        <GettingStarted status={onboardingStatus} onDismiss={dismissOnboarding} />
+      )}
+
       {/* API Key Alert - Show at top if no key */}
       {!hasKey && (
         <ApiKeyAlert
@@ -224,7 +249,7 @@ export default function GeneratePage() {
         <GenerationErrorAlert
           error={error}
           onDismiss={clearError}
-          onRetry={handleGenerate}
+          onRetry={handleGenerateWithPermission}
         />
       )}
 
@@ -253,7 +278,7 @@ export default function GeneratePage() {
             assembledPrompt={assembledPrompt}
             settings={settings}
             onSettingsChange={setSettings}
-            onGenerate={handleGenerate}
+            onGenerate={handleGenerateWithPermission}
             isGenerating={isGenerating}
             hasApiKey={hasKey}
             rateLimit={rateLimit}
