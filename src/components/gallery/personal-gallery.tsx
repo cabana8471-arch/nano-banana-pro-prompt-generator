@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, FolderOpen, Search, Star, Trash2, X } from "lucide-react";
+import { CheckSquare, ChevronLeft, ChevronRight, FolderOpen, Search, Star, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGallerySelection } from "@/hooks/use-gallery-selection";
 import { useProjects } from "@/hooks/use-projects";
+import { useTags } from "@/hooks/use-tags";
 import type {
   GenerationWithImages,
   GeneratedImage,
@@ -24,9 +26,12 @@ import type {
   PaginatedResponse,
 } from "@/lib/types/generation";
 import type { CreateProjectInput } from "@/lib/types/project";
+import { BatchActionBar } from "./batch-action-bar";
 import { GalleryGrid } from "./gallery-grid";
 import { ImageCard } from "./image-card";
 import { ImageDetailModal } from "./image-detail-modal";
+import { TagFilter } from "./tag-filter";
+import { TagManager } from "./tag-manager";
 import { ViewModeSelector, type ViewMode } from "./view-mode-selector";
 
 const GALLERY_VIEW_MODE_KEY = "gallery-view-mode";
@@ -57,6 +62,17 @@ function getInitialViewMode(): ViewMode {
 export function PersonalGallery() {
   const t = useTranslations("gallery");
   const { projects, isLoading: projectsLoading, createProject } = useProjects();
+  const { tags, isLoading: tagsLoading, setImageTags, getImageTags } = useTags();
+  const {
+    selectedIds,
+    isSelecting,
+    startSelecting,
+    stopSelecting,
+    toggleSelect,
+    selectAll,
+    performBatchAction,
+    isPerforming,
+  } = useGallerySelection();
   const [images, setImages] = useState<PersonalImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -73,6 +89,7 @@ export function PersonalGallery() {
   const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest");
   const [visibilityFilter, setVisibilityFilter] = useState<"all" | "public" | "private">("all");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Debounce search
@@ -105,6 +122,7 @@ export function PersonalGallery() {
     sort: string,
     visibility: string,
     favorites: boolean,
+    tagIds: string[],
   ) => {
     setLoading(true);
     try {
@@ -129,6 +147,9 @@ export function PersonalGallery() {
       }
       if (favorites) {
         params.append("favorites", "true");
+      }
+      if (tagIds.length > 0) {
+        params.append("tagIds", tagIds.join(","));
       }
 
       const response = await fetch(`/api/generations?${params.toString()}`);
@@ -163,8 +184,8 @@ export function PersonalGallery() {
   }, []);
 
   useEffect(() => {
-    fetchImages(page, filter, projectFilter, debouncedSearch, sortBy, visibilityFilter, favoritesOnly);
-  }, [page, filter, projectFilter, debouncedSearch, sortBy, visibilityFilter, favoritesOnly, fetchImages]);
+    fetchImages(page, filter, projectFilter, debouncedSearch, sortBy, visibilityFilter, favoritesOnly, selectedTagIds);
+  }, [page, filter, projectFilter, debouncedSearch, sortBy, visibilityFilter, favoritesOnly, selectedTagIds, fetchImages]);
 
   const handleFilterChange = (newFilter: FilterType) => {
     setFilter(newFilter);
@@ -251,6 +272,29 @@ export function PersonalGallery() {
     return project;
   };
 
+  const handleToggleTag = (tagId: string) => {
+    setSelectedTagIds((prev) =>
+      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId]
+    );
+    setPage(1);
+  };
+
+  const handleBatchAction = async (operation: "delete" | "favorite" | "unfavorite" | "make_public" | "make_private") => {
+    const result = await performBatchAction(operation);
+    if (result.success) {
+      toast.success(t("batchSuccess"));
+      stopSelecting();
+      // Refresh the gallery to reflect changes
+      fetchImages(page, filter, projectFilter, debouncedSearch, sortBy, visibilityFilter, favoritesOnly, selectedTagIds);
+    } else {
+      toast.error(t("batchError"));
+    }
+  };
+
+  const handleSelectAll = () => {
+    selectAll(images.map((img) => img.id));
+  };
+
   const totalPages = Math.ceil(total / 20);
 
   return (
@@ -290,9 +334,40 @@ export function PersonalGallery() {
           </div>
         </div>
 
-        {/* View Mode Selector and Trash Link */}
+        {/* View Mode Selector, Select Toggle, and Trash Link */}
         <div className="flex items-center gap-2">
           <ViewModeSelector value={viewMode} onChange={handleViewModeChange} />
+          {isSelecting ? (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSelectAll}
+                disabled={images.length === 0}
+              >
+                {t("filterAll")}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={stopSelecting}
+              >
+                <X className="h-4 w-4 mr-1" />
+                {t("batchCancel")}
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={startSelecting}
+              disabled={images.length === 0}
+              className="gap-1.5"
+            >
+              <CheckSquare className="h-4 w-4" />
+              {t("batchSelect")}
+            </Button>
+          )}
           <Link href="/gallery/trash">
             <Button variant="ghost" size="icon" title={t("trash")}>
               <Trash2 className="h-4 w-4" />
@@ -358,7 +433,21 @@ export function PersonalGallery() {
           <Star className={`h-4 w-4 ${favoritesOnly ? "fill-current" : ""}`} />
           {t("favorites")}
         </Button>
+
+        {/* Tag Manager */}
+        <TagManager />
       </div>
+
+      {/* Tag Filter Chips */}
+      {!tagsLoading && tags.length > 0 && (
+        <div className="mb-4">
+          <TagFilter
+            tags={tags}
+            selectedTagIds={selectedTagIds}
+            onToggleTag={handleToggleTag}
+          />
+        </div>
+      )}
 
       <GalleryGrid
         loading={loading}
@@ -375,6 +464,9 @@ export function PersonalGallery() {
             onVisibilityChange={handleVisibilityChange}
             onFavoriteToggle={handleFavoriteToggle}
             viewMode={viewMode}
+            isSelecting={isSelecting}
+            isSelected={selectedIds.has(image.id)}
+            onToggleSelect={toggleSelect}
           />
         ))}
       </GalleryGrid>
@@ -417,7 +509,20 @@ export function PersonalGallery() {
         projectsLoading={projectsLoading}
         onAddToProject={handleAddToProject}
         onCreateProject={handleCreateProject}
+        tags={tags}
+        onSetImageTags={setImageTags}
+        getImageTags={getImageTags}
       />
+
+      {/* Batch action bar - visible when in multi-select mode with items selected */}
+      {isSelecting && (
+        <BatchActionBar
+          selectedCount={selectedIds.size}
+          isPerforming={isPerforming}
+          onAction={handleBatchAction}
+          onCancel={stopSelecting}
+        />
+      )}
     </>
   );
 }

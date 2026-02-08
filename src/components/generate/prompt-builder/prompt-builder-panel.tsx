@@ -11,7 +11,8 @@ import {
   styleTemplates,
   locationTemplates,
 } from "@/lib/data/templates";
-import type { SubjectConfig, Avatar } from "@/lib/types/generation";
+import type { SubjectConfig, Avatar, PromptBuilderState } from "@/lib/types/generation";
+import { PhotoQuickStartTemplates } from "./photo-quick-start-templates";
 import { SubjectManager } from "./subject-manager";
 import { TemplateSelector } from "./template-selector";
 
@@ -36,6 +37,9 @@ interface PromptBuilderPanelProps {
   onRemoveSubject: (id: string) => void;
   onUpdateSubject: (id: string, updates: Partial<SubjectConfig>) => void;
   onLinkAvatarToSubject: (subjectId: string, avatar: Avatar | null) => void;
+
+  // Quick start templates (optional)
+  onLoadTemplate?: (config: Partial<PromptBuilderState>) => void;
 }
 
 export function PromptBuilderPanel({
@@ -54,14 +58,20 @@ export function PromptBuilderPanel({
   onRemoveSubject,
   onUpdateSubject,
   onLinkAvatarToSubject,
+  onLoadTemplate,
 }: PromptBuilderPanelProps) {
   const t = useTranslations("promptBuilder");
 
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
-        <h2 className="font-semibold text-lg">{t("title")}</h2>
-        <p className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="font-semibold text-lg">{t("title")}</h2>
+          {onLoadTemplate && (
+            <PhotoQuickStartTemplates onSelectTemplate={onLoadTemplate} />
+          )}
+        </div>
+        <p className="text-sm text-muted-foreground mt-1">
           {t("description")}
         </p>
       </div>

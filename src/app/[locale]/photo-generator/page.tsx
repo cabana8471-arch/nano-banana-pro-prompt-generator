@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ApiKeyAlert } from "@/components/generate/api-key-alert";
@@ -16,11 +16,13 @@ import { useGeneration } from "@/hooks/use-generation";
 import { useNotifications } from "@/hooks/use-notifications";
 import { useOnboarding } from "@/hooks/use-onboarding";
 import { usePresets } from "@/hooks/use-presets";
+import { useProjects } from "@/hooks/use-projects";
 import { usePromptBuilder } from "@/hooks/use-prompt-builder";
 import { usePromptHistory } from "@/hooks/use-prompt-history";
 import { useRateLimit } from "@/hooks/use-rate-limit";
 import { useSession } from "@/lib/auth-client";
 import type { Preset, PresetConfig, UpdatePresetInput } from "@/lib/types/generation";
+import type { CreateProjectInput } from "@/lib/types/project";
 
 export default function GeneratePage() {
   const { data: session, isPending: sessionPending } = useSession();
@@ -43,6 +45,7 @@ export default function GeneratePage() {
     linkAvatarToSubject,
     assembledPrompt,
     loadFromPreset,
+    loadFromTemplate,
   } = usePromptBuilder();
 
   // Presets state
@@ -53,6 +56,14 @@ export default function GeneratePage() {
     updatePreset,
     deletePreset,
   } = usePresets();
+
+  // Projects state
+  const {
+    projects,
+    isLoading: projectsLoading,
+    createProject,
+  } = useProjects();
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
   // Generation state
   const {
@@ -106,6 +117,11 @@ export default function GeneratePage() {
       return;
     }
 
+    if (!selectedProjectId) {
+      toast.error("Please select a project before generating");
+      return;
+    }
+
     // Get reference images from subjects with avatars
     const referenceImages = state.subjects
       .filter((s) => s.avatarId)
@@ -118,6 +134,7 @@ export default function GeneratePage() {
       prompt: assembledPrompt,
       settings,
       generationType: "photo" as const,
+      projectId: selectedProjectId,
       builderConfig: state as unknown as Record<string, unknown>,
       ...(referenceImages.length > 0 && { referenceImages }),
     };
@@ -202,6 +219,18 @@ export default function GeneratePage() {
     return success;
   };
 
+  // Project handlers
+  const handleCreateProject = async (input: CreateProjectInput) => {
+    const project = await createProject(input);
+    if (project) {
+      toast.success(`Project "${input.name}" created!`);
+      setSelectedProjectId(project.id);
+    } else {
+      toast.error("Failed to create project");
+    }
+    return project;
+  };
+
   // Get current config for preset saving
   const currentConfig: PresetConfig = {
     ...(state.location && { location: state.location }),
@@ -271,6 +300,7 @@ export default function GeneratePage() {
             onRemoveSubject={removeSubject}
             onUpdateSubject={updateSubject}
             onLinkAvatarToSubject={linkAvatarToSubject}
+            onLoadTemplate={loadFromTemplate}
           />
         }
         middlePanel={
@@ -294,6 +324,11 @@ export default function GeneratePage() {
             onLoadPreset={handleLoadPreset}
             onUpdatePreset={handleUpdatePreset}
             onDeletePreset={handleDeletePreset}
+            projects={projects}
+            projectsLoading={projectsLoading}
+            selectedProjectId={selectedProjectId}
+            onProjectChange={setSelectedProjectId}
+            onCreateProject={handleCreateProject}
           />
         }
         rightPanel={
@@ -304,6 +339,7 @@ export default function GeneratePage() {
             generationId={currentGeneration?.id}
             onRefine={handleRefine}
             isRefining={isRefining}
+            onRegenerate={handleGenerateWithPermission}
           />
         }
       />

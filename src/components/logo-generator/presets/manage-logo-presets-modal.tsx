@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Settings2, Loader2, Trash2, Copy, MoreHorizontal } from "lucide-react";
+import { Settings2, Pencil, Loader2, Trash2, Copy, ArrowLeftRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   AlertDialog,
@@ -13,21 +13,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { LogoPreset, UpdateLogoPresetInput } from "@/lib/types/logo";
 
@@ -42,13 +38,38 @@ interface ManageLogoPresetsModalProps {
   disabled?: boolean;
 }
 
+/**
+ * Counts the total number of configured fields in a logo preset config.
+ * Used to display a summary badge on each preset row.
+ */
+function getTotalConfiguredFields(config: LogoPreset["config"]): number {
+  let count = 0;
+  const stringFields = [
+    "logoType", "industry", "logoFormat", "designStyle", "colorSchemeType",
+    "mood", "iconStyle", "fontCategory", "typographyTreatment",
+    "specialEffects", "backgroundStyle", "primaryColor", "secondaryColor",
+    "accentColor", "customPrompt",
+  ] as const;
+
+  for (const field of stringFields) {
+    if (config[field]) count++;
+  }
+  if (config.symbolElements && config.symbolElements.length > 0) count++;
+  if (config.textContent) {
+    if (config.textContent.companyName) count++;
+    if (config.textContent.tagline) count++;
+    if (config.textContent.abbreviation) count++;
+  }
+  return count;
+}
+
 export function ManageLogoPresetsModal({
   presets,
   onUpdate: _onUpdate,
   onDelete,
   onDuplicate,
-  onEdit: _onEdit,
-  onCompare: _onCompare,
+  onEdit,
+  onCompare,
   isLoading = false,
   disabled = false,
 }: ManageLogoPresetsModalProps) {
@@ -60,10 +81,8 @@ export function ManageLogoPresetsModal({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDuplicating, setIsDuplicating] = useState<string | null>(null);
 
-  // Suppress unused variable warnings
+  // onUpdate is available for future inline rename; suppress for now
   void _onUpdate;
-  void _onEdit;
-  void _onCompare;
 
   const handleDeleteClick = (preset: LogoPreset) => {
     setPresetToDelete(preset);
@@ -83,13 +102,31 @@ export function ManageLogoPresetsModal({
     }
   };
 
-  const handleDuplicate = async (preset: LogoPreset) => {
-    setIsDuplicating(preset.id);
+  const handleDuplicate = async (presetId: string) => {
+    setIsDuplicating(presetId);
     try {
-      await onDuplicate(preset.id, `${preset.name} (copy)`);
+      await onDuplicate(presetId);
     } finally {
       setIsDuplicating(null);
     }
+  };
+
+  const handleEditFull = (preset: LogoPreset) => {
+    setOpen(false);
+    onEdit(preset);
+  };
+
+  const handleCompare = () => {
+    setOpen(false);
+    onCompare();
+  };
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
   };
 
   return (
@@ -108,52 +145,84 @@ export function ManageLogoPresetsModal({
           </DialogHeader>
 
           <ScrollArea className="max-h-[400px]">
-            <div className="space-y-2 pr-4">
+            <div className="space-y-3 pr-4">
               {presets.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   {t("noPresets")}
                 </div>
               ) : (
-                presets.map((preset) => (
-                  <div
-                    key={preset.id}
-                    className="flex items-center justify-between p-3 border rounded-lg"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium truncate">{preset.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(preset.createdAt).toLocaleDateString()}
-                      </p>
+                presets.map((preset) => {
+                  const totalFields = getTotalConfiguredFields(preset.config);
+
+                  return (
+                    <div
+                      key={preset.id}
+                      className="p-3 border rounded-lg hover:bg-accent/30 transition-colors"
+                    >
+                      {/* Header Row */}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="font-medium truncate">{preset.name}</p>
+                            <Badge variant="secondary" className="text-xs">
+                              {totalFields} {t("fields")}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {formatDate(preset.createdAt)}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1 shrink-0">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-8 px-3"
+                            onClick={() => handleEditFull(preset)}
+                          >
+                            <Pencil className="h-3.5 w-3.5 mr-1.5" />
+                            {t("edit")}
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8"
+                            onClick={() => handleDuplicate(preset.id)}
+                            disabled={isDuplicating === preset.id}
+                            title={t("duplicate")}
+                          >
+                            {isDuplicating === preset.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Copy className="h-4 w-4" />
+                            )}
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8 text-destructive hover:text-destructive"
+                            onClick={() => handleDeleteClick(preset)}
+                            title={tCommon("delete")}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleDuplicate(preset)}>
-                          {isDuplicating === preset.id ? (
-                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          ) : (
-                            <Copy className="h-4 w-4 mr-2" />
-                          )}
-                          {t("duplicate")}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleDeleteClick(preset)}
-                          className="text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          {tCommon("delete")}
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </ScrollArea>
+
+          {/* Footer with Compare action */}
+          {presets.length >= 2 && (
+            <DialogFooter className="sm:justify-start">
+              <Button variant="outline" onClick={handleCompare}>
+                <ArrowLeftRight className="h-4 w-4 mr-2" />
+                {t("comparePresets")}
+              </Button>
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
 

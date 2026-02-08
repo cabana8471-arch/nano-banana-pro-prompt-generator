@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { ArrowLeft, RotateCcw, Trash2 } from "lucide-react";
+import { ArrowLeft, Clock, RotateCcw, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
@@ -33,6 +33,22 @@ interface TrashItem {
   createdAt: Date;
   settings: GenerationSettings;
   images: { id: string; imageUrl: string }[];
+}
+
+/** Number of days after which trashed items are permanently deleted */
+const TRASH_RETENTION_DAYS = 30;
+
+/**
+ * Calculate remaining days before an item is permanently deleted.
+ * Returns the number of days remaining (minimum 0).
+ */
+function getDaysUntilDeletion(deletedAt: Date): number {
+  const deletedDate = new Date(deletedAt);
+  const now = new Date();
+  const daysSinceDeleted = Math.floor(
+    (now.getTime() - deletedDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  return Math.max(0, TRASH_RETENTION_DAYS - daysSinceDeleted);
 }
 
 export function TrashGallery() {
@@ -229,6 +245,15 @@ export function TrashGallery() {
                   <span>-</span>
                   <span>
                     {item.images.length} {item.images.length === 1 ? t("image") : t("images")}
+                  </span>
+                </div>
+                {/* Auto-delete countdown */}
+                <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground/70">
+                  <Clock className="h-3 w-3" />
+                  <span>
+                    {getDaysUntilDeletion(item.deletedAt) <= 1
+                      ? t("autoDeleteTomorrow")
+                      : t("autoDeleteIn", { days: getDaysUntilDeletion(item.deletedAt) })}
                   </span>
                 </div>
               </div>

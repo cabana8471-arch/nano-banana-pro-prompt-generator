@@ -212,6 +212,7 @@ export const generatedImages = pgTable(
       .references(() => generations.id, { onDelete: "cascade" }),
     imageUrl: text("image_url").notNull(),
     isPublic: boolean("is_public").default(false).notNull(),
+    shareToken: text("share_token").unique(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => [
@@ -510,4 +511,46 @@ export const userAccessStatus = pgTable(
     authorizedAt: timestamp("authorized_at"),
   },
   (table) => [index("user_access_status_user_id_idx").on(table.userId)]
+);
+
+// ==========================================
+// Image Tags Tables
+// ==========================================
+
+// Image Tags - User-defined labels for organizing generated images
+export const imageTags = pgTable(
+  "image_tags",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    color: text("color").notNull().default("#6366f1"), // hex color
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("image_tags_user_id_idx").on(table.userId),
+    unique("image_tags_unique_name").on(table.userId, table.name),
+  ]
+);
+
+// Image Tag Assignments - Many-to-many relationship between images and tags
+export const imageTagAssignments = pgTable(
+  "image_tag_assignments",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    imageId: uuid("image_id")
+      .notNull()
+      .references(() => generatedImages.id, { onDelete: "cascade" }),
+    tagId: uuid("tag_id")
+      .notNull()
+      .references(() => imageTags.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("image_tag_assignments_image_id_idx").on(table.imageId),
+    index("image_tag_assignments_tag_id_idx").on(table.tagId),
+    unique("image_tag_assignments_unique").on(table.imageId, table.tagId),
+  ]
 );

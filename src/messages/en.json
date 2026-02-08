@@ -10,7 +10,9 @@
     "tryAgain": "Try again",
     "comingSoon": "Coming Soon",
     "saveChanges": "Save Changes",
-    "notProvided": "Not provided"
+    "notProvided": "Not provided",
+    "saving": "Saving...",
+    "admin": "Admin"
   },
   "navigation": {
     "photos": "Photos",
@@ -105,7 +107,10 @@
       "description": "Update your profile information. Changes will be saved to your account.",
       "buttonDescription": "Update your information",
       "enterName": "Enter your name",
-      "emailCannotChange": "Email cannot be changed for OAuth accounts"
+      "emailCannotChange": "Email cannot be changed for OAuth accounts",
+      "nameRequired": "Name is required",
+      "success": "Profile updated successfully!",
+      "error": "Failed to update profile. Please try again."
     },
     "security": {
       "title": "Security Settings",
@@ -122,7 +127,11 @@
       "manageInGoogle": "Google Security",
       "activeSessions": "Active Sessions",
       "activeSessionsDescription": "Manage devices logged into your account",
-      "oneActive": "1 Active"
+      "oneActive": "1 Active",
+      "sessionCount": "{count, plural, one {# Active} other {# Active}}",
+      "revokeOtherSessions": "Revoke {count, plural, one {# other session} other {# other sessions}}",
+      "sessionsRevoked": "Other sessions have been revoked",
+      "revokeError": "Failed to revoke sessions. Please try again."
     },
     "email": {
       "title": "Email Preferences",
@@ -196,7 +205,9 @@
     "rateLimitStatus": "{remaining}/{limit} generations remaining",
     "rateLimitExhausted": "Rate limit reached. Resets in {minutes} min",
     "recentPrompts": "Recent",
-    "clearHistory": "Clear"
+    "clearHistory": "Clear",
+    "project": "Project",
+    "projectRequired": "Select a project to organize your generations"
   },
   "templateSelector": {
     "selectStyle": "Select Style",
@@ -310,7 +321,9 @@
     "previousImage": "Previous image",
     "nextImage": "Next image",
     "generatedImages": "Generated images",
-    "viewImage": "View image {number}"
+    "viewImage": "View image {number}",
+    "regenerate": "Regenerate",
+    "regenerateTooltip": "Generate again with same settings"
   },
   "gallery": {
     "myGallery": "My Gallery",
@@ -400,7 +413,50 @@
     "settingsLoaded": "Settings loaded in {type} generator",
     "generationConfig": "Generation Config",
     "showConfig": "Show full config",
-    "hideConfig": "Hide config"
+    "hideConfig": "Hide config",
+    "autoDeleteIn": "Permanently deleted in {days} days",
+    "autoDeleteTomorrow": "Permanently deleted tomorrow",
+    "trashCleanupSuccess": "Trash cleanup completed",
+    "batchSelect": "Select",
+    "batchCancel": "Cancel Selection",
+    "batchSelected": "{count} selected",
+    "batchDelete": "Delete",
+    "batchFavorite": "Favorite",
+    "batchUnfavorite": "Unfavorite",
+    "batchMakePublic": "Make Public",
+    "batchMakePrivate": "Make Private",
+    "batchSuccess": "Batch operation completed",
+    "batchError": "Batch operation failed",
+    "share": "Share",
+    "shareLink": "Share Link",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied to clipboard!",
+    "unshare": "Remove Share Link",
+    "unshareConfirm": "Remove the share link? Others won't be able to access this image via the link.",
+    "shareCreated": "Share link created",
+    "shareRevoked": "Share link removed",
+    "publicImage": {
+      "createdBy": "Created by {name}",
+      "likes": "{count, plural, one {# like} other {# likes}}",
+      "startCreating": "Start Creating with Nano Banana Pro",
+      "notFound": "Image not found or is private"
+    },
+    "tags": {
+      "title": "Tags",
+      "manageTags": "Manage Tags",
+      "addTag": "Add Tag",
+      "editTag": "Edit Tag",
+      "deleteTag": "Delete Tag",
+      "deleteTagConfirm": "Delete this tag? It will be removed from all images.",
+      "tagName": "Tag name",
+      "tagColor": "Color",
+      "noTags": "No tags yet",
+      "filterByTags": "Filter by tags",
+      "maxTags": "Maximum 100 tags reached",
+      "tagCreated": "Tag created",
+      "tagUpdated": "Tag updated",
+      "tagDeleted": "Tag deleted"
+    }
   },
   "avatars": {
     "title": "Your Avatars",
@@ -2213,7 +2269,9 @@
       "exportMultiSize": "Export for Platforms",
       "viewImage": "View generated banner {index} in fullscreen",
       "previousImage": "Previous image",
-      "nextImage": "Next image"
+      "nextImage": "Next image",
+      "regenerate": "Regenerate",
+      "regenerateTooltip": "Generate again with same settings"
     },
     "multiSizeExport": {
       "title": "Export for Multiple Platforms",
@@ -3357,7 +3415,9 @@
         "betterTypography": "Improve typography",
         "moreMinimal": "More minimal",
         "moreUnique": "More unique design"
-      }
+      },
+      "regenerate": "Regenerate",
+      "regenerateTooltip": "Generate again with same settings"
     },
     "presets": {
       "savePreset": "Save Preset",
@@ -3389,7 +3449,42 @@
       "summaryTypography": "Typography",
       "summaryCompanyName": "Company Name",
       "summaryColors": "Brand Colors",
-      "summaryCustomPrompt": "Custom prompt included"
+      "summaryCustomPrompt": "Custom prompt included",
+      "edit": "Edit",
+      "comparePresets": "Compare Presets",
+      "compareDescription": "Compare two logo presets side by side to see differences",
+      "selectPreset1": "First Preset",
+      "selectPreset2": "Second Preset",
+      "selectPresetPlaceholder": "Select a preset...",
+      "selectBothPresets": "Select two presets to compare",
+      "field": "Field",
+      "status": "Status",
+      "identical": "Identical",
+      "different": "Different",
+      "onlyInPreset1": "Only in 1st",
+      "onlyInPreset2": "Only in 2nd",
+      "sectionBasicConfig": "Basic Configuration",
+      "sectionVisualStyle": "Visual Style",
+      "sectionIconSymbol": "Icon & Symbol",
+      "sectionTypography": "Typography",
+      "sectionAdditionalOptions": "Additional Options",
+      "sectionBrandColors": "Brand Colors",
+      "sectionTextContent": "Text Content",
+      "sectionCustomPrompt": "Custom Prompt",
+      "comparePrimaryColor": "Primary Color",
+      "compareSecondaryColor": "Secondary Color",
+      "compareAccentColor": "Accent Color",
+      "compareCompanyName": "Company Name",
+      "compareTagline": "Tagline",
+      "compareAbbreviation": "Abbreviation",
+      "editPreset": "Edit Preset",
+      "editPresetDescription": "Modify the preset configuration and save changes",
+      "unsavedChanges": "Unsaved changes",
+      "unsavedChangesConfirm": "You have unsaved changes. Are you sure you want to discard them?",
+      "discardChanges": "Discard Changes",
+      "changesCount": "{count} change(s)",
+      "resetChanges": "Reset",
+      "saveChanges": "Save Changes"
     },
     "projects": {
       "title": "Project",
@@ -3423,6 +3518,11 @@
     "history": {
       "undo": "Undo",
       "redo": "Redo",
+      "viewHistory": "View history",
+      "title": "Change History",
+      "stateCount": "{current} of {total}",
+      "clearHistory": "Clear history",
+      "historyList": "History of changes",
       "reset": "Reset",
       "resetConfirmTitle": "Reset Configuration",
       "resetConfirmDescription": "This will reset all logo settings to their default values. This action cannot be undone."
@@ -3645,6 +3745,18 @@
       "description": "{count} generations need cost estimates. Click to estimate costs for older generations.",
       "button": "Estimate Costs",
       "running": "Estimating..."
+    },
+    "usageStats": {
+      "title": "Usage Analytics",
+      "totalGenerations": "Total Generations",
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month",
+      "byType": "By Type",
+      "averageImages": "Avg Images/Generation",
+      "totalImages": "Total Images",
+      "favoriteType": "Most Used",
+      "monthOverMonth": "{change}% vs last month",
+      "noData": "No generation data yet"
     }
   },
   "sitePassword": {
@@ -3836,6 +3948,80 @@
       "generate": {
         "title": "Generate your first image",
         "description": "Use the photo generator to create your first AI image."
+      }
+    }
+  },
+  "photoTemplates": {
+    "title": "Quick Start Templates",
+    "description": "Choose a template to quickly set up your prompt",
+    "search": "Search templates...",
+    "allCategories": "All",
+    "portrait": "Portrait",
+    "landscape": "Landscape",
+    "product": "Product",
+    "street": "Street",
+    "creative": "Creative",
+    "apply": "Use Template",
+    "templatesAvailable": "{count} templates available",
+    "resultsCount": "{count} results",
+    "noResults": "No templates found",
+    "clearFilters": "Clear filters",
+    "templates": {
+      "studio-portrait": {
+        "name": "Studio Portrait",
+        "description": "Classic studio portrait with professional lighting and shallow depth of field"
+      },
+      "fashion-editorial": {
+        "name": "Fashion Editorial",
+        "description": "High-fashion editorial look with dramatic lighting and cinematic style"
+      },
+      "moody-film-noir": {
+        "name": "Moody Film Noir",
+        "description": "Dark, atmospheric portrait with high-contrast black and white cinema feel"
+      },
+      "golden-hour-landscape": {
+        "name": "Golden Hour Landscape",
+        "description": "Sweeping landscape bathed in warm golden sunset light"
+      },
+      "dramatic-weather": {
+        "name": "Dramatic Weather",
+        "description": "Moody landscape with overcast skies and atmospheric drama"
+      },
+      "night-city": {
+        "name": "Night City",
+        "description": "Urban nightscape with neon lights and vibrant city atmosphere"
+      },
+      "product-white": {
+        "name": "Product on White",
+        "description": "Clean product shot on white background with professional studio lighting"
+      },
+      "flat-lay-product": {
+        "name": "Flat Lay Product",
+        "description": "Overhead flat lay arrangement with styled product composition"
+      },
+      "street-photography": {
+        "name": "Street Photography",
+        "description": "Candid urban street scene with natural light and documentary feel"
+      },
+      "architecture-detail": {
+        "name": "Architecture Detail",
+        "description": "Dramatic architectural composition with leading lines and geometric patterns"
+      },
+      "cinematic-scene": {
+        "name": "Cinematic Scene",
+        "description": "Widescreen cinematic shot with dramatic film-style lighting"
+      },
+      "macro-nature": {
+        "name": "Macro Nature",
+        "description": "Extreme close-up of natural details with vivid colors and textures"
+      },
+      "vintage-film": {
+        "name": "Vintage Film",
+        "description": "Nostalgic analog film aesthetic with natural grain and warm tones"
+      },
+      "minimalist": {
+        "name": "Minimalist",
+        "description": "Clean, simple composition with negative space and elegant restraint"
       }
     }
   }

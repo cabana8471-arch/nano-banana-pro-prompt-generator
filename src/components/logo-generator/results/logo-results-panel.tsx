@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Download, ExternalLink, FileImage, FolderPlus, FileType, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, ExternalLink, FileImage, FolderPlus, FileType, Loader2, RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { AddToProjectModal } from "@/components/banner-generator/projects/add-to-project-modal";
@@ -21,6 +21,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { exportAsSvg } from "@/lib/svg-export";
 import type { LogoExportFormat } from "@/lib/types/logo";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
@@ -40,6 +45,8 @@ interface LogoResultsPanelProps {
   currentProjectId?: string | null | undefined;
   onAddToProject: (generationId: string, projectId: string) => Promise<boolean>;
   onCreateProject: (input: CreateProjectInput) => Promise<Project | null>;
+  // Regenerate prop
+  onRegenerate?: (() => void) | undefined;
 }
 
 export function LogoResultsPanel({
@@ -55,6 +62,7 @@ export function LogoResultsPanel({
   currentProjectId,
   onAddToProject,
   onCreateProject,
+  onRegenerate,
 }: LogoResultsPanelProps) {
   const t = useTranslations("logoGenerator.results");
   const tProjects = useTranslations("logoGenerator.projects");
@@ -173,16 +181,36 @@ export function LogoResultsPanel({
             <h2 className="font-semibold text-lg">{t("title")}</h2>
             <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
-          {hasImages && generationId && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setAddToProjectModalOpen(true)}
-            >
-              <FolderPlus className="h-4 w-4 mr-2" />
-              {tProjects("addToProject")}
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {hasImages && onRegenerate && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onRegenerate}
+                    disabled={isGenerating}
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    {t("regenerate")}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("regenerateTooltip")}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            {hasImages && generationId && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setAddToProjectModalOpen(true)}
+              >
+                <FolderPlus className="h-4 w-4 mr-2" />
+                {tProjects("addToProject")}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 

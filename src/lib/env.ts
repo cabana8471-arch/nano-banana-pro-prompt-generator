@@ -44,6 +44,9 @@ const serverEnvSchema = z.object({
     .min(8, "SITE_PASSWORD must be at least 8 characters")
     .optional(),
   ADMIN_EMAILS: z.string().optional(), // Comma-separated list of admin emails
+
+  // Cron Jobs
+  CRON_SECRET: z.string().optional(), // Secret for authenticating Vercel Cron Job requests
 });
 
 /**

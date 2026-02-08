@@ -401,6 +401,17 @@ export const userPreferencesSchema = z.object({
 });
 
 // ============================================================================
+// Profile Schemas
+// ============================================================================
+
+/** Schema for updating user profile */
+export const updateProfileSchema = z.object({
+  name: nameSchema,
+});
+
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+
+// ============================================================================
 // File Validation Helpers
 // ============================================================================
 
@@ -430,9 +441,48 @@ export function validateImageFile(file: File | null): { success: true } | { succ
 }
 
 // ============================================================================
+// Batch Operation Schemas
+// ============================================================================
+
+/** Schema for batch operations on gallery images */
+export const batchOperationSchema = z.object({
+  imageIds: z.array(z.string().uuid()).min(1).max(50),
+  operation: z.enum(["delete", "favorite", "unfavorite", "make_public", "make_private"]),
+});
+
+// ============================================================================
+// Tag Schemas
+// ============================================================================
+
+/** Schema for creating a new image tag */
+export const createTagSchema = z.object({
+  name: z.string().min(1, "Tag name is required").max(50, "Tag name too long").transform((val) => val.trim()),
+  color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Invalid hex color"),
+});
+
+/** Schema for updating an image tag - at least one field required */
+export const updateTagSchema = z
+  .object({
+    name: z.string().min(1, "Tag name is required").max(50, "Tag name too long").transform((val) => val.trim()).optional(),
+    color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Invalid hex color").optional(),
+  })
+  .refine((data) => data.name !== undefined || data.color !== undefined, {
+    message: "No valid fields to update",
+  });
+
+/** Schema for setting tags on an image */
+export const setImageTagsSchema = z.object({
+  tagIds: z.array(z.string().uuid({ message: "Invalid tag ID format" })).max(20, "Maximum 20 tags per image"),
+});
+
+// ============================================================================
 // Type Exports
 // ============================================================================
 
+export type CreateTagInput = z.infer<typeof createTagSchema>;
+export type UpdateTagInput = z.infer<typeof updateTagSchema>;
+export type SetImageTagsInput = z.infer<typeof setImageTagsSchema>;
+export type BatchOperationInput = z.infer<typeof batchOperationSchema>;
 export type CreateAvatarInput = z.infer<typeof createAvatarSchema>;
 export type UpdateAvatarInput = z.infer<typeof updateAvatarSchema>;
 export type CreatePresetInput = z.infer<typeof createPresetSchema>;

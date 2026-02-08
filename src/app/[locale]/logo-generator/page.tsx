@@ -7,6 +7,9 @@ import { ApiKeyAlert } from "@/components/generate/api-key-alert";
 import { GenerationErrorAlert } from "@/components/generate/generation-error-alert";
 import { ThreeColumnLayout } from "@/components/generate/three-column-layout";
 import { LogoBuilderPanel } from "@/components/logo-generator/logo-builder/logo-builder-panel";
+import { LogoHistoryControls } from "@/components/logo-generator/logo-builder/logo-history-controls";
+import { CompareLogoPresetsModal } from "@/components/logo-generator/presets/compare-logo-presets-modal";
+import { EditLogoPresetSheet } from "@/components/logo-generator/presets/edit-logo-preset-sheet";
 import { LogoPreviewPanel } from "@/components/logo-generator/preview/logo-preview-panel";
 import { LogoResultsPanel } from "@/components/logo-generator/results/logo-results-panel";
 import { useApiKey } from "@/hooks/use-api-key";
@@ -90,11 +93,6 @@ export default function LogoGeneratorPage() {
     getRecentHistory,
   } = useLogoHistory(DEFAULT_LOGO_BUILDER_STATE);
 
-  // Suppress unused variable warnings for history features not yet exposed in UI
-  void historyLength;
-  void currentIndex;
-  void getRecentHistory;
-
   // Track state changes for history
   const handleStateChange = useCallback(
     (newState: LogoBuilderState, action: string) => {
@@ -103,8 +101,8 @@ export default function LogoGeneratorPage() {
     [pushState]
   );
 
-  // Helper to convert state to preset config
-  const stateToConfig = (s: LogoBuilderState): LogoPresetConfig => {
+  // Helper to convert LogoBuilderState to LogoPresetConfig (used by undo/redo)
+  const stateToConfig = useCallback((s: LogoBuilderState): LogoPresetConfig => {
     const config: LogoPresetConfig = {};
     if (s.logoType) config.logoType = s.logoType;
     if (s.industry) config.industry = s.industry;
@@ -124,10 +122,22 @@ export default function LogoGeneratorPage() {
     if (s.accentColor) config.accentColor = s.accentColor;
     if (s.customPrompt) config.customPrompt = s.customPrompt;
     return config;
-  };
+  }, []);
 
-  // Suppress unused variable warning
-  void stateToConfig;
+  // Undo/redo handlers that restore builder state from history
+  const handleUndo = useCallback(() => {
+    const previousState = undo();
+    if (previousState) {
+      loadFromPreset(stateToConfig(previousState));
+    }
+  }, [undo, loadFromPreset, stateToConfig]);
+
+  const handleRedo = useCallback(() => {
+    const nextState = redo();
+    if (nextState) {
+      loadFromPreset(stateToConfig(nextState));
+    }
+  }, [redo, loadFromPreset, stateToConfig]);
 
   // Push state to history when it changes significantly
   useEffect(() => {
@@ -149,19 +159,19 @@ export default function LogoGeneratorPage() {
       // Undo: Cmd/Ctrl + Z (without Shift)
       if (isMod && e.key === "z" && !e.shiftKey && !isInput) {
         e.preventDefault();
-        if (canUndo) undo();
+        if (canUndo) handleUndo();
       }
 
       // Redo: Cmd/Ctrl + Shift + Z or Cmd/Ctrl + Y
       if (isMod && ((e.key === "z" && e.shiftKey) || e.key === "y") && !isInput) {
         e.preventDefault();
-        if (canRedo) redo();
+        if (canRedo) handleRedo();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [canUndo, canRedo, undo, redo]);
+  }, [canUndo, canRedo, handleUndo, handleRedo]);
 
   // Presets state
   const {
@@ -180,9 +190,9 @@ export default function LogoGeneratorPage() {
   } = useProjects();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
-  // Edit preset state (for future implementation)
+  // Compare & Edit preset modal state
+  const [compareModalOpen, setCompareModalOpen] = useState(false);
   const [editingPreset, setEditingPreset] = useState<LogoPreset | null>(null);
-  void editingPreset;
 
   // Generation state
   const {
@@ -350,8 +360,17 @@ export default function LogoGeneratorPage() {
   };
 
   const handleComparePresets = () => {
-    // Compare presets modal (to be implemented)
-    toast.info("Compare presets feature coming soon");
+    setCompareModalOpen(true);
+  };
+
+  const handleSaveEditedPreset = async (id: string, input: UpdateLogoPresetInput): Promise<boolean> => {
+    const success = await updatePreset(id, input);
+    if (success) {
+      toast.success(`Preset "${input.name || "Preset"}" updated successfully!`);
+    } else {
+      toast.error("Failed to update preset");
+    }
+    return success;
   };
 
   // Project handlers
@@ -432,6 +451,20 @@ export default function LogoGeneratorPage() {
         />
       )}
 
+      {/* History Controls */}
+      <div className="mb-4">
+        <LogoHistoryControls
+          canUndo={canUndo}
+          canRedo={canRedo}
+          historyLength={historyLength}
+          currentIndex={currentIndex}
+          onUndo={handleUndo}
+          onRedo={handleRedo}
+          onClearHistory={clearHistory}
+          recentHistory={getRecentHistory(20)}
+        />
+      </div>
+
       <ThreeColumnLayout
         leftPanel={
           <LogoBuilderPanel
@@ -464,8 +497,8 @@ export default function LogoGeneratorPage() {
             onDeleteLogoReference={deleteLogoReference}
             canUndo={canUndo}
             canRedo={canRedo}
-            onUndo={undo}
-            onRedo={redo}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
             onReset={handleReset}
           />
         }
@@ -511,8 +544,26 @@ export default function LogoGeneratorPage() {
             currentProjectId={currentGeneration?.projectId}
             onAddToProject={handleAddToProject}
             onCreateProject={handleCreateProject}
+            onRegenerate={handleGenerateWithPermission}
           />
         }
+      />
+
+      {/* Compare Presets Modal */}
+      <CompareLogoPresetsModal
+        presets={presets}
+        open={compareModalOpen}
+        onOpenChange={setCompareModalOpen}
+        onLoad={handleLoadPreset}
+      />
+
+      {/* Edit Preset Sheet */}
+      <EditLogoPresetSheet
+        preset={editingPreset}
+        open={!!editingPreset}
+        onOpenChange={(open) => !open && setEditingPreset(null)}
+        onSave={handleSaveEditedPreset}
+        onDuplicate={handleDuplicatePreset}
       />
     </div>
   );

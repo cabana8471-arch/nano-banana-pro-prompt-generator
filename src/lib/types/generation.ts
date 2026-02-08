@@ -63,6 +63,7 @@ export interface GeneratedImage {
   generationId: string;
   imageUrl: string;
   isPublic: boolean;
+  shareToken?: string | null;
   isFavorited?: boolean;
   createdAt: Date;
 }
@@ -207,6 +208,14 @@ export interface TopContributor {
   };
   totalImages: number;
   totalLikes: number;
+}
+
+// Tag Types
+export interface Tag {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: string;
 }
 
 // Public User Profile Types

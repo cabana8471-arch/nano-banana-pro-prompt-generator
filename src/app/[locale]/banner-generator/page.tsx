@@ -874,6 +874,7 @@ export default function BannerGeneratorPage() {
             platformProgress={platformProgress}
             platformImages={platformImages}
             onCancelPlatformGeneration={cancelPlatformGeneration}
+            onRegenerate={handleGenerateWithPermission}
           />
         }
       />

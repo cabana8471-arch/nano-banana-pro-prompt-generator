@@ -4,9 +4,10 @@ import { useState, useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import { Download, Copy, Check, ExternalLink, X, FolderPlus, ChevronDown, Star, Settings2, ChevronUp } from "lucide-react";
+import { Download, Copy, Check, ExternalLink, X, FolderPlus, ChevronDown, Star, Settings2, ChevronUp, Share2, Link as LinkIcon, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createPortal } from "react-dom";
+import { toast } from "sonner";
 import { AddToProjectModal } from "@/components/banner-generator/projects/add-to-project-modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -17,8 +18,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { GalleryImage, GeneratedImage, GenerationSettings } from "@/lib/types/generation";
+import type { GalleryImage, GeneratedImage, GenerationSettings, Tag } from "@/lib/types/generation";
 import type { Project, CreateProjectInput } from "@/lib/types/project";
+import { TagSelector } from "./tag-selector";
 import { VisibilityToggle } from "./visibility-toggle";
 
 interface BaseModalProps {
@@ -53,6 +55,10 @@ interface PersonalImageModalProps extends BaseModalProps {
   projectsLoading?: boolean;
   onAddToProject?: (generationId: string, projectId: string) => Promise<boolean>;
   onCreateProject?: (input: CreateProjectInput) => Promise<Project | null>;
+  // Tag props (optional for personal gallery)
+  tags?: Tag[];
+  onSetImageTags?: (imageId: string, tagIds: string[]) => Promise<boolean>;
+  getImageTags?: (imageId: string) => Promise<Tag[]>;
 }
 
 type ImageDetailModalProps = GalleryImageModalProps | PersonalImageModalProps;
@@ -97,6 +103,7 @@ export function ImageDetailModal({
   const [addToProjectModalOpen, setAddToProjectModalOpen] = useState(false);
   const [supportsAvif, setSupportsAvif] = useState(false);
   const [showConfig, setShowConfig] = useState(false);
+  const [shareLoading, setShareLoading] = useState(false);
   const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
   const onFavoriteToggle = "onFavoriteToggle" in props ? props.onFavoriteToggle : undefined;
@@ -104,6 +111,28 @@ export function ImageDetailModal({
   const projectsLoading = "projectsLoading" in props ? props.projectsLoading : false;
   const onAddToProject = "onAddToProject" in props ? props.onAddToProject : undefined;
   const onCreateProject = "onCreateProject" in props ? props.onCreateProject : undefined;
+  const allTags = "tags" in props ? props.tags : undefined;
+  const onSetImageTags = "onSetImageTags" in props ? props.onSetImageTags : undefined;
+  const getImageTagsFn = "getImageTags" in props ? props.getImageTags : undefined;
+  const [imageTagIds, setImageTagIds] = useState<string[]>([]);
+
+  // Fetch image tags when the modal opens for a personal image
+  useEffect(() => {
+    if (open && image && !isGalleryImage(image) && getImageTagsFn) {
+      getImageTagsFn(image.id).then((fetchedTags) => {
+        setImageTagIds(fetchedTags.map((t) => t.id));
+      });
+    }
+    if (!open) {
+      setImageTagIds([]);
+    }
+  }, [open, image, getImageTagsFn]);
+
+  const handleImageTagsChange = async (tagIds: string[]) => {
+    if (!image || !onSetImageTags) return;
+    setImageTagIds(tagIds);
+    await onSetImageTags(image.id, tagIds);
+  };
 
   useEffect(() => {
     if (open) {
@@ -188,6 +217,60 @@ export function ImageDetailModal({
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onOpenChange(false);
+    }
+  };
+
+  /**
+   * Create a share link for the image and copy it to clipboard.
+   * If a share token already exists, copies the existing URL.
+   */
+  const handleShare = async () => {
+    setShareLoading(true);
+    try {
+      const response = await fetch(`/api/images/${image.id}/share`, {
+        method: "POST",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to create share link");
+      }
+      const data = await response.json();
+      await navigator.clipboard.writeText(data.shareUrl);
+      toast.success(t("shareCreated"));
+      toast.info(t("linkCopied"));
+    } catch (error) {
+      console.error("Failed to share image:", error);
+      toast.error("Failed to create share link");
+    } finally {
+      setShareLoading(false);
+    }
+  };
+
+  /**
+   * Copy the existing share URL to clipboard without creating a new token.
+   */
+  const handleCopyShareLink = async () => {
+    const appUrl = window.location.origin;
+    const shareUrl = `${appUrl}/image/${image.id}`;
+    await navigator.clipboard.writeText(shareUrl);
+    toast.info(t("linkCopied"));
+  };
+
+  /**
+   * Revoke the share token, removing public link access.
+   */
+  const handleUnshare = async () => {
+    if (!window.confirm(t("unshareConfirm"))) return;
+    try {
+      const response = await fetch(`/api/images/${image.id}/share`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to revoke share link");
+      }
+      toast.success(t("shareRevoked"));
+    } catch (error) {
+      console.error("Failed to unshare image:", error);
+      toast.error("Failed to remove share link");
     }
   };
 
@@ -293,6 +376,41 @@ export function ImageDetailModal({
                   onToggle={onVisibilityChange}
                 />
               )}
+              {/* Share button - only for personal images (not gallery view) */}
+              {!isGalleryImage(image) && (
+                !image.shareToken ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleShare}
+                    disabled={shareLoading}
+                    className="h-8 gap-1.5"
+                  >
+                    <Share2 className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t("share")}</span>
+                  </Button>
+                ) : (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-8 gap-1.5">
+                        <Share2 className="h-4 w-4" />
+                        <span className="hidden sm:inline">{t("shareLink")}</span>
+                        <ChevronDown className="h-3 w-3" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={handleCopyShareLink}>
+                        <LinkIcon className="h-4 w-4 mr-2" />
+                        {t("copyLink")}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleUnshare} className="text-destructive">
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        {t("unshare")}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )
+              )}
               {/* Favorite button */}
               {onFavoriteToggle && !isGalleryImage(image) && (
                 <Button
@@ -303,6 +421,15 @@ export function ImageDetailModal({
                 >
                   <Star className={`h-4 w-4 ${image.isFavorited ? "fill-yellow-400 text-yellow-400" : ""}`} />
                 </Button>
+              )}
+              {/* Tag selector - only for personal images with tag support */}
+              {!isGalleryImage(image) && allTags && onSetImageTags && (
+                <TagSelector
+                  imageId={image.id}
+                  currentTagIds={imageTagIds}
+                  tags={allTags}
+                  onTagsChange={handleImageTagsChange}
+                />
               )}
               {/* Add to Project button - only for personal images with project support */}
               {!isGalleryImage(image) && projects && onAddToProject && onCreateProject && (

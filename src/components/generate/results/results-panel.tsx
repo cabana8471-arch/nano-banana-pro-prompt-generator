@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Download, ExternalLink, ImageIcon, Copy, Check } from "lucide-react";
+import { Download, ExternalLink, ImageIcon, Copy, Check, RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +13,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { downloadImage, copyImageToClipboard } from "@/lib/image-utils";
 import { RefineInput } from "./refine-input";
 
@@ -23,6 +28,7 @@ interface ResultsPanelProps {
   generationId?: string | undefined;
   onRefine?: ((instruction: string, selectedImageId?: string) => Promise<void>) | undefined;
   isRefining?: boolean | undefined;
+  onRegenerate?: (() => void) | undefined;
 }
 
 export function ResultsPanel({
@@ -32,6 +38,7 @@ export function ResultsPanel({
   generationId,
   onRefine,
   isRefining = false,
+  onRegenerate,
 }: ResultsPanelProps) {
   const t = useTranslations("results");
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
@@ -97,10 +104,32 @@ export function ResultsPanel({
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
-        <h2 className="font-semibold text-lg">{t("title")}</h2>
-        <p className="text-sm text-muted-foreground">
-          {t("imagesWillAppear")}
-        </p>
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="font-semibold text-lg">{t("title")}</h2>
+            <p className="text-sm text-muted-foreground">
+              {t("imagesWillAppear")}
+            </p>
+          </div>
+          {hasImages && onRegenerate && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onRegenerate}
+                  disabled={isGenerating}
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  {t("regenerate")}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t("regenerateTooltip")}</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </div>
       </div>
 
       <ScrollArea className="flex-1">

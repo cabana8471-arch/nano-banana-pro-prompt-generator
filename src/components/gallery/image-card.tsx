@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { Heart, Star } from "lucide-react";
+import { Check, Heart, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import type { GalleryImage, GeneratedImage, GenerationSettings } from "@/lib/types/generation";
@@ -15,6 +15,12 @@ interface BaseImageCardProps {
   onClick?: () => void;
   className?: string;
   viewMode?: ViewMode;
+  /** Whether multi-select mode is active */
+  isSelecting?: boolean;
+  /** Whether this specific card is currently selected */
+  isSelected?: boolean;
+  /** Callback when selection is toggled in multi-select mode */
+  onToggleSelect?: (id: string) => void;
 }
 
 interface GalleryImageCardProps extends BaseImageCardProps {
@@ -64,6 +70,9 @@ export function ImageCard({
   onClick,
   className,
   viewMode = "grid-4",
+  isSelecting = false,
+  isSelected = false,
+  onToggleSelect,
   ...props
 }: ImageCardProps) {
   const onVisibilityChange = "onVisibilityChange" in props ? props.onVisibilityChange : undefined;
@@ -77,10 +86,19 @@ export function ImageCard({
   const useNaturalDimensions = naturalDimensionModes.includes(viewMode);
   const isMasonry = viewMode === "masonry";
 
+  // In selection mode, clicking the card toggles selection instead of opening the detail modal
+  const handleClick = () => {
+    if (isSelecting && onToggleSelect) {
+      onToggleSelect(image.id);
+    } else {
+      onClick?.();
+    }
+  };
+
   return (
     <Card
-      className={`group relative overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] ${isMasonry ? "break-inside-avoid mb-4" : ""} ${className || ""}`}
-      onClick={onClick}
+      className={`group relative overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] ${isMasonry ? "break-inside-avoid mb-4" : ""} ${isSelected ? "ring-2 ring-primary ring-offset-2" : ""} ${className || ""}`}
+      onClick={handleClick}
     >
       <div className={`${aspectClasses[viewMode]} relative`}>
         {useNaturalDimensions ? (
@@ -152,8 +170,8 @@ export function ImageCard({
           <span>{image.likeCount}</span>
         </div>
       )}
-      {/* Favorite star (always visible when favorited) */}
-      {onFavoriteToggle && (
+      {/* Favorite star (always visible when favorited, hidden in selection mode) */}
+      {onFavoriteToggle && !isSelecting && (
         <button
           className={`absolute top-2 left-2 p-1.5 rounded-full transition-opacity ${
             image.isFavorited
@@ -172,7 +190,7 @@ export function ImageCard({
           />
         </button>
       )}
-      {showVisibilityToggle && (
+      {showVisibilityToggle && !isSelecting && (
         <div
           className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
           onClick={(e) => e.stopPropagation()}
@@ -182,6 +200,20 @@ export function ImageCard({
             isPublic={image.isPublic}
             onToggle={onVisibilityChange}
           />
+        </div>
+      )}
+      {/* Selection checkbox overlay */}
+      {isSelecting && (
+        <div className="absolute top-2 left-2 z-10">
+          <div
+            className={`flex h-6 w-6 items-center justify-center rounded-full border-2 transition-colors ${
+              isSelected
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-white bg-black/40 text-transparent"
+            }`}
+          >
+            <Check className="h-4 w-4" />
+          </div>
         </div>
       )}
     </Card>

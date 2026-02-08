@@ -5,7 +5,7 @@ import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { PAGINATION } from "@/lib/constants";
 import { db } from "@/lib/db";
-import { generations, generatedImages, imageFavorites } from "@/lib/schema";
+import { generations, generatedImages, imageFavorites, imageTagAssignments } from "@/lib/schema";
 import type { GenerationSettings, GenerationWithImages, PaginatedResponse, GenerationType } from "@/lib/types/generation";
 import { escapeLikePattern } from "@/lib/utils";
 
@@ -34,6 +34,11 @@ export async function GET(request: Request) {
     const favoritesOnly = searchParams.get("favorites") === "true";
     const dateFrom = searchParams.get("dateFrom");
     const dateTo = searchParams.get("dateTo");
+    const tagIdsParam = searchParams.get("tagIds");
+    // Parse and validate tag IDs (comma-separated UUIDs)
+    const tagIdsFilter = tagIdsParam
+      ? tagIdsParam.split(",").filter((id) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))
+      : [];
 
     // Build where conditions
     const whereConditions = [eq(generations.userId, session.user.id)];
@@ -161,12 +166,60 @@ export async function GET(request: Request) {
       );
     }
 
+    // Post-filter: tag IDs - only show generations that have images tagged with ALL selected tags
+    if (tagIdsFilter.length > 0) {
+      // Collect all image IDs from remaining generations
+      const allImageIds = generationsWithImages.flatMap((g) => g.images.map((img) => img.id));
+
+      if (allImageIds.length > 0) {
+        // Fetch tag assignments for these images
+        const tagAssignments = await db
+          .select({
+            imageId: imageTagAssignments.imageId,
+            tagId: imageTagAssignments.tagId,
+          })
+          .from(imageTagAssignments)
+          .where(
+            and(
+              inArray(imageTagAssignments.imageId, allImageIds),
+              inArray(imageTagAssignments.tagId, tagIdsFilter)
+            )
+          );
+
+        // Build a map of imageId -> set of tagIds
+        const imageTagMap = new Map<string, Set<string>>();
+        for (const assignment of tagAssignments) {
+          if (!imageTagMap.has(assignment.imageId)) {
+            imageTagMap.set(assignment.imageId, new Set());
+          }
+          imageTagMap.get(assignment.imageId)!.add(assignment.tagId);
+        }
+
+        // Filter: generation must have at least one image matching ALL selected tags
+        const tagIdsSet = new Set(tagIdsFilter);
+        generationsWithImages = generationsWithImages.filter((g) =>
+          g.images.some((img) => {
+            const imgTags = imageTagMap.get(img.id);
+            if (!imgTags) return false;
+            for (const requiredTag of tagIdsSet) {
+              if (!imgTags.has(requiredTag)) return false;
+            }
+            return true;
+          })
+        );
+      } else {
+        generationsWithImages = [];
+      }
+    }
+
+    const hasPostFilters = favoritesOnly || visibilityFilter || tagIdsFilter.length > 0;
+
     const response: PaginatedResponse<GenerationWithImages> = {
       items: generationsWithImages,
-      total: favoritesOnly || visibilityFilter ? generationsWithImages.length : total,
+      total: hasPostFilters ? generationsWithImages.length : total,
       page,
       pageSize,
-      hasMore: favoritesOnly || visibilityFilter
+      hasMore: hasPostFilters
         ? false
         : offset + userGenerations.length < total,
     };

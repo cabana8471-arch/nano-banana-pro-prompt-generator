@@ -10,6 +10,7 @@ import {
   DailyTrendChart,
   CostHistoryTable,
   BudgetSettingsDialog,
+  UsageStatsCards,
 } from "@/components/cost-control";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ export default function CostControlPage() {
     budget,
     pricing,
     migrationStatus,
+    usageStats,
     isLoadingSummary,
     isLoadingHistory,
     isLoadingBudget,
@@ -34,6 +36,7 @@ export default function CostControlPage() {
     loadHistory,
     loadBudget,
     loadPricing,
+    loadUsageStats,
     updateBudget,
     updatePricing,
     exportCSV,
@@ -47,8 +50,9 @@ export default function CostControlPage() {
     loadHistory();
     loadBudget();
     loadPricing();
+    loadUsageStats();
     checkMigrationStatus();
-  }, [loadSummary, loadHistory, loadBudget, loadPricing, checkMigrationStatus]);
+  }, [loadSummary, loadHistory, loadBudget, loadPricing, loadUsageStats, checkMigrationStatus]);
 
   const handleMigration = async () => {
     const success = await runMigration();
@@ -174,6 +178,28 @@ export default function CostControlPage() {
               noBudget: t("budget.noBudget"),
             }}
           />
+
+          {/* Usage Analytics */}
+          {usageStats && (
+            <UsageStatsCards
+              stats={usageStats}
+              translations={{
+                title: t("usageStats.title"),
+                totalGenerations: t("usageStats.totalGenerations"),
+                thisMonth: t("usageStats.thisMonth"),
+                lastMonth: t("usageStats.lastMonth"),
+                byType: t("usageStats.byType"),
+                averageImages: t("usageStats.averageImages"),
+                totalImages: t("usageStats.totalImages"),
+                favoriteType: t("usageStats.favoriteType"),
+                monthOverMonth: t("usageStats.monthOverMonth"),
+                noData: t("usageStats.noData"),
+                photo: t("breakdown.photo"),
+                banner: t("breakdown.banner"),
+                logo: t("breakdown.logo"),
+              }}
+            />
+          )}
 
           {/* Generator Breakdown */}
           <GeneratorBreakdown

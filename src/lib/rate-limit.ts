@@ -210,3 +210,9 @@ export const imageGenerationLimiter = createRateLimiter(
   "image-generation",
   IMAGE_GENERATION_RATE_CONFIG
 );
+
+/** Rate limiter for batch gallery operations: 30 operations per hour per user */
+export const batchOperationLimiter = createRateLimiter("batch-operation", {
+  limit: 30,
+  windowMs: 60 * 60 * 1000, // 1 hour
+});

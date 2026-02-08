@@ -37,6 +37,7 @@ interface UsePromptBuilderReturn {
   // Actions
   reset: () => void;
   loadFromPreset: (preset: PromptBuilderState) => void;
+  loadFromTemplate: (partial: Partial<PromptBuilderState>) => void;
   saveSettingsAsDefaults: () => void;
 }
 
@@ -267,6 +268,16 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
     setState(preset);
   }, []);
 
+  // Load from template - applies partial config while preserving existing subjects
+  const loadFromTemplate = useCallback((partial: Partial<PromptBuilderState>) => {
+    setState((prev) => ({
+      ...prev,
+      ...partial,
+      // Always preserve the current subjects array
+      subjects: prev.subjects,
+    }));
+  }, []);
+
   // Save current settings as user defaults
   const saveSettingsAsDefaults = useCallback(() => {
     try {
@@ -293,6 +304,7 @@ export function usePromptBuilder(): UsePromptBuilderReturn {
     referenceImages,
     reset,
     loadFromPreset,
+    loadFromTemplate,
     saveSettingsAsDefaults,
   };
 }

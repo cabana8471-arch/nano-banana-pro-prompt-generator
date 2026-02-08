@@ -62,6 +62,9 @@ export const RATE_LIMITS = {
   /** Maximum image likes per hour per user */
   IMAGE_LIKES_PER_HOUR: 100,
 
+  /** Maximum batch operations per hour per user */
+  BATCH_OPERATIONS_PER_HOUR: 30,
+
   /** Rate limit window in milliseconds (1 hour) */
   WINDOW_MS: 60 * 60 * 1000,
 } as const;

@@ -20,7 +20,7 @@ const ipBlockingExcludedRoutes = ["/blocked"];
  * Routes that bypass site password check (Layer 1)
  * These are accessible without verifying the site password
  */
-const sitePasswordPublicRoutes = ["/site-password", "/unauthorized", "/blocked"];
+const sitePasswordPublicRoutes = ["/site-password", "/unauthorized", "/blocked", "/image"];
 
 /**
  * Routes that require authentication (Layer 2)

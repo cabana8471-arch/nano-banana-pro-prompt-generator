@@ -10,7 +10,9 @@
     "tryAgain": "Incearca din nou",
     "comingSoon": "In curand",
     "saveChanges": "Salveaza modificarile",
-    "notProvided": "Nespecificat"
+    "notProvided": "Nespecificat",
+    "saving": "Se salveaza...",
+    "admin": "Admin"
   },
   "navigation": {
     "photos": "Fotografii",
@@ -105,7 +107,10 @@
       "description": "Actualizeaza informatiile profilului. Modificarile vor fi salvate in cont.",
       "buttonDescription": "Actualizeaza informatiile tale",
       "enterName": "Introdu numele tau",
-      "emailCannotChange": "Email-ul nu poate fi schimbat pentru conturile OAuth"
+      "emailCannotChange": "Email-ul nu poate fi schimbat pentru conturile OAuth",
+      "nameRequired": "Numele este obligatoriu",
+      "success": "Profilul a fost actualizat cu succes!",
+      "error": "Actualizarea profilului a esuat. Te rugam sa incerci din nou."
     },
     "security": {
       "title": "Setari de securitate",
@@ -122,7 +127,11 @@
       "manageInGoogle": "Securitate Google",
       "activeSessions": "Sesiuni active",
       "activeSessionsDescription": "Gestioneaza dispozitivele conectate la cont",
-      "oneActive": "1 Activ"
+      "oneActive": "1 Activ",
+      "sessionCount": "{count, plural, one {# Activ} other {# Active}}",
+      "revokeOtherSessions": "Revoca {count, plural, one {# alta sesiune} other {# alte sesiuni}}",
+      "sessionsRevoked": "Celelalte sesiuni au fost revocate",
+      "revokeError": "Revocarea sesiunilor a esuat. Te rugam sa incerci din nou."
     },
     "email": {
       "title": "Preferinte email",
@@ -196,7 +205,9 @@
     "rateLimitStatus": "{remaining}/{limit} generari ramase",
     "rateLimitExhausted": "Limita atinsa. Se reseteaza in {minutes} min",
     "recentPrompts": "Recente",
-    "clearHistory": "Sterge"
+    "clearHistory": "Sterge",
+    "project": "Proiect",
+    "projectRequired": "Selecteaza un proiect pentru a organiza generarile"
   },
   "templateSelector": {
     "selectStyle": "Selecteaza stilul",
@@ -310,7 +321,9 @@
     "previousImage": "Imaginea anterioara",
     "nextImage": "Imaginea urmatoare",
     "generatedImages": "Imagini generate",
-    "viewImage": "Vezi imaginea {number}"
+    "viewImage": "Vezi imaginea {number}",
+    "regenerate": "Regenereaza",
+    "regenerateTooltip": "Genereaza din nou cu aceleasi setari"
   },
   "gallery": {
     "myGallery": "Galeria mea",
@@ -400,7 +413,50 @@
     "settingsLoaded": "Setarile au fost incarcate in generatorul de {type}",
     "generationConfig": "Configuratie generare",
     "showConfig": "Arata configuratia completa",
-    "hideConfig": "Ascunde configuratia"
+    "hideConfig": "Ascunde configuratia",
+    "autoDeleteIn": "Sters permanent in {days} zile",
+    "autoDeleteTomorrow": "Sters permanent maine",
+    "trashCleanupSuccess": "Curatarea cosului s-a finalizat",
+    "batchSelect": "Selecteaza",
+    "batchCancel": "Anuleaza selectia",
+    "batchSelected": "{count} selectate",
+    "batchDelete": "Sterge",
+    "batchFavorite": "Favorit",
+    "batchUnfavorite": "Sterge favorit",
+    "batchMakePublic": "Fa public",
+    "batchMakePrivate": "Fa privat",
+    "batchSuccess": "Operatia batch a fost finalizata",
+    "batchError": "Operatia batch a esuat",
+    "share": "Partajeaza",
+    "shareLink": "Link de partajare",
+    "copyLink": "Copiaza link",
+    "linkCopied": "Link copiat in clipboard!",
+    "unshare": "Sterge link de partajare",
+    "unshareConfirm": "Stergi link-ul de partajare? Altii nu vor mai putea accesa aceasta imagine prin link.",
+    "shareCreated": "Link de partajare creat",
+    "shareRevoked": "Link de partajare eliminat",
+    "publicImage": {
+      "createdBy": "Creat de {name}",
+      "likes": "{count, plural, one {# apreciere} other {# aprecieri}}",
+      "startCreating": "Incepe sa creezi cu Nano Banana Pro",
+      "notFound": "Imaginea nu a fost gasita sau este privata"
+    },
+    "tags": {
+      "title": "Etichete",
+      "manageTags": "Gestioneaza etichetele",
+      "addTag": "Adauga eticheta",
+      "editTag": "Editeaza eticheta",
+      "deleteTag": "Sterge eticheta",
+      "deleteTagConfirm": "Stergi aceasta eticheta? Va fi eliminata de pe toate imaginile.",
+      "tagName": "Numele etichetei",
+      "tagColor": "Culoare",
+      "noTags": "Nicio eticheta inca",
+      "filterByTags": "Filtreaza dupa etichete",
+      "maxTags": "Limita de 100 etichete atinsa",
+      "tagCreated": "Eticheta creata",
+      "tagUpdated": "Eticheta actualizata",
+      "tagDeleted": "Eticheta stearsa"
+    }
   },
   "avatars": {
     "title": "Avatarele tale",
@@ -2207,7 +2263,9 @@
       "exportMultiSize": "Export pentru Platforme",
       "viewImage": "Vizualizează bannerul generat {index} pe ecran complet",
       "previousImage": "Imaginea anterioară",
-      "nextImage": "Imaginea următoare"
+      "nextImage": "Imaginea următoare",
+      "regenerate": "Regenereaza",
+      "regenerateTooltip": "Genereaza din nou cu aceleasi setari"
     },
     "multiSizeExport": {
       "title": "Export pentru Multiple Platforme",
@@ -3351,7 +3409,9 @@
         "betterTypography": "Imbunatateste tipografia",
         "moreMinimal": "Mai minimalist",
         "moreUnique": "Design mai unic"
-      }
+      },
+      "regenerate": "Regenereaza",
+      "regenerateTooltip": "Genereaza din nou cu aceleasi setari"
     },
     "presets": {
       "savePreset": "Salveaza Preset",
@@ -3383,7 +3443,42 @@
       "summaryTypography": "Tipografie",
       "summaryCompanyName": "Nume Companie",
       "summaryColors": "Culori Brand",
-      "summaryCustomPrompt": "Prompt personalizat inclus"
+      "summaryCustomPrompt": "Prompt personalizat inclus",
+      "edit": "Editeaza",
+      "comparePresets": "Compara Preset-uri",
+      "compareDescription": "Compara doua preset-uri de logo una langa alta pentru a vedea diferentele",
+      "selectPreset1": "Primul Preset",
+      "selectPreset2": "Al Doilea Preset",
+      "selectPresetPlaceholder": "Selecteaza un preset...",
+      "selectBothPresets": "Selecteaza doua preset-uri pentru comparatie",
+      "field": "Camp",
+      "status": "Status",
+      "identical": "Identice",
+      "different": "Diferite",
+      "onlyInPreset1": "Doar in 1",
+      "onlyInPreset2": "Doar in 2",
+      "sectionBasicConfig": "Configuratie de Baza",
+      "sectionVisualStyle": "Stil Vizual",
+      "sectionIconSymbol": "Pictograma si Simbol",
+      "sectionTypography": "Tipografie",
+      "sectionAdditionalOptions": "Optiuni Suplimentare",
+      "sectionBrandColors": "Culori Brand",
+      "sectionTextContent": "Continut Text",
+      "sectionCustomPrompt": "Prompt Personalizat",
+      "comparePrimaryColor": "Culoare Primara",
+      "compareSecondaryColor": "Culoare Secundara",
+      "compareAccentColor": "Culoare Accent",
+      "compareCompanyName": "Nume Companie",
+      "compareTagline": "Slogan",
+      "compareAbbreviation": "Abreviere",
+      "editPreset": "Editeaza Preset",
+      "editPresetDescription": "Modifica configuratia preset-ului si salveaza modificarile",
+      "unsavedChanges": "Modificari nesalvate",
+      "unsavedChangesConfirm": "Ai modificari nesalvate. Esti sigur ca vrei sa le renunti?",
+      "discardChanges": "Renunta la Modificari",
+      "changesCount": "{count} modificare/modificari",
+      "resetChanges": "Reseteaza",
+      "saveChanges": "Salveaza Modificarile"
     },
     "projects": {
       "title": "Proiect",
@@ -3417,6 +3512,11 @@
     "history": {
       "undo": "Anuleaza",
       "redo": "Refaci",
+      "viewHistory": "Vezi istoricul",
+      "title": "Istoric Modificari",
+      "stateCount": "{current} din {total}",
+      "clearHistory": "Sterge istoricul",
+      "historyList": "Istoricul modificarilor",
       "reset": "Reseteaza",
       "resetConfirmTitle": "Reseteaza Configuratia",
       "resetConfirmDescription": "Aceasta actiune va reseta toate setarile logo-ului la valorile implicite. Actiunea nu poate fi anulata."
@@ -3639,6 +3739,18 @@
       "description": "{count} generări necesită estimări de cost. Click pentru a estima costurile generărilor mai vechi.",
       "button": "Estimează Costurile",
       "running": "Se estimează..."
+    },
+    "usageStats": {
+      "title": "Analiza utilizarii",
+      "totalGenerations": "Total generari",
+      "thisMonth": "Luna aceasta",
+      "lastMonth": "Luna trecuta",
+      "byType": "Dupa tip",
+      "averageImages": "Media imagini/generare",
+      "totalImages": "Total imagini",
+      "favoriteType": "Cel mai folosit",
+      "monthOverMonth": "{change}% fata de luna trecuta",
+      "noData": "Nicio data de generare inca"
     }
   },
   "sitePassword": {
@@ -3830,6 +3942,80 @@
       "generate": {
         "title": "Genereaza prima imagine",
         "description": "Foloseste generatorul foto pentru a crea prima ta imagine AI."
+      }
+    }
+  },
+  "photoTemplates": {
+    "title": "Sabloane de pornire rapida",
+    "description": "Alege un sablon pentru configurare rapida",
+    "search": "Cauta sabloane...",
+    "allCategories": "Toate",
+    "portrait": "Portret",
+    "landscape": "Peisaj",
+    "product": "Produs",
+    "street": "Strada",
+    "creative": "Creativ",
+    "apply": "Foloseste sablon",
+    "templatesAvailable": "{count} sabloane disponibile",
+    "resultsCount": "{count} rezultate",
+    "noResults": "Niciun sablon gasit",
+    "clearFilters": "Sterge filtrele",
+    "templates": {
+      "studio-portrait": {
+        "name": "Portret de Studio",
+        "description": "Portret clasic de studio cu iluminare profesionala si adancime mica de camp"
+      },
+      "fashion-editorial": {
+        "name": "Editorial Fashion",
+        "description": "Look editorial high-fashion cu iluminare dramatica si stil cinematic"
+      },
+      "moody-film-noir": {
+        "name": "Film Noir Dramatic",
+        "description": "Portret atmosferic inchis cu contrast puternic alb-negru in stil cinema"
+      },
+      "golden-hour-landscape": {
+        "name": "Peisaj la Ora de Aur",
+        "description": "Peisaj vast scaldat in lumina calda a apusului"
+      },
+      "dramatic-weather": {
+        "name": "Vreme Dramatica",
+        "description": "Peisaj dramatic cu cer acoperit si atmosfera intensa"
+      },
+      "night-city": {
+        "name": "Oras Nocturn",
+        "description": "Peisaj urban nocturn cu lumini neon si atmosfera vibranta de oras"
+      },
+      "product-white": {
+        "name": "Produs pe Alb",
+        "description": "Fotografie curata de produs pe fundal alb cu iluminare profesionala de studio"
+      },
+      "flat-lay-product": {
+        "name": "Flat Lay Produs",
+        "description": "Aranjament flat lay overhead cu compozitie stilizata de produs"
+      },
+      "street-photography": {
+        "name": "Fotografie Stradala",
+        "description": "Scena urbana stradala candida cu lumina naturala si stil documentar"
+      },
+      "architecture-detail": {
+        "name": "Detaliu Arhitectural",
+        "description": "Compozitie arhitecturala dramatica cu linii directoare si modele geometrice"
+      },
+      "cinematic-scene": {
+        "name": "Scena Cinematica",
+        "description": "Cadru cinematic widescreen cu iluminare dramatica in stil film"
+      },
+      "macro-nature": {
+        "name": "Macro Natura",
+        "description": "Prim-plan extrem al detaliilor naturale cu culori vii si texturi"
+      },
+      "vintage-film": {
+        "name": "Film Vintage",
+        "description": "Estetica nostalgica de film analog cu granulatie naturala si tonuri calde"
+      },
+      "minimalist": {
+        "name": "Minimalist",
+        "description": "Compozitie curata si simpla cu spatiu negativ si eleganta retinuta"
       }
     }
   }

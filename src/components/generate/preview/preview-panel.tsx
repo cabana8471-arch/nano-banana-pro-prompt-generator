@@ -1,7 +1,8 @@
 "use client";
 
-import { Wand2 } from "lucide-react";
+import { FolderOpen, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ProjectSelector } from "@/components/banner-generator/projects/project-selector";
 import { PromptHistoryDropdown } from "@/components/generate/prompt-history-dropdown";
 import { RateLimitIndicator } from "@/components/generate/rate-limit-indicator";
 import { LoadPresetDropdown } from "@/components/presets/load-preset-dropdown";
@@ -21,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import type { PromptHistoryEntry } from "@/hooks/use-prompt-history";
 import { Link } from "@/i18n/routing";
 import type { GenerationSettings, GenerationType, Preset, PresetConfig, UpdatePresetInput } from "@/lib/types/generation";
+import type { Project, CreateProjectInput } from "@/lib/types/project";
 
 interface PreviewPanelProps {
   assembledPrompt: string;
@@ -45,6 +47,12 @@ interface PreviewPanelProps {
   onLoadPreset: (preset: Preset) => void;
   onUpdatePreset: (id: string, input: UpdatePresetInput) => Promise<boolean>;
   onDeletePreset: (id: string) => Promise<boolean>;
+  // Project props
+  projects?: Project[];
+  projectsLoading?: boolean;
+  selectedProjectId?: string | null;
+  onProjectChange?: (projectId: string | null) => void;
+  onCreateProject?: (input: CreateProjectInput) => Promise<Project | null>;
 }
 
 export function PreviewPanel({
@@ -67,6 +75,11 @@ export function PreviewPanel({
   onLoadPreset,
   onUpdatePreset,
   onDeletePreset,
+  projects,
+  projectsLoading,
+  selectedProjectId,
+  onProjectChange,
+  onCreateProject,
 }: PreviewPanelProps) {
   const t = useTranslations("generate");
 
@@ -198,6 +211,30 @@ export function PreviewPanel({
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Project Selection */}
+            {projects && onProjectChange && onCreateProject && (
+              <div className="space-y-2">
+                <Label className="text-sm font-medium flex items-center gap-2">
+                  <FolderOpen className="h-4 w-4" />
+                  {t("project")}
+                  <span className="text-destructive">*</span>
+                </Label>
+                <ProjectSelector
+                  projects={projects}
+                  isLoading={projectsLoading ?? false}
+                  selectedId={selectedProjectId ?? null}
+                  onSelect={onProjectChange}
+                  onCreateProject={onCreateProject}
+                  disabled={isGenerating}
+                />
+                {!selectedProjectId && (
+                  <p className="text-xs text-muted-foreground">
+                    {t("projectRequired")}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </ScrollArea>
@@ -226,7 +263,7 @@ export function PreviewPanel({
             className="w-full"
             size="lg"
             onClick={onGenerate}
-            disabled={isGenerating || !assembledPrompt || (rateLimit?.remaining === 0)}
+            disabled={isGenerating || !assembledPrompt || (rateLimit?.remaining === 0) || (projects !== undefined && !selectedProjectId)}
           >
             <Wand2 className="h-5 w-5 mr-2" />
             {isGenerating ? t("generating") : t("generateImages")}

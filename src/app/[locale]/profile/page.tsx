@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone, ExternalLink, Download } from "lucide-react";
+import { Mail, Calendar, User, Shield, ArrowLeft, Lock, Smartphone, ExternalLink, Download, LogOut } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -29,6 +29,15 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useSession } from "@/lib/auth-client";
 
+interface SessionInfo {
+  id: string;
+  createdAt: string;
+  expiresAt: string;
+  ipAddress: string | null;
+  userAgent: string | null;
+  isCurrent: boolean;
+}
+
 export default function ProfilePage() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
@@ -36,9 +45,11 @@ export default function ProfilePage() {
   const locale = useLocale();
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [securityOpen, setSecurityOpen] = useState(false);
-  const [emailPrefsOpen, setEmailPrefsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [sessions, setSessions] = useState<SessionInfo[]>([]);
+  const [isRevokingSessions, setIsRevokingSessions] = useState(false);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
@@ -47,12 +58,29 @@ export default function ProfilePage() {
         const data = await response.json();
         setIsAdmin(data.isAdmin);
       } catch {
-        // Default to non-admin on error
         setIsAdmin(false);
       }
     };
     checkAdminStatus();
   }, []);
+
+  const loadSessions = useCallback(async () => {
+    try {
+      const response = await fetch("/api/user/sessions");
+      if (response.ok) {
+        const data = await response.json();
+        setSessions(data.sessions);
+      }
+    } catch {
+      // Silently fail - sessions are supplementary info
+    }
+  }, []);
+
+  useEffect(() => {
+    if (securityOpen) {
+      loadSessions();
+    }
+  }, [securityOpen, loadSessions]);
 
   if (isPending) {
     return (
@@ -96,12 +124,54 @@ export default function ProfilePage() {
     }
   };
 
-  const handleEditProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditProfileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In a real app, this would call an API to update the user profile
-    toast.info("Profile updates require backend implementation");
-    setEditProfileOpen(false);
+    const formData = new FormData(e.currentTarget);
+    const name = (formData.get("name") as string)?.trim();
+
+    if (!name) {
+      toast.error(t("profile.editProfile.nameRequired"));
+      return;
+    }
+
+    setIsSavingProfile(true);
+    try {
+      const response = await fetch("/api/user/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to update profile");
+      }
+
+      toast.success(t("profile.editProfile.success"));
+      setEditProfileOpen(false);
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("profile.editProfile.error"));
+    } finally {
+      setIsSavingProfile(false);
+    }
   };
+
+  const handleRevokeOtherSessions = async () => {
+    setIsRevokingSessions(true);
+    try {
+      const response = await fetch("/api/user/sessions", { method: "DELETE" });
+      if (!response.ok) throw new Error("Failed to revoke sessions");
+      toast.success(t("profile.security.sessionsRevoked"));
+      loadSessions();
+    } catch {
+      toast.error(t("profile.security.revokeError"));
+    } finally {
+      setIsRevokingSessions(false);
+    }
+  };
+
+  const otherSessionsCount = sessions.filter((s) => !s.isCurrent).length;
 
   return (
     <div className="container max-w-4xl mx-auto py-8 px-4">
@@ -299,19 +369,6 @@ export default function ProfilePage() {
               <Button
                 variant="outline"
                 className="justify-start h-auto p-4"
-                onClick={() => setEmailPrefsOpen(true)}
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                <div className="text-left">
-                  <div className="font-medium">{t("profile.email.title")}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {t("profile.email.buttonDescription")}
-                  </div>
-                </div>
-              </Button>
-              <Button
-                variant="outline"
-                className="justify-start h-auto p-4"
                 onClick={handleExportData}
                 disabled={isExporting}
               >
@@ -342,6 +399,7 @@ export default function ProfilePage() {
               <Label htmlFor="name">{t("profile.fullName")}</Label>
               <Input
                 id="name"
+                name="name"
                 defaultValue={user.name || ""}
                 placeholder={t("profile.editProfile.enterName")}
               />
@@ -367,7 +425,9 @@ export default function ProfilePage() {
               >
                 {t("common.cancel")}
               </Button>
-              <Button type="submit">{t("common.saveChanges")}</Button>
+              <Button type="submit" disabled={isSavingProfile}>
+                {isSavingProfile ? t("common.saving") : t("common.saveChanges")}
+              </Button>
             </div>
           </form>
         </DialogContent>
@@ -389,14 +449,12 @@ export default function ProfilePage() {
                 <div>
                   <p className="font-medium">{t("profile.security.password")}</p>
                   <p className="text-sm text-muted-foreground">
-                    {user.email?.includes("@gmail")
-                      ? t("profile.security.managedByGoogle")
-                      : t("profile.security.setPassword")}
+                    {t("profile.security.managedByGoogle")}
                   </p>
                 </div>
               </div>
               <Badge variant="outline">
-                {user.email?.includes("@gmail") ? t("profile.security.oauth") : t("profile.security.notSet")}
+                {t("profile.security.oauth")}
               </Badge>
             </div>
 
@@ -433,8 +491,25 @@ export default function ProfilePage() {
                   </p>
                 </div>
               </div>
-              <Badge variant="default">{t("profile.security.oneActive")}</Badge>
+              <Badge variant="default">
+                {t("profile.security.sessionCount", { count: sessions.length || 1 })}
+              </Badge>
             </div>
+
+            {otherSessionsCount > 0 && (
+              <Button
+                variant="destructive"
+                size="sm"
+                className="w-full"
+                onClick={handleRevokeOtherSessions}
+                disabled={isRevokingSessions}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                {isRevokingSessions
+                  ? t("common.loading")
+                  : t("profile.security.revokeOtherSessions", { count: otherSessionsCount })}
+              </Button>
+            )}
           </div>
           <div className="flex justify-end pt-4">
             <Button variant="outline" onClick={() => setSecurityOpen(false)}>
@@ -444,42 +519,6 @@ export default function ProfilePage() {
         </DialogContent>
       </Dialog>
 
-      {/* Email Preferences Dialog */}
-      <Dialog open={emailPrefsOpen} onOpenChange={setEmailPrefsOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>{t("profile.email.title")}</DialogTitle>
-            <DialogDescription>
-              {t("profile.email.description")}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div>
-                <p className="font-medium">{t("profile.email.marketing")}</p>
-                <p className="text-sm text-muted-foreground">
-                  {t("profile.email.marketingDescription")}
-                </p>
-              </div>
-              <Badge variant="secondary">{t("common.comingSoon")}</Badge>
-            </div>
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div>
-                <p className="font-medium">{t("profile.email.securityAlerts")}</p>
-                <p className="text-sm text-muted-foreground">
-                  {t("profile.email.securityAlertsDescription")}
-                </p>
-              </div>
-              <Badge variant="default">{t("profile.email.alwaysOn")}</Badge>
-            </div>
-          </div>
-          <div className="flex justify-end pt-4">
-            <Button variant="outline" onClick={() => setEmailPrefsOpen(false)}>
-              {t("common.close")}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

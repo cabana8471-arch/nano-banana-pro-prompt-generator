@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Download, ExternalLink, FileImage, FolderPlus, Layers } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, ExternalLink, FileImage, FolderPlus, Layers, RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useBannerResize } from "@/hooks/use-banner-resize";
 import type { PlatformGenerationProgress as PlatformProgressType } from "@/hooks/use-platform-generation";
 import type { BannerSizeTemplate, BannerExportFormat } from "@/lib/types/banner";
@@ -48,6 +53,8 @@ interface BannerResultsPanelProps {
   platformProgress?: PlatformProgressType | undefined;
   platformImages?: string[] | undefined;
   onCancelPlatformGeneration?: (() => void) | undefined;
+  // Regenerate prop
+  onRegenerate?: (() => void) | undefined;
 }
 
 export function BannerResultsPanel({
@@ -67,6 +74,7 @@ export function BannerResultsPanel({
   platformProgress,
   platformImages = [],
   onCancelPlatformGeneration,
+  onRegenerate,
 }: BannerResultsPanelProps) {
   const t = useTranslations("bannerGenerator.results");
   const tProjects = useTranslations("bannerGenerator.projects");
@@ -197,16 +205,36 @@ export function BannerResultsPanel({
             <h2 className="font-semibold text-lg">{t("title")}</h2>
             <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
-          {hasImages && generationId && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setAddToProjectModalOpen(true)}
-            >
-              <FolderPlus className="h-4 w-4 mr-2" />
-              {tProjects("addToProject")}
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {hasImages && onRegenerate && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onRegenerate}
+                    disabled={isGenerating}
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    {t("regenerate")}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("regenerateTooltip")}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            {hasImages && generationId && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setAddToProjectModalOpen(true)}
+              >
+                <FolderPlus className="h-4 w-4 mr-2" />
+                {tProjects("addToProject")}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 

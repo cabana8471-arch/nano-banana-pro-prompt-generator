@@ -152,6 +152,20 @@ export interface UpdatePricingRequest {
 }
 
 // ==========================================
+// Usage Statistics
+// ==========================================
+
+export interface UsageStats {
+  totalGenerations: number;
+  thisMonthGenerations: number;
+  lastMonthGenerations: number;
+  generationsByType: Record<GenerationType, number>;
+  favoriteType: GenerationType | null;
+  averageImagesPerGeneration: number;
+  totalImages: number;
+}
+
+// ==========================================
 // Export CSV Types
 // ==========================================
 
