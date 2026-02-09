@@ -139,9 +139,10 @@ export function handleApiError(
     stack: error instanceof Error ? error.stack : undefined,
   });
 
-  // Return user-friendly response
+  // Return user-friendly response with debug info
+  const debugMessage = error instanceof Error ? error.message : String(error);
   return NextResponse.json(
-    { error: errorInfo.message },
+    { error: errorInfo.message, debug: debugMessage },
     { status: errorInfo.status }
   );
 }
