@@ -1,13 +1,13 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { handleApiError } from "@/lib/api-errors";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { generateWithUserKey, type ReferenceImage } from "@/lib/gemini";
 import { calculateCostMicros, DEFAULT_PRICING, serializeUsageMetadata } from "@/lib/pricing";
 import { imageGenerationLimiter } from "@/lib/rate-limit";
-import { generations, generatedImages, generationHistory, avatars, userPricingSettings } from "@/lib/schema";
+import { generations, generatedImages, generationHistory, avatars, projects, userPricingSettings } from "@/lib/schema";
 import { upload } from "@/lib/storage";
 import type { PricingSettings } from "@/lib/types/cost-control";
 import type {
@@ -94,6 +94,19 @@ export async function POST(request: Request) {
       }
     }
 
+    // Validate projectId exists and belongs to the user
+    let validProjectId: string | null = projectId ?? null;
+    if (validProjectId) {
+      const [project] = await db
+        .select({ id: projects.id })
+        .from(projects)
+        .where(and(eq(projects.id, validProjectId), eq(projects.userId, session.user.id)))
+        .limit(1);
+      if (!project) {
+        validProjectId = null;
+      }
+    }
+
     // Create the generation record with 'processing' status
     const [generation] = await db
       .insert(generations)
@@ -103,7 +116,7 @@ export async function POST(request: Request) {
         settings: settings,
         status: "processing",
         generationType: generationType,
-        projectId: projectId ?? null,
+        projectId: validProjectId,
         builderConfig: builderConfig ?? null,
       })
       .returning();
