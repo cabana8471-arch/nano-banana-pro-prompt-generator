@@ -136,13 +136,16 @@ export function handleApiError(
   console.error(`[API Error] ${context}:`, {
     type: errorInfo.type,
     message: error instanceof Error ? error.message : String(error),
+    cause: error instanceof Error && error.cause ? String(error.cause) : undefined,
+    causeMessage: error instanceof Error && error.cause instanceof Error ? error.cause.message : undefined,
     stack: error instanceof Error ? error.stack : undefined,
   });
 
   // Return user-friendly response with debug info
   const debugMessage = error instanceof Error ? error.message : String(error);
+  const causeMessage = error instanceof Error && error.cause instanceof Error ? error.cause.message : undefined;
   return NextResponse.json(
-    { error: errorInfo.message, debug: debugMessage },
+    { error: errorInfo.message, debug: debugMessage, cause: causeMessage },
     { status: errorInfo.status }
   );
 }
