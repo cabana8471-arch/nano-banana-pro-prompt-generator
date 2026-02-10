@@ -4,7 +4,7 @@
   "packageManager": "pnpm@9.12.3",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "pnpm db:migrate && next build",
     "build:ci": "next build",
     "start": "next start",
     "lint": "eslint .",
